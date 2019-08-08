@@ -1,0 +1,16 @@
+#include "$VERTEXFITROOT/share/jobOptions_VertexDbSvc.txt"
+ApplicationMgr.DLLs += {"OmegaAlg"};
+ApplicationMgr.TopAlg += { "Omega" };
+
+Omega.Vr0cut = 1.0;
+Omega.Vz0cut = 5.0;
+
+Omega.EnergyThreshold = 0.04;
+Omega.GammaPhiCut = 20.0;
+Omega.GammaThetaCut = 20.0;
+Omega.GammaAngleCut = 20.0;
+
+Omega.Test4C = 1;
+Omega.Test5C = 1;
+Omega.CheckDedx = 1;				
+Omega.CheckTof = 1;
