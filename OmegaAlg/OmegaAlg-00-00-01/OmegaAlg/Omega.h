@@ -35,7 +35,7 @@ private:
   // 
   int m_checkDedx;
   int m_checkTof;
-  double m_energy
+  double m_energy;
 
   // define Ntuples here
 
