@@ -1,5 +1,5 @@
-#ifndef Physics_Analysis_Rhopi_H
-#define Physics_Analysis_Rhopi_H 
+#ifndef Physics_Analysis_Omega_H
+#define Physics_Analysis_Omega_H 
 
 #include "GaudiKernel/AlgFactory.h"
 #include "GaudiKernel/Algorithm.h"
@@ -7,10 +7,10 @@
 //#include "VertexFit/ReadBeamParFromDb.h"
 
 
-class Rhopi : public Algorithm {
+class Omega : public Algorithm {
 
 public:
-  Rhopi(const std::string& name, ISvcLocator* pSvcLocator);
+  Omega(const std::string& name, ISvcLocator* pSvcLocator);
   StatusCode initialize();
   StatusCode execute();
   StatusCode finalize();  
@@ -53,15 +53,15 @@ private:
   NTuple::Item<double>  m_dang;
   NTuple::Item<double>  m_eraw;
 
-  NTuple::Tuple*  m_tuple3;     // rhopi: raw mgg, etot
+  NTuple::Tuple*  m_tuple3;     // Omega: raw mgg, etot
   NTuple::Item<double>  m_m2gg;
   NTuple::Item<double>  m_etot;
 
-  NTuple::Tuple*  m_tuple4;     // rhopi 4C
+  NTuple::Tuple*  m_tuple4;     // Omega 4C
   NTuple::Item<double>  m_chi1;
   NTuple::Item<double>  m_mpi0;
 
-  NTuple::Tuple*  m_tuple5;     // rhopi 5C
+  NTuple::Tuple*  m_tuple5;     // Omega 5C
   NTuple::Item<double>  m_chi2;
   NTuple::Item<double>  m_mrh0;
   NTuple::Item<double>  m_mrhp;
