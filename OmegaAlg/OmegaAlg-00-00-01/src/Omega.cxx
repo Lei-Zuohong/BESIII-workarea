@@ -76,7 +76,7 @@ Omega::Omega(const std::string &name, ISvcLocator *pSvcLocator) : Algorithm(name
 	declareProperty("Test5C", m_test5C = 1);
 	declareProperty("CheckDedx", m_checkDedx = 1);
 	declareProperty("CheckTof", m_checkTof = 1);
-	declareProperty("Energy", m_energy = 1);
+	declareProperty("Energy", m_energy = 2.125);
 }
 
 //*********************************************************************************************************

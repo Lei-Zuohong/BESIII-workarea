@@ -14,3 +14,5 @@ Omega.Test4C = 1;
 Omega.Test5C = 1;
 Omega.CheckDedx = 1;				
 Omega.CheckTof = 1;
+
+Omega.Energy = 2.125;
