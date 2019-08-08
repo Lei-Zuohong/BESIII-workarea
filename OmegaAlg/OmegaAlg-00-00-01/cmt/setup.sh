@@ -1,4 +1,3 @@
-
 # echo "setup OmegaAlg OmegaAlg-00-00-01 in /workfs/bes/leizh/workarea-6.6.5.p01/Analysis/Physics"
 
 if test "${CMTROOT}" = ""; then
