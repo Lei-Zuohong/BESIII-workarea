@@ -909,6 +909,7 @@ StatusCode Omega::execute()
 				                kmfit->AddTrack(5, 0.0, g4Trk);
 				                kmfit->AddTrack(6, 0.0, g5Trk);
 				                kmfit->AddTrack(7, 0.0, g6Trk);
+								cout << "prograss check" << endl;
 				                kmfit->AddFourMomentum(0, ecms);
 				                bool oksq = kmfit->Fit();
 				                if (oksq)
@@ -964,6 +965,7 @@ StatusCode Omega::execute()
 	// Selection 8: 5C Selection
 	//     find the best combination over all possible pi+ pi- gamma gamma pair
 	//*********************************************************************************
+	cout << "before 5c" << endl; //准备5C声明
 	if (m_test5C == 1)
 	{
 		//double ecms = 3.097;
