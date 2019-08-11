@@ -6,9 +6,7 @@
 #include "GaudiKernel/NTuple.h"
 //#include "VertexFit/ReadBeamParFromDb.h"
 
-
 class Omega : public Algorithm {
-
 public:
   Omega(const std::string& name, ISvcLocator* pSvcLocator);
   StatusCode initialize();
@@ -21,17 +19,14 @@ private:
   // Declare r0, z0 cut for charged tracks
   double m_vr0cut;
   double m_vz0cut;
-
   //Declare energy, dphi, dthe cuts for fake gamma's
   double m_energyThreshold;
   double m_gammaPhiCut;
   double m_gammaThetaCut;
   double m_gammaAngleCut;
-
   // 
   int m_test4C;
   int m_test5C;
-
   // 
   int m_checkDedx;
   int m_checkTof;
@@ -63,10 +58,13 @@ private:
   NTuple::Item<double>  m_mpi0;
 
   NTuple::Tuple*  m_tuple5;     // Omega 5C
-  NTuple::Item<double>  m_chi2;
-  NTuple::Item<double>  m_mrh0;
-  NTuple::Item<double>  m_mrhp;
-  NTuple::Item<double>  m_mrhm;
+  //NTuple::Item<double>  m_chi2;
+  //NTuple::Item<double>  m_mrh0;
+  //NTuple::Item<double>  m_mrhp;
+  //NTuple::Item<double>  m_mrhm;
+  NTuple::Item<double>  m_mpi01;
+  NTuple::Item<double>  m_mpi02;
+  NTuple::Item<double>  m_mpi03;
 
   NTuple::Tuple*  m_tuple6;    // photons
   NTuple::Item<double>  m_fcos;

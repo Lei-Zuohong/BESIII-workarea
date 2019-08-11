@@ -1,7 +1,5 @@
 //*********************************************************************************************************
-//***                                                                                                   ***
 //***                                                代码引用                                            ***
-//***                                                                                                   ***
 //*********************************************************************************************************
 #include "GaudiKernel/MsgStream.h"
 #include "GaudiKernel/AlgFactory.h"
@@ -43,10 +41,9 @@ typedef HepGeom::Point3D<double> HepPoint3D;
 #include "VertexFit/Helix.h"
 #include "ParticleID/ParticleID.h"
 #include <vector>
+
 //*********************************************************************************************************
-//***                                                                                                   ***
 //***                                                变量设置                                            ***
-//***                                                                                                   ***
 //*********************************************************************************************************
 //const double twopi = 6.2831853;
 //const double pi = 3.1415927;
@@ -60,9 +57,7 @@ typedef std::vector<HepLorentzVector> Vp4;
 int Ncut0, Ncut1, Ncut2, Ncut3, Ncut4, Ncut5, Ncut6;
 
 //*********************************************************************************************************
-//***                                                                                                   ***
 //***                                                声明容器                                            ***
-//***                                                                                                   ***
 //*********************************************************************************************************
 Omega::Omega(const std::string &name, ISvcLocator *pSvcLocator) : Algorithm(name, pSvcLocator)
 {
@@ -80,9 +75,7 @@ Omega::Omega(const std::string &name, ISvcLocator *pSvcLocator) : Algorithm(name
 }
 
 //*********************************************************************************************************
-//***                                                                                                   ***
 //***                                               initialize                                          ***
-//***                                                                                                   ***
 //*********************************************************************************************************
 StatusCode Omega::initialize()
 {
@@ -193,10 +186,13 @@ StatusCode Omega::initialize()
 			m_tuple5 = ntupleSvc()->book("FILE1/fit5c", CLID_ColumnWiseTuple, "ks N-Tuple example");
 			if (m_tuple5)
 			{
-				status = m_tuple5->addItem("chi2", m_chi2);
-				status = m_tuple5->addItem("mrh0", m_mrh0);
-				status = m_tuple5->addItem("mrhp", m_mrhp);
-				status = m_tuple5->addItem("mrhm", m_mrhm);
+				//status = m_tuple5->addItem("chi2", m_chi2);
+				//status = m_tuple5->addItem("mrh0", m_mrh0);
+				//status = m_tuple5->addItem("mrhp", m_mrhp);
+				//status = m_tuple5->addItem("mrhm", m_mrhm);
+				status = m_tuple5->addItem("mpi01", m_mpi01);
+				status = m_tuple5->addItem("mpi02", m_mpi02);
+				status = m_tuple5->addItem("mpi03", m_mpi03);
 			}
 			else
 			{
@@ -375,9 +371,7 @@ StatusCode Omega::initialize()
 	return StatusCode::SUCCESS;
 }
 //*********************************************************************************************************
-//***                                                                                                   ***
 //***                                                execute                                            ***
-//***                                                                                                   ***
 //*********************************************************************************************************
 StatusCode Omega::execute()
 {
@@ -880,7 +874,7 @@ StatusCode Omega::execute()
 	if (m_test4C == 1)
 	{
 		//double ecms = 3.097;
-		HepLorentzVector ecms(0.034*m_energy/3.097, 0, 0, m_energy);
+		HepLorentzVector ecms(0.034 * m_energy / 3.097, 0, 0, m_energy);
 		double chisq = 9999.; //这个是ka^2
 		int ig1 = -1;
 		int ig2 = -1;
@@ -894,18 +888,18 @@ StatusCode Omega::execute()
 			for (int i2 = i1 + 1; i2 < nGam - 4; i2++)
 			{
 				RecEmcShower *g2Trk = (*(evtRecTrkCol->begin() + iGam[i2]))->emcShower();
-			    for (int i3 = i2 + 1; i2 < nGam - 3; i3++)
+			    for (int i3 = i2 + 1; i3 < nGam - 3; i3++)
 			    {
-				    RecEmcShower *g3Trk = (*(evtRecTrkCol->begin() + iGam[i2]))->emcShower();
-			        for (int i4 = i3 + 1; i2 < nGam - 2; i4++)
+				    RecEmcShower *g3Trk = (*(evtRecTrkCol->begin() + iGam[i3]))->emcShower();
+			        for (int i4 = i3 + 1; i4 < nGam - 2; i4++)
 					{
-						RecEmcShower *g4Trk = (*(evtRecTrkCol->begin() + iGam[i2]))->emcShower();
-			            for (int i5 = i4 + 1; i2 < nGam - 1; i5++)
+						RecEmcShower *g4Trk = (*(evtRecTrkCol->begin() + iGam[i4]))->emcShower();
+			            for (int i5 = i4 + 1; i5 < nGam - 1; i5++)
 			            {
-				            RecEmcShower *g5Trk = (*(evtRecTrkCol->begin() + iGam[i2]))->emcShower();
-			                for (int i6 = i5 + 1; i2 < nGam - 0; i6++)
+				            RecEmcShower *g5Trk = (*(evtRecTrkCol->begin() + iGam[i5]))->emcShower();
+			                for (int i6 = i5 + 1; i6 < nGam - 0; i6++)
 							{
-								RecEmcShower *g6Trk = (*(evtRecTrkCol->begin() + iGam[i2]))->emcShower();
+								RecEmcShower *g6Trk = (*(evtRecTrkCol->begin() + iGam[i6]))->emcShower();
 								kmfit->init();
 				                kmfit->AddTrack(0, wpip);
 				                kmfit->AddTrack(1, wpim);
@@ -973,36 +967,85 @@ StatusCode Omega::execute()
 	if (m_test5C == 1)
 	{
 		//double ecms = 3.097;
-		HepLorentzVector ecms(0.034*m_energy/3.097, 0, 0, m_energy);
+		HepLorentzVector ecms(0.034 * m_energy / 3.097, 0, 0, m_energy);
 		double chisq = 9999.;
 		int ig1 = -1;
 		int ig2 = -1;
-		for (int i = 0; i < nGam - 1; i++)
+		int ig3 = -1;
+		int ig4 = -1;
+		int ig5 = -1;
+		int ig6 = -1;
+		int combine[15][6] = [[1,2,3,4,5,6],
+		[1,2,3,5,4,6],
+		[1,2,3,6,4,5],
+		[1,3,2,4,5,6],
+		[1,3,2,5,4,6],
+		[1,3,2,6,4,5],
+		[1,4,3,2,5,6],
+		[1,4,3,5,2,6],
+		[1,4,3,6,2,5],
+		[1,5,3,4,2,6],
+		[1,5,3,2,4,6],
+		[1,5,3,6,4,2],
+		[1,6,3,4,5,2],
+		[1,6,3,5,4,2],
+		[1,6,3,2,4,5]]
+		for (int i1 = 0; i1 < nGam - 5; i1++) //循环所有6Gamma对
 		{
-			RecEmcShower *g1Trk = (*(evtRecTrkCol->begin() + iGam[i]))->emcShower();
-			for (int j = i + 1; j < nGam; j++)
+			RecEmcShower *g1Trk = (*(evtRecTrkCol->begin() + iGam[i1]))->emcShower();
+			for (int i2 = i1 + 1; i2 < nGam - 4; i2++)
 			{
-				RecEmcShower *g2Trk = (*(evtRecTrkCol->begin() + iGam[j]))->emcShower();
-				kmfit->init();
-				kmfit->AddTrack(0, wpip);
-				kmfit->AddTrack(1, wpim);
-				kmfit->AddTrack(2, 0.0, g1Trk);
-				kmfit->AddTrack(3, 0.0, g2Trk);
-				kmfit->AddResonance(0, 0.135, 2, 3);
-				kmfit->AddFourMomentum(1, ecms);
-				if (!kmfit->Fit(0))
-					continue;
-				if (!kmfit->Fit(1))
-					continue;
-				bool oksq = kmfit->Fit();
-				if (oksq)
-				{
-					double chi2 = kmfit->chisq();
-					if (chi2 < chisq)
+				RecEmcShower *g2Trk = (*(evtRecTrkCol->begin() + iGam[i2]))->emcShower();
+			    for (int i3 = i2 + 1; i3 < nGam - 3; i3++)
+			    {
+				    RecEmcShower *g3Trk = (*(evtRecTrkCol->begin() + iGam[i3]))->emcShower();
+			        for (int i4 = i3 + 1; i4 < nGam - 2; i4++)
 					{
-						chisq = chi2;
-						ig1 = iGam[i];
-						ig2 = iGam[j];
+						RecEmcShower *g4Trk = (*(evtRecTrkCol->begin() + iGam[i4]))->emcShower();
+			            for (int i5 = i4 + 1; i5 < nGam - 1; i5++)
+			            {
+				            RecEmcShower *g5Trk = (*(evtRecTrkCol->begin() + iGam[i5]))->emcShower();
+			                for (int i6 = i5 + 1; i6 < nGam - 0; i6++)
+							{
+								RecEmcShower *g6Trk = (*(evtRecTrkCol->begin() + iGam[i6]))->emcShower();
+								for (int j = 0; j < 15; j++)
+								{
+									kmfit->init();
+				                	kmfit->AddTrack(0, wpip);
+				                	kmfit->AddTrack(1, wpim);
+				                	kmfit->AddTrack(2, 0.0, g1Trk);
+				              	  	kmfit->AddTrack(3, 0.0, g2Trk);
+				              	  	kmfit->AddTrack(4, 0.0, g3Trk);
+				              	  	kmfit->AddTrack(5, 0.0, g4Trk);
+				               	 	kmfit->AddTrack(6, 0.0, g5Trk);
+				               	 	kmfit->AddTrack(7, 0.0, g6Trk);
+				                	kmfit->AddResonance(0, 0.135, combine[j][0]+1, combine[j][1]+1);
+				                	kmfit->AddResonance(1, 0.135, combine[j][2]+1, combine[j][3]+1);
+				                	kmfit->AddResonance(2, 0.135, combine[j][4]+1, combine[j][5]+1);
+				            		kmfit->AddFourMomentum(1, ecms);
+									if (!kmfit->Fit(0))
+										continue;
+									if (!kmfit->Fit(1))
+										continue;
+									bool oksq = kmfit->Fit();
+									if (oksq)
+				                	{
+					                	double chi2 = kmfit->chisq();
+					                	if (chi2 < chisq)
+					                	{
+											Vint iGamout = [iGam[i1], iGam[i2], iGam[i3], iGam[i4], iGam[i5], iGam[i6]]
+						            	    chisq = chi2;
+						            	    ig1 = iGamout[combine[j][0]-1];
+						            	    ig2 = iGamout[combine[j][1]-1];
+						            	    ig3 = iGamout[combine[j][2]-1];
+						            	    ig4 = iGamout[combine[j][3]-1];
+						            	    ig5 = iGamout[combine[j][4]-1];
+						            	    ig6 = iGamout[combine[j][5]-1];
+					                	}
+				                	}
+								}
+							}
+						}
 					}
 				}
 			}
@@ -1013,29 +1056,44 @@ StatusCode Omega::execute()
 		{
 			RecEmcShower *g1Trk = (*(evtRecTrkCol->begin() + ig1))->emcShower();
 			RecEmcShower *g2Trk = (*(evtRecTrkCol->begin() + ig2))->emcShower();
+			RecEmcShower *g3Trk = (*(evtRecTrkCol->begin() + ig3))->emcShower();
+			RecEmcShower *g4Trk = (*(evtRecTrkCol->begin() + ig4))->emcShower();
+			RecEmcShower *g5Trk = (*(evtRecTrkCol->begin() + ig5))->emcShower();
+			RecEmcShower *g6Trk = (*(evtRecTrkCol->begin() + ig6))->emcShower();
 			kmfit->init();
 			kmfit->AddTrack(0, wpip);
 			kmfit->AddTrack(1, wpim);
 			kmfit->AddTrack(2, 0.0, g1Trk);
 			kmfit->AddTrack(3, 0.0, g2Trk);
+			kmfit->AddTrack(4, 0.0, g3Trk);
+			kmfit->AddTrack(5, 0.0, g4Trk);
+			kmfit->AddTrack(6, 0.0, g5Trk);
+			kmfit->AddTrack(7, 0.0, g6Trk);
 			kmfit->AddResonance(0, 0.135, 2, 3);
+			kmfit->AddResonance(0, 0.135, 4, 5);
+			kmfit->AddResonance(0, 0.135, 6, 7);
 			kmfit->AddFourMomentum(1, ecms);
 			bool oksq = kmfit->Fit();
 			if (oksq)
-			{ //pfit为四动量
-				HepLorentzVector ppi0 = kmfit->pfit(2) + kmfit->pfit(3);
-				HepLorentzVector prho0 = kmfit->pfit(0) + kmfit->pfit(1);
-				HepLorentzVector prhop = ppi0 + kmfit->pfit(0);
-				HepLorentzVector prhom = ppi0 + kmfit->pfit(1);
-				double eg1 = (kmfit->pfit(2)).e();
-				double eg2 = (kmfit->pfit(3)).e();
-				double fcos = abs(eg1 - eg2) / ppi0.rho();
+			{
+				HepLorentzVector ppi01 = kmfit->pfit(2) + kmfit->pfit(3);
+				HepLorentzVector ppi02 = kmfit->pfit(4) + kmfit->pfit(5);
+				HepLorentzVector ppi03 = kmfit->pfit(6) + kmfit->pfit(7);
+				//HepLorentzVector prho0 = kmfit->pfit(0) + kmfit->pfit(1);
+				//HepLorentzVector prhop = ppi0 + kmfit->pfit(0);
+				//HepLorentzVector prhom = ppi0 + kmfit->pfit(1);
+				//double eg1 = (kmfit->pfit(2)).e();
+				//double eg2 = (kmfit->pfit(3)).e();
+				//double fcos = abs(eg1 - eg2) / ppi0.rho();
 				if (1 == 1) //数据存储参数
 				{
-					m_chi2 = kmfit->chisq();
-					m_mrh0 = prho0.m();
-					m_mrhp = prhop.m();
-					m_mrhm = prhom.m();
+					//m_chi2 = kmfit->chisq();
+					//m_mrh0 = prho0.m();
+					//m_mrhp = prhop.m();
+					//m_mrhm = prhom.m();
+					m_mpi01 = ppi01.m();
+					m_mpi02 = ppi02.m();
+					m_mpi03 = ppi03.m();
 					m_tuple5->write();
 					Ncut5++;
 				}
@@ -1043,12 +1101,16 @@ StatusCode Omega::execute()
 				//  Measure the photon detection efficiences via
 				//          J/psi -> rho0 pi0
 				//
-				if (fabs(prho0.m() - 0.770) < 0.150)
+				//if (fabs(prho0.m() - 0.770) < 0.150)
+				if (1 == 0)
 				{
-					if (fabs(fcos) < 0.99) //数据存储参数
+					//if (fabs(fcos) < 0.99)
+					if (1 == 0)
 					{
-						m_fcos = (eg1 - eg2) / ppi0.rho();
-						m_elow = (eg1 < eg2) ? eg1 : eg2;
+						//m_fcos = (eg1 - eg2) / ppi0.rho();
+						//m_elow = (eg1 < eg2) ? eg1 : eg2;
+						m_fcos = 0;
+						m_elow = 0;
 						m_tuple6->write();
 						Ncut6++;
 					}
