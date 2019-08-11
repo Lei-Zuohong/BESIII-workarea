@@ -1033,7 +1033,7 @@ StatusCode Omega::execute()
 					                	double chi2 = kmfit->chisq();
 					                	if (chi2 < chisq)
 					                	{
-											Vint iGamout[6] = [iGam[i1], iGam[i2], iGam[i3], iGam[i4], iGam[i5], iGam[i6]]
+											Vint iGamout[6] = {iGam[i1], iGam[i2], iGam[i3], iGam[i4], iGam[i5], iGam[i6]}
 						            	    chisq = chi2;
 						            	    ig1 = iGamout[combine[j][0]-1];
 						            	    ig2 = iGamout[combine[j][1]-1];
