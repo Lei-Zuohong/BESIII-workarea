@@ -989,7 +989,7 @@ StatusCode Omega::execute()
 		{1,5,3,6,4,2},
 		{1,6,3,4,5,2},
 		{1,6,3,5,4,2},
-		{1,6,3,2,4,5}}
+		{1,6,3,2,4,5}};
 		for (int i1 = 0; i1 < nGam - 5; i1++) //循环所有6Gamma对
 		{
 			RecEmcShower *g1Trk = (*(evtRecTrkCol->begin() + iGam[i1]))->emcShower();
