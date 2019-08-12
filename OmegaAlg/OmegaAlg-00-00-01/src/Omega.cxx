@@ -909,7 +909,6 @@ StatusCode Omega::execute()
 				                kmfit->AddTrack(5, 0.0, g4Trk);
 				                kmfit->AddTrack(6, 0.0, g5Trk);
 				                kmfit->AddTrack(7, 0.0, g6Trk);
-								cout << "prograss check" << endl;
 				                kmfit->AddFourMomentum(0, ecms);
 				                bool oksq = kmfit->Fit();
 				                if (oksq)
@@ -1024,7 +1023,7 @@ StatusCode Omega::execute()
 				                	kmfit->AddResonance(0, 0.135, combine[j][0]+1, combine[j][1]+1);
 				                	kmfit->AddResonance(1, 0.135, combine[j][2]+1, combine[j][3]+1);
 				                	kmfit->AddResonance(2, 0.135, combine[j][4]+1, combine[j][5]+1);
-				            		kmfit->AddFourMomentum(1, ecms);
+				            		kmfit->AddFourMomentum(3, ecms);
 									if (!kmfit->Fit(0))
 										continue;
 									if (!kmfit->Fit(1))
@@ -1038,11 +1037,11 @@ StatusCode Omega::execute()
 											int outcheck[6] = {i1,i2,i3,i4,i5,i6};
 						            	    chisq = chi2;
 						            	    ig1 = iGam[outcheck[combine[j][0]]-1];
-						            	    ig1 = iGam[outcheck[combine[j][1]]-1];
-						            	    ig1 = iGam[outcheck[combine[j][2]]-1];
-						            	    ig1 = iGam[outcheck[combine[j][3]]-1];
-						            	    ig1 = iGam[outcheck[combine[j][4]]-1];
-						            	    ig1 = iGam[outcheck[combine[j][5]]-1];
+						            	    ig2 = iGam[outcheck[combine[j][1]]-1];
+						            	    ig3 = iGam[outcheck[combine[j][2]]-1];
+						            	    ig4 = iGam[outcheck[combine[j][3]]-1];
+						            	    ig5 = iGam[outcheck[combine[j][4]]-1];
+						            	    ig6 = iGam[outcheck[combine[j][5]]-1];
 					                	}
 				                	}
 								}
@@ -1072,9 +1071,9 @@ StatusCode Omega::execute()
 			kmfit->AddTrack(6, 0.0, g5Trk);
 			kmfit->AddTrack(7, 0.0, g6Trk);
 			kmfit->AddResonance(0, 0.135, 2, 3);
-			kmfit->AddResonance(0, 0.135, 4, 5);
-			kmfit->AddResonance(0, 0.135, 6, 7);
-			kmfit->AddFourMomentum(1, ecms);
+			kmfit->AddResonance(1, 0.135, 4, 5);
+			kmfit->AddResonance(2, 0.135, 6, 7);
+			kmfit->AddFourMomentum(3, ecms);
 			bool oksq = kmfit->Fit();
 			if (oksq)
 			{
