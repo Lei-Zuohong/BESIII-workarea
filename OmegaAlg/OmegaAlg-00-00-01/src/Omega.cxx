@@ -193,6 +193,7 @@ StatusCode Omega::initialize()
 				status = m_tuple5->addItem("mpi01", m_mpi01);
 				status = m_tuple5->addItem("mpi02", m_mpi02);
 				status = m_tuple5->addItem("mpi03", m_mpi03);
+				status = m_tuple5->addItem("momega", m_momega);
 			}
 			else
 			{
@@ -1023,7 +1024,8 @@ StatusCode Omega::execute()
 				                	kmfit->AddResonance(0, 0.135, combine[j][0]+1, combine[j][1]+1);
 				                	kmfit->AddResonance(1, 0.135, combine[j][2]+1, combine[j][3]+1);
 				                	kmfit->AddResonance(2, 0.135, combine[j][4]+1, combine[j][5]+1);
-				            		kmfit->AddFourMomentum(3, ecms);
+				                	kmfit->AddResonance(3, 0.782, 0, 1, combine[j][0]+1, combine[j][1]+1);
+				            		kmfit->AddFourMomentum(4, ecms);
 									if (!kmfit->Fit(0))
 										continue;
 									if (!kmfit->Fit(1))
@@ -1073,13 +1075,15 @@ StatusCode Omega::execute()
 			kmfit->AddResonance(0, 0.135, 2, 3);
 			kmfit->AddResonance(1, 0.135, 4, 5);
 			kmfit->AddResonance(2, 0.135, 6, 7);
-			kmfit->AddFourMomentum(3, ecms);
+			kmfit->AddResonance(3, 0.782, 0, 1, 2, 3);
+			kmfit->AddFourMomentum(4, ecms);
 			bool oksq = kmfit->Fit();
 			if (oksq)
 			{
 				HepLorentzVector ppi01 = kmfit->pfit(2) + kmfit->pfit(3);
 				HepLorentzVector ppi02 = kmfit->pfit(4) + kmfit->pfit(5);
 				HepLorentzVector ppi03 = kmfit->pfit(6) + kmfit->pfit(7);
+				HepLorentzVector pomega = kmfit->pfit(0) + kmfit->pfit(1) + kmfit->pfit(2) + kmfit->pfit(3);
 				//HepLorentzVector prho0 = kmfit->pfit(0) + kmfit->pfit(1);
 				//HepLorentzVector prhop = ppi0 + kmfit->pfit(0);
 				//HepLorentzVector prhom = ppi0 + kmfit->pfit(1);
@@ -1095,6 +1099,7 @@ StatusCode Omega::execute()
 					m_mpi01 = ppi01.m();
 					m_mpi02 = ppi02.m();
 					m_mpi03 = ppi03.m();
+					m_momega = pomega.m();
 					m_tuple5->write();
 					Ncut5++;
 				}

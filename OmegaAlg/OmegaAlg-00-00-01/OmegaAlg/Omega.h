@@ -65,6 +65,7 @@ private:
   NTuple::Item<double>  m_mpi01;
   NTuple::Item<double>  m_mpi02;
   NTuple::Item<double>  m_mpi03;
+  NTuple::Item<double>  m_momega;
 
   NTuple::Tuple*  m_tuple6;    // photons
   NTuple::Item<double>  m_fcos;
