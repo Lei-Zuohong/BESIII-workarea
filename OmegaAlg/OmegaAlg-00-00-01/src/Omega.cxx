@@ -460,7 +460,6 @@ StatusCode Omega::execute()
 			m_rvz0 = Rvz0;	                                                        //output-相对位置的dz
 			m_rvphi0 = Rvphi0;                                                      //相对位置的phi0
 			m_tuple1->write();
-			cout << "输出tuple1" << endl;
 		}
 		if(fabs(Rvz0) >= m_vz0cut) continue;
 		if(fabs(Rvxy0) >= m_vr0cut) continue;
@@ -533,7 +532,6 @@ StatusCode Omega::execute()
 			m_dang = dang;                                                          //dang
 			m_eraw = eraw;                                                          //eraw
 			m_tuple2->write();
-			cout << "输出tuple2" << endl;
 		}
 		if (eraw < m_energyThreshold)                                               //参数设定：selection能量界限 > m_energyThreshold = 0.025
 			continue; 
@@ -544,7 +542,7 @@ StatusCode Omega::execute()
 	}
 	int nGam = iGam.size(); //nGam记录good photon数量
 	log << MSG::DEBUG << "num Good Photon " << nGam << " , " << evtRecEvent->totalNeutral() << endreq;
-	if (nGam < 6)                                                                   //参数设定：nGam > 6
+	if (nGam < 6)                                                                   //参数设定：nGam >= 6
 	{
 		return StatusCode::SUCCESS;
 	}
@@ -661,7 +659,6 @@ StatusCode Omega::execute()
 						m_tk_btof1 = tof - texp[3];
 						m_tp_btof1 = tof - texp[4];
 						m_tuple9->write();
-						cout << "输出tuple9" << endl;
 					}
 
 					if (status->layer() == 2)
@@ -691,7 +688,6 @@ StatusCode Omega::execute()
 						m_tk_btof2 = tof - texp[3];
 						m_tp_btof2 = tof - texp[4];
 						m_tuple10->write();
-						cout << "输出tuple10" << endl;
 					}
 				}
 				delete status;
@@ -835,20 +831,19 @@ StatusCode Omega::execute()
 			}
 		}
 	}
+	//*********************************************************************************
+	// Selection 6: Vertex fit Selection, check ppi0, pTot
+	//*********************************************************************************
 	RecMdcKalTrack *pipTrk = (*(evtRecTrkCol->begin() + ipip[0]))->mdcKalTrack();
 	RecMdcKalTrack *pimTrk = (*(evtRecTrkCol->begin() + ipim[0]))->mdcKalTrack();
 	WTrackParameter wvpipTrk, wvpimTrk;
 	wvpipTrk = WTrackParameter(mpi, pipTrk->getZHelix(), pipTrk->getZError());
 	wvpimTrk = WTrackParameter(mpi, pimTrk->getZHelix(), pimTrk->getZError());
-	/* Default is pion, for other particles:
-	   wvppTrk = WTrackParameter(mp, pipTrk->getZHelixP(), pipTrk->getZErrorP());//proton
-	   wvmupTrk = WTrackParameter(mmu, pipTrk->getZHelixMu(), pipTrk->getZErrorMu());//muon
-	   wvepTrk = WTrackParameter(me, pipTrk->getZHelixE(), pipTrk->getZErrorE());//electron
-	   wvkpTrk = WTrackParameter(mk, pipTrk->getZHelixK(), pipTrk->getZErrorK());//kaon
-	*/
-	//*********************************************************************************
-	// Selection 6: Vertex fit Selection, check ppi0, pTot
-	//*********************************************************************************
+	/* 	Default is pion, for other particles:
+	   	wvppTrk = WTrackParameter(mp, pipTrk->getZHelixP(), pipTrk->getZErrorP());//proton
+	   	wvmupTrk = WTrackParameter(mmu, pipTrk->getZHelixMu(), pipTrk->getZErrorMu());//muon
+	   	wvepTrk = WTrackParameter(me, pipTrk->getZHelixE(), pipTrk->getZErrorE());//electron
+	   	wvkpTrk = WTrackParameter(mk, pipTrk->getZHelixK(), pipTrk->getZErrorK());//kaon     */
 	HepPoint3D vx(0., 0., 0.);
 	HepSymMatrix Evx(3, 0);
 	double bx = 1E+6;
@@ -880,7 +875,7 @@ StatusCode Omega::execute()
 	{
 		//double ecms = 3.097;
 		HepLorentzVector ecms(0.034 * m_energy / 3.097, 0, 0, m_energy);
-		double chisq = 9999.; //这个是ka^2
+		double chisq = 999999; //这个是ka^2
 		int ig1 = -1;
 		int ig2 = -1;
 		int ig3 = -1;
@@ -955,7 +950,7 @@ StatusCode Omega::execute()
 			kmfit->AddTrack(7, 0.0, g6Trk);
 			kmfit->AddFourMomentum(0, ecms);
 			bool oksq = kmfit->Fit();
-			if (oksq) //数据存储m_tuple4
+			if (oksq)
 			{
 				HepLorentzVector ppi0 = kmfit->pfit(2) + kmfit->pfit(3);
 				m_mpi0 = ppi0.m();
@@ -974,7 +969,7 @@ StatusCode Omega::execute()
 	{
 		//double ecms = 3.097;
 		HepLorentzVector ecms(0.034 * m_energy / 3.097, 0, 0, m_energy);
-		double chisq = 9999.;
+		double chisq = 9999;
 		int ig1 = -1;
 		int ig2 = -1;
 		int ig3 = -1;
@@ -1058,9 +1053,10 @@ StatusCode Omega::execute()
 				}
 			}
 		}
+		cout << "通过5c拟合的chisq = " << chisq << endl;
 		log << MSG::INFO << " chisq = " << chisq << endreq;
 
-		if (chisq < 9999)
+		if (chisq < 999999)
 		{
 			RecEmcShower *g1Trk = (*(evtRecTrkCol->begin() + ig1))->emcShower();
 			RecEmcShower *g2Trk = (*(evtRecTrkCol->begin() + ig2))->emcShower();
@@ -1095,7 +1091,7 @@ StatusCode Omega::execute()
 				//double eg1 = (kmfit->pfit(2)).e();
 				//double eg2 = (kmfit->pfit(3)).e();
 				//double fcos = abs(eg1 - eg2) / ppi0.rho();
-				if (1 == 1) //数据存储参数
+				if (1 == 1)
 				{
 					m_chi2 = kmfit->chisq();
 					//m_mrh0 = prho0.m();
@@ -1106,7 +1102,6 @@ StatusCode Omega::execute()
 					m_mpi03 = ppi03.m();
 					m_momega = pomega.m();
 					m_tuple5->write();
-					cout << "输出tuple5" << endl;
 					Ncut5++;
 				}
 				//
@@ -1124,7 +1119,6 @@ StatusCode Omega::execute()
 						m_fcos = 0;
 						m_elow = 0;
 						m_tuple6->write();
-						cout << "输出tuple6" << endl;
 						Ncut6++;
 					}
 				}
@@ -1134,9 +1128,7 @@ StatusCode Omega::execute()
 	return StatusCode::SUCCESS;
 }
 //*********************************************************************************************************
-//***                                                                                                   ***
 //***                                               finalize                                            ***
-//***                                                                                                   ***
 //*********************************************************************************************************
 StatusCode Omega::finalize()
 {
