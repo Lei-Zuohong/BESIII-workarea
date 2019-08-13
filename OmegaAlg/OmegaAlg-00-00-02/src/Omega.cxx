@@ -833,7 +833,7 @@ StatusCode Omega::execute()
 					m_momega = pomega.m();
 					m_tuple5->write();
 					Ncut5++;
-					cout << "写入成功" << endl;
+					cout << "c5写入成功" << endl;
 				}
 				//
 				//  Measure the photon detection efficiences via
