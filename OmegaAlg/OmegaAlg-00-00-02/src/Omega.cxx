@@ -765,12 +765,12 @@ StatusCode Omega::execute()
 					                	{
 											int outcheck[6] = {i1,i2,i3,i4,i5,i6};
 						            	    chisq = chi2;
-						            	    ig1 = iGam[outcheck[combine[j][0]]-1];
-						            	    ig2 = iGam[outcheck[combine[j][1]]-1];
-						            	    ig3 = iGam[outcheck[combine[j][2]]-1];
-						            	    ig4 = iGam[outcheck[combine[j][3]]-1];
-						            	    ig5 = iGam[outcheck[combine[j][4]]-1];
-						            	    ig6 = iGam[outcheck[combine[j][5]]-1];
+						            	    ig1 = iGam[outcheck[combine[j][0]-1]];
+						            	    ig2 = iGam[outcheck[combine[j][1]-1]];
+						            	    ig3 = iGam[outcheck[combine[j][2]-1]];
+						            	    ig4 = iGam[outcheck[combine[j][3]-1]];
+						            	    ig5 = iGam[outcheck[combine[j][4]-1]];
+						            	    ig6 = iGam[outcheck[combine[j][5]-1]];
 											cout << "通过5c拟合" << endl;
 											cout << "通过5c拟合的chisq = " << chisq << endl;
 					                	}
