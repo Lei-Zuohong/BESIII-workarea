@@ -594,7 +594,7 @@ StatusCode Omega::execute()
 	WTrackParameter wpim = vtxfit->wtrk(1);
 	//KinematicFit * kmfit = KinematicFit::instance();
 	KalmanKinematicFit *kmfit = KalmanKinematicFit::instance();
-	cout << "before 4c" << endl; //准备4C声明
+	cout << "before 4c" << endl;
 	if (m_test4C == 1)
 	{
 		//double ecms = 3.097;
@@ -655,6 +655,8 @@ StatusCode Omega::execute()
 				}
 			}
 		}
+		cout << "check 4c" << endl;
+
 		if (chisq < 200)
 		{
 			RecEmcShower *g1Trk = (*(evtRecTrkCol->begin() + ig1))->emcShower();
