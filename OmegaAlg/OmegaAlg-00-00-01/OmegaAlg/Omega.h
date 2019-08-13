@@ -15,19 +15,14 @@ public:
 
 private:
 
-  //ReadBeamParFromDb m_reader;
-  // Declare r0, z0 cut for charged tracks
   double m_vr0cut;
   double m_vz0cut;
-  //Declare energy, dphi, dthe cuts for fake gamma's
   double m_energyThreshold;
   double m_gammaPhiCut;
   double m_gammaThetaCut;
   double m_gammaAngleCut;
-  // 
   int m_test4C;
   int m_test5C;
-  // 
   int m_checkDedx;
   int m_checkTof;
   double m_energy;
@@ -58,7 +53,7 @@ private:
   NTuple::Item<double>  m_mpi0;
 
   NTuple::Tuple*  m_tuple5;     // Omega 5C
-  //NTuple::Item<double>  m_chi2;
+  NTuple::Item<double>  m_chi2;
   //NTuple::Item<double>  m_mrh0;
   //NTuple::Item<double>  m_mrhp;
   //NTuple::Item<double>  m_mrhm;

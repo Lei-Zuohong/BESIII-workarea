@@ -186,7 +186,7 @@ StatusCode Omega::initialize()
 			m_tuple5 = ntupleSvc()->book("FILE1/fit5c", CLID_ColumnWiseTuple, "ks N-Tuple example");
 			if (m_tuple5)
 			{
-				//status = m_tuple5->addItem("chi2", m_chi2);
+				status = m_tuple5->addItem("chi2", m_chi2);
 				//status = m_tuple5->addItem("mrh0", m_mrh0);
 				//status = m_tuple5->addItem("mrhp", m_mrhp);
 				//status = m_tuple5->addItem("mrhm", m_mrhm);
@@ -460,6 +460,7 @@ StatusCode Omega::execute()
 			m_rvz0 = Rvz0;	                                                        //output-相对位置的dz
 			m_rvphi0 = Rvphi0;                                                      //相对位置的phi0
 			m_tuple1->write();
+			cout << "输出tuple1" << endl;
 		}
 		if(fabs(Rvz0) >= m_vz0cut) continue;
 		if(fabs(Rvxy0) >= m_vr0cut) continue;
@@ -532,6 +533,7 @@ StatusCode Omega::execute()
 			m_dang = dang;                                                          //dang
 			m_eraw = eraw;                                                          //eraw
 			m_tuple2->write();
+			cout << "输出tuple2" << endl;
 		}
 		if (eraw < m_energyThreshold)                                               //参数设定：selection能量界限 > m_energyThreshold = 0.025
 			continue; 
@@ -1092,7 +1094,7 @@ StatusCode Omega::execute()
 				//double fcos = abs(eg1 - eg2) / ppi0.rho();
 				if (1 == 1) //数据存储参数
 				{
-					//m_chi2 = kmfit->chisq();
+					m_chi2 = kmfit->chisq();
 					//m_mrh0 = prho0.m();
 					//m_mrhp = prhop.m();
 					//m_mrhm = prhom.m();
