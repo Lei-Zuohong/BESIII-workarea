@@ -631,12 +631,12 @@ StatusCode Omega::execute()
 					m_tuple8->write();
 				}
 				else
-				{ //barrel
+				{
 					if (!(status->is_counter()))
-						continue; // ?
+						continue;
 					if (status->layer() == 1)
-					{									   //layer1
-						double path = (*iter_tof)->path(); // ?
+					{
+						double path = (*iter_tof)->path();
 						double tof = (*iter_tof)->tof();
 						double ph = (*iter_tof)->ph();
 						double rhit = (*iter_tof)->zrhit();
@@ -661,11 +661,12 @@ StatusCode Omega::execute()
 						m_tk_btof1 = tof - texp[3];
 						m_tp_btof1 = tof - texp[4];
 						m_tuple9->write();
+						cout << "输出tuple9" << endl;
 					}
 
 					if (status->layer() == 2)
-					{									   //layer2
-						double path = (*iter_tof)->path(); // ?
+					{
+						double path = (*iter_tof)->path();
 						double tof = (*iter_tof)->tof();
 						double ph = (*iter_tof)->ph();
 						double rhit = (*iter_tof)->zrhit();
@@ -690,6 +691,7 @@ StatusCode Omega::execute()
 						m_tk_btof2 = tof - texp[3];
 						m_tp_btof2 = tof - texp[4];
 						m_tuple10->write();
+						cout << "输出tuple10" << endl;
 					}
 				}
 				delete status;
@@ -1046,6 +1048,7 @@ StatusCode Omega::execute()
 						            	    ig4 = iGam[outcheck[combine[j][3]]-1];
 						            	    ig5 = iGam[outcheck[combine[j][4]]-1];
 						            	    ig6 = iGam[outcheck[combine[j][5]]-1];
+											cout << "通过5c拟合" << endl;
 					                	}
 				                	}
 								}
@@ -1057,7 +1060,7 @@ StatusCode Omega::execute()
 		}
 		log << MSG::INFO << " chisq = " << chisq << endreq;
 
-		if (chisq < 200)
+		if (chisq < 9999)
 		{
 			RecEmcShower *g1Trk = (*(evtRecTrkCol->begin() + ig1))->emcShower();
 			RecEmcShower *g2Trk = (*(evtRecTrkCol->begin() + ig2))->emcShower();
@@ -1103,6 +1106,7 @@ StatusCode Omega::execute()
 					m_mpi03 = ppi03.m();
 					m_momega = pomega.m();
 					m_tuple5->write();
+					cout << "输出tuple5" << endl;
 					Ncut5++;
 				}
 				//
@@ -1120,10 +1124,11 @@ StatusCode Omega::execute()
 						m_fcos = 0;
 						m_elow = 0;
 						m_tuple6->write();
+						cout << "输出tuple6" << endl;
 						Ncut6++;
 					}
-				} // rho0 cut
-			}	 //oksq
+				}
+			}
 		}
 	}
 	return StatusCode::SUCCESS;
