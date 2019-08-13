@@ -597,9 +597,8 @@ StatusCode Omega::execute()
 	cout << "before 4c" << endl;
 	if (m_test4C == 1)
 	{
-		//double ecms = 3.097;
 		HepLorentzVector ecms(0.034 * m_energy / 3.097, 0, 0, m_energy);
-		double chisq = 999999; //这个是ka^2
+		double chisq = 9999.; //这个是ka^2
 		int ig1 = -1;
 		int ig2 = -1;
 		int ig3 = -1;
@@ -655,7 +654,6 @@ StatusCode Omega::execute()
 				}
 			}
 		}
-		cout << "check 4c" << endl;
 
 		if (chisq < 200)
 		{
@@ -676,6 +674,7 @@ StatusCode Omega::execute()
 			kmfit->AddTrack(7, 0.0, g6Trk);
 			kmfit->AddFourMomentum(0, ecms);
 			bool oksq = kmfit->Fit();
+		    cout << "check 4c" << endl;
 			if (oksq)
 			{
 				HepLorentzVector ppi0 = kmfit->pfit(2) + kmfit->pfit(3);
@@ -695,7 +694,7 @@ StatusCode Omega::execute()
 	{
 		//double ecms = 3.097;
 		HepLorentzVector ecms(0.034 * m_energy / 3.097, 0, 0, m_energy);
-		double chisq = 9999;
+		double chisq = 9999.;
 		int ig1 = -1;
 		int ig2 = -1;
 		int ig3 = -1;
