@@ -688,7 +688,7 @@ StatusCode Omega::execute()
 	//     find the best combination over all possible pi+ pi- gamma gamma pair
 	//*********************************************************************************
 	cout << "before 5c" << endl; //准备5C声明
-	if (m_test5C == 1)
+	if (m_test5C == 2)
 	{
 		//double ecms = 3.097;
 		HepLorentzVector ecms(0.034 * m_energy / 3.097, 0, 0, m_energy);
