@@ -1044,6 +1044,7 @@ StatusCode Omega::execute()
 						            	    ig5 = iGam[outcheck[combine[j][4]]-1];
 						            	    ig6 = iGam[outcheck[combine[j][5]]-1];
 											cout << "通过5c拟合" << endl;
+											cout << "通过5c拟合的chisq = " << chisq << endl;
 					                	}
 				                	}
 								}
@@ -1053,10 +1054,9 @@ StatusCode Omega::execute()
 				}
 			}
 		}
-		cout << "通过5c拟合的chisq = " << chisq << endl;
 		log << MSG::INFO << " chisq = " << chisq << endreq;
 
-		if (chisq < 999999)
+		if (chisq < 999)
 		{
 			RecEmcShower *g1Trk = (*(evtRecTrkCol->begin() + ig1))->emcShower();
 			RecEmcShower *g2Trk = (*(evtRecTrkCol->begin() + ig2))->emcShower();
