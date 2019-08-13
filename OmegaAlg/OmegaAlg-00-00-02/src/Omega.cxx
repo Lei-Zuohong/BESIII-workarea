@@ -674,7 +674,6 @@ StatusCode Omega::execute()
 			kmfit->AddTrack(7, 0.0, g6Trk);
 			kmfit->AddFourMomentum(0, ecms);
 			bool oksq = kmfit->Fit();
-		    cout << "check 4c" << endl;
 			if (oksq)
 			{
 				m_chi1 = kmfit->chisq();
@@ -688,7 +687,7 @@ StatusCode Omega::execute()
 	//     find the best combination over all possible pi+ pi- gamma gamma pair
 	//*********************************************************************************
 	cout << "before 5c" << endl; //准备5C声明
-	if (m_test5C == 2)
+	if (m_test5C == 1)
 	{
 		//double ecms = 3.097;
 		HepLorentzVector ecms(0.034 * m_energy / 3.097, 0, 0, m_energy);
@@ -752,6 +751,12 @@ StatusCode Omega::execute()
 										continue;
 									if (!kmfit->Fit(1))
 										continue;
+									if (!kmfit->Fit(2))
+										continue;
+									if (!kmfit->Fit(3))
+										continue;
+									if (!kmfit->Fit(4))
+										continue;
 									bool oksq = kmfit->Fit();
 									if (oksq)
 				                	{
@@ -779,8 +784,9 @@ StatusCode Omega::execute()
 		}
 		log << MSG::INFO << " chisq = " << chisq << endreq;
 
-		if (chisq < 999)
+		if (chisq < 200)
 		{
+			cout << "准备5c写入" << endl;
 			RecEmcShower *g1Trk = (*(evtRecTrkCol->begin() + ig1))->emcShower();
 			RecEmcShower *g2Trk = (*(evtRecTrkCol->begin() + ig2))->emcShower();
 			RecEmcShower *g3Trk = (*(evtRecTrkCol->begin() + ig3))->emcShower();
@@ -804,6 +810,7 @@ StatusCode Omega::execute()
 			bool oksq = kmfit->Fit();
 			if (oksq)
 			{
+				cout << "重新拟合成功" << endl;
 				HepLorentzVector ppi01 = kmfit->pfit(2) + kmfit->pfit(3);
 				HepLorentzVector ppi02 = kmfit->pfit(4) + kmfit->pfit(5);
 				HepLorentzVector ppi03 = kmfit->pfit(6) + kmfit->pfit(7);
@@ -826,6 +833,7 @@ StatusCode Omega::execute()
 					m_momega = pomega.m();
 					m_tuple5->write();
 					Ncut5++;
+					cout << "写入成功" << endl;
 				}
 				//
 				//  Measure the photon detection efficiences via
