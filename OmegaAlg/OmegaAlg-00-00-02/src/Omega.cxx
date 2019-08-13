@@ -677,8 +677,6 @@ StatusCode Omega::execute()
 		    cout << "check 4c" << endl;
 			if (oksq)
 			{
-				HepLorentzVector ppi0 = kmfit->pfit(2) + kmfit->pfit(3);
-				m_mpi0 = ppi0.m();
 				m_chi1 = kmfit->chisq();
 				m_tuple4->write();
 				Ncut4++;
