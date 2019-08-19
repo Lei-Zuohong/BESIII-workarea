@@ -568,14 +568,14 @@ StatusCode Omega::execute()
 	{																	 //
 		HepLorentzVector ecms(0.034 * m_energy / 3.097, 0, 0, m_energy); //
 		double chisq_fit = 9999;										 //
-		double mtrack0 = -1;											 //
-		double mtrack1 = -1;											 //
-		double mtrack2 = -1;											 //
-		double mtrack3 = -1;											 //
-		double mtrack4 = -1;											 //
-		double mtrack5 = -1;											 //
-		double mtrack6 = -1;											 //
-		double mtrack7 = -1;											 //
+		HepLorentzVector ptrack0;										 //
+		HepLorentzVector ptrack1;										 //
+		HepLorentzVector ptrack2;										 //
+		HepLorentzVector ptrack3;										 //
+		HepLorentzVector ptrack4;										 //
+		HepLorentzVector ptrack5;										 //
+		HepLorentzVector ptrack6;										 //
+		HepLorentzVector ptrack7;										 //
 		for (int i1 = 0; i1 < nGam - 5; i1++)
 		{
 			RecEmcShower *g1Trk = (*(evtRecTrkCol->begin() + iGam[i1]))->emcShower();
@@ -594,39 +594,31 @@ StatusCode Omega::execute()
 							for (int i6 = i5 + 1; i6 < nGam - 0; i6++)
 							{
 								RecEmcShower *g6Trk = (*(evtRecTrkCol->begin() + iGam[i6]))->emcShower();
-								kmfit->init();									   //
-								kmfit->AddTrack(0, wpip);						   //
-								kmfit->AddTrack(1, wpim);						   //
-								kmfit->AddTrack(2, 0.0, g1Trk);					   //
-								kmfit->AddTrack(3, 0.0, g2Trk);					   //
-								kmfit->AddTrack(4, 0.0, g3Trk);					   //
-								kmfit->AddTrack(5, 0.0, g4Trk);					   //
-								kmfit->AddTrack(6, 0.0, g5Trk);					   //
-								kmfit->AddTrack(7, 0.0, g6Trk);					   //
-								kmfit->AddFourMomentum(0, ecms);				   //
-								bool oksq = kmfit->Fit();						   //
-								if (oksq)										   //
-								{												   //
-									double chi2 = kmfit->chisq();				   //
-									if (chi2 < chisq_fit)						   //
-									{											   //
-										chisq_fit = chi2;						   //
-										HepLorentzVector ptrack0 = kmfit->pfit(0); //
-										HepLorentzVector ptrack1 = kmfit->pfit(1); //
-										HepLorentzVector ptrack2 = kmfit->pfit(2); //
-										HepLorentzVector ptrack3 = kmfit->pfit(3); //
-										HepLorentzVector ptrack4 = kmfit->pfit(4); //
-										HepLorentzVector ptrack5 = kmfit->pfit(5); //
-										HepLorentzVector ptrack6 = kmfit->pfit(6); //
-										HepLorentzVector ptrack7 = kmfit->pfit(7); //
-										mtrack0 = ptrack0.m();					   //
-										mtrack1 = ptrack1.m();					   //
-										mtrack2 = ptrack2.m();					   //
-										mtrack3 = ptrack3.m();					   //
-										mtrack4 = ptrack4.m();					   //
-										mtrack5 = ptrack5.m();					   //
-										mtrack6 = ptrack6.m();					   //
-										mtrack7 = ptrack7.m();					   //
+								kmfit->init();					  //
+								kmfit->AddTrack(0, wpip);		  //
+								kmfit->AddTrack(1, wpim);		  //
+								kmfit->AddTrack(2, 0.0, g1Trk);   //
+								kmfit->AddTrack(3, 0.0, g2Trk);   //
+								kmfit->AddTrack(4, 0.0, g3Trk);   //
+								kmfit->AddTrack(5, 0.0, g4Trk);   //
+								kmfit->AddTrack(6, 0.0, g5Trk);   //
+								kmfit->AddTrack(7, 0.0, g6Trk);   //
+								kmfit->AddFourMomentum(0, ecms);  //
+								bool oksq = kmfit->Fit();		  //
+								if (oksq)						  //
+								{								  //
+									double chi2 = kmfit->chisq(); //
+									if (chi2 < chisq_fit)		  //
+									{							  //
+										chisq_fit = chi2;		  //
+										ptrack0 = kmfit->pfit(0); //
+										ptrack1 = kmfit->pfit(1); //
+										ptrack2 = kmfit->pfit(2); //
+										ptrack3 = kmfit->pfit(3); //
+										ptrack4 = kmfit->pfit(4); //
+										ptrack5 = kmfit->pfit(5); //
+										ptrack6 = kmfit->pfit(6); //
+										ptrack7 = kmfit->pfit(7); //
 									}
 								}
 							}
@@ -642,19 +634,21 @@ StatusCode Omega::execute()
 			double mpi01_o = -1;
 			double mpi02_o = -1;
 			double mpi03_o = -1;
-			double mtrack[7] = {chisq_fit,
-							 mtrack2,
-							 mtrack3,
-							 mtrack4,
-							 mtrack5,
-							 mtrack6,
-							 mtrack7};
+			HepLorentzVector ptrack[7] = {
+				ptrack0,
+				ptrack2,
+				ptrack3,
+				ptrack4,
+				ptrack5,
+				ptrack6,
+				ptrack7,
+			};
 			for (int i = 0; i < 15; i++)
 			{
-				double momega_4 = mtrack0 + mtrack1 + mtrack[combine[i][0]] + mtrack[combine[i][1]];
-				double mpi01_4 = mtrack[combine[i][0]] + mtrack[combine[i][1]];
-				double mpi02_4 = mtrack[combine[i][2]] + mtrack[combine[i][3]];
-				double mpi03_4 = mtrack[combine[i][4]] + mtrack[combine[i][5]];
+				double momega_4 = (ptrack0 + ptrack1 + ptrack[combine[i][0]] + ptrack[combine[i][1]]).m();
+				double mpi01_4 = (ptrack[combine[i][0]] + ptrack[combine[i][1]]).m();
+				double mpi02_4 = (ptrack[combine[i][2]] + ptrack[combine[i][3]]).m();
+				double mpi03_4 = (ptrack[combine[i][4]] + ptrack[combine[i][5]]).m();
 				double chisq_o = pow((momega_4 - 0.782), 2);
 				double chisq_1 = pow((mpi01_4 - 0.135), 2);
 				double chisq_2 = pow((mpi02_4 - 0.135), 2);
