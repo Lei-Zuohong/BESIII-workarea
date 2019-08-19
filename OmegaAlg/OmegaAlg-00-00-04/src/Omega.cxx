@@ -463,6 +463,9 @@ StatusCode Omega::execute()
 						  {1, 6, 3, 4, 5, 2},  //
 						  {1, 6, 3, 5, 4, 2},  //
 						  {1, 6, 3, 2, 4, 5}}; //
+	int select[3][3] = {{0, 1, 2},			   //
+						{1, 0, 2},			   //
+						{2, 0, 1}};			   //
 	//*********************************************************************************
 	// Selection 7: 4C Selection
 	//*********************************************************************************
@@ -596,42 +599,42 @@ StatusCode Omega::execute()
 			double chisq3_ori;								//
 			for (int i = 0; i < 15; i++)
 			{
-				iomega_fit = (ppip[0] + ppim[0] + ptrack_fit[combine[i][0]] + ptrack_fit[combine[i][1]]).m();
-				ipi01_fit = (ptrack_fit[combine[i][0]] + ptrack_fit[combine[i][1]]).m();
-				ipi02_fit = (ptrack_fit[combine[i][2]] + ptrack_fit[combine[i][3]]).m();
-				ipi03_fit = (ptrack_fit[combine[i][4]] + ptrack_fit[combine[i][5]]).m();
-				iomega_ori = (ptrack0_ori + ptrack1_ori + ptrack_ori[combine[i][0]] + ptrack_ori[combine[i][1]]).m();
-				ipi01_ori = (ptrack_ori[combine[i][0]] + ptrack_ori[combine[i][1]]).m();
-				ipi02_ori = (ptrack_ori[combine[i][2]] + ptrack_ori[combine[i][3]]).m();
-				ipi03_ori = (ptrack_ori[combine[i][4]] + ptrack_ori[combine[i][5]]).m();
-				chisqo_fit = pow((iomega_fit - 0.782), 2);
-				chisq1_fit = pow((ipi01_fit - 0.135), 2);
-				chisq2_fit = pow((ipi02_fit - 0.135), 2);
-				chisq3_fit = pow((ipi03_fit - 0.135), 2);
-				chisqo_ori = pow((iomega_ori - 0.782), 2);
-				chisq1_ori = pow((ipi01_ori - 0.135), 2);
-				chisq2_ori = pow((ipi02_ori - 0.135), 2);
-				chisq3_ori = pow((ipi03_ori - 0.135), 2);
-				double chi2_fit = chisqo_fit;
-				double chi2_ori = chisqo_ori;
-				if (chi2_fit < chisq_fit)
+				for (int j = 0; j < 3; j++)
 				{
-					chisq_fit = chi2_fit;
-					momega_fit = iomega_fit;
-					mpi01_fit = ipi01_fit;
-					mpi02_fit = ipi01_fit;
-					mpi03_fit = ipi01_fit;
-					cout << combine[i][0]<< combine[i][1]<< combine[i][2]<< combine[i][3]<< combine[i][4]<< combine[i][5]<<endl;
-					cout << momega_fit << endl;
-					cout << m_energy << endl;
-				}
-				if (chi2_ori < chisq_ori)
-				{
-					chisq_ori = chi2_ori;
-					momega_ori = iomega_ori;
-					mpi01_ori = ipi01_ori;
-					mpi02_ori = ipi01_ori;
-					mpi03_ori = ipi01_ori;
+					iomega_fit = (ppip[0] + ppim[0] + ptrack_fit[combine[i][2*select[j][0]]] + ptrack_fit[combine[i][2*select[j][0]+1]]).m();
+					ipi01_fit = (ptrack_fit[combine[i][2*select[j][0]]] + ptrack_fit[combine[i][2*select[j][0]+1]]).m();
+					ipi02_fit = (ptrack_fit[combine[i][2*select[j][1]]] + ptrack_fit[combine[i][2*select[j][1]+1]]).m();
+					ipi03_fit = (ptrack_fit[combine[i][2*select[j][2]]] + ptrack_fit[combine[i][2*select[j][2]+1]]).m();
+					iomega_ori = (ptrack0_ori + ptrack1_ori + ptrack_ori[combine[i][0]] + ptrack_ori[combine[i][1]]).m();
+					ipi01_ori = (ptrack_ori[combine[i][0]] + ptrack_ori[combine[i][1]]).m();
+					ipi02_ori = (ptrack_ori[combine[i][2]] + ptrack_ori[combine[i][3]]).m();
+					ipi03_ori = (ptrack_ori[combine[i][4]] + ptrack_ori[combine[i][5]]).m();
+					chisqo_fit = pow((iomega_fit - 0.782), 2);
+					chisq1_fit = pow((ipi01_fit - 0.135), 2);
+					chisq2_fit = pow((ipi02_fit - 0.135), 2);
+					chisq3_fit = pow((ipi03_fit - 0.135), 2);
+					chisqo_ori = pow((iomega_ori - 0.782), 2);
+					chisq1_ori = pow((ipi01_ori - 0.135), 2);
+					chisq2_ori = pow((ipi02_ori - 0.135), 2);
+					chisq3_ori = pow((ipi03_ori - 0.135), 2);
+					double chi2_fit = chisqo_fit;
+					double chi2_ori = chisqo_ori;
+					if (chi2_fit < chisq_fit)
+					{
+						chisq_fit = chi2_fit;
+						momega_fit = iomega_fit;
+						mpi01_fit = ipi01_fit;
+						mpi02_fit = ipi01_fit;
+						mpi03_fit = ipi01_fit;
+					}
+					if (chi2_ori < chisq_ori)
+					{
+						chisq_ori = chi2_ori;
+						momega_ori = iomega_ori;
+						mpi01_ori = ipi01_ori;
+						mpi02_ori = ipi01_ori;
+						mpi03_ori = ipi01_ori;
+					}
 				}
 			}
 			if (1 == 1)
