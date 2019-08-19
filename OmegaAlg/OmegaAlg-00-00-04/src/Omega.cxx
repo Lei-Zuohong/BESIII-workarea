@@ -692,14 +692,14 @@ StatusCode Omega::execute()
 		}
 		for (int i1 = 0; i1 < nGam - 1; i1++)
 		{
-			if (i1 == ig1 || i1 == ig2)
+			if (i1 != ig1 || i1 != ig2)
 			{
 				continue;
 			}
 			RecEmcShower *g1Trk = (*(evtRecTrkCol->begin() + iGam[i1]))->emcShower();
 			for (int i2 = i1 + 1; i2 < nGam; i2++)
 			{
-				if (i2 == ig1 || i2 == ig2)
+				if (i2 != ig1 || i2 != ig2)
 				{
 					continue;
 				}
@@ -723,14 +723,14 @@ StatusCode Omega::execute()
 		}
 		for (int i1 = 0; i1 < nGam - 1; i1++)
 		{
-			if (i1 == ig1 || i1 == ig2 || i1 == ig3 || i1 == ig4)
+			if (i1 != ig1 || i1 != ig2 || i1 != ig3 || i1 != ig4)
 			{
 				continue;
 			}
 			RecEmcShower *g1Trk = (*(evtRecTrkCol->begin() + iGam[i1]))->emcShower();
 			for (int i2 = i1 + 1; i2 < nGam; i2++)
 			{
-				if (i2 == ig1 || i2 == ig2 || i2 == ig3 || i2 == ig4)
+				if (i2 != ig1 || i2 != ig2 || i2 != ig3 || i2 != ig4)
 				{
 					continue;
 				}
@@ -803,7 +803,6 @@ StatusCode Omega::execute()
 			m_tuple7->write();
 		}
 	}
-
 	//*********************************************************************************
 	// Selection 8: 5C Selection
 	//     find the best combination over all possible pi+ pi- gamma gamma pair
