@@ -27,14 +27,13 @@ private:
   double m_energy;
 
   NTuple::Tuple*  m_tuple4;          // Omega 4C
-  NTuple::Item<double>  m_chi1;
-  NTuple::Item<double>  m_mpi0;
-
+  NTuple::Item<double>  m_chisq_4;
+  NTuple::Item<double>  m_omega_4;
+  NTuple::Item<double>  m_pi01_4;
+  NTuple::Item<double>  m_pi02_4;
+  NTuple::Item<double>  m_pi03_4;
   NTuple::Tuple*  m_tuple5;          // Omega 5C
   NTuple::Item<double>  m_chi2;
-  //NTuple::Item<double>  m_mrh0;
-  //NTuple::Item<double>  m_mrhp;
-  //NTuple::Item<double>  m_mrhm;
   NTuple::Item<double>  m_mpi01;
   NTuple::Item<double>  m_mpi02;
   NTuple::Item<double>  m_mpi03;

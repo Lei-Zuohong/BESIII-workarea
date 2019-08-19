@@ -38,19 +38,15 @@ typedef HepGeom::Point3D<double> HepPoint3D;
 #include "ParticleID/ParticleID.h"
 #include <vector>
 #include "OmegaAlg/Omega.h"
-
 //*********************************************************************************************************
 //***                                                变量设置                                            ***
 //*********************************************************************************************************
-for (int i = 0; i < 1; i++)
-{
-	const double mpi = 0.13957;
-	const double xmass[5] = {0.000511, 0.105658, 0.139570, 0.493677, 0.938272};
-	const double velc = 299.792458;
-	typedef std::vector<int> Vint;
-	typedef std::vector<HepLorentzVector> Vp4;
-	int Ncut0, Ncut1, Ncut2, Ncut3, Ncut4, Ncut5, Ncut6;
-}
+const double mpi = 0.13957;
+const double xmass[5] = {0.000511, 0.105658, 0.139570, 0.493677, 0.938272};
+const double velc = 299.792458;
+typedef std::vector<int> Vint;
+typedef std::vector<HepLorentzVector> Vp4;
+int Ncut0, Ncut1, Ncut2, Ncut3, Ncut4, Ncut5, Ncut6;
 //*********************************************************************************************************
 //***                                                声明容器                                            ***
 //*********************************************************************************************************
@@ -68,7 +64,6 @@ Omega::Omega(const std::string &name, ISvcLocator *pSvcLocator) : Algorithm(name
 	declareProperty("CheckTof", m_checkTof = 1);
 	declareProperty("Energy", m_energy = 2.125);
 }
-
 //*********************************************************************************************************
 //***                                               initialize                                          ***
 //*********************************************************************************************************
@@ -91,7 +86,11 @@ StatusCode Omega::initialize()
 			m_tuple4 = ntupleSvc()->book("FILE1/fit4c", CLID_ColumnWiseTuple, "ks N-Tuple example");
 			if (m_tuple4)
 			{
-				status = m_tuple4->addItem("chi2", m_chi1);
+				status = m_tuple4->addItem("chisq", m_chisq_4);
+				status = m_tuple4->addItem("momega", m_omega_4);
+				status = m_tuple4->addItem("mpi01", m_pi01_4);
+				status = m_tuple4->addItem("mpi02", m_pi02_4);
+				status = m_tuple4->addItem("mpi03", m_pi03_4);
 			}
 			else
 			{
@@ -114,9 +113,6 @@ StatusCode Omega::initialize()
 			if (m_tuple5)
 			{
 				status = m_tuple5->addItem("chi2", m_chi2);
-				//status = m_tuple5->addItem("mrh0", m_mrh0);
-				//status = m_tuple5->addItem("mrhp", m_mrhp);
-				//status = m_tuple5->addItem("mrhm", m_mrhm);
 				status = m_tuple5->addItem("mpi01", m_mpi01);
 				status = m_tuple5->addItem("mpi02", m_mpi02);
 				status = m_tuple5->addItem("mpi03", m_mpi03);
@@ -169,7 +165,6 @@ StatusCode Omega::execute()
 	cout << "event " << event << endl;
 	Ncut0++;
 	SmartDataPtr<EvtRecEvent> evtRecEvent(eventSvc(), EventModel::EvtRec::EvtRecEvent);
-	//  log << MSG::INFO << "get event tag OK" << endreq;
 	log << MSG::DEBUG << "ncharg, nneu, tottks = "
 		<< evtRecEvent->totalCharged() << " , "
 		<< evtRecEvent->totalNeutral() << " , "
@@ -195,8 +190,6 @@ StatusCode Omega::execute()
 	{
 		double *dbv = vtxsvc->PrimaryVertex();
 		double *vv = vtxsvc->SigmaPrimaryVertex();
-		//HepVector dbv = m_reader.PrimaryVertex(runNo);
-		//HepVector vv = m_reader.SigmaPrimaryVertex(runNo);
 		xorigin.setX(dbv[0]);
 		xorigin.setY(dbv[1]);
 		xorigin.setZ(dbv[2]);
@@ -207,17 +200,16 @@ StatusCode Omega::execute()
 		if (!(*itTrk)->isMdcTrackValid())
 			continue;
 		RecMdcTrack *mdcTrk = (*itTrk)->mdcTrack();
-		double pch = mdcTrk->p(); //track开始的动量
-		double x0 = mdcTrk->x();  //track开始的x坐标
-		double y0 = mdcTrk->y();  //track开始的y坐标
-		double z0 = mdcTrk->z();  //track开始的z坐标
-		double phi0 = mdcTrk->helix(1);
-		//表示螺旋线参数
-		//0: d0 -> 螺旋线到对撞顶点的最小距离
-		//1: phi0 -> 最小距离的xy平面相角
-		//2: kappa
-		//3: d
-		//4: tan(lamda)
+		double pch = mdcTrk->p();									//track开始的动量
+		double x0 = mdcTrk->x();									//track开始的x坐标
+		double y0 = mdcTrk->y();									//track开始的y坐标
+		double z0 = mdcTrk->z();									//track开始的z坐标
+		double phi0 = mdcTrk->helix(1);								//表示螺旋线参数
+																	//0: d0 -> 螺旋线到对撞顶点的最小距离
+																	//1: phi0 -> 最小距离的xy平面相角
+																	//2: kappa
+																	//3: d
+																	//4: tan(lamda)
 		double xv = xorigin.x();									//对撞顶点的x坐标
 		double yv = xorigin.y();									//对撞顶点的y坐标
 		double Rxy = (x0 - xv) * cos(phi0) + (y0 - yv) * sin(phi0); //计算顶点到track开始位置的xy平面距离
@@ -246,8 +238,6 @@ StatusCode Omega::execute()
 			continue;
 		if (fabs(Rvxy0) >= m_vr0cut)
 			continue;
-		//if (fabs(Rvz0) >= 10.0) continue;
-		//if (fabs(Rvxy0) >= 1) continue;
 		iGood.push_back(i);
 		nCharge += mdcTrk->charge();
 	}
@@ -270,7 +260,6 @@ StatusCode Omega::execute()
 			continue;
 		RecEmcShower *emcTrk = (*itTrk)->emcShower();
 		Hep3Vector emcpos(emcTrk->x(), emcTrk->y(), emcTrk->z());
-		// find the nearest charged track
 		double dthe = 200.;
 		double dphi = 200.;
 		double dang = 200.;
@@ -370,12 +359,12 @@ StatusCode Omega::execute()
 				TofHitStatus *status = new TofHitStatus;
 				status->setStatus((*iter_tof)->status());
 				if (!(status->is_barrel()))
-				{ //endcap
+				{
 					if (!(status->is_counter()))
-						continue; // ?
+						continue;
 					if (status->layer() != 0)
-						continue;					   //layer1
-					double path = (*iter_tof)->path(); // ?
+						continue;
+					double path = (*iter_tof)->path();
 					double tof = (*iter_tof)->tof();
 					double ph = (*iter_tof)->ph();
 					double rhit = (*iter_tof)->zrhit();
@@ -434,24 +423,23 @@ StatusCode Omega::execute()
 	//*********************************************************************************
 	// Calculation 1: 4-momentum to each photon
 	//*********************************************************************************
-	Vp4 pGam; //存光子4动量
-	pGam.clear();
-	for (int i = 0; i < nGam; i++) //循环所有nGam
-	{
-		EvtRecTrackIterator itTrk = evtRecTrkCol->begin() + iGam[i];
-		RecEmcShower *emcTrk = (*itTrk)->emcShower();
-		double eraw = emcTrk->energy();
-		double phi = emcTrk->phi();
-		double the = emcTrk->theta();
-		HepLorentzVector ptrk;
-		ptrk.setPx(eraw * sin(the) * cos(phi));
-		ptrk.setPy(eraw * sin(the) * sin(phi));
-		ptrk.setPz(eraw * cos(the));
-		ptrk.setE(eraw);
-		//ptrk = ptrk.boost(-0.011,0,0);//boost to cms
-		pGam.push_back(ptrk);
-	}
-	cout << "before pid" << endl; //准备pid声明
+	Vp4 pGam;														 //pGam[i],i对应光子编号,类型HepLorentzVector
+	pGam.clear();													 //iGam[i],i对应光子编号,类型Vint
+	for (int i = 0; i < nGam; i++)									 //nGam，类型int
+	{																 //
+		EvtRecTrackIterator itTrk = evtRecTrkCol->begin() + iGam[i]; //
+		RecEmcShower *emcTrk = (*itTrk)->emcShower();				 //
+		double eraw = emcTrk->energy();								 //
+		double phi = emcTrk->phi();									 //
+		double the = emcTrk->theta();								 //
+		HepLorentzVector ptrk;										 //
+		ptrk.setPx(eraw * sin(the) * cos(phi));						 //
+		ptrk.setPy(eraw * sin(the) * sin(phi));						 //
+		ptrk.setPz(eraw * cos(the));								 //
+		ptrk.setE(eraw);											 //
+		pGam.push_back(ptrk);										 //
+	}																 //
+	cout << "before pid" << endl;									 //
 	//*********************************************************************************
 	// Calculation 2: 4-momentum to each charged track
 	//*********************************************************************************
@@ -488,9 +476,6 @@ StatusCode Omega::execute()
 			ptrk.setPz(mdcKalTrk->pz());
 			double p3 = ptrk.mag();
 			ptrk.setE(sqrt(p3 * p3 + mpi * mpi));
-
-			//ptrk = ptrk.boost(-0.011,0,0);//boost to cms
-
 			ppip.push_back(ptrk);
 		}
 		else
@@ -502,43 +487,14 @@ StatusCode Omega::execute()
 			ptrk.setPz(mdcKalTrk->pz());
 			double p3 = ptrk.mag();
 			ptrk.setE(sqrt(p3 * p3 + mpi * mpi));
-
-			//ptrk = ptrk.boost(-0.011,0,0);//boost to cms
-
 			ppim.push_back(ptrk);
 		}
 	}
-	/*
-	   for(int i = 0; i < nGood; i++) {//for Omega without PID
-	   EvtRecTrackIterator itTrk = evtRecTrkCol->begin() + iGood[i];
-	   RecMdcTrack* mdcTrk = (*itTrk)->mdcTrack(); 
-	   if(mdcTrk->charge() >0) {
-	   ipip.push_back(iGood[i]);
-	   HepLorentzVector ptrk;
-	   ptrk.setPx(mdcTrk->px());
-	   ptrk.setPy(mdcTrk->py());
-	   ptrk.setPz(mdcTrk->pz());
-	   double p3 = ptrk.mag();
-	   ptrk.setE(sqrt(p3*p3+mpi*mpi));
-	   ppip.push_back(ptrk);
-	   } else {
-	   ipim.push_back(iGood[i]);
-	   HepLorentzVector ptrk;
-	   ptrk.setPx(mdcTrk->px());
-	   ptrk.setPy(mdcTrk->py());
-	   ptrk.setPz(mdcTrk->pz());
-	   double p3 = ptrk.mag();
-	   ptrk.setE(sqrt(p3*p3+mpi*mpi));
-	   ppim.push_back(ptrk);
-	   }
-	   }// without PID
-	   */
-
 	int npip = ipip.size();
 	int npim = ipim.size();
 	if (npip * npim != 1)
-		return SUCCESS; //要求只有一个P+,P-
-	Ncut3++;			//计数
+		return SUCCESS;
+	Ncut3++;
 	//*********************************************************************************
 	// Selection 5: Gamma Pair Selection, check ppi0, pTot
 	//*********************************************************************************
@@ -560,11 +516,13 @@ StatusCode Omega::execute()
 	WTrackParameter wvpipTrk, wvpimTrk;
 	wvpipTrk = WTrackParameter(mpi, pipTrk->getZHelix(), pipTrk->getZError());
 	wvpimTrk = WTrackParameter(mpi, pimTrk->getZHelix(), pimTrk->getZError());
-	/* 	Default is pion, for other particles:
-	   	wvppTrk = WTrackParameter(mp, pipTrk->getZHelixP(), pipTrk->getZErrorP());//proton
-	   	wvmupTrk = WTrackParameter(mmu, pipTrk->getZHelixMu(), pipTrk->getZErrorMu());//muon
-	   	wvepTrk = WTrackParameter(me, pipTrk->getZHelixE(), pipTrk->getZErrorE());//electron
-	   	wvkpTrk = WTrackParameter(mk, pipTrk->getZHelixK(), pipTrk->getZErrorK());//kaon     */
+	/* 	
+	Default is pion, for other particles:
+	wvppTrk = WTrackParameter(mp, pipTrk->getZHelixP(), pipTrk->getZErrorP());//proton
+	wvmupTrk = WTrackParameter(mmu, pipTrk->getZHelixMu(), pipTrk->getZErrorMu());//muon
+	wvepTrk = WTrackParameter(me, pipTrk->getZHelixE(), pipTrk->getZErrorE());//electron
+	wvkpTrk = WTrackParameter(mk, pipTrk->getZHelixK(), pipTrk->getZErrorK());//kaon     
+	*/
 	HepPoint3D vx(0., 0., 0.);
 	HepSymMatrix Evx(3, 0);
 	double bx = 1E+6;
@@ -587,22 +545,30 @@ StatusCode Omega::execute()
 	//*********************************************************************************
 	// Selection 7: 4C Selection
 	//*********************************************************************************
-	WTrackParameter wpip = vtxfit->wtrk(0);
-	WTrackParameter wpim = vtxfit->wtrk(1);
-	//KinematicFit * kmfit = KinematicFit::instance();
-	KalmanKinematicFit *kmfit = KalmanKinematicFit::instance();
-	cout << "before 4c" << endl;
-	if (m_test4C == 1)
-	{
-		HepLorentzVector ecms(0.034 * m_energy / 3.097, 0, 0, m_energy);
-		double chisq = 9999.; //这个是ka^2
-		int ig1 = -1;
-		int ig2 = -1;
-		int ig3 = -1;
-		int ig4 = -1;
-		int ig5 = -1;
-		int ig6 = -1;
-		for (int i1 = 0; i1 < nGam - 5; i1++) //循环所有6Gamma对
+	WTrackParameter wpip = vtxfit->wtrk(0);								 //
+	WTrackParameter wpim = vtxfit->wtrk(1);								 //
+	KalmanKinematicFit *kmfit = KalmanKinematicFit::instance();			 //
+	cout << "before 4c" << endl;										 //
+	int combine[15][6] = {{1, 2, 3, 4, 5, 6},							 //
+						  {1, 2, 3, 5, 4, 6},							 //
+						  {1, 2, 3, 6, 4, 5},							 //
+						  {1, 3, 2, 4, 5, 6},							 //
+						  {1, 3, 2, 5, 4, 6},							 //
+						  {1, 3, 2, 6, 4, 5},							 //
+						  {1, 4, 3, 2, 5, 6},							 //
+						  {1, 4, 3, 5, 2, 6},							 //
+						  {1, 4, 3, 6, 2, 5},							 //
+						  {1, 5, 3, 4, 2, 6},							 //
+						  {1, 5, 3, 2, 4, 6},							 //
+						  {1, 5, 3, 6, 4, 2},							 //
+						  {1, 6, 3, 4, 5, 2},							 //
+						  {1, 6, 3, 5, 4, 2},							 //
+						  {1, 6, 3, 2, 4, 5}};							 //
+	if (m_test4C == 1)													 //
+	{																	 //
+		HepLorentzVector ecms(0.034 * m_energy / 3.097, 0, 0, m_energy); //
+		double chisq_fit = 9999;										 //
+		for (int i1 = 0; i1 < nGam - 5; i1++)
 		{
 			RecEmcShower *g1Trk = (*(evtRecTrkCol->begin() + iGam[i1]))->emcShower();
 			for (int i2 = i1 + 1; i2 < nGam - 4; i2++)
@@ -620,29 +586,39 @@ StatusCode Omega::execute()
 							for (int i6 = i5 + 1; i6 < nGam - 0; i6++)
 							{
 								RecEmcShower *g6Trk = (*(evtRecTrkCol->begin() + iGam[i6]))->emcShower();
-								kmfit->init();
-								kmfit->AddTrack(0, wpip);
-								kmfit->AddTrack(1, wpim);
-								kmfit->AddTrack(2, 0.0, g1Trk);
-								kmfit->AddTrack(3, 0.0, g2Trk);
-								kmfit->AddTrack(4, 0.0, g3Trk);
-								kmfit->AddTrack(5, 0.0, g4Trk);
-								kmfit->AddTrack(6, 0.0, g5Trk);
-								kmfit->AddTrack(7, 0.0, g6Trk);
-								kmfit->AddFourMomentum(0, ecms);
-								bool oksq = kmfit->Fit();
-								if (oksq)
-								{
-									double chi2 = kmfit->chisq();
-									if (chi2 < chisq)
-									{
-										chisq = chi2;
-										ig1 = iGam[i1];
-										ig2 = iGam[i2];
-										ig3 = iGam[i3];
-										ig4 = iGam[i4];
-										ig5 = iGam[i5];
-										ig6 = iGam[i6];
+								kmfit->init();									   //
+								kmfit->AddTrack(0, wpip);						   //
+								kmfit->AddTrack(1, wpim);						   //
+								kmfit->AddTrack(2, 0.0, g1Trk);					   //
+								kmfit->AddTrack(3, 0.0, g2Trk);					   //
+								kmfit->AddTrack(4, 0.0, g3Trk);					   //
+								kmfit->AddTrack(5, 0.0, g4Trk);					   //
+								kmfit->AddTrack(6, 0.0, g5Trk);					   //
+								kmfit->AddTrack(7, 0.0, g6Trk);					   //
+								kmfit->AddFourMomentum(0, ecms);				   //
+								bool oksq = kmfit->Fit();						   //
+								if (oksq)										   //
+								{												   //
+									double chi2 = kmfit->chisq();				   //
+									if (chi2 < chisq_fit)						   //
+									{											   //
+										chisq_fit = chi2;						   //
+										HepLorentzVector ptrack0 = kmfit->pfit(0); //
+										HepLorentzVector ptrack1 = kmfit->pfit(1); //
+										HepLorentzVector ptrack2 = kmfit->pfit(2); //
+										HepLorentzVector ptrack3 = kmfit->pfit(3); //
+										HepLorentzVector ptrack4 = kmfit->pfit(4); //
+										HepLorentzVector ptrack5 = kmfit->pfit(5); //
+										HepLorentzVector ptrack6 = kmfit->pfit(6); //
+										HepLorentzVector ptrack7 = kmfit->pfit(7); //
+										double mtrack0 = ptrack0.m();			   //
+										double mtrack1 = ptrack1.m();			   //
+										double mtrack2 = ptrack2.m();			   //
+										double mtrack3 = ptrack3.m();			   //
+										double mtrack4 = ptrack4.m();			   //
+										double mtrack5 = ptrack5.m();			   //
+										double mtrack6 = ptrack6.m();			   //
+										double mtrack7 = ptrack7.m();			   //
 									}
 								}
 							}
@@ -651,29 +627,47 @@ StatusCode Omega::execute()
 				}
 			}
 		}
-
-		if (chisq < 200)
+		if (chisq_fit < 200)
 		{
-			RecEmcShower *g1Trk = (*(evtRecTrkCol->begin() + ig1))->emcShower();
-			RecEmcShower *g2Trk = (*(evtRecTrkCol->begin() + ig2))->emcShower();
-			RecEmcShower *g3Trk = (*(evtRecTrkCol->begin() + ig3))->emcShower();
-			RecEmcShower *g4Trk = (*(evtRecTrkCol->begin() + ig4))->emcShower();
-			RecEmcShower *g5Trk = (*(evtRecTrkCol->begin() + ig5))->emcShower();
-			RecEmcShower *g6Trk = (*(evtRecTrkCol->begin() + ig6))->emcShower();
-			kmfit->init();
-			kmfit->AddTrack(0, wpip);
-			kmfit->AddTrack(1, wpim);
-			kmfit->AddTrack(2, 0.0, g1Trk);
-			kmfit->AddTrack(3, 0.0, g2Trk);
-			kmfit->AddTrack(4, 0.0, g3Trk);
-			kmfit->AddTrack(5, 0.0, g4Trk);
-			kmfit->AddTrack(6, 0.0, g5Trk);
-			kmfit->AddTrack(7, 0.0, g6Trk);
-			kmfit->AddFourMomentum(0, ecms);
-			bool oksq = kmfit->Fit();
-			if (oksq)
+			double chisq_re = 9999;
+			double momega_o = -1;
+			double mpi01_o = -1;
+			double mpi02_o = -1;
+			double mpi03_o = -1;
+			double mtrack = {chisq_fit,
+							 mtrack2,
+							 mtrack3,
+							 mtrack4,
+							 mtrack5,
+							 mtrack6,
+							 mtrack7};
+			for (int i = 0; i < 15; i++)
 			{
-				m_chi1 = kmfit->chisq();
+				double momega_4 = mtrack0 + mtrack1 + mtrack[combine[i][0]] + mtrack[combine[i][1]];
+				double mpi01_4 = mtrack[combine[i][0]] + mtrack[combine[i][1]];
+				double mpi02_4 = mtrack[combine[i][2]] + mtrack[combine[i][3]];
+				double mpi03_4 = mtrack[combine[i][4]] + mtrack[combine[i][5]];
+				double chisq_o = pow((momega_4 - 0.782) * 1000, 2);
+				double chisq_1 = pow((mpi01_4 - 0.135) * 1000, 2);
+				double chisq_2 = pow((mpi02_4 - 0.135) * 1000, 2);
+				double chisq_3 = pow((mpi03_4 - 0.135) * 1000, 2);
+				double chi2 = chisq_o + chisq_1 + chisq_2 + chisq_3;
+				if (chi2 < chisq_re)
+				{
+					chisq_re = chi2;
+					momega_o = momega_4;
+					mpi01_o = mpi01_4;
+					mpi02_o = mpi02_4;
+					mpi03_o = mpi03_4;
+				}
+			}
+			if (1 == 1)
+			{
+				m_chisq_4 = chisq_re;
+				m_momega_4 = momega_o;
+				m_pi01_4 = mpi01_o;
+				m_pi02_4 = mpi02_o;
+				m_pi03_4 = mpi03_o;
 				m_tuple4->write();
 				Ncut4++;
 			}
@@ -686,7 +680,6 @@ StatusCode Omega::execute()
 	cout << "before 5c" << endl; //准备5C声明
 	if (m_test5C == 1)
 	{
-		//double ecms = 3.097;
 		HepLorentzVector ecms(0.034 * m_energy / 3.097, 0, 0, m_energy);
 		double chisq = 9999.;
 		int ig1 = -1;
@@ -695,21 +688,6 @@ StatusCode Omega::execute()
 		int ig4 = -1;
 		int ig5 = -1;
 		int ig6 = -1;
-		int combine[15][6] = {{1, 2, 3, 4, 5, 6},
-							  {1, 2, 3, 5, 4, 6},
-							  {1, 2, 3, 6, 4, 5},
-							  {1, 3, 2, 4, 5, 6},
-							  {1, 3, 2, 5, 4, 6},
-							  {1, 3, 2, 6, 4, 5},
-							  {1, 4, 3, 2, 5, 6},
-							  {1, 4, 3, 5, 2, 6},
-							  {1, 4, 3, 6, 2, 5},
-							  {1, 5, 3, 4, 2, 6},
-							  {1, 5, 3, 2, 4, 6},
-							  {1, 5, 3, 6, 4, 2},
-							  {1, 6, 3, 4, 5, 2},
-							  {1, 6, 3, 5, 4, 2},
-							  {1, 6, 3, 2, 4, 5}};
 		for (int i1 = 0; i1 < nGam - 5; i1++) //循环所有6Gamma对
 		{
 			RecEmcShower *g1Trk = (*(evtRecTrkCol->begin() + iGam[i1]))->emcShower();
