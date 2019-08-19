@@ -643,15 +643,13 @@ StatusCode Omega::execute()
 			double chisq_2 = 0;
 			double chisq_3 = 0;
 			double chi2 = 0;
-			HepLorentzVector ptrack[7] = {
-				ptrack0,
-				ptrack2,
-				ptrack3,
-				ptrack4,
-				ptrack5,
-				ptrack6,
-				ptrack7,
-			};
+			HepLorentzVector ptrack[7] = {ptrack0,
+										  ptrack2,
+										  ptrack3,
+										  ptrack4,
+										  ptrack5,
+										  ptrack6,
+										  ptrack7};
 			for (int i = 0; i < 15; i++)
 			{
 				momega_4 = (ptrack0 + ptrack1 + ptrack[combine[i][0]] + ptrack[combine[i][1]]).m();
