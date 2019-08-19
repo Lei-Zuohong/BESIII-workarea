@@ -42,15 +42,15 @@ typedef HepGeom::Point3D<double> HepPoint3D;
 //*********************************************************************************************************
 //***                                                变量设置                                            ***
 //*********************************************************************************************************
-if (1 == 1):
-	{
-		const double mpi = 0.13957;
-		const double xmass[5] = {0.000511, 0.105658, 0.139570, 0.493677, 0.938272};
-		const double velc = 299.792458;
-		typedef std::vector<int> Vint;
-		typedef std::vector<HepLorentzVector> Vp4;
-		int Ncut0, Ncut1, Ncut2, Ncut3, Ncut4, Ncut5, Ncut6;
-	}
+if (1 == 1)
+{
+	const double mpi = 0.13957;
+	const double xmass[5] = {0.000511, 0.105658, 0.139570, 0.493677, 0.938272};
+	const double velc = 299.792458;
+	typedef std::vector<int> Vint;
+	typedef std::vector<HepLorentzVector> Vp4;
+	int Ncut0, Ncut1, Ncut2, Ncut3, Ncut4, Ncut5, Ncut6;
+}
 //*********************************************************************************************************
 //***                                                声明容器                                            ***
 //*********************************************************************************************************
