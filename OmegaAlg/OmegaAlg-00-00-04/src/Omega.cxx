@@ -621,7 +621,9 @@ StatusCode Omega::execute()
 					mpi01_fit = ipi01_fit;
 					mpi02_fit = ipi01_fit;
 					mpi03_fit = ipi01_fit;
-					cout << combine[i][0]<< combine[i][0]<< combine[i][0]<< combine[i][0]<< combine[i][0]<< combine[i][0]<< momega_fit << endl;
+					cout << combine[i][0]<< combine[i][1]<< combine[i][2]<< combine[i][3]<< combine[i][4]<< combine[i][5]<<endl;
+					cout << momega_fit << endl;
+					cout << chisq_fit << endl;
 				}
 				if (chi2_ori < chisq_ori)
 				{
