@@ -73,6 +73,32 @@ StatusCode Omega::initialize()
 	MsgStream log(msgSvc(), name());
 	log << MSG::INFO << "in initialize()" << endmsg;
 	StatusCode status;
+	//initialize-data-in-ori4c
+	if (m_test4C == 1)
+	{
+		NTuplePtr nt3(ntupleSvc(), "FILE1/ori4c");
+		if (nt3)
+		{
+			m_tuple3 = nt3;
+		}
+		else
+		{
+			m_tuple3 = ntupleSvc()->book("FILE1/ori4c", CLID_ColumnWiseTuple, "ks N-Tuple example");
+			if (m_tuple3)
+			{
+				status = m_tuple3->addItem("chisq", m_chisq_ori);
+				status = m_tuple3->addItem("momega", m_omega_ori);
+				status = m_tuple3->addItem("mpi01", m_pi01_ori);
+				status = m_tuple3->addItem("mpi02", m_pi02_ori);
+				status = m_tuple3->addItem("mpi03", m_pi03_ori);
+			}
+			else
+			{
+				log << MSG::ERROR << "    Cannot book N-tuple:" << long(m_tuple3) << endmsg;
+				return StatusCode::FAILURE;
+			}
+		}
+	}
 	//initialize-data-in-fit4c
 	if (m_test4C == 1)
 	{
@@ -86,11 +112,11 @@ StatusCode Omega::initialize()
 			m_tuple4 = ntupleSvc()->book("FILE1/fit4c", CLID_ColumnWiseTuple, "ks N-Tuple example");
 			if (m_tuple4)
 			{
-				status = m_tuple4->addItem("chisq", m_chisq_4);
-				status = m_tuple4->addItem("momega", m_omega_4);
-				status = m_tuple4->addItem("mpi01", m_pi01_4);
-				status = m_tuple4->addItem("mpi02", m_pi02_4);
-				status = m_tuple4->addItem("mpi03", m_pi03_4);
+				status = m_tuple4->addItem("chisq", m_chisq_fit);
+				status = m_tuple4->addItem("momega", m_omega_fit);
+				status = m_tuple4->addItem("mpi01", m_pi01_fit);
+				status = m_tuple4->addItem("mpi02", m_pi02_fit);
+				status = m_tuple4->addItem("mpi03", m_pi03_fit);
 			}
 			else
 			{
@@ -450,37 +476,37 @@ StatusCode Omega::execute()
 							for (int i6 = i5 + 1; i6 < nGam - 0; i6++)
 							{
 								RecEmcShower *g6Trk = (*(evtRecTrkCol->begin() + iGam[i6]))->emcShower();
-								kmfit->init();					  //
-								kmfit->AddTrack(0, wpip);		  //
-								kmfit->AddTrack(1, wpim);		  //
-								kmfit->AddTrack(2, 0.0, g1Trk);   //
-								kmfit->AddTrack(3, 0.0, g2Trk);   //
-								kmfit->AddTrack(4, 0.0, g3Trk);   //
-								kmfit->AddTrack(5, 0.0, g4Trk);   //
-								kmfit->AddTrack(6, 0.0, g5Trk);   //
-								kmfit->AddTrack(7, 0.0, g6Trk);   //
-								kmfit->AddFourMomentum(0, ecms);  //
-								bool oksq = kmfit->Fit();		  //
-								if (oksq)						  //
-								{								  //
-									double chi2 = kmfit->chisq(); //
-									if (chi2 < chisq_4c)		  //
-									{							  //
-										chisq_4c = chi2;		  //
-										ptrack0 = kmfit->pfit(0); //
-										ptrack1 = kmfit->pfit(1); //
-										ptrack2 = kmfit->pfit(2); //
-										ptrack3 = kmfit->pfit(3); //
-										ptrack4 = kmfit->pfit(4); //
-										ptrack5 = kmfit->pfit(5); //
-										ptrack6 = kmfit->pfit(6); //
-										ptrack7 = kmfit->pfit(7); //
-										igamma0 = i1;			  //
-										igamma1 = i2;			  //
-										igamma2 = i3;			  //
-										igamma3 = i4;			  //
-										igamma4 = i5;			  //
-										igamma5 = i6;			  //
+								kmfit->init();						  //
+								kmfit->AddTrack(0, wpip);			  //
+								kmfit->AddTrack(1, wpim);			  //
+								kmfit->AddTrack(2, 0.0, g1Trk);		  //
+								kmfit->AddTrack(3, 0.0, g2Trk);		  //
+								kmfit->AddTrack(4, 0.0, g3Trk);		  //
+								kmfit->AddTrack(5, 0.0, g4Trk);		  //
+								kmfit->AddTrack(6, 0.0, g5Trk);		  //
+								kmfit->AddTrack(7, 0.0, g6Trk);		  //
+								kmfit->AddFourMomentum(0, ecms);	  //
+								bool oksq = kmfit->Fit();			  //
+								if (oksq)							  //
+								{									  //
+									double chi2 = kmfit->chisq();	 //
+									if (chi2 < chisq_4c)			  //
+									{								  //
+										chisq_4c = chi2;			  //
+										ptrack0_fit = kmfit->pfit(0); //
+										ptrack1_fit = kmfit->pfit(1); //
+										ptrack2_fit = kmfit->pfit(2); //
+										ptrack3_fit = kmfit->pfit(3); //
+										ptrack4_fit = kmfit->pfit(4); //
+										ptrack5_fit = kmfit->pfit(5); //
+										ptrack6_fit = kmfit->pfit(6); //
+										ptrack7_fit = kmfit->pfit(7); //
+										igamma0 = i1;				  //
+										igamma1 = i2;				  //
+										igamma2 = i3;				  //
+										igamma3 = i4;				  //
+										igamma4 = i5;				  //
+										igamma5 = i6;				  //
 									}
 								}
 							}
@@ -491,61 +517,110 @@ StatusCode Omega::execute()
 		}
 		if (chisq_fit < 200)
 		{
-			double chisq_fit = 9999;					  //
-			double chisq_ori = 9999;					  //
-			double momega_fit;							  //
-			double momega_ori;							  //
-			double mpi01_fit;							  //
-			double mpi01_ori;							  //
-			double mpi02_fit;							  //
-			double mpi02_ori;							  //
-			double mpi03_fit;							  //
-			double mpi03_ori;							  //
-			HepLorentzVector ptrack0_ori = ppip[0];		  //
-			HepLorentzVector ptrack1_ori = ppim[0];		  //
-			HepLorentzVector ptrack2_ori = pGam[igamma0]; //
-			HepLorentzVector ptrack3_ori = pGam[igamma1]; //
-			HepLorentzVector ptrack4_ori = pGam[igamma2]; //
-			HepLorentzVector ptrack5_ori = pGam[igamma3]; //
-			HepLorentzVector ptrack6_ori = pGam[igamma4]; //
-			HepLorentzVector ptrack7_ori = pGam[igamma5]; //
-			HepLorentzVector ptrack[7] = {ptrack0_fit,	//
-										  ptrack2_fit,	//
-										  ptrack3_fit,	//
-										  ptrack4_fit,	//
-										  ptrack5_fit,	//
-										  ptrack6_fit,	//
-										  ptrack7_fit};   //
-
+			double chisq_fit = 9999;						//
+			double chisq_ori = 9999;						//
+			double momega_fit;								//
+			double momega_ori;								//
+			double mpi01_fit;								//
+			double mpi01_ori;								//
+			double mpi02_fit;								//
+			double mpi02_ori;								//
+			double mpi03_fit;								//
+			double mpi03_ori;								//
+			HepLorentzVector ptrack0_ori = ppip[0];			//
+			HepLorentzVector ptrack1_ori = ppim[0];			//
+			HepLorentzVector ptrack2_ori = pGam[igamma0];   //
+			HepLorentzVector ptrack3_ori = pGam[igamma1];   //
+			HepLorentzVector ptrack4_ori = pGam[igamma2];   //
+			HepLorentzVector ptrack5_ori = pGam[igamma3];   //
+			HepLorentzVector ptrack6_ori = pGam[igamma4];   //
+			HepLorentzVector ptrack7_ori = pGam[igamma5];   //
+			HepLorentzVector ptrack_fit[7] = {ptrack0_fit,  //
+											  ptrack2_fit,  //
+											  ptrack3_fit,  //
+											  ptrack4_fit,  //
+											  ptrack5_fit,  //
+											  ptrack6_fit,  //
+											  ptrack7_fit}; //
+			HepLorentzVector ptrack_ori[7] = {ptrack0_ori,  //
+											  ptrack2_ori,  //
+											  ptrack3_ori,  //
+											  ptrack4_ori,  //
+											  ptrack5_ori,  //
+											  ptrack6_ori,  //
+											  ptrack7_ori}; //
+			double iomega_fit;								//
+			double ipi01_fit;								//
+			double ipi02_fit;								//
+			double ipi03_fit;								//
+			double chisqo_fit;								//
+			double chisq1_fit;								//
+			double chisq2_fit;								//
+			double chisq3_fit;								//
+			double iomega_ori;								//
+			double ipi01_ori;								//
+			double ipi02_ori;								//
+			double ipi03_ori;								//
+			double chisqo_ori;								//
+			double chisq1_ori;								//
+			double chisq2_ori;								//
+			double chisq3_ori;								//
 			for (int i = 0; i < 15; i++)
 			{
-				momega_4 = (ptrack0 + ptrack1 + ptrack[combine[i][0]] + ptrack[combine[i][1]]).m();
-				mpi01_4 = (ptrack[combine[i][0]] + ptrack[combine[i][1]]).m();
-				mpi02_4 = (ptrack[combine[i][2]] + ptrack[combine[i][3]]).m();
-				mpi03_4 = (ptrack[combine[i][4]] + ptrack[combine[i][5]]).m();
-				chisq_o = pow((momega_4 - 0.782), 2);
-				chisq_1 = pow((mpi01_4 - 0.135), 2);
-				chisq_2 = pow((mpi02_4 - 0.135), 2);
-				chisq_3 = pow((mpi03_4 - 0.135), 2);
-				chi2 = chisq_o;
-				if (chi2 < chisq_re)
+				iomega_fit = (ptrack0_fit + ptrack1_fit + ptrack_fit[combine[i][0]] + ptrack_fit[combine[i][1]]).m();
+				ipi01_fit = (ptrack_fit[combine[i][0]] + ptrack_fit[combine[i][1]]).m();
+				ipi02_fit = (ptrack_fit[combine[i][2]] + ptrack_fit[combine[i][3]]).m();
+				ipi03_fit = (ptrack_fit[combine[i][4]] + ptrack_fit[combine[i][5]]).m();
+				iomega_ori = (ptrack0_ori + ptrack1_ori + ptrack_ori[combine[i][0]] + ptrack_ori[combine[i][1]]).m();
+				ipi01_ori = (ptrack_ori[combine[i][0]] + ptrack_ori[combine[i][1]]).m();
+				ipi02_ori = (ptrack_ori[combine[i][2]] + ptrack_ori[combine[i][3]]).m();
+				ipi03_ori = (ptrack_ori[combine[i][4]] + ptrack_ori[combine[i][5]]).m();
+				chisqo_fit = pow((iomega_fit - 0.782), 2);
+				chisq1_fit = pow((ipi01_fit - 0.135), 2);
+				chisq2_fit = pow((ipi02_fit - 0.135), 2);
+				chisq3_fit = pow((ipi03_fit - 0.135), 2);
+				chisqo_ori = pow((iomega_ori - 0.782), 2);
+				chisq1_ori = pow((ipi01_ori - 0.135), 2);
+				chisq2_ori = pow((ipi02_ori - 0.135), 2);
+				chisq3_ori = pow((ipi03_ori - 0.135), 2);
+				double chi2_fit = chisqo_fit;
+				double chi2_ori = chisqo_ori;
+				if (chi2_fit < chisq_fit)
 				{
-					chisq_re = chi2;
-					momega_o = momega_4;
-					mpi01_o = mpi01_4;
-					mpi02_o = mpi02_4;
-					mpi03_o = mpi03_4;
+					chisq_fit = chi2_fit;
+					momega_fit = iomega_fit;
+					mpi01_fit = ipi01_fit;
+					mpi02_fit = ipi01_fit;
+					mpi03_fit = ipi01_fit;
 				}
+				if (chi2_ori < chisq_ori)
+				{
+					chisq_ori = chi2_ori;
+					momega_ori = iomega_ori;
+					mpi01_ori = ipi01_ori;
+					mpi02_ori = ipi01_ori;
+					mpi03_ori = ipi01_ori;
+				}
+
 			}
 			if (1 == 1)
 			{
-				m_chisq_4 = chisq_re;
-				m_omega_4 = momega_o;
-				m_pi01_4 = mpi01_o;
-				m_pi02_4 = mpi02_o;
-				m_pi03_4 = mpi03_o;
+				m_chisq_fit = chisq_fit;
+				m_omega_fit = momega_fit;
+				m_pi01_fit = mpi01_fit;
+				m_pi02_fit = mpi02_fit;
+				m_pi03_fit = mpi03_fit;
 				m_tuple4->write();
 				Ncut4++;
+			}
+			if (1 == 1)
+			{
+				m_chisq_ori = chisq_ori;
+				m_omega_ori = momega_ori;
+				m_pi01_ori = mpi01_ori;
+				m_pi02_ori = mpi02_ori;
+				m_pi03_ori = mpi03_ori;
+				m_tuple3->write();
 			}
 		}
 	}

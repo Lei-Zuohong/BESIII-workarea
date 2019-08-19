@@ -26,12 +26,18 @@ private:
   int m_checkTof;
   double m_energy;
 
+  NTuple::Tuple*  m_tuple3;          // Omega 4C
+  NTuple::Item<double>  m_chisq_ori;
+  NTuple::Item<double>  m_omega_ori;
+  NTuple::Item<double>  m_pi01_ori;
+  NTuple::Item<double>  m_pi02_ori;
+  NTuple::Item<double>  m_pi03_ori;
   NTuple::Tuple*  m_tuple4;          // Omega 4C
-  NTuple::Item<double>  m_chisq_4;
-  NTuple::Item<double>  m_omega_4;
-  NTuple::Item<double>  m_pi01_4;
-  NTuple::Item<double>  m_pi02_4;
-  NTuple::Item<double>  m_pi03_4;
+  NTuple::Item<double>  m_chisq_fit;
+  NTuple::Item<double>  m_omega_fit;
+  NTuple::Item<double>  m_pi01_fit;
+  NTuple::Item<double>  m_pi02_fit;
+  NTuple::Item<double>  m_pi03_fit;
   NTuple::Tuple*  m_tuple5;          // Omega 5C
   NTuple::Item<double>  m_chi2;
   NTuple::Item<double>  m_mpi01;
