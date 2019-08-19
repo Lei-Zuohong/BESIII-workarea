@@ -655,7 +655,7 @@ StatusCode Omega::execute()
 	//*********************************************************************************
 	// Selection 7: 1C+1C+1C Selection
 	//*********************************************************************************
-	if (m_test111C == 1)
+	if (m_test4C == 1)
 	{
 		HepLorentzVector ecms(0.034 * m_energy / 3.097, 0, 0, m_energy); //
 		double chisq_1 = 9999;											 //
@@ -763,9 +763,9 @@ StatusCode Omega::execute()
 		double mpi01_111c = -1;
 		double mpi02_111c = -1;
 		double mpi03_111c = -1;
-		double chisq_o1 = pow((ptrack0 + ptrack1 + ppip[0] + ppim[0]).m() - 0.782, 2));
-		double chisq_o2 = pow((ptrack2 + ptrack3 + ppip[0] + ppim[0]).m() - 0.782, 2));
-		double chisq_o3 = pow((ptrack4 + ptrack5 + ppip[0] + ppim[0]).m() - 0.782, 2));
+		double chisq_o1 = pow((ptrack0 + ptrack1 + ppip[0] + ppim[0]).m() - 0.782, 2);
+		double chisq_o2 = pow((ptrack2 + ptrack3 + ppip[0] + ppim[0]).m() - 0.782, 2);
+		double chisq_o3 = pow((ptrack4 + ptrack5 + ppip[0] + ppim[0]).m() - 0.782, 2);
 		if (chisq_o1 < chisq_o)
 		{
 			chisq_o = chisq_o1;
