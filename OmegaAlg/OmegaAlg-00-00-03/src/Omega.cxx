@@ -568,6 +568,14 @@ StatusCode Omega::execute()
 	{																	 //
 		HepLorentzVector ecms(0.034 * m_energy / 3.097, 0, 0, m_energy); //
 		double chisq_fit = 9999;										 //
+		double mtrack0 = -1;											 //
+		double mtrack1 = -1;											 //
+		double mtrack2 = -1;											 //
+		double mtrack3 = -1;											 //
+		double mtrack4 = -1;											 //
+		double mtrack5 = -1;											 //
+		double mtrack6 = -1;											 //
+		double mtrack7 = -1;											 //
 		for (int i1 = 0; i1 < nGam - 5; i1++)
 		{
 			RecEmcShower *g1Trk = (*(evtRecTrkCol->begin() + iGam[i1]))->emcShower();
@@ -611,14 +619,14 @@ StatusCode Omega::execute()
 										HepLorentzVector ptrack5 = kmfit->pfit(5); //
 										HepLorentzVector ptrack6 = kmfit->pfit(6); //
 										HepLorentzVector ptrack7 = kmfit->pfit(7); //
-										double mtrack0 = ptrack0.m();			   //
-										double mtrack1 = ptrack1.m();			   //
-										double mtrack2 = ptrack2.m();			   //
-										double mtrack3 = ptrack3.m();			   //
-										double mtrack4 = ptrack4.m();			   //
-										double mtrack5 = ptrack5.m();			   //
-										double mtrack6 = ptrack6.m();			   //
-										double mtrack7 = ptrack7.m();			   //
+										mtrack0 = ptrack0.m();					   //
+										mtrack1 = ptrack1.m();					   //
+										mtrack2 = ptrack2.m();					   //
+										mtrack3 = ptrack3.m();					   //
+										mtrack4 = ptrack4.m();					   //
+										mtrack5 = ptrack5.m();					   //
+										mtrack6 = ptrack6.m();					   //
+										mtrack7 = ptrack7.m();					   //
 									}
 								}
 							}
@@ -664,7 +672,7 @@ StatusCode Omega::execute()
 			if (1 == 1)
 			{
 				m_chisq_4 = chisq_re;
-				m_momega_4 = momega_o;
+				m_omega_4 = momega_o;
 				m_pi01_4 = mpi01_o;
 				m_pi02_4 = mpi02_o;
 				m_pi03_4 = mpi03_o;
