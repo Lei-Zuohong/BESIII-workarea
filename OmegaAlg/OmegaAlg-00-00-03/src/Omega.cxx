@@ -642,7 +642,7 @@ StatusCode Omega::execute()
 			double mpi01_o = -1;
 			double mpi02_o = -1;
 			double mpi03_o = -1;
-			double mtrack = {chisq_fit,
+			double mtrack[7] = {chisq_fit,
 							 mtrack2,
 							 mtrack3,
 							 mtrack4,
