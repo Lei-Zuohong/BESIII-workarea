@@ -125,35 +125,6 @@ StatusCode Omega::initialize()
 			}
 		}
 	}
-	//initialize-data-in-fit111c
-	if (m_test111C == 1)
-	{
-		NTuplePtr nt7(ntupleSvc(), "FILE1/fit111c");
-		if (nt7)
-		{
-			m_tuple7 = nt7;
-		}
-		else
-		{
-			m_tuple7 = ntupleSvc()->book("FILE1/fit111c", CLID_ColumnWiseTuple, "ks N-Tuple example");
-			if (m_tuple7)
-			{
-				status = m_tuple7->addItem("momega", m_omega_111c);
-				status = m_tuple7->addItem("mpi01", m_pi01_111c);
-				status = m_tuple7->addItem("mpi02", m_pi02_111c);
-				status = m_tuple7->addItem("mpi03", m_pi03_111c);
-				status = m_tuple7->addItem("chisqo", m_chisqo);
-				status = m_tuple7->addItem("chisq1", m_chisq1);
-				status = m_tuple7->addItem("chisq2", m_chisq2);
-				status = m_tuple7->addItem("chisq3", m_chisq3);
-			}
-			else
-			{
-				log << MSG::ERROR << "    Cannot book N-tuple:" << long(m_tuple7) << endmsg;
-				return StatusCode::FAILURE;
-			}
-		}
-	}
 	//initialize-data-in-fit5c
 	if (m_test5C == 1)
 	{
