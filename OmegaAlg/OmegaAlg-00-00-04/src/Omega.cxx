@@ -677,7 +677,8 @@ StatusCode Omega::execute()
 				kmfit->AddTrack(0, 0.0, g1Trk);
 				kmfit->AddTrack(1, 0.0, g1Trk);
 				kmfit->AddResonance(0, 0.135, 0, 1);
-				if (kmfit->fit())
+				bool oksq = kmfit->Fit();
+				if (oksq)
 				{
 					double chi2 = kmfit->chisq();
 					if (chi2 < chisq_1)
@@ -707,7 +708,8 @@ StatusCode Omega::execute()
 				kmfit->AddTrack(0, 0.0, g1Trk);
 				kmfit->AddTrack(1, 0.0, g1Trk);
 				kmfit->AddResonance(0, 0.135, 0, 1);
-				if (kmfit->fit())
+				bool oksq = kmfit->Fit();
+				if (oksq)
 				{
 					double chi2 = kmfit->chisq();
 					if (chi2 < chisq_2)
@@ -737,7 +739,8 @@ StatusCode Omega::execute()
 				kmfit->AddTrack(0, 0.0, g1Trk);
 				kmfit->AddTrack(1, 0.0, g1Trk);
 				kmfit->AddResonance(0, 0.135, 0, 1);
-				if (kmfit->fit())
+				bool oksq = kmfit->Fit();
+				if (oksq)
 				{
 					double chi2 = kmfit->chisq();
 					if (chi2 < chisq_3)
@@ -760,9 +763,9 @@ StatusCode Omega::execute()
 		double mpi01_111c = -1;
 		double mpi02_111c = -1;
 		double mpi03_111c = -1;
-		double chisq_o1 = pow((ptrack0 + ptrack1 + ppip[0] + ppim[0]).m() - 0.782), 2);
-		double chisq_o2 = pow((ptrack2 + ptrack3 + ppip[0] + ppim[0]).m() - 0.782), 2);
-		double chisq_o3 = pow((ptrack4 + ptrack5 + ppip[0] + ppim[0]).m() - 0.782), 2);
+		double chisq_o1 = pow((ptrack0 + ptrack1 + ppip[0] + ppim[0]).m() - 0.782, 2));
+		double chisq_o2 = pow((ptrack2 + ptrack3 + ppip[0] + ppim[0]).m() - 0.782, 2));
+		double chisq_o3 = pow((ptrack4 + ptrack5 + ppip[0] + ppim[0]).m() - 0.782, 2));
 		if (chisq_o1 < chisq_o)
 		{
 			chisq_o = chisq_o1;
