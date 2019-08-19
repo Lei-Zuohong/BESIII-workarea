@@ -175,14 +175,14 @@ StatusCode Omega::execute()
 	// Selection 1: Good Charged Track Selection
 	//*********************************************************************************
 	Vint iGood, ipip, ipim;
-	iGood.clear(); //存good的charge track的编号
-	ipip.clear();  //存good的Pi+的编号
-	ipim.clear();  //存good的Pi-的编号
-	Vp4 ppip, ppim;
-	ppip.clear(); //存Pi+的四动量
-	ppim.clear(); //存Pi-的四动量
-	int nCharge;
-	nCharge = 0; //存带电总量
+	iGood.clear();  //存good的charge track的编号
+	ipip.clear();   //存good的Pi+的编号
+	ipim.clear();   //存good的Pi-的编号
+	Vp4 ppip, ppim; //
+	ppip.clear();   //存Pi+的四动量
+	ppim.clear();   //存Pi-的四动量
+	int nCharge;	//
+	nCharge = 0;	//存带电总量
 	Hep3Vector xorigin(0, 0, 0);
 	IVertexDbSvc *vtxsvc;
 	Gaudi::svcLocator()->service("VertexDbSvc", vtxsvc);
@@ -634,6 +634,15 @@ StatusCode Omega::execute()
 			double mpi01_o = -1;
 			double mpi02_o = -1;
 			double mpi03_o = -1;
+			double momega_4 = 0;
+			double mpi01_4 =0;
+			double mpi02_4 =0;
+			double mpi03_4 =0;
+			double chisq_o =0;
+			double chisq_1 =0;
+			double chisq_2 =0;
+			double chisq_3 =0;
+			double chi2 =0;
 			HepLorentzVector ptrack[7] = {
 				ptrack0,
 				ptrack2,
@@ -645,15 +654,15 @@ StatusCode Omega::execute()
 			};
 			for (int i = 0; i < 15; i++)
 			{
-				double momega_4 = (ptrack0 + ptrack1 + ptrack[combine[i][0]] + ptrack[combine[i][1]]).m();
-				double mpi01_4 = (ptrack[combine[i][0]] + ptrack[combine[i][1]]).m();
-				double mpi02_4 = (ptrack[combine[i][2]] + ptrack[combine[i][3]]).m();
-				double mpi03_4 = (ptrack[combine[i][4]] + ptrack[combine[i][5]]).m();
-				double chisq_o = pow((momega_4 - 0.782), 2);
-				double chisq_1 = pow((mpi01_4 - 0.135), 2);
-				double chisq_2 = pow((mpi02_4 - 0.135), 2);
-				double chisq_3 = pow((mpi03_4 - 0.135), 2);
-				double chi2 = chisq_1 + chisq_2 + chisq_3;
+				momega_4 = (ptrack0 + ptrack1 + ptrack[combine[i][0]] + ptrack[combine[i][1]]).m();
+				mpi01_4 = (ptrack[combine[i][0]] + ptrack[combine[i][1]]).m();
+				mpi02_4 = (ptrack[combine[i][2]] + ptrack[combine[i][3]]).m();
+				mpi03_4 = (ptrack[combine[i][4]] + ptrack[combine[i][5]]).m();
+				chisq_o = pow((momega_4 - 0.782), 2);
+				chisq_1 = pow((mpi01_4 - 0.135), 2);
+				chisq_2 = pow((mpi02_4 - 0.135), 2);
+				chisq_3 = pow((mpi03_4 - 0.135), 2);
+				chi2 = chisq_o;
 				if (chi2 < chisq_re)
 				{
 					chisq_re = chi2;
