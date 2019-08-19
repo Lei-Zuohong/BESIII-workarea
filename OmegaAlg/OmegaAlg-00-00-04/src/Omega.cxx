@@ -816,6 +816,7 @@ StatusCode Omega::execute()
 				m_chisq2 = chisq_2;
 				m_chisq3 = chisq_3;
 				m_tuple7->write();
+				cout << "write tuple7" << endl;
 			}
 		}
 	}
