@@ -655,10 +655,10 @@ StatusCode Omega::execute()
 				double mpi01_4 = mtrack[combine[i][0]] + mtrack[combine[i][1]];
 				double mpi02_4 = mtrack[combine[i][2]] + mtrack[combine[i][3]];
 				double mpi03_4 = mtrack[combine[i][4]] + mtrack[combine[i][5]];
-				double chisq_o = pow((momega_4 - 0.782) * 1000, 2);
-				double chisq_1 = pow((mpi01_4 - 0.135) * 1000, 2);
-				double chisq_2 = pow((mpi02_4 - 0.135) * 1000, 2);
-				double chisq_3 = pow((mpi03_4 - 0.135) * 1000, 2);
+				double chisq_o = pow((momega_4 - 0.782), 2);
+				double chisq_1 = pow((mpi01_4 - 0.135), 2);
+				double chisq_2 = pow((mpi02_4 - 0.135), 2);
+				double chisq_3 = pow((mpi03_4 - 0.135), 2);
 				double chi2 = chisq_o + chisq_1 + chisq_2 + chisq_3;
 				if (chi2 < chisq_re)
 				{
