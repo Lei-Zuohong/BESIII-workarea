@@ -659,7 +659,7 @@ StatusCode Omega::execute()
 				double chisq_1 = pow((mpi01_4 - 0.135), 2);
 				double chisq_2 = pow((mpi02_4 - 0.135), 2);
 				double chisq_3 = pow((mpi03_4 - 0.135), 2);
-				double chi2 = chisq_o + chisq_1 + chisq_2 + chisq_3;
+				double chi2 = chisq_o;
 				if (chi2 < chisq_re)
 				{
 					chisq_re = chi2;
