@@ -515,7 +515,7 @@ StatusCode Omega::execute()
 				}
 			}
 		}
-		if (chisq_fit < 200)
+		if (chisq_4c < 200)
 		{
 			double chisq_fit = 9999;						//
 			double chisq_ori = 9999;						//
