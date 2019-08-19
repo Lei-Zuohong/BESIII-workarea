@@ -59,7 +59,6 @@ Omega::Omega(const std::string &name, ISvcLocator *pSvcLocator) : Algorithm(name
 	declareProperty("GammaThetaCut", m_gammaThetaCut = 20.0);
 	declareProperty("GammaAngleCut", m_gammaAngleCut = 10.0);
 	declareProperty("Test4C", m_test4C = 1);
-	declareProperty("Test111C", m_test111C = 1);
 	declareProperty("Test5C", m_test5C = 1);
 	declareProperty("CheckDedx", m_checkDedx = 1);
 	declareProperty("CheckTof", m_checkTof = 1);
@@ -659,10 +658,6 @@ StatusCode Omega::execute()
 			}
 		}
 	}
-	//*********************************************************************************
-	// Selection 7: 1C+1C+1C Selection
-	//*********************************************************************************
-
 	//*********************************************************************************
 	// Selection 8: 5C Selection
 	//     find the best combination over all possible pi+ pi- gamma gamma pair
