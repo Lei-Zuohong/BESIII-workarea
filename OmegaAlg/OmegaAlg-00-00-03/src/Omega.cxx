@@ -635,14 +635,14 @@ StatusCode Omega::execute()
 			double mpi02_o = -1;
 			double mpi03_o = -1;
 			double momega_4 = 0;
-			double mpi01_4 =0;
-			double mpi02_4 =0;
-			double mpi03_4 =0;
-			double chisq_o =0;
-			double chisq_1 =0;
-			double chisq_2 =0;
-			double chisq_3 =0;
-			double chi2 =0;
+			double mpi01_4 = 0;
+			double mpi02_4 = 0;
+			double mpi03_4 = 0;
+			double chisq_o = 0;
+			double chisq_1 = 0;
+			double chisq_2 = 0;
+			double chisq_3 = 0;
+			double chi2 = 0;
 			HepLorentzVector ptrack[7] = {
 				ptrack0,
 				ptrack2,
@@ -662,7 +662,7 @@ StatusCode Omega::execute()
 				chisq_1 = pow((mpi01_4 - 0.135), 2);
 				chisq_2 = pow((mpi02_4 - 0.135), 2);
 				chisq_3 = pow((mpi03_4 - 0.135), 2);
-				chi2 = chisq_o;
+				chi2 = chisq_o + (chisq_1 + chisq_2 + chisq_3) / 3;
 				if (chi2 < chisq_re)
 				{
 					chisq_re = chi2;
