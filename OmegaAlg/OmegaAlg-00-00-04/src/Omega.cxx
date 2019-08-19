@@ -676,7 +676,7 @@ StatusCode Omega::execute()
 				RecEmcShower *g2Trk = (*(evtRecTrkCol->begin() + iGam[i2]))->emcShower();
 				kmfit->init();
 				kmfit->AddTrack(0, 0.0, g1Trk);
-				kmfit->AddTrack(1, 0.0, g1Trk);
+				kmfit->AddTrack(1, 0.0, g2Trk);
 				kmfit->AddResonance(0, 0.135, 0, 1);
 				bool oksq = kmfit->Fit();
 				if (oksq)
@@ -710,7 +710,7 @@ StatusCode Omega::execute()
 					RecEmcShower *g2Trk = (*(evtRecTrkCol->begin() + iGam[i2]))->emcShower();
 					kmfit->init();
 					kmfit->AddTrack(0, 0.0, g1Trk);
-					kmfit->AddTrack(1, 0.0, g1Trk);
+					kmfit->AddTrack(1, 0.0, g2Trk);
 					kmfit->AddResonance(0, 0.135, 0, 1);
 					bool oksq = kmfit->Fit();
 					if (oksq)
@@ -745,7 +745,7 @@ StatusCode Omega::execute()
 					RecEmcShower *g2Trk = (*(evtRecTrkCol->begin() + iGam[i2]))->emcShower();
 					kmfit->init();
 					kmfit->AddTrack(0, 0.0, g1Trk);
-					kmfit->AddTrack(1, 0.0, g1Trk);
+					kmfit->AddTrack(1, 0.0, g2Trk);
 					kmfit->AddResonance(0, 0.135, 0, 1);
 					bool oksq = kmfit->Fit();
 					if (oksq)
