@@ -588,8 +588,8 @@ StatusCode Omega::execute()
 					chisq1_ori = pow((ipi01_ori - 0.135), 2);
 					chisq2_ori = pow((ipi02_ori - 0.135), 2);
 					chisq3_ori = pow((ipi03_ori - 0.135), 2);
-					double chi2_fit = chisqo_fit;
-					double chi2_ori = chisqo_ori;
+					double chi2_fit = chisqo_fit + (chisq1_fit + chisq2_fit + chisq3_fit) / 3;
+					double chi2_ori = chisqo_ori + (chisq1_ori + chisq2_ori + chisq3_ori) / 3;
 					if (chi2_fit < chisq_fit)
 					{
 						chisq_fit = chi2_fit;
