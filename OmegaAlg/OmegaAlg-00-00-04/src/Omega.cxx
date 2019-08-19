@@ -596,7 +596,7 @@ StatusCode Omega::execute()
 			double chisq3_ori;								//
 			for (int i = 0; i < 15; i++)
 			{
-				iomega_fit = (ptrack0_fit + ptrack1_fit + ptrack_fit[combine[i][0]] + ptrack_fit[combine[i][1]]).m();
+				iomega_fit = (ppip[0] + ppim[0] + ptrack_fit[combine[i][0]] + ptrack_fit[combine[i][1]]).m();
 				ipi01_fit = (ptrack_fit[combine[i][0]] + ptrack_fit[combine[i][1]]).m();
 				ipi02_fit = (ptrack_fit[combine[i][2]] + ptrack_fit[combine[i][3]]).m();
 				ipi03_fit = (ptrack_fit[combine[i][4]] + ptrack_fit[combine[i][5]]).m();
