@@ -638,7 +638,6 @@ StatusCode Omega::execute()
 	{
 		HepLorentzVector ecms(0.034 * m_energy / 3.097, 0, 0, m_energy);
 		double chisq = 9999;
-		double chisq_o = 9999;
 		int ig1 = -1;
 		int ig2 = -1;
 		int ig3 = -1;
@@ -646,7 +645,6 @@ StatusCode Omega::execute()
 		int ig5 = -1;
 		int ig6 = -1;
 		int ig[6] = {-1, -1, -1, -1, -1, -1};
-		int io[6] = {-1, -1, -1, -1, -1, -1};
 		for (int i1 = 0; i1 < nGam - 5; i1++)
 		{
 			RecEmcShower *g1Trk = (*(evtRecTrkCol->begin() + iGam[i1]))->emcShower();
@@ -680,14 +678,6 @@ StatusCode Omega::execute()
 									kmfit->AddResonance(1, 0.135, combine[i][2] + 1, combine[i][3] + 1);
 									kmfit->AddResonance(2, 0.135, combine[i][4] + 1, combine[i][5] + 1);
 									kmfit->AddFourMomentum(3, ecms);
-									if (!kmfit->Fit(0))
-										continue;
-									if (!kmfit->Fit(1))
-										continue;
-									if (!kmfit->Fit(2))
-										continue;
-									if (!kmfit->Fit(3))
-										continue;
 									bool oksq = kmfit->Fit();
 									if (oksq)
 									{
@@ -701,21 +691,8 @@ StatusCode Omega::execute()
 											ig[3] = i4;
 											ig[4] = i5;
 											ig[5] = i6;
+											cout << "c5拟合成功" << endl;
 										}
-									}
-								}
-								for (int j = 0; j < 3; j++)
-								{
-									double chi2 = pow((ppip[0] + ppim[0] + pGam[ig[2 * select[j][0]]] + pGam[ig[2 * select[j][0] + 1]]).m() - 0.782, 2);
-									if (chi2 < chisq_o)
-									{
-										chisq_o = chi2;
-										io[0] = ig[2 * select[j][0]];
-										io[1] = ig[2 * select[j][0] + 1];
-										io[2] = ig[2 * select[j][1]];
-										io[3] = ig[2 * select[j][1] + 1];
-										io[4] = ig[2 * select[j][2]];
-										io[5] = ig[2 * select[j][2] + 1];
 									}
 								}
 							}
@@ -727,6 +704,11 @@ StatusCode Omega::execute()
 		log << MSG::INFO << " chisq = " << chisq << endreq;
 		if (chisq < 200)
 		{
+			double chisq_o = 9999;
+			double momega = -1;
+			double mpi01 = -1;
+			double mpi02 = -1;
+			double mpi03 = -1;
 			RecEmcShower *g1Trk = (*(evtRecTrkCol->begin() + iGam[0]))->emcShower();
 			RecEmcShower *g2Trk = (*(evtRecTrkCol->begin() + iGam[1]))->emcShower();
 			RecEmcShower *g3Trk = (*(evtRecTrkCol->begin() + iGam[2]))->emcShower();
@@ -749,17 +731,25 @@ StatusCode Omega::execute()
 			bool oksq = kmfit->Fit();
 			if (oksq)
 			{
-				HepLorentzVector ppi01 = kmfit->pfit(2) + kmfit->pfit(3);
-				HepLorentzVector ppi02 = kmfit->pfit(4) + kmfit->pfit(5);
-				HepLorentzVector ppi03 = kmfit->pfit(6) + kmfit->pfit(7);
-				HepLorentzVector pomega = kmfit->pfit(0) + kmfit->pfit(1) + kmfit->pfit(2) + kmfit->pfit(3);
+				for (int j = 0; j < 3; j++)
+				{
+					double chi2 = pow((kmfit->pfit(0) + kmfit->pfit(1) + kmfit->pfit(2 * select[j][0] + 1) + kmfit->pfit(2 * select[j][0] + 2)).m() - 0.782, 2);
+					if (chi2 < chisq_o)
+					{
+						chisq_o = chi2;
+						momega = (kmfit->pfit(0) + kmfit->pfit(1) + kmfit->pfit(2 * select[j][0] + 2) + kmfit->pfit(2 * select[j][0] + 3)).m();
+						mpi01 = (kmfit->pfit(2 * select[j][0] + 2) + kmfit->pfit(2 * select[j][0] + 3)).m();
+						mpi02 = (kmfit->pfit(2 * select[j][1] + 2) + kmfit->pfit(2 * select[j][1] + 3)).m();
+						mpi03 = (kmfit->pfit(2 * select[j][2] + 2) + kmfit->pfit(2 * select[j][2] + 3)).m();
+					}
+				}
 				if (1 == 1)
 				{
-					m_chi2 = kmfit->chisq();
-					m_mpi01 = ppi01.m();
-					m_mpi02 = ppi02.m();
-					m_mpi03 = ppi03.m();
-					m_momega = pomega.m();
+					m_chi2 = chisq_o;
+					m_mpi01 = mpi01;
+					m_mpi02 = mpi02;
+					m_mpi03 = mpi03;
+					m_momega = momega;
 					m_tuple5->write();
 					Ncut5++;
 					cout << "c5写入成功" << endl;
