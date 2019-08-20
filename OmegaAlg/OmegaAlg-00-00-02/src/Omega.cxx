@@ -706,16 +706,16 @@ StatusCode Omega::execute()
 								}
 								for (int j = 0; j < 3; j++)
 								{
-									double chi2 = pow((ppip[0] + ppim[0] + pGam[ig[2 * select[j]]] + pGam[ig[2 * select[j] + 1]]).m() - 0.782, 2);
+									double chi2 = pow((ppip[0] + ppim[0] + pGam[ig[2 * select[j][0]]] + pGam[ig[2 * select[j][0] + 1]]).m() - 0.782, 2);
 									if (chi2 < chisq_o)
 									{
 										chisq_o = chi2;
-										io[0] = ig[2 * select[0]];
-										io[1] = ig[2 * select[0] + 1];
-										io[2] = ig[2 * select[1]];
-										io[3] = ig[2 * select[1] + 1];
-										io[4] = ig[2 * select[2]];
-										io[5] = ig[2 * select[2] + 1];
+										io[0] = ig[2 * select[j][0]];
+										io[1] = ig[2 * select[j][0] + 1];
+										io[2] = ig[2 * select[j][1]];
+										io[3] = ig[2 * select[j][1] + 1];
+										io[4] = ig[2 * select[j][2]];
+										io[5] = ig[2 * select[j][2] + 1];
 									}
 								}
 							}
