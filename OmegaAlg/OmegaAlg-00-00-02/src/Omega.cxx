@@ -727,12 +727,12 @@ StatusCode Omega::execute()
 		log << MSG::INFO << " chisq = " << chisq << endreq;
 		if (chisq < 200)
 		{
-			RecEmcShower *g1Trk = (*(evtRecTrkCol->begin() + io[0]))->emcShower();
-			RecEmcShower *g2Trk = (*(evtRecTrkCol->begin() + io[1]))->emcShower();
-			RecEmcShower *g3Trk = (*(evtRecTrkCol->begin() + io[2]))->emcShower();
-			RecEmcShower *g4Trk = (*(evtRecTrkCol->begin() + io[3]))->emcShower();
-			RecEmcShower *g5Trk = (*(evtRecTrkCol->begin() + io[4]))->emcShower();
-			RecEmcShower *g6Trk = (*(evtRecTrkCol->begin() + io[5]))->emcShower();
+			RecEmcShower *g1Trk = (*(evtRecTrkCol->begin() + iGam[0]))->emcShower();
+			RecEmcShower *g2Trk = (*(evtRecTrkCol->begin() + iGam[1]))->emcShower();
+			RecEmcShower *g3Trk = (*(evtRecTrkCol->begin() + iGam[2]))->emcShower();
+			RecEmcShower *g4Trk = (*(evtRecTrkCol->begin() + iGam[3]))->emcShower();
+			RecEmcShower *g5Trk = (*(evtRecTrkCol->begin() + iGam[4]))->emcShower();
+			RecEmcShower *g6Trk = (*(evtRecTrkCol->begin() + iGam[5]))->emcShower();
 			kmfit->init();
 			kmfit->AddTrack(0, wpip);
 			kmfit->AddTrack(1, wpim);
