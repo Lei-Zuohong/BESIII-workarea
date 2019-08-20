@@ -644,7 +644,7 @@ StatusCode Omega::execute()
 		int ig4 = -1;
 		int ig5 = -1;
 		int ig6 = -1;
-		int ig[6] = {-1, -1, -1, -1, -1, -1};
+		int io[6] = {-1, -1, -1, -1, -1, -1};
 		for (int i1 = 0; i1 < nGam - 5; i1++)
 		{
 			RecEmcShower *g1Trk = (*(evtRecTrkCol->begin() + iGam[i1]))->emcShower();
@@ -685,12 +685,13 @@ StatusCode Omega::execute()
 										if (chi2 < chisq)
 										{
 											chisq = chi2;
-											ig[0] = i1;
-											ig[1] = i2;
-											ig[2] = i3;
-											ig[3] = i4;
-											ig[4] = i5;
-											ig[5] = i6;
+											int ig[6] = {i1, i2, i3, i4, i5, i6};
+											io[0] = ig[combine[i][0] - 1];
+											io[1] = ig[combine[i][1] - 1];
+											io[2] = ig[combine[i][2] - 1];
+											io[3] = ig[combine[i][3] - 1];
+											io[4] = ig[combine[i][4] - 1];
+											io[5] = ig[combine[i][5] - 1];
 											cout << "c5拟合成功" << endl;
 										}
 									}
@@ -709,12 +710,12 @@ StatusCode Omega::execute()
 			double mpi01 = -1;
 			double mpi02 = -1;
 			double mpi03 = -1;
-			RecEmcShower *g1Trk = (*(evtRecTrkCol->begin() + iGam[0]))->emcShower();
-			RecEmcShower *g2Trk = (*(evtRecTrkCol->begin() + iGam[1]))->emcShower();
-			RecEmcShower *g3Trk = (*(evtRecTrkCol->begin() + iGam[2]))->emcShower();
-			RecEmcShower *g4Trk = (*(evtRecTrkCol->begin() + iGam[3]))->emcShower();
-			RecEmcShower *g5Trk = (*(evtRecTrkCol->begin() + iGam[4]))->emcShower();
-			RecEmcShower *g6Trk = (*(evtRecTrkCol->begin() + iGam[5]))->emcShower();
+			RecEmcShower *g1Trk = (*(evtRecTrkCol->begin() + iGam[io[0]]))->emcShower();
+			RecEmcShower *g2Trk = (*(evtRecTrkCol->begin() + iGam[io[1]]))->emcShower();
+			RecEmcShower *g3Trk = (*(evtRecTrkCol->begin() + iGam[io[2]]))->emcShower();
+			RecEmcShower *g4Trk = (*(evtRecTrkCol->begin() + iGam[io[3]]))->emcShower();
+			RecEmcShower *g5Trk = (*(evtRecTrkCol->begin() + iGam[io[4]]))->emcShower();
+			RecEmcShower *g6Trk = (*(evtRecTrkCol->begin() + iGam[io[5]]))->emcShower();
 			kmfit->init();
 			kmfit->AddTrack(0, wpip);
 			kmfit->AddTrack(1, wpim);
