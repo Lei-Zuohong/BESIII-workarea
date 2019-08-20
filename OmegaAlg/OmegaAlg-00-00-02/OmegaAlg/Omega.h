@@ -48,15 +48,6 @@ private:
   NTuple::Tuple *m_tuple6; // photons
   NTuple::Item<double> m_fcos;
   NTuple::Item<double> m_elow;
-  //NTuple::Tuple*  m_tuple7;          // Omega 111C
-  //NTuple::Item<double>  m_omega_111c;
-  //NTuple::Item<double>  m_pi01_111c;
-  //NTuple::Item<double>  m_pi02_111c;
-  //NTuple::Item<double>  m_pi03_111c;
-  //NTuple::Item<double>  m_chisqo;
-  //NTuple::Item<double>  m_chisq1;
-  //NTuple::Item<double>  m_chisq2;
-  //NTuple::Item<double>  m_chisq3;
 };
 
 #endif

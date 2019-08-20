@@ -636,105 +636,104 @@ StatusCode Omega::execute()
 	cout << "before 5c" << endl; //准备5C声明
 	if (m_test5C == 1)
 	{
-		HepLorentzVector ecms(0.034 * m_energy / 3.097, 0, 0, m_energy);
-		double chisq = 9999;
-		int ig1 = -1;
-		int ig2 = -1;
-		int ig3 = -1;
-		int ig4 = -1;
-		int ig5 = -1;
-		int ig6 = -1;
-		int io[6] = {-1, -1, -1, -1, -1, -1};
-		for (int i1 = 0; i1 < nGam - 5; i1++)
-		{
-			RecEmcShower *g1Trk = (*(evtRecTrkCol->begin() + iGam[i1]))->emcShower();
-			for (int i2 = i1 + 1; i2 < nGam - 4; i2++)
-			{
-				RecEmcShower *g2Trk = (*(evtRecTrkCol->begin() + iGam[i2]))->emcShower();
-				for (int i3 = i2 + 1; i3 < nGam - 3; i3++)
-				{
-					RecEmcShower *g3Trk = (*(evtRecTrkCol->begin() + iGam[i3]))->emcShower();
-					for (int i4 = i3 + 1; i4 < nGam - 2; i4++)
-					{
-						RecEmcShower *g4Trk = (*(evtRecTrkCol->begin() + iGam[i4]))->emcShower();
-						for (int i5 = i4 + 1; i5 < nGam - 1; i5++)
-						{
-							RecEmcShower *g5Trk = (*(evtRecTrkCol->begin() + iGam[i5]))->emcShower();
-							for (int i6 = i5 + 1; i6 < nGam - 0; i6++)
-							{
-								RecEmcShower *g6Trk = (*(evtRecTrkCol->begin() + iGam[i6]))->emcShower();
-								for (int i = 0; i < 15; i++)
-								{
-									kmfit->init();
-									kmfit->AddTrack(0, wpip);
-									kmfit->AddTrack(1, wpim);
-									kmfit->AddTrack(2, 0.0, g1Trk);
-									kmfit->AddTrack(3, 0.0, g2Trk);
-									kmfit->AddTrack(4, 0.0, g3Trk);
-									kmfit->AddTrack(5, 0.0, g4Trk);
-									kmfit->AddTrack(6, 0.0, g5Trk);
-									kmfit->AddTrack(7, 0.0, g6Trk);
-									kmfit->AddResonance(0, 0.135, combine[i][0] + 1, combine[i][1] + 1);
-									kmfit->AddResonance(1, 0.135, combine[i][2] + 1, combine[i][3] + 1);
-									kmfit->AddResonance(2, 0.135, combine[i][4] + 1, combine[i][5] + 1);
-									kmfit->AddFourMomentum(3, ecms);
-									bool oksq = kmfit->Fit();
-									if (oksq)
-									{
-										double chi2 = kmfit->chisq();
-										if (chi2 < chisq)
-										{
-											chisq = chi2;
-											int ig[6] = {i1, i2, i3, i4, i5, i6};
-											io[0] = ig[combine[i][0] - 1];
-											io[1] = ig[combine[i][1] - 1];
-											io[2] = ig[combine[i][2] - 1];
-											io[3] = ig[combine[i][3] - 1];
-											io[4] = ig[combine[i][4] - 1];
-											io[5] = ig[combine[i][5] - 1];
-											cout << "c5拟合成功" << endl;
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-		log << MSG::INFO << " chisq = " << chisq << endreq;
-		if (chisq < 200)
-		{
-			double chisq_o = 9999;
-			double momega = -1;
-			double mpi01 = -1;
-			double mpi02 = -1;
-			double mpi03 = -1;
-			RecEmcShower *g1Trk = (*(evtRecTrkCol->begin() + iGam[io[0]]))->emcShower();
-			RecEmcShower *g2Trk = (*(evtRecTrkCol->begin() + iGam[io[1]]))->emcShower();
-			RecEmcShower *g3Trk = (*(evtRecTrkCol->begin() + iGam[io[2]]))->emcShower();
-			RecEmcShower *g4Trk = (*(evtRecTrkCol->begin() + iGam[io[3]]))->emcShower();
-			RecEmcShower *g5Trk = (*(evtRecTrkCol->begin() + iGam[io[4]]))->emcShower();
-			RecEmcShower *g6Trk = (*(evtRecTrkCol->begin() + iGam[io[5]]))->emcShower();
-			kmfit->init();
-			kmfit->AddTrack(0, wpip);
-			kmfit->AddTrack(1, wpim);
-			kmfit->AddTrack(2, 0.0, g1Trk);
-			kmfit->AddTrack(3, 0.0, g2Trk);
-			kmfit->AddTrack(4, 0.0, g3Trk);
-			kmfit->AddTrack(5, 0.0, g4Trk);
-			kmfit->AddTrack(6, 0.0, g5Trk);
-			kmfit->AddTrack(7, 0.0, g6Trk);
-			kmfit->AddResonance(0, 0.135, 2, 3);
-			kmfit->AddResonance(1, 0.135, 4, 5);
-			kmfit->AddResonance(2, 0.135, 6, 7);
-			kmfit->AddFourMomentum(3, ecms);
-			bool oksq = kmfit->Fit();
-			if (oksq)
-			{
-				for (int j = 0; j < 3; j++)
-				{
-					double chi2 = pow((kmfit->pfit(0) + kmfit->pfit(1) + kmfit->pfit(2 * select[j][0] + 1) + kmfit->pfit(2 * select[j][0] + 2)).m() - 0.782, 2);
+		HepLorentzVector ecms(0.034 * m_energy / 3.097, 0, 0, m_energy);								  //
+		double chisq = 9999;																			  //
+		int ig1 = -1;																					  //
+		int ig2 = -1;																					  //
+		int ig3 = -1;																					  //
+		int ig4 = -1;																					  //
+		int ig5 = -1;																					  //
+		int ig6 = -1;																					  //
+		int io[6] = {-1, -1, -1, -1, -1, -1};															  //
+		for (int i1 = 0; i1 < nGam - 5; i1++)															  //
+		{																								  //
+			RecEmcShower *g1Trk = (*(evtRecTrkCol->begin() + iGam[i1]))->emcShower();					  //
+			for (int i2 = i1 + 1; i2 < nGam - 4; i2++)													  //
+			{																							  //
+				RecEmcShower *g2Trk = (*(evtRecTrkCol->begin() + iGam[i2]))->emcShower();				  //
+				for (int i3 = i2 + 1; i3 < nGam - 3; i3++)												  //
+				{																						  //
+					RecEmcShower *g3Trk = (*(evtRecTrkCol->begin() + iGam[i3]))->emcShower();			  //
+					for (int i4 = i3 + 1; i4 < nGam - 2; i4++)											  //
+					{																					  //
+						RecEmcShower *g4Trk = (*(evtRecTrkCol->begin() + iGam[i4]))->emcShower();		  //
+						for (int i5 = i4 + 1; i5 < nGam - 1; i5++)										  //
+						{																				  //
+							RecEmcShower *g5Trk = (*(evtRecTrkCol->begin() + iGam[i5]))->emcShower();	 //
+							for (int i6 = i5 + 1; i6 < nGam - 0; i6++)									  //
+							{																			  //
+								RecEmcShower *g6Trk = (*(evtRecTrkCol->begin() + iGam[i6]))->emcShower(); //
+								for (int i = 0; i < 15; i++)											  //
+								{																		  //
+									kmfit->init();														  //
+									kmfit->AddTrack(0, wpip);											  //
+									kmfit->AddTrack(1, wpim);											  //
+									kmfit->AddTrack(2, 0.0, g1Trk);										  //
+									kmfit->AddTrack(3, 0.0, g2Trk);										  //
+									kmfit->AddTrack(4, 0.0, g3Trk);										  //
+									kmfit->AddTrack(5, 0.0, g4Trk);										  //
+									kmfit->AddTrack(6, 0.0, g5Trk);										  //
+									kmfit->AddTrack(7, 0.0, g6Trk);										  //
+									kmfit->AddResonance(0, 0.135, combine[i][0] + 1, combine[i][1] + 1);  //
+									kmfit->AddResonance(1, 0.135, combine[i][2] + 1, combine[i][3] + 1);  //
+									kmfit->AddResonance(2, 0.135, combine[i][4] + 1, combine[i][5] + 1);  //
+									kmfit->AddFourMomentum(3, ecms);									  //
+									bool oksq = kmfit->Fit();											  //
+									if (oksq)															  //
+									{																	  //
+										double chi2 = kmfit->chisq();									  //
+										if (chi2 < chisq)												  //
+										{																  //
+											chisq = chi2;												  //
+											int ig[6] = {i1, i2, i3, i4, i5, i6};						  //
+											io[0] = ig[combine[i][0] - 1];								  //
+											io[1] = ig[combine[i][1] - 1];								  //
+											io[2] = ig[combine[i][2] - 1];								  //
+											io[3] = ig[combine[i][3] - 1];								  //
+											io[4] = ig[combine[i][4] - 1];								  //
+											io[5] = ig[combine[i][5] - 1];								  //
+										}																  //
+									}																	  //
+								}																		  //
+							}																			  //
+						}																				  //
+					}																					  //
+				}																						  //
+			}																							  //
+		}																								  //
+		log << MSG::INFO << " chisq = " << chisq << endreq;												  //
+		if (chisq < 200)																				  //
+		{																								  //
+			double chisq_o = 9999;																		  //
+			double momega = -1;																			  //
+			double mpi01 = -1;																			  //
+			double mpi02 = -1;																			  //
+			double mpi03 = -1;																			  //
+			RecEmcShower *g1Trk = (*(evtRecTrkCol->begin() + iGam[io[0]]))->emcShower();				  //
+			RecEmcShower *g2Trk = (*(evtRecTrkCol->begin() + iGam[io[1]]))->emcShower();				  //
+			RecEmcShower *g3Trk = (*(evtRecTrkCol->begin() + iGam[io[2]]))->emcShower();				  //
+			RecEmcShower *g4Trk = (*(evtRecTrkCol->begin() + iGam[io[3]]))->emcShower();				  //
+			RecEmcShower *g5Trk = (*(evtRecTrkCol->begin() + iGam[io[4]]))->emcShower();				  //
+			RecEmcShower *g6Trk = (*(evtRecTrkCol->begin() + iGam[io[5]]))->emcShower();				  //
+			kmfit->init();																				  //
+			kmfit->AddTrack(0, wpip);																	  //
+			kmfit->AddTrack(1, wpim);																	  //
+			kmfit->AddTrack(2, 0.0, g1Trk);																  //
+			kmfit->AddTrack(3, 0.0, g2Trk);																  //
+			kmfit->AddTrack(4, 0.0, g3Trk);																  //
+			kmfit->AddTrack(5, 0.0, g4Trk);																  //
+			kmfit->AddTrack(6, 0.0, g5Trk);																  //
+			kmfit->AddTrack(7, 0.0, g6Trk);																  //
+			kmfit->AddResonance(0, 0.135, 2, 3);														  //
+			kmfit->AddResonance(1, 0.135, 4, 5);														  //
+			kmfit->AddResonance(2, 0.135, 6, 7);														  //
+			kmfit->AddFourMomentum(3, ecms);															  //
+			bool oksq = kmfit->Fit();																	  //
+			if (oksq)																					  //
+			{																							  //
+				for (int j = 0; j < 3; j++)																  //
+				{																						  //
+					double chi2 = pow((kmfit->pfit(0) + kmfit->pfit(1) + kmfit->pfit(2 * select[j][0] + 2) + kmfit->pfit(2 * select[j][0] + 3)).m() - 0.782, 2);
 					if (chi2 < chisq_o)
 					{
 						chisq_o = chi2;
@@ -746,7 +745,7 @@ StatusCode Omega::execute()
 				}
 				if (1 == 1)
 				{
-					m_chi2 = chisq_o;
+					m_chi2 = kmfit->chisq();
 					m_mpi01 = mpi01;
 					m_mpi02 = mpi02;
 					m_mpi03 = mpi03;
