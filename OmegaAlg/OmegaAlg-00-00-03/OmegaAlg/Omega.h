@@ -28,11 +28,11 @@ private:
   double m_energy;
 
   Ntuple::Tuple *m_tuplet; // Topology
-  NTuple::Item<double> runID;
-  NTuple::Item<double> eventID;
-  NTuple::Item<double> m_idxmc;
-  NTuple::Arrey<double> m_pdgid;
-  NTuple::Arrey<double> m_motheridx;
+  NTuple::Item<int> runID;
+  NTuple::Item<int> eventID;
+  NTuple::Item<int> m_idxmc;
+  NTuple::Array<int> m_pdgid;
+  NTuple::Array<int> m_motheridx;
 
   NTuple::Tuple *m_tuple4; // Omega 4C
   NTuple::Item<double> m_chisq_fit;
