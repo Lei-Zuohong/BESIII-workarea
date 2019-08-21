@@ -1,9 +1,9 @@
 //*********************************************************************************************************
 //***                                                代码引用                                            ***
 //*********************************************************************************************************
+#include "McTruth/McParticle.h"
 #include "GaudiKernel/MsgStream.h"
 #include "GaudiKernel/AlgFactory.h"
-#include "McTruth/McParticle.h"
 #include "GaudiKernel/ISvcLocator.h"
 #include "GaudiKernel/SmartDataPtr.h"
 #include "GaudiKernel/IDataProviderSvc.h"
