@@ -595,16 +595,16 @@ StatusCode Omega::execute()
 						chisq_fit = chi2_fit;
 						momega_fit = iomega_fit;
 						mpi01_fit = ipi01_fit;
-						mpi02_fit = ipi01_fit;
-						mpi03_fit = ipi01_fit;
+						mpi02_fit = ipi02_fit;
+						mpi03_fit = ipi03_fit;
 					}
 					if (chi2_ori < chisq_ori)
 					{
 						chisq_ori = chi2_ori;
 						momega_ori = iomega_ori;
 						mpi01_ori = ipi01_ori;
-						mpi02_ori = ipi01_ori;
-						mpi03_ori = ipi01_ori;
+						mpi02_ori = ipi02_ori;
+						mpi03_ori = ipi03_ori;
 					}
 				}
 			}
