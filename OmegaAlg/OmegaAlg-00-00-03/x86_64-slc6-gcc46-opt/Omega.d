@@ -377,6 +377,28 @@
  /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/ROOT/5.34.09/x86_64-slc6-gcc46-opt/root/include/Reflex/Builder/TypeBuilder.h \
  /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/ROOT/5.34.09/x86_64-slc6-gcc46-opt/root/include/Reflex/Callback.h \
  /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/ROOT/5.34.09/x86_64-slc6-gcc46-opt/root/include/RVersion.h \
+ /afs/ihep.ac.cn/bes3/offline/Boss/6.6.5.p01/InstallArea/include/McTruth/McTruth/McParticle.h \
+ /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/ContainedObject.h \
+ /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/StreamBuffer.h \
+ /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/swab.h \
+ /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/ObjectContainerBase.h \
+ /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/DataObject.h \
+ /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/ClassID.h \
+ /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/SmartRef.h \
+ /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/SmartRefBase.h \
+ /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/SmartRefVector.h \
+ /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Vector/LorentzVector.h \
+ /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Vector/defs.h \
+ /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Vector/ThreeVector.h \
+ /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Vector/ThreeVector.icc \
+ /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Vector/LorentzVector.icc \
+ /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Vector/ZMxpv.h \
+ /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Geometry/Point3D.h \
+ /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Geometry/defs.h \
+ /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Geometry/BasicVector3D.h \
+ /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/ObjectVector.h \
+ /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/ObjectList.h \
+ /afs/ihep.ac.cn/bes3/offline/Boss/6.6.5.p01/Event/EventModel/EventModel-01-05-33/EventModel/EventModel.h \
  /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/ISvcLocator.h \
  /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/ISvcManager.h \
  /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/IComponentManager.h \
@@ -390,8 +412,6 @@
  /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/SmartDataPtr.h \
  /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/SmartDataStorePtr.h \
  /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/SmartDataObjectPtr.h \
- /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/DataObject.h \
- /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/ClassID.h \
  /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/IDataProviderSvc.h \
  /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/PropertyMgr.h \
  /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/Property.h \
@@ -411,31 +431,13 @@
  /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Matrix/GenMatrix.icc \
  /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Matrix/Vector.icc \
  /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/Bootstrap.h \
- /afs/ihep.ac.cn/bes3/offline/Boss/6.6.5.p01/Event/EventModel/EventModel-01-05-33/EventModel/EventModel.h \
  /afs/ihep.ac.cn/bes3/offline/Boss/6.6.5.p01/Event/EventModel/EventModel-01-05-33/EventModel/Event.h \
- /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/StreamBuffer.h \
- /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/swab.h \
  /afs/ihep.ac.cn/bes3/offline/Boss/6.6.5.p01/InstallArea/include/EvtRecEvent/EvtRecEvent/EvtRecEvent.h \
  /afs/ihep.ac.cn/bes3/offline/Boss/6.6.5.p01/InstallArea/include/EvtRecEvent/EvtRecEvent/EvtRecTrack.h \
- /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/ObjectVector.h \
- /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/ObjectContainerBase.h \
- /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/ContainedObject.h \
- /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/SmartRef.h \
- /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/SmartRefBase.h \
- /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/SmartRefVector.h \
  /afs/ihep.ac.cn/bes3/offline/Boss/6.6.5.p01/Mdc/MdcRecEvent/MdcRecEvent-00-05-14/MdcRecEvent/RecMdcTrack.h \
  /afs/ihep.ac.cn/bes3/offline/Boss/6.6.5.p01/Event/DstEvent/DstEvent-00-02-50-p01/DstEvent/DstMdcTrack.h \
  /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Matrix/SymMatrix.h \
  /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Matrix/SymMatrix.icc \
- /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Vector/ThreeVector.h \
- /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Vector/defs.h \
- /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Vector/ThreeVector.icc \
- /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Geometry/Point3D.h \
- /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Geometry/defs.h \
- /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Geometry/BasicVector3D.h \
- /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Vector/LorentzVector.h \
- /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Vector/LorentzVector.icc \
- /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Vector/ZMxpv.h \
  /afs/ihep.ac.cn/bes3/offline/Boss/6.6.5.p01/Mdc/MdcRecEvent/MdcRecEvent-00-05-14/MdcRecEvent/RecMdcHit.h \
  /afs/ihep.ac.cn/bes3/offline/Boss/6.6.5.p01/Mdc/MdcGeomSvc/MdcGeomSvc-00-01-37/MdcGeomSvc/MdcGeoWire.h \
  /afs/ihep.ac.cn/bes3/offline/Boss/6.6.5.p01/Mdc/MdcGeomSvc/MdcGeomSvc-00-01-37/MdcGeomSvc/MdcGeoLayer.h \
@@ -1414,6 +1416,50 @@
 
 /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/ROOT/5.34.09/x86_64-slc6-gcc46-opt/root/include/RVersion.h:
 
+/afs/ihep.ac.cn/bes3/offline/Boss/6.6.5.p01/InstallArea/include/McTruth/McTruth/McParticle.h:
+
+/afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/ContainedObject.h:
+
+/afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/StreamBuffer.h:
+
+/afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/swab.h:
+
+/afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/ObjectContainerBase.h:
+
+/afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/DataObject.h:
+
+/afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/ClassID.h:
+
+/afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/SmartRef.h:
+
+/afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/SmartRefBase.h:
+
+/afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/SmartRefVector.h:
+
+/afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Vector/LorentzVector.h:
+
+/afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Vector/defs.h:
+
+/afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Vector/ThreeVector.h:
+
+/afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Vector/ThreeVector.icc:
+
+/afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Vector/LorentzVector.icc:
+
+/afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Vector/ZMxpv.h:
+
+/afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Geometry/Point3D.h:
+
+/afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Geometry/defs.h:
+
+/afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Geometry/BasicVector3D.h:
+
+/afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/ObjectVector.h:
+
+/afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/ObjectList.h:
+
+/afs/ihep.ac.cn/bes3/offline/Boss/6.6.5.p01/Event/EventModel/EventModel-01-05-33/EventModel/EventModel.h:
+
 /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/ISvcLocator.h:
 
 /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/ISvcManager.h:
@@ -1439,10 +1485,6 @@
 /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/SmartDataStorePtr.h:
 
 /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/SmartDataObjectPtr.h:
-
-/afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/DataObject.h:
-
-/afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/ClassID.h:
 
 /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/IDataProviderSvc.h:
 
@@ -1482,29 +1524,11 @@
 
 /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/Bootstrap.h:
 
-/afs/ihep.ac.cn/bes3/offline/Boss/6.6.5.p01/Event/EventModel/EventModel-01-05-33/EventModel/EventModel.h:
-
 /afs/ihep.ac.cn/bes3/offline/Boss/6.6.5.p01/Event/EventModel/EventModel-01-05-33/EventModel/Event.h:
-
-/afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/StreamBuffer.h:
-
-/afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/swab.h:
 
 /afs/ihep.ac.cn/bes3/offline/Boss/6.6.5.p01/InstallArea/include/EvtRecEvent/EvtRecEvent/EvtRecEvent.h:
 
 /afs/ihep.ac.cn/bes3/offline/Boss/6.6.5.p01/InstallArea/include/EvtRecEvent/EvtRecEvent/EvtRecTrack.h:
-
-/afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/ObjectVector.h:
-
-/afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/ObjectContainerBase.h:
-
-/afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/ContainedObject.h:
-
-/afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/SmartRef.h:
-
-/afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/SmartRefBase.h:
-
-/afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/SmartRefVector.h:
 
 /afs/ihep.ac.cn/bes3/offline/Boss/6.6.5.p01/Mdc/MdcRecEvent/MdcRecEvent-00-05-14/MdcRecEvent/RecMdcTrack.h:
 
@@ -1513,24 +1537,6 @@
 /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Matrix/SymMatrix.h:
 
 /afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Matrix/SymMatrix.icc:
-
-/afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Vector/ThreeVector.h:
-
-/afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Vector/defs.h:
-
-/afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Vector/ThreeVector.icc:
-
-/afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Geometry/Point3D.h:
-
-/afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Geometry/defs.h:
-
-/afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Geometry/BasicVector3D.h:
-
-/afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Vector/LorentzVector.h:
-
-/afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Vector/LorentzVector.icc:
-
-/afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Vector/ZMxpv.h:
 
 /afs/ihep.ac.cn/bes3/offline/Boss/6.6.5.p01/Mdc/MdcRecEvent/MdcRecEvent-00-05-14/MdcRecEvent/RecMdcHit.h:
 

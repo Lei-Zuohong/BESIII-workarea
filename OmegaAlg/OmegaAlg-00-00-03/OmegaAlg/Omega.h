@@ -27,7 +27,7 @@ private:
   int m_checkTof;
   double m_energy;
 
-  Ntuple::Tuple *m_tuplet; // Topology
+  NTuple::Tuple *m_tuple1; // Topology
   NTuple::Item<int> runID;
   NTuple::Item<int> eventID;
   NTuple::Item<int> m_idxmc;

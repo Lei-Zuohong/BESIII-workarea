@@ -3,6 +3,7 @@
 //*********************************************************************************************************
 #include "GaudiKernel/MsgStream.h"
 #include "GaudiKernel/AlgFactory.h"
+#include "McTruth/McParticle.h"
 #include "GaudiKernel/ISvcLocator.h"
 #include "GaudiKernel/SmartDataPtr.h"
 #include "GaudiKernel/IDataProviderSvc.h"
@@ -79,22 +80,22 @@ StatusCode Omega::initialize()
 		NTuplePtr ntt(ntupleSvc(), "FILE1/topo");
 		if (ntt)
 		{
-			m_tuplet = ntt;
+			m_tuple1 = ntt;
 		}
 		else
 		{
-			m_tuplet = ntupleSvc()->book("FILE1/topo", CLID_ColumnWiseTuple, "ks N-Tuple example");
-			if (m_tuplet)
+			m_tuple1 = ntupleSvc()->book("FILE1/topo", CLID_ColumnWiseTuple, "ks N-Tuple example");
+			if (m_tuple1)
 			{
-				status = m_tuplet->addItem("runID", runID);
-				status = m_tuplet->addItem("eventID", eventID);
-				status = m_tuplet->addItem("indexmc", m_idxmc, 0, 100);
-				status = m_tuplet->addIndexedItem("pdgid", m_idxmc, m_pdgid);
-				status = m_tuplet->addIndexedItem("motheridx", m_idxmc, m_motheridx);
+				status = m_tuple1->addItem("runID", runID);
+				status = m_tuple1->addItem("eventID", eventID);
+				status = m_tuple1->addItem("indexmc", m_idxmc, 0, 100);
+				status = m_tuple1->addIndexedItem("pdgid", m_idxmc, m_pdgid);
+				status = m_tuple1->addIndexedItem("motheridx", m_idxmc, m_motheridx);
 			}
 			else
 			{
-				log << MSG::ERROR << "    Cannot book N-tuple:" << long(m_tuplet) << endmsg;
+				log << MSG::ERROR << "    Cannot book N-tuple:" << long(m_tuple1) << endmsg;
 				return StatusCode::FAILURE;
 			}
 		}
