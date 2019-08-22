@@ -452,38 +452,35 @@ StatusCode Omega::execute()																	   //
 		return SUCCESS;																	   //
 	Ncut3++;																			   //
 	cout << "pass pid" << endl;															   //
-	//*********************************************************************************
-	// Selection 3: Vertex fit Selection, check ppi0, pTot
-	//*********************************************************************************
-	if (1 == 1)																		  //
-	{																				  //
-		RecMdcKalTrack *pipTrk = (*(evtRecTrkCol->begin() + ipip[0]))->mdcKalTrack(); //Default is pion, for other particles:
-		RecMdcKalTrack *pimTrk = (*(evtRecTrkCol->begin() + ipim[0]))->mdcKalTrack(); //wvppTrk = WTrackParameter(mp, pipTrk->getZHelixP(), pipTrk->getZErrorP()); proton
-		WTrackParameter wvpipTrk, wvpimTrk;											  //wvmupTrk = WTrackParameter(mmu, pipTrk->getZHelixMu(), pipTrk->getZErrorMu()); muon
-		wvpipTrk = WTrackParameter(mpi, pipTrk->getZHelix(), pipTrk->getZError());	//wvepTrk = WTrackParameter(me, pipTrk->getZHelixE(), pipTrk->getZErrorE()); electron
-		wvpimTrk = WTrackParameter(mpi, pimTrk->getZHelix(), pimTrk->getZError());	//wvkpTrk = WTrackParameter(mk, pipTrk->getZHelixK(), pipTrk->getZErrorK()); kaon
-		HepPoint3D vx(0., 0., 0.);													  //
-		HepSymMatrix Evx(3, 0);														  //
-		double bx = 1E+6;															  //
-		double by = 1E+6;															  //
-		double bz = 1E+6;															  //
-		Evx[0][0] = bx * bx;														  //
-		Evx[1][1] = by * by;														  //
-		Evx[2][2] = bz * bz;														  //
-		VertexParameter vxpar;														  //
-		vxpar.setVx(vx);															  //
-		vxpar.setEvx(Evx);															  //
-		VertexFit *vtxfit = VertexFit::instance();									  //
-		vtxfit->init();																  //
-		vtxfit->AddTrack(0, wvpipTrk);												  //设定track0
-		vtxfit->AddTrack(1, wvpimTrk);												  //设定track1
-		vtxfit->AddVertex(0, vxpar, 0, 1);											  //设定顶点0
-		if (!vtxfit->Fit(0))														  //
-			return SUCCESS;															  //
-		vtxfit->Swim(0);															  //
-		Ncut6++;																	  //
-		cout << "pass VFit" << endl;												  //
-	}																				  //
+																						   //*********************************************************************************
+																						   // Selection 3: Vertex fit Selection, check ppi0, pTot
+																						   //*********************************************************************************
+	RecMdcKalTrack *pipTrk = (*(evtRecTrkCol->begin() + ipip[0]))->mdcKalTrack();		   //Default is pion, for other particles:
+	RecMdcKalTrack *pimTrk = (*(evtRecTrkCol->begin() + ipim[0]))->mdcKalTrack();		   //wvppTrk = WTrackParameter(mp, pipTrk->getZHelixP(), pipTrk->getZErrorP()); proton
+	WTrackParameter wvpipTrk, wvpimTrk;													   //wvmupTrk = WTrackParameter(mmu, pipTrk->getZHelixMu(), pipTrk->getZErrorMu()); muon
+	wvpipTrk = WTrackParameter(mpi, pipTrk->getZHelix(), pipTrk->getZError());			   //wvepTrk = WTrackParameter(me, pipTrk->getZHelixE(), pipTrk->getZErrorE()); electron
+	wvpimTrk = WTrackParameter(mpi, pimTrk->getZHelix(), pimTrk->getZError());			   //wvkpTrk = WTrackParameter(mk, pipTrk->getZHelixK(), pipTrk->getZErrorK()); kaon
+	HepPoint3D vx(0., 0., 0.);															   //
+	HepSymMatrix Evx(3, 0);																   //
+	double bx = 1E+6;																	   //
+	double by = 1E+6;																	   //
+	double bz = 1E+6;																	   //
+	Evx[0][0] = bx * bx;																   //
+	Evx[1][1] = by * by;																   //
+	Evx[2][2] = bz * bz;																   //
+	VertexParameter vxpar;																   //
+	vxpar.setVx(vx);																	   //
+	vxpar.setEvx(Evx);																	   //
+	VertexFit *vtxfit = VertexFit::instance();											   //
+	vtxfit->init();																		   //
+	vtxfit->AddTrack(0, wvpipTrk);														   //设定track0
+	vtxfit->AddTrack(1, wvpimTrk);														   //设定track1
+	vtxfit->AddVertex(0, vxpar, 0, 1);													   //设定顶点0
+	if (!vtxfit->Fit(0))																   //
+		return SUCCESS;																	   //
+	vtxfit->Swim(0);																	   //
+	Ncut6++;																			   //
+	cout << "pass VFit" << endl;														   //
 	//*********************************************************************************
 	// Selection 7: 4~5C Selection
 	//*********************************************************************************
