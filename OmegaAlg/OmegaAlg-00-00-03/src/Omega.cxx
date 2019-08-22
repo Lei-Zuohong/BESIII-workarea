@@ -118,6 +118,11 @@ StatusCode Omega::initialize()
 				status = m_tuple4->addItem("mpi01", m_pi01_4c);
 				status = m_tuple4->addItem("mpi02", m_pi02_4c);
 				status = m_tuple4->addItem("mpi03", m_pi03_4c);
+				status = m_tuple4->addItem("runID", runID);
+				status = m_tuple4->addItem("eventID", eventID);
+				status = m_tuple4->addItem("indexmc", m_idxmc, 0, 100);
+				status = m_tuple4->addIndexedItem("pdgid", m_idxmc, m_pdgid);
+				status = m_tuple4->addIndexedItem("motheridx", m_idxmc, m_motheridx);
 			}
 			else
 			{
@@ -144,6 +149,11 @@ StatusCode Omega::initialize()
 				status = m_tuple5->addItem("mpi02", m_mpi02_5c);
 				status = m_tuple5->addItem("mpi03", m_mpi03_5c);
 				status = m_tuple5->addItem("momega", m_momega_5c);
+				status = m_tuple5->addItem("runID", runID);
+				status = m_tuple5->addItem("eventID", eventID);
+				status = m_tuple5->addItem("indexmc", m_idxmc, 0, 100);
+				status = m_tuple5->addIndexedItem("pdgid", m_idxmc, m_pdgid);
+				status = m_tuple5->addIndexedItem("motheridx", m_idxmc, m_motheridx);
 			}
 			else
 			{
@@ -167,6 +177,8 @@ StatusCode Omega::execute()																	   //
 	SmartDataPtr<Event::EventHeader> eventHeader(eventSvc(), "/Event/EventHeader");			   //
 	int runNo = eventHeader->runNumber();													   // 读取runNo：runnumber
 	int event = eventHeader->eventNumber();													   // 读取event：eventnumber
+	runID = runNo;																			   //
+	eventID = event;																		   //
 	log << MSG::DEBUG << "run, evtnum = "													   //
 		<< runNo << " , "																	   //
 		<< event << endreq;																	   //

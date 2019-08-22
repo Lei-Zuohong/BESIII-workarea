@@ -35,18 +35,18 @@ private:
   NTuple::Array<int> m_motheridx;
 
   NTuple::Tuple *m_tuple4; // Omega 4C
-  NTuple::Item<double> m_chisq_fit;
-  NTuple::Item<double> m_omega_fit;
-  NTuple::Item<double> m_pi01_fit;
-  NTuple::Item<double> m_pi02_fit;
-  NTuple::Item<double> m_pi03_fit;
+  NTuple::Item<double> m_chisq_4c;
+  NTuple::Item<double> m_omega_4c;
+  NTuple::Item<double> m_pi01_4c;
+  NTuple::Item<double> m_pi02_4c;
+  NTuple::Item<double> m_pi03_4c;
 
   NTuple::Tuple *m_tuple5; // Omega 5C
-  NTuple::Item<double> m_chisq;
-  NTuple::Item<double> m_mpi01;
-  NTuple::Item<double> m_mpi02;
-  NTuple::Item<double> m_mpi03;
-  NTuple::Item<double> m_momega;
+  NTuple::Item<double> m_chisq_5c;
+  NTuple::Item<double> m_mpi01_5c;
+  NTuple::Item<double> m_mpi02_5c;
+  NTuple::Item<double> m_mpi03_5c;
+  NTuple::Item<double> m_momega_5c;
 };
 
 #endif
