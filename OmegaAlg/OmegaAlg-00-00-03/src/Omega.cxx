@@ -80,22 +80,22 @@ StatusCode Omega::initialize()
 		NTuplePtr ntt(ntupleSvc(), "FILE1/topo");
 		if (ntt)
 		{
-			m_tuple1 = ntt;
+			m_tuplet = ntt;
 		}
 		else
 		{
-			m_tuple1 = ntupleSvc()->book("FILE1/topo", CLID_ColumnWiseTuple, "ks N-Tuple example");
-			if (m_tuple1)
+			m_tuplet = ntupleSvc()->book("FILE1/topo", CLID_ColumnWiseTuple, "ks N-Tuple example");
+			if (m_tuplet)
 			{
-				status = m_tuple1->addItem("runID", runID);
-				status = m_tuple1->addItem("eventID", eventID);
-				status = m_tuple1->addItem("indexmc", m_idxmc, 0, 100);
-				status = m_tuple1->addIndexedItem("pdgid", m_idxmc, m_pdgid);
-				status = m_tuple1->addIndexedItem("motheridx", m_idxmc, m_motheridx);
+				status = m_tuplet->addItem("runID", runID);
+				status = m_tuplet->addItem("eventID", eventID);
+				status = m_tuplet->addItem("indexmc", m_idxmc, 0, 100);
+				status = m_tuplet->addIndexedItem("pdgid", m_idxmc, m_pdgid);
+				status = m_tuplet->addIndexedItem("motheridx", m_idxmc, m_motheridx);
 			}
 			else
 			{
-				log << MSG::ERROR << "    Cannot book N-tuple:" << long(m_tuple1) << endmsg;
+				log << MSG::ERROR << "    Cannot book N-tuple:" << long(m_tuplet) << endmsg;
 				return StatusCode::FAILURE;
 			}
 		}
@@ -113,11 +113,11 @@ StatusCode Omega::initialize()
 			m_tuple4 = ntupleSvc()->book("FILE1/fit4c", CLID_ColumnWiseTuple, "ks N-Tuple example");
 			if (m_tuple4)
 			{
-				status = m_tuple4->addItem("chisq", m_chisq_fit);
-				status = m_tuple4->addItem("momega", m_omega_fit);
-				status = m_tuple4->addItem("mpi01", m_pi01_fit);
-				status = m_tuple4->addItem("mpi02", m_pi02_fit);
-				status = m_tuple4->addItem("mpi03", m_pi03_fit);
+				status = m_tuple4->addItem("chisq", m_chisq_4c);
+				status = m_tuple4->addItem("momega", m_omega_4c);
+				status = m_tuple4->addItem("mpi01", m_pi01_4c);
+				status = m_tuple4->addItem("mpi02", m_pi02_4c);
+				status = m_tuple4->addItem("mpi03", m_pi03_4c);
 			}
 			else
 			{
@@ -139,11 +139,11 @@ StatusCode Omega::initialize()
 			m_tuple5 = ntupleSvc()->book("FILE1/fit5c", CLID_ColumnWiseTuple, "ks N-Tuple example");
 			if (m_tuple5)
 			{
-				status = m_tuple5->addItem("chisq", m_chisq);
-				status = m_tuple5->addItem("mpi01", m_mpi01);
-				status = m_tuple5->addItem("mpi02", m_mpi02);
-				status = m_tuple5->addItem("mpi03", m_mpi03);
-				status = m_tuple5->addItem("momega", m_momega);
+				status = m_tuple5->addItem("chisq", m_chisq_5c);
+				status = m_tuple5->addItem("mpi01", m_mpi01_5c);
+				status = m_tuple5->addItem("mpi02", m_mpi02_5c);
+				status = m_tuple5->addItem("mpi03", m_mpi03_5c);
+				status = m_tuple5->addItem("momega", m_momega_5c);
 			}
 			else
 			{
@@ -443,34 +443,37 @@ StatusCode Omega::execute()																	   //
 	//*********************************************************************************
 	// Selection 3: Vertex fit Selection, check ppi0, pTot
 	//*********************************************************************************
-	RecMdcKalTrack *pipTrk = (*(evtRecTrkCol->begin() + ipip[0]))->mdcKalTrack(); //Default is pion, for other particles:
-	RecMdcKalTrack *pimTrk = (*(evtRecTrkCol->begin() + ipim[0]))->mdcKalTrack(); //wvppTrk = WTrackParameter(mp, pipTrk->getZHelixP(), pipTrk->getZErrorP()); proton
-	WTrackParameter wvpipTrk, wvpimTrk;											  //wvmupTrk = WTrackParameter(mmu, pipTrk->getZHelixMu(), pipTrk->getZErrorMu()); muon
-	wvpipTrk = WTrackParameter(mpi, pipTrk->getZHelix(), pipTrk->getZError());	//wvepTrk = WTrackParameter(me, pipTrk->getZHelixE(), pipTrk->getZErrorE()); electron
-	wvpimTrk = WTrackParameter(mpi, pimTrk->getZHelix(), pimTrk->getZError());	//wvkpTrk = WTrackParameter(mk, pipTrk->getZHelixK(), pipTrk->getZErrorK()); kaon
-	HepPoint3D vx(0., 0., 0.);													  //
-	HepSymMatrix Evx(3, 0);														  //
-	double bx = 1E+6;															  //
-	double by = 1E+6;															  //
-	double bz = 1E+6;															  //
-	Evx[0][0] = bx * bx;														  //
-	Evx[1][1] = by * by;														  //
-	Evx[2][2] = bz * bz;														  //
-	VertexParameter vxpar;														  //
-	vxpar.setVx(vx);															  //
-	vxpar.setEvx(Evx);															  //
-	VertexFit *vtxfit = VertexFit::instance();									  //
-	vtxfit->init();																  //
-	vtxfit->AddTrack(0, wvpipTrk);												  //设定track0
-	vtxfit->AddTrack(1, wvpimTrk);												  //设定track1
-	vtxfit->AddVertex(0, vxpar, 0, 1);											  //设定顶点0
-	if (!vtxfit->Fit(0))														  //
-		return SUCCESS;															  //
-	vtxfit->Swim(0);															  //更新信息
-	Ncut6++;																	  //
-	cout << "pass VFit" << endl;												  //
+	if (1 == 1)																		  //
+	{																				  //
+		RecMdcKalTrack *pipTrk = (*(evtRecTrkCol->begin() + ipip[0]))->mdcKalTrack(); //Default is pion, for other particles:
+		RecMdcKalTrack *pimTrk = (*(evtRecTrkCol->begin() + ipim[0]))->mdcKalTrack(); //wvppTrk = WTrackParameter(mp, pipTrk->getZHelixP(), pipTrk->getZErrorP()); proton
+		WTrackParameter wvpipTrk, wvpimTrk;											  //wvmupTrk = WTrackParameter(mmu, pipTrk->getZHelixMu(), pipTrk->getZErrorMu()); muon
+		wvpipTrk = WTrackParameter(mpi, pipTrk->getZHelix(), pipTrk->getZError());	//wvepTrk = WTrackParameter(me, pipTrk->getZHelixE(), pipTrk->getZErrorE()); electron
+		wvpimTrk = WTrackParameter(mpi, pimTrk->getZHelix(), pimTrk->getZError());	//wvkpTrk = WTrackParameter(mk, pipTrk->getZHelixK(), pipTrk->getZErrorK()); kaon
+		HepPoint3D vx(0., 0., 0.);													  //
+		HepSymMatrix Evx(3, 0);														  //
+		double bx = 1E+6;															  //
+		double by = 1E+6;															  //
+		double bz = 1E+6;															  //
+		Evx[0][0] = bx * bx;														  //
+		Evx[1][1] = by * by;														  //
+		Evx[2][2] = bz * bz;														  //
+		VertexParameter vxpar;														  //
+		vxpar.setVx(vx);															  //
+		vxpar.setEvx(Evx);															  //
+		VertexFit *vtxfit = VertexFit::instance();									  //
+		vtxfit->init();																  //
+		vtxfit->AddTrack(0, wvpipTrk);												  //设定track0
+		vtxfit->AddTrack(1, wvpimTrk);												  //设定track1
+		vtxfit->AddVertex(0, vxpar, 0, 1);											  //设定顶点0
+		if (!vtxfit->Fit(0))														  //
+			return SUCCESS;															  //
+		vtxfit->Swim(0);															  //
+		Ncut6++;																	  //
+		cout << "pass VFit" << endl;												  //
+	}																				  //
 	//*********************************************************************************
-	// Selection 7: 0C Selection
+	// Selection 7: 4~5C Selection
 	//*********************************************************************************
 	int combine[15][6] = {{1, 2, 3, 4, 5, 6},  //
 						  {1, 2, 3, 5, 4, 6},  //
@@ -491,8 +494,9 @@ StatusCode Omega::execute()																	   //
 						{1, 0, 2},			   //
 						{2, 0, 1}};			   //
 	//*********************************************************************************
-	// Selection 7: 4C Selection
+	// Selection 7-1: 4C Selection
 	//*********************************************************************************
+	cout << "before 4c" << endl;										 //准备4C声明
 	WTrackParameter wpip = vtxfit->wtrk(0);								 //
 	WTrackParameter wpim = vtxfit->wtrk(1);								 //
 	KalmanKinematicFit *kmfit = KalmanKinematicFit::instance();			 //
@@ -618,19 +622,18 @@ StatusCode Omega::execute()																	   //
 			}
 			if (1 == 1)
 			{
-				m_chisq_fit = chisq_fit;
-				m_omega_fit = momega_fit;
-				m_pi01_fit = mpi01_fit;
-				m_pi02_fit = mpi02_fit;
-				m_pi03_fit = mpi03_fit;
+				m_chisq_4c = chisq_fit;
+				m_omega_4c = momega_fit;
+				m_pi01_4c = mpi01_fit;
+				m_pi02_4c = mpi02_fit;
+				m_pi03_4c = mpi03_fit;
 				m_tuple4->write();
 				Ncut4++;
 			}
 		}
 	}
 	//*********************************************************************************
-	// Selection 8: 5C Selection
-	//     find the best combination over all possible pi+ pi- gamma gamma pair
+	// Selection 7-2: 5C Selection
 	//*********************************************************************************
 	cout << "before 5c" << endl; //准备5C声明
 	if (m_test5C == 1)
@@ -744,14 +747,13 @@ StatusCode Omega::execute()																	   //
 				}
 				if (1 == 1)
 				{
-					m_chisq = kmfit->chisq();
-					m_mpi01 = mpi01;
-					m_mpi02 = mpi02;
-					m_mpi03 = mpi03;
-					m_momega = momega;
+					m_chisq_5c = kmfit->chisq();
+					m_mpi01_5c = mpi01;
+					m_mpi02_5c = mpi02;
+					m_mpi03_5c = mpi03;
+					m_momega_5c = momega;
 					m_tuple5->write();
 					Ncut5++;
-					cout << "c5写入成功" << endl;
 				}
 			}
 		}
