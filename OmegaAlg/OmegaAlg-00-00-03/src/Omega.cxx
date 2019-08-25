@@ -76,14 +76,14 @@ StatusCode Omega::initialize()
 	// initialize-data-in-topo
 	if (1 == 1)
 	{
-		NTuplePtr ntt(ntupleSvc(), "FILE1/fit4c");
+		NTuplePtr ntt(ntupleSvc(), "FILE1/topo");
 		if (ntt)
 		{
 			m_tuplet = ntt;
 		}
 		else
 		{
-			m_tuplet = ntupleSvc()->book("FILE1/fit4c", CLID_ColumnWiseTuple, "ks N-Tuple example");
+			m_tuplet = ntupleSvc()->book("FILE1/topo", CLID_ColumnWiseTuple, "ks N-Tuple example");
 			if (m_tuplet)
 			{
 				status = m_tuplet->addItem("runID", runID);
