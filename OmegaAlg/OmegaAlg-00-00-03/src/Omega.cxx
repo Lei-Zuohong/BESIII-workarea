@@ -73,6 +73,32 @@ StatusCode Omega::initialize()
 	MsgStream log(msgSvc(), name());
 	log << MSG::INFO << "in initialize()" << endmsg;
 	StatusCode status;
+	// initialize-data-in-topo
+	if (1 == 1)
+	{
+		NTuplePtr ntt(ntupleSvc(), "FILE1/fit4c");
+		if (ntt)
+		{
+			m_tuplet = ntt;
+		}
+		else
+		{
+			m_tuplet = ntupleSvc()->book("FILE1/fit4c", CLID_ColumnWiseTuple, "ks N-Tuple example");
+			if (m_tuplet)
+			{
+				status = m_tuplet->addItem("runID", runID);
+				status = m_tuplet->addItem("eventID", eventID);
+				status = m_tuplet->addItem("indexmc", m_idxmc, 0, 100);
+				status = m_tuplet->addIndexedItem("pdgid", m_idxmc, m_pdgid);
+				status = m_tuplet->addIndexedItem("motheridx", m_idxmc, m_motheridx);
+			}
+			else
+			{
+				log << MSG::ERROR << "    Cannot book N-tuple:" << long(m_tuplet) << endmsg;
+				return StatusCode::FAILURE;
+			}
+		}
+	}
 	// initialize-data-in-fit4c
 	if (m_test4C == 1)
 	{
