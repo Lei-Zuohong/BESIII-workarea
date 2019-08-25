@@ -118,11 +118,11 @@ StatusCode Omega::initialize()
 				status = m_tuple4->addItem("mpi02", m_pi02_4c);
 				status = m_tuple4->addItem("mpi03", m_pi03_4c);
 
-				status = m_tuple4->addItem("runID", runID_4c);
-				status = m_tuple4->addItem("eventID", eventID_4c);
-				status = m_tuple4->addItem("indexmc", m_idxmc_4c, 0, 100);
-				status = m_tuple4->addIndexedItem("pdgid", m_idxmc_4c, m_pdgid_4c);
-				status = m_tuple4->addIndexedItem("motheridx", m_idxmc_4c, m_motheridx_4c);
+				//status = m_tuple4->addItem("runID", runID_4c);
+				//status = m_tuple4->addItem("eventID", eventID_4c);
+				//status = m_tuple4->addItem("indexmc", m_idxmc_4c, 0, 100);
+				//status = m_tuple4->addIndexedItem("pdgid", m_idxmc_4c, m_pdgid_4c);
+				//status = m_tuple4->addIndexedItem("motheridx", m_idxmc_4c, m_motheridx_4c);
 			}
 			else
 			{
@@ -150,11 +150,11 @@ StatusCode Omega::initialize()
 				status = m_tuple5->addItem("mpi03", m_mpi03_5c);
 				status = m_tuple5->addItem("momega", m_momega_5c);
 
-				status = m_tuple4->addItem("runID", runID_5c);
-				status = m_tuple4->addItem("eventID", eventID_5c);
-				status = m_tuple4->addItem("indexmc", m_idxmc_5c, 0, 100);
-				status = m_tuple4->addIndexedItem("pdgid", m_idxmc_5c, m_pdgid_5c);
-				status = m_tuple4->addIndexedItem("motheridx", m_idxmc_5c, m_motheridx_5c);
+				//status = m_tuple4->addItem("runID", runID_5c);
+				//status = m_tuple4->addItem("eventID", eventID_5c);
+				//status = m_tuple4->addItem("indexmc", m_idxmc_5c, 0, 100);
+				//status = m_tuple4->addIndexedItem("pdgid", m_idxmc_5c, m_pdgid_5c);
+				//status = m_tuple4->addIndexedItem("motheridx", m_idxmc_5c, m_motheridx_5c);
 			}
 			else
 			{
@@ -637,11 +637,11 @@ StatusCode Omega::execute()																	   //
 				m_pi01_4c = mpi01_fit;
 				m_pi02_4c = mpi02_fit;
 				m_pi03_4c = mpi03_fit;
-				runID_4c = runID;
-				eventID_4c = eventID;
-				m_idxmc_4c = m_idxmc;
-				m_pdgid_4c = m_pdgid;
-				m_motheridx_4c = m_motheridx;
+				//runID_4c = runID;
+				//eventID_4c = eventID;
+				//m_idxmc_4c = m_idxmc;
+				//m_pdgid_4c = m_pdgid;
+				//m_motheridx_4c = m_motheridx;
 				m_tuple4->write();
 				Ncut4++;
 			}
@@ -767,11 +767,11 @@ StatusCode Omega::execute()																	   //
 					m_mpi02_5c = mpi02;
 					m_mpi03_5c = mpi03;
 					m_momega_5c = momega;
-					runID_5c = runID;
-					eventID_5c = eventID;
-					m_idxmc_5c = m_idxmc;
-					m_pdgid_5c = m_pdgid;
-					m_motheridx_5c = m_motheridx;
+					//runID_5c = runID;
+					//eventID_5c = eventID;
+					//m_idxmc_5c = m_idxmc;
+					//m_pdgid_5c = m_pdgid;
+					//m_motheridx_5c = m_motheridx;
 					m_tuple5->write();
 					Ncut5++;
 				}
