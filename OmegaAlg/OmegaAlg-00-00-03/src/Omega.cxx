@@ -70,12 +70,11 @@ Omega::Omega(const std::string &name, ISvcLocator *pSvcLocator) : Algorithm(name
 //*********************************************************************************************************
 StatusCode Omega::initialize()
 {
-	// initialize-start-line
 	MsgStream log(msgSvc(), name());
 	log << MSG::INFO << "in initialize()" << endmsg;
 	StatusCode status;
 	// initialize-data-in-topo
-	if (1 == 1)
+	if (1 == 0)
 	{
 		NTuplePtr ntt(ntupleSvc(), "FILE1/topo");
 		if (ntt)
@@ -118,6 +117,7 @@ StatusCode Omega::initialize()
 				status = m_tuple4->addItem("mpi01", m_pi01_4c);
 				status = m_tuple4->addItem("mpi02", m_pi02_4c);
 				status = m_tuple4->addItem("mpi03", m_pi03_4c);
+
 				status = m_tuple4->addItem("runID", runID);
 				status = m_tuple4->addItem("eventID", eventID);
 				status = m_tuple4->addItem("indexmc", m_idxmc, 0, 100);
@@ -149,11 +149,6 @@ StatusCode Omega::initialize()
 				status = m_tuple5->addItem("mpi02", m_mpi02_5c);
 				status = m_tuple5->addItem("mpi03", m_mpi03_5c);
 				status = m_tuple5->addItem("momega", m_momega_5c);
-				status = m_tuple5->addItem("runID", runID);
-				status = m_tuple5->addItem("eventID", eventID);
-				status = m_tuple5->addItem("indexmc", m_idxmc, 0, 100);
-				status = m_tuple5->addIndexedItem("pdgid", m_idxmc, m_pdgid);
-				status = m_tuple5->addIndexedItem("motheridx", m_idxmc, m_motheridx);
 			}
 			else
 			{
@@ -192,76 +187,77 @@ StatusCode Omega::execute()																	   //
 	//*********************************************************************************
 	// Selection 0: Topology
 	//*********************************************************************************
-	if (eventHeader->runNumber() < 0)															 // 判断run是否MC产生
-	{																							 //
-		SmartDataPtr<Event::McParticleCol> mcParticleCol(eventSvc(), "/Event/MC/McParticleCol"); //
-																								 //
-		int m_numParticle = 1;																	 //
-		if (!mcParticleCol)																		 //
-		{																						 //
-			cout << "Could not retrieve McParticelCol" << endl;									 //
-			return StatusCode::FAILURE;															 //
-		}																						 //
-		else																					 //
-		{																						 //
-			int nprmary = 0;																	 //
-			Event::McParticleCol::iterator iter_mc1 = mcParticleCol->begin();					 //
-			for (; iter_mc1 != mcParticleCol->end(); iter_mc1++)								 //
-			{																					 //
-				if (!(*iter_mc1)->decayFromGenerator())											 //
-					continue;																	 //
-				if ((*iter_mc1)->primaryParticle())												 //
-				{																				 //
-					nprmary++;																	 //
-				}																				 //
-			}																					 //
-			Event::McParticleCol::iterator iter_mc2 = mcParticleCol->begin();					 //
-			if (nprmary == 1)																	 //
-			{																					 //
-				m_numParticle = 0;																 //
-				for (; iter_mc2 != mcParticleCol->end(); iter_mc2++)							 //
-				{																				 //
-					if (!(*iter_mc2)->decayFromGenerator())										 //
-						continue;																 //
-					if ((*iter_mc2)->primaryParticle())											 //
-					{																			 //
-						m_pdgid[m_numParticle] = (*iter_mc2)->particleProperty();				 //
-						m_motheridx[m_numParticle] = 0;											 //
-					}																			 //
-					else																		 //
-					{																			 //
-						m_pdgid[m_numParticle] = (*iter_mc2)->particleProperty();				 //
-						m_motheridx[m_numParticle] = ((*iter_mc2)->mother()).trackIndex();		 //
-					}																			 //
-					m_numParticle += 1;															 //
-				}																				 //
-				m_idxmc = m_numParticle;														 //
-			}																					 //
-			if (nprmary > 1)																	 //
-			{																					 //
-				m_numParticle = 1;																 //
-				for (; iter_mc2 != mcParticleCol->end(); iter_mc2++)							 //
-				{																				 //
-					if (!(*iter_mc2)->decayFromGenerator())										 //
-						continue;																 //
-					if ((*iter_mc2)->primaryParticle())											 //
-					{																			 //
-						m_pdgid[m_numParticle] = (*iter_mc2)->particleProperty();				 //
-						m_motheridx[m_numParticle] = 0;											 //
-					}																			 //
-					else																		 //
-					{																			 //
-						m_pdgid[m_numParticle] = (*iter_mc2)->particleProperty();				 //
-						m_motheridx[m_numParticle] = ((*iter_mc2)->mother()).trackIndex() + 1;   //
-					}																			 //
-					m_numParticle += 1;															 //
-					m_pdgid[0] = 11111;															 //
-					m_motheridx[0] = 0;															 //
-				}																				 //
-				m_idxmc = m_numParticle;														 //
-			}																					 //
-		}																						 //
-	}																							 //
+	if (eventHeader->runNumber() < 0)
+	{
+		SmartDataPtr<Event::McParticleCol> mcParticleCol(eventSvc(), "/Event/MC/McParticleCol");
+
+		int m_numParticle = 1;
+		if (!mcParticleCol)
+		{
+			cout << "Could not retrieve McParticelCol" << endl;
+			return StatusCode::FAILURE;
+		}
+		else
+		{
+			int nprmary = 0;
+			Event::McParticleCol::iterator iter_mc1 = mcParticleCol->begin();
+			for (; iter_mc1 != mcParticleCol->end(); iter_mc1++)
+			{
+				if (!(*iter_mc1)->decayFromGenerator())
+					continue;
+				if ((*iter_mc1)->primaryParticle())
+				{
+					nprmary++;
+				}
+			}
+			Event::McParticleCol::iterator iter_mc2 = mcParticleCol->begin();
+			if (nprmary == 1)
+			{
+				m_numParticle = 0;
+				for (; iter_mc2 != mcParticleCol->end(); iter_mc2++)
+				{
+					if (!(*iter_mc2)->decayFromGenerator())
+						continue;
+					if ((*iter_mc2)->primaryParticle())
+					{
+						m_pdgid[m_numParticle] = (*iter_mc2)->particleProperty();
+						m_motheridx[m_numParticle] = 0;
+					}
+					else
+					{
+						m_pdgid[m_numParticle] = (*iter_mc2)->particleProperty();
+						m_motheridx[m_numParticle] = ((*iter_mc2)->mother()).trackIndex();
+					}
+					m_numParticle += 1;
+				}
+				m_idxmc = m_numParticle;
+			}
+			if (nprmary > 1)
+			{
+				m_numParticle = 1;
+				for (; iter_mc2 != mcParticleCol->end(); iter_mc2++)
+				{
+					if (!(*iter_mc2)->decayFromGenerator())
+						continue;
+					if ((*iter_mc2)->primaryParticle())
+					{
+						m_pdgid[m_numParticle] = (*iter_mc2)->particleProperty();
+						m_motheridx[m_numParticle] = 0;
+					}
+					else
+					{
+
+						m_pdgid[m_numParticle] = (*iter_mc2)->particleProperty();
+						m_motheridx[m_numParticle] = ((*iter_mc2)->mother()).trackIndex() + 1;
+					}
+					m_numParticle += 1;
+					m_pdgid[0] = 11111;
+					m_motheridx[0] = 0;
+				}
+				m_idxmc = m_numParticle;
+			}
+		}
+	} //
 	//*********************************************************************************
 	// Selection 1: Good Charged Track Selection
 	//*********************************************************************************
