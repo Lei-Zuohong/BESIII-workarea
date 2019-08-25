@@ -150,11 +150,11 @@ StatusCode Omega::initialize()
 				status = m_tuple5->addItem("mpi03", m_mpi03_5c);
 				status = m_tuple5->addItem("momega", m_momega_5c);
 
-				status = m_tuple4->addItem("runID", runID_5c);
-				status = m_tuple4->addItem("eventID", eventID_5c);
-				status = m_tuple4->addItem("indexmc", m_idxmc_5c, 0, 100);
-				status = m_tuple4->addIndexedItem("pdgid", m_idxmc_5c, m_pdgid_5c);
-				status = m_tuple4->addIndexedItem("motheridx", m_idxmc_5c, m_motheridx_5c);
+				status = m_tuple5->addItem("runID", runID_5c);
+				status = m_tuple5->addItem("eventID", eventID_5c);
+				status = m_tuple5->addItem("indexmc", m_idxmc_5c, 0, 100);
+				status = m_tuple5->addIndexedItem("pdgid", m_idxmc_5c, m_pdgid_5c);
+				status = m_tuple5->addIndexedItem("motheridx", m_idxmc_5c, m_motheridx_5c);
 			}
 			else
 			{
