@@ -40,6 +40,11 @@ private:
   NTuple::Item<double> m_pi01_4c;
   NTuple::Item<double> m_pi02_4c;
   NTuple::Item<double> m_pi03_4c;
+  NTuple::Item<int> runID_4c;
+  NTuple::Item<int> eventID_4c;
+  NTuple::Item<int> m_idxmc_4c;
+  NTuple::Array<int> m_pdgid_4c;
+  NTuple::Array<int> m_motheridx_4c;
 
   NTuple::Tuple *m_tuple5; // Omega 5C
   NTuple::Item<double> m_chisq_5c;
@@ -47,6 +52,11 @@ private:
   NTuple::Item<double> m_mpi02_5c;
   NTuple::Item<double> m_mpi03_5c;
   NTuple::Item<double> m_momega_5c;
+  NTuple::Item<int> runID_5c;
+  NTuple::Item<int> eventID_5c;
+  NTuple::Item<int> m_idxmc_5c;
+  NTuple::Array<int> m_pdgid_5c;
+  NTuple::Array<int> m_motheridx_5c;
 };
 
 #endif
