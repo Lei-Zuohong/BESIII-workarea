@@ -329,7 +329,7 @@ LCGCMT_prototypes (from PROJECT) excludes [LCGCMT_no_prototypes]
 LCGCMT_without_installarea (from PROJECT) excludes [LCGCMT_with_installarea]
 LCGCMT_with_version_directory (from PROJECT) excludes [LCGCMT_without_version_directory]
 x86_64 (from package CMT) package [LCG_Platforms] implies [host-x86_64]
-sl610 (from package CMT)
+sl69 (from package CMT)
 gcc463 (from package CMT)
 Unix (from package CMT) package [LCG_Platforms] implies [host-unix] excludes [WIN32 Win32]
 c_native_dependencies (from package CMT) activated GaudiPolicy
