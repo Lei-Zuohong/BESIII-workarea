@@ -55,7 +55,6 @@ Omega::Omega(const std::string &name, ISvcLocator *pSvcLocator) : Algorithm(name
 {
 	declareProperty("GammaPhiCut", m_gammaPhiCut = 20.0);
 	declareProperty("GammaThetaCut", m_gammaThetaCut = 20.0);
-	declareProperty("GammaAngleCut", m_gammaAngleCut = 10.0);
 	declareProperty("Test4C", m_test4C = 1);
 	declareProperty("Test5C", m_test5C = 1);
 	declareProperty("CheckDedx", m_checkDedx = 1);
@@ -620,13 +619,13 @@ StatusCode Omega::execute()																	   //
 			double mpi01;										  //
 			double mpi02;										  //
 			double mpi03;										  //
-			HepLorentzVector ptrack_fit[7] = {ptrack0,			  //
-											  ptrack2,			  //
-											  ptrack3,			  //
-											  ptrack4,			  //
-											  ptrack5,			  //
-											  ptrack6,			  //
-											  ptrack7};			  //
+			HepLorentzVector ptrack[7] = {ptrack0,				  //
+										  ptrack2,				  //
+										  ptrack3,				  //
+										  ptrack4,				  //
+										  ptrack5,				  //
+										  ptrack6,				  //
+										  ptrack7};				  //
 			double ib0;											  //
 			double iomega;										  //
 			double ipi01;										  //
