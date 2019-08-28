@@ -53,8 +53,6 @@ int Ncut0, Ncut1, Ncut2, Ncut3, Ncut4, Ncut5, Ncut6;
 //*********************************************************************************************************
 Omega::Omega(const std::string &name, ISvcLocator *pSvcLocator) : Algorithm(name, pSvcLocator)
 {
-	declareProperty("GammaPhiCut", m_gammaPhiCut = 20.0);
-	declareProperty("GammaThetaCut", m_gammaThetaCut = 20.0);
 	declareProperty("Test4C", m_test4C = 1);
 	declareProperty("Test5C", m_test5C = 1);
 	declareProperty("CheckDedx", m_checkDedx = 1);
@@ -341,6 +339,8 @@ StatusCode Omega::execute()																	   //
 		double Rvxy0 = fabs(vecipa[0]);												   //
 		double Rvz0 = vecipa[3];													   //
 		double Rvphi0 = vecipa[1];													   //
+		if (fabs(cos(mdcTrk->theta())) > 0.93)										   //
+			continue;																   //
 		if (fabs(Rvz0) >= 10)														   //
 			continue;																   //
 		if (fabs(Rvxy0) >= 1)														   //
@@ -358,58 +358,65 @@ StatusCode Omega::execute()																	   //
 	//*********************************************************************************
 	// Selection 2: Good Photon Selection
 	//*********************************************************************************
-	Vint iGam;																						   //
-	iGam.clear();																					   //
-	for (int i = evtRecEvent->totalCharged(); i < evtRecEvent->totalTracks(); i++)					   //
-	{																								   //
-		EvtRecTrackIterator itTrk = evtRecTrkCol->begin() + i;										   //
-		if (!(*itTrk)->isEmcShowerValid())															   //
-			continue;																				   //
-		RecEmcShower *emcTrk = (*itTrk)->emcShower();												   //
-		Hep3Vector emcpos(emcTrk->x(), emcTrk->y(), emcTrk->z());									   //
-		double dthe = 200.;																			   //
-		double dphi = 200.;																			   //
-		double dang = 200.;																			   //
-		for (int j = 0; j < evtRecEvent->totalCharged(); j++)										   //
-		{																							   //
-			EvtRecTrackIterator jtTrk = evtRecTrkCol->begin() + j;									   //
-			if (!(*jtTrk)->isExtTrackValid())														   //
-				continue;																			   //
-			RecExtTrack *extTrk = (*jtTrk)->extTrack();												   //
-			if (extTrk->emcVolumeNumber() == -1)													   //
-				continue;																			   //
-			Hep3Vector extpos = extTrk->emcPosition();												   //
-			double angd = extpos.angle(emcpos);														   //
-			double thed = extpos.theta() - emcpos.theta();											   //
-			double phid = extpos.deltaPhi(emcpos);													   //
-			thed = fmod(thed + CLHEP::twopi + CLHEP::twopi + pi, CLHEP::twopi) - CLHEP::pi;			   //
-			phid = fmod(phid + CLHEP::twopi + CLHEP::twopi + pi, CLHEP::twopi) - CLHEP::pi;			   //
-			if (angd < dang)																		   //
-			{																						   //
-				dang = angd;																		   //
-				dthe = thed;																		   //
-				dphi = phid;																		   //
-			}																						   //
-		}																							   //
-		if (dang >= 200)																			   //
-			continue;																				   //
-		double eraw = emcTrk->energy();																   //
-		dthe = dthe * 180 / (CLHEP::pi);															   //
-		dphi = dphi * 180 / (CLHEP::pi);															   //
-		dang = dang * 180 / (CLHEP::pi);															   //
-		if (eraw < 0.025)																			   //
-			continue;																				   //
-		if (fabs(dang) < 10)																		   //
-			continue;																				   //
-		iGam.push_back(i);																			   //
-	}																								   //
-	int nGam = iGam.size();																			   //
-	log << MSG::DEBUG << "num Good Photon " << nGam << " , " << evtRecEvent->totalNeutral() << endreq; //
-	if (nGam < 6)																					   //
-	{																								   //
-		return StatusCode::SUCCESS;																	   //
-	}																								   //
-	Ncut2++;																						   //
+	Vint iGam;																							  //
+	iGam.clear();																						  //
+	for (int i = evtRecEvent->totalCharged(); i < evtRecEvent->totalTracks(); i++)						  //
+	{																									  //
+		EvtRecTrackIterator itTrk = evtRecTrkCol->begin() + i;											  //
+		if (!(*itTrk)->isEmcShowerValid())																  //
+			continue;																					  //
+		RecEmcShower *emcTrk = (*itTrk)->emcShower();													  //
+		Hep3Vector emcpos(emcTrk->x(), emcTrk->y(), emcTrk->z());										  //
+		double dthe = 200.;																				  //
+		double dphi = 200.;																				  //
+		double dang = 200.;																				  //
+		for (int j = 0; j < evtRecEvent->totalCharged(); j++)											  //
+		{																								  //
+			EvtRecTrackIterator jtTrk = evtRecTrkCol->begin() + j;										  //
+			if (!(*jtTrk)->isExtTrackValid())															  //
+				continue;																				  //
+			RecExtTrack *extTrk = (*jtTrk)->extTrack();													  //
+			if (extTrk->emcVolumeNumber() == -1)														  //
+				continue;																				  //
+			Hep3Vector extpos = extTrk->emcPosition();													  //
+			double angd = extpos.angle(emcpos);															  //
+			double thed = extpos.theta() - emcpos.theta();												  //
+			double phid = extpos.deltaPhi(emcpos);														  //
+			thed = fmod(thed + CLHEP::twopi + CLHEP::twopi + pi, CLHEP::twopi) - CLHEP::pi;				  //
+			phid = fmod(phid + CLHEP::twopi + CLHEP::twopi + pi, CLHEP::twopi) - CLHEP::pi;				  //
+			if (angd < dang)																			  //
+			{																							  //
+				dang = angd;																			  //
+				dthe = thed;																			  //
+				dphi = phid;																			  //
+			}																							  //
+		}																								  //
+		if (dang >= 200)																				  //
+			continue;																					  //
+		double eraw = emcTrk->energy();																	  //
+		dthe = dthe * 180 / (CLHEP::pi);																  //
+		dphi = dphi * 180 / (CLHEP::pi);																  //
+		dang = dang * 180 / (CLHEP::pi);																  //
+		double ctht = cos(emcTrk->theta());																  //
+		if ((emcTrk->module() == 1) && (fabs(ctht) > 0.8))												  //
+			continue;																					  //
+		if ((emcTrk->module() == 0 || emcTrk->module() == 2) && (fabs(ctht) > 0.92 || fabs(ctht) < 0.86)) //
+			continue;																					  //
+		if (emcTrk->time() < 0 || emcTrk->time() > 14)													  //
+			continue;																					  //
+		if (eraw < 0.025)																				  //
+			continue;																					  //
+		if (fabs(dang) < 10)																			  //
+			continue;																					  //
+		iGam.push_back(i);																				  //
+	}																									  //
+	int nGam = iGam.size();																				  //
+	log << MSG::DEBUG << "num Good Photon " << nGam << " , " << evtRecEvent->totalNeutral() << endreq;	//
+	if (nGam < 6)																						  //
+	{																									  //
+		return StatusCode::SUCCESS;																		  //
+	}																									  //
+	Ncut2++;																							  //
 	//*********************************************************************************
 	// Calculation 1: 4-momentum to each photon
 	//*********************************************************************************
