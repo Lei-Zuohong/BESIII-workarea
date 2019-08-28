@@ -652,14 +652,14 @@ StatusCode Omega::execute()																	   //
 							  ptrack[combine[i][2 * select[j][0]]] +
 							  ptrack[combine[i][2 * select[j][0] + 1]])
 								 .m();
-					ipi01 = (ptrack_fit[combine[i][2 * select[j][0]]] +
-							 ptrack_fit[combine[i][2 * select[j][0] + 1]])
+					ipi01 = (ptrack[combine[i][2 * select[j][0]]] +
+							 ptrack[combine[i][2 * select[j][0] + 1]])
 								.m();
-					ipi02 = (ptrack_fit[combine[i][2 * select[j][1]]] +
-							 ptrack_fit[combine[i][2 * select[j][1] + 1]])
+					ipi02 = (ptrack[combine[i][2 * select[j][1]]] +
+							 ptrack[combine[i][2 * select[j][1] + 1]])
 								.m();
-					ipi03 = (ptrack_fit[combine[i][2 * select[j][2]]] +
-							 ptrack_fit[combine[i][2 * select[j][2] + 1]])
+					ipi03 = (ptrack[combine[i][2 * select[j][2]]] +
+							 ptrack[combine[i][2 * select[j][2] + 1]])
 								.m();
 					chisqb = pow((ib0 - 1.235), 2);
 					chisqo = pow((iomega - 0.782), 2);
