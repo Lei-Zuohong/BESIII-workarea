@@ -108,6 +108,7 @@ StatusCode Omega::initialize()
 			{
 				status = m_tuple4->addItem("chisq", m_chisq_4c);
 				status = m_tuple4->addItem("mb0", m_b0_4c);
+				status = m_tuple4->addItem("mf0", m_f0_4c);
 				status = m_tuple4->addItem("momega", m_omega_4c);
 				status = m_tuple4->addItem("mpi01", m_pi01_4c);
 				status = m_tuple4->addItem("mpi02", m_pi02_4c);
@@ -141,6 +142,7 @@ StatusCode Omega::initialize()
 			{
 				status = m_tuple5->addItem("chisq", m_chisq_5c);
 				status = m_tuple5->addItem("mb0", m_b0_5c);
+				status = m_tuple5->addItem("mf0", m_f0_5c);
 				status = m_tuple5->addItem("momega", m_momega_5c);
 				status = m_tuple5->addItem("mpi01", m_mpi01_5c);
 				status = m_tuple5->addItem("mpi02", m_mpi02_5c);
@@ -485,36 +487,36 @@ StatusCode Omega::execute()																	   //
 	if (npip * npim != 1)																   //
 		return SUCCESS;																	   //
 	Ncut3++;																			   //
-	cout << "pass pid" << endl;															   //
-																						   //*********************************************************************************
-																						   // Selection 3: Vertex fit Selection, check ppi0, pTot
-																						   //*********************************************************************************
-	RecMdcKalTrack *pipTrk = (*(evtRecTrkCol->begin() + ipip[0]))->mdcKalTrack();		   //Default is pion, for other particles:
-	RecMdcKalTrack *pimTrk = (*(evtRecTrkCol->begin() + ipim[0]))->mdcKalTrack();		   //wvppTrk = WTrackParameter(mp, pipTrk->getZHelixP(), pipTrk->getZErrorP()); proton
-	WTrackParameter wvpipTrk, wvpimTrk;													   //wvmupTrk = WTrackParameter(mmu, pipTrk->getZHelixMu(), pipTrk->getZErrorMu()); muon
-	wvpipTrk = WTrackParameter(mpi, pipTrk->getZHelix(), pipTrk->getZError());			   //wvepTrk = WTrackParameter(me, pipTrk->getZHelixE(), pipTrk->getZErrorE()); electron
-	wvpimTrk = WTrackParameter(mpi, pimTrk->getZHelix(), pimTrk->getZError());			   //wvkpTrk = WTrackParameter(mk, pipTrk->getZHelixK(), pipTrk->getZErrorK()); kaon
-	HepPoint3D vx(0., 0., 0.);															   //
-	HepSymMatrix Evx(3, 0);																   //
-	double bx = 1E+6;																	   //
-	double by = 1E+6;																	   //
-	double bz = 1E+6;																	   //
-	Evx[0][0] = bx * bx;																   //
-	Evx[1][1] = by * by;																   //
-	Evx[2][2] = bz * bz;																   //
-	VertexParameter vxpar;																   //
-	vxpar.setVx(vx);																	   //
-	vxpar.setEvx(Evx);																	   //
-	VertexFit *vtxfit = VertexFit::instance();											   //
-	vtxfit->init();																		   //
-	vtxfit->AddTrack(0, wvpipTrk);														   //设定track0
-	vtxfit->AddTrack(1, wvpimTrk);														   //设定track1
-	vtxfit->AddVertex(0, vxpar, 0, 1);													   //设定顶点0
-	if (!vtxfit->Fit(0))																   //
-		return SUCCESS;																	   //
-	vtxfit->Swim(0);																	   //
-	Ncut6++;																			   //
-	cout << "pass VFit" << endl;														   //
+	cout << "pass pid" << endl;
+	//*********************************************************************************
+	// Selection 3: Vertex fit Selection, check ppi0, pTot
+	//*********************************************************************************
+	RecMdcKalTrack *pipTrk = (*(evtRecTrkCol->begin() + ipip[0]))->mdcKalTrack(); //Default is pion, for other particles:
+	RecMdcKalTrack *pimTrk = (*(evtRecTrkCol->begin() + ipim[0]))->mdcKalTrack(); //wvppTrk = WTrackParameter(mp, pipTrk->getZHelixP(), pipTrk->getZErrorP()); proton
+	WTrackParameter wvpipTrk, wvpimTrk;											  //wvmupTrk = WTrackParameter(mmu, pipTrk->getZHelixMu(), pipTrk->getZErrorMu()); muon
+	wvpipTrk = WTrackParameter(mpi, pipTrk->getZHelix(), pipTrk->getZError());	//wvepTrk = WTrackParameter(me, pipTrk->getZHelixE(), pipTrk->getZErrorE()); electron
+	wvpimTrk = WTrackParameter(mpi, pimTrk->getZHelix(), pimTrk->getZError());	//wvkpTrk = WTrackParameter(mk, pipTrk->getZHelixK(), pipTrk->getZErrorK()); kaon
+	HepPoint3D vx(0., 0., 0.);													  //
+	HepSymMatrix Evx(3, 0);														  //
+	double bx = 1E+6;															  //
+	double by = 1E+6;															  //
+	double bz = 1E+6;															  //
+	Evx[0][0] = bx * bx;														  //
+	Evx[1][1] = by * by;														  //
+	Evx[2][2] = bz * bz;														  //
+	VertexParameter vxpar;														  //
+	vxpar.setVx(vx);															  //
+	vxpar.setEvx(Evx);															  //
+	VertexFit *vtxfit = VertexFit::instance();									  //
+	vtxfit->init();																  //
+	vtxfit->AddTrack(0, wvpipTrk);												  //设定track0
+	vtxfit->AddTrack(1, wvpimTrk);												  //设定track1
+	vtxfit->AddVertex(0, vxpar, 0, 1);											  //设定顶点0
+	if (!vtxfit->Fit(0))														  //
+		return SUCCESS;															  //
+	vtxfit->Swim(0);															  //
+	Ncut6++;																	  //
+	cout << "pass VFit" << endl;												  //
 	//*********************************************************************************
 	// Selection 7: 4~5C Selection
 	//*********************************************************************************
@@ -621,11 +623,6 @@ StatusCode Omega::execute()																	   //
 		if (chisq_4c < 200)										  //
 		{														  //
 			double chisq = 9999;								  //
-			double mb0;											  //
-			double momega;										  //
-			double mpi01;										  //
-			double mpi02;										  //
-			double mpi03;										  //
 			HepLorentzVector ptrack[7] = {ptrack0,				  //
 										  ptrack2,				  //
 										  ptrack3,				  //
@@ -634,15 +631,17 @@ StatusCode Omega::execute()																	   //
 										  ptrack6,				  //
 										  ptrack7};				  //
 			double ib0;											  //
+			double if0;											  //
 			double iomega;										  //
 			double ipi01;										  //
 			double ipi02;										  //
 			double ipi03;										  //
-			double chisqb;										  //
-			double chisqo;										  //
-			double chisq1;										  //
-			double chisq2;										  //
-			double chisq3;										  //
+			double mb0;											  //
+			double mf0;											  //
+			double momega;										  //
+			double mpi01;										  //
+			double mpi02;										  //
+			double mpi03;										  //
 			for (int i = 0; i < 15; i++)
 			{
 				for (int j = 0; j < 3; j++)
@@ -651,6 +650,11 @@ StatusCode Omega::execute()																	   //
 						   ppim[0] +
 						   ptrack[combine[i][2 * select[j][0]]] +
 						   ptrack[combine[i][2 * select[j][0] + 1]] +
+						   ptrack[combine[i][2 * select[j][1]]] +
+						   ptrack[combine[i][2 * select[j][1] + 1]])
+							  .m();
+					if0 = (ptrack[combine[i][2 * select[j][2]]] +
+						   ptrack[combine[i][2 * select[j][2] + 1]] +
 						   ptrack[combine[i][2 * select[j][1]]] +
 						   ptrack[combine[i][2 * select[j][1] + 1]])
 							  .m();
@@ -668,16 +672,17 @@ StatusCode Omega::execute()																	   //
 					ipi03 = (ptrack[combine[i][2 * select[j][2]]] +
 							 ptrack[combine[i][2 * select[j][2] + 1]])
 								.m();
-					chisqb = pow((ib0 - 1.235), 2);
-					chisqo = pow((iomega - 0.782), 2);
-					chisq1 = pow((ipi01 - 0.135), 2);
-					chisq2 = pow((ipi02 - 0.135), 2);
-					chisq3 = pow((ipi03 - 0.135), 2);
-					double chi2 = chisqb / 10 + chisqo + (chisq1 + chisq2 + chisq3) / 3;
+					double chisqb = pow((ib0 - 1.235), 2);
+					double chisqo = pow((iomega - 0.782), 2);
+					double chisq1 = pow((ipi01 - 0.135), 2);
+					double chisq2 = pow((ipi02 - 0.135), 2);
+					double chisq3 = pow((ipi03 - 0.135), 2);
+					double chi2 = chisqb / 100 + chisqo + (chisq1 + chisq2 + chisq3) / 3;
 					if (chi2 < chisq)
 					{
 						chisq = chi2;
 						mb0 = ib0;
+						mf0 = if0;
 						momega = iomega;
 						mpi01 = ipi01;
 						mpi02 = ipi02;
@@ -689,6 +694,7 @@ StatusCode Omega::execute()																	   //
 			{
 				m_chisq_4c = chisq;
 				m_b0_4c = mb0;
+				m_f0_4c = mf0;
 				m_omega_4c = momega;
 				m_pi01_4c = mpi01;
 				m_pi02_4c = mpi02;
@@ -774,6 +780,7 @@ StatusCode Omega::execute()																	   //
 		{																								  //
 			double chisq_o = 9999;																		  //
 			double mb0 = -1;																			  //
+			double mf0 = -1;																			  //
 			double momega = -1;																			  //
 			double mpi01 = -1;																			  //
 			double mpi02 = -1;																			  //
@@ -807,7 +814,7 @@ StatusCode Omega::execute()																	   //
 										 kmfit->pfit(2 * select[j][0] + 2) +
 										 kmfit->pfit(2 * select[j][0] + 3))
 												.m() -
-											1.235,
+											0.782,
 										2);
 					double chi2_2 = pow((kmfit->pfit(0) +
 										 kmfit->pfit(1) +
@@ -816,16 +823,23 @@ StatusCode Omega::execute()																	   //
 										 kmfit->pfit(2 * select[j][1] + 2) +
 										 kmfit->pfit(2 * select[j][1] + 3))
 												.m() -
-											0.782,
+											1.235,
 										2);
 					double chi2 = chi2_1 + chi2_2 / 100;
 					if (chi2 < chisq_o)
 					{
 						chisq_o = chi2;
+						mf0 = (kmfit->pfit(2 * select[j][1] + 2) +
+							   kmfit->pfit(2 * select[j][1] + 3) +
+							   kmfit->pfit(2 * select[j][2] + 2) +
+							   kmfit->pfit(2 * select[j][2] + 3))
+								  .m();
 						mb0 = (kmfit->pfit(0) +
 							   kmfit->pfit(1) +
 							   kmfit->pfit(2 * select[j][0] + 2) +
-							   kmfit->pfit(2 * select[j][0] + 3))
+							   kmfit->pfit(2 * select[j][0] + 3) +
+							   kmfit->pfit(2 * select[j][1] + 2) +
+							   kmfit->pfit(2 * select[j][1] + 3))
 								  .m();
 						momega = (kmfit->pfit(0) +
 								  kmfit->pfit(1) +
@@ -847,6 +861,7 @@ StatusCode Omega::execute()																	   //
 				{
 					m_chisq_5c = kmfit->chisq();
 					m_b0_5c = mb0;
+					m_f0_5c = mf0;
 					m_momega_5c = momega;
 					m_mpi01_5c = mpi01;
 					m_mpi02_5c = mpi02;
