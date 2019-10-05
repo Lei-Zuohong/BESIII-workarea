@@ -221,6 +221,12 @@
 #   use EmcRecEventModel EmcRecEventModel-* Emc
 #   use MucRecEvent MucRecEvent-* Muc
 #   use ExtEvent ExtEvent-* Event
+# use McTruth McTruth-* Event
+#   use BesPolicy BesPolicy-01-* 
+#   use EventModel EventModel-* Event
+#   use GaudiInterface GaudiInterface-01-* External
+#   use Identifier Identifier-* DetectorDescription
+#   use RelTable RelTable-* Event
 # use BesROOT BesROOT-00-* External
 #
 # Selection :
@@ -273,6 +279,7 @@ use xmlBase xmlBase-00-00-03 Calibration (/afs/ihep.ac.cn/bes3/offline/Boss/6.6.
 use rdbModel rdbModel-00-01-01 Calibration (/afs/ihep.ac.cn/bes3/offline/Boss/6.6.5.p01)
 use calibUtil calibUtil-00-00-39 Calibration (/afs/ihep.ac.cn/bes3/offline/Boss/6.6.5.p01)
 use EventModel EventModel-01-05-33 Event (/afs/ihep.ac.cn/bes3/offline/Boss/6.6.5.p01)
+use McTruth McTruth-00-02-19 Event (/afs/ihep.ac.cn/bes3/offline/Boss/6.6.5.p01)
 use MagneticField MagneticField-00-01-38  (/afs/ihep.ac.cn/bes3/offline/Boss/6.6.5.p01)
 use MdcGeomSvc MdcGeomSvc-00-01-37 Mdc (/afs/ihep.ac.cn/bes3/offline/Boss/6.6.5.p01)
 use EvTimeEvent EvTimeEvent-00-00-08 Event (/afs/ihep.ac.cn/bes3/offline/Boss/6.6.5.p01)
