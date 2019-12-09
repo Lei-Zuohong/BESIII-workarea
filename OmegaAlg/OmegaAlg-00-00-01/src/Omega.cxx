@@ -43,20 +43,18 @@ typedef HepGeom::Point3D<double> HepPoint3D;
 //***                                                变量设置                                            ***
 //*********************************************************************************************************
 const double mpi = 0.13957;
-const double xmass[5] = {0.000511, 0.105658, 0.139570, 0.493677, 0.938272};
-const double velc = 299.792458;
 typedef std::vector<int> Vint;
 typedef std::vector<HepLorentzVector> Vp4;
-int Ncut0, Ncut3, Ncut4, Ncut5;
+std::vector<int> SeriesRun;
+std::vector<int> SeriesNum;
+int Ncut0, Ncut1, Ncut3, Ncut4, Ncut5, number, checkexit, checki, firstrun;
 //*********************************************************************************************************
 //***                                                声明容器                                            ***
 //*********************************************************************************************************
 Omega::Omega(const std::string &name, ISvcLocator *pSvcLocator) : Algorithm(name, pSvcLocator)
 {
 	declareProperty("Test4C", m_test4C = 1);
-	declareProperty("Test5C", m_test5C = 1);
-	declareProperty("CheckDedx", m_checkDedx = 1);
-	declareProperty("CheckTof", m_checkTof = 1);
+	declareProperty("Test5C", m_test5C = 0);
 	declareProperty("Energy", m_energy = 2.125);
 }
 //*********************************************************************************************************
@@ -82,12 +80,15 @@ StatusCode Omega::initialize()
 			{
 				status = m_tuple4->addItem("chisq", m_chisq_4c);
 				status = m_tuple4->addItem("chisq_pi", m_chisq_3pi);
-				status = m_tuple4->addItem("momega", m_omega_4c);
-				status = m_tuple4->addItem("mpi01", m_pi01_4c);
-				status = m_tuple4->addItem("mpi02", m_pi02_4c);
-				status = m_tuple4->addItem("mpi03", m_pi03_4c);
-				status = m_tuple4->addItem("mf0", m_f0_4c);
-				status = m_tuple4->addItem("mb0", m_b0_4c);
+				status = m_tuple4->addItem("mpi01", m_pi01);
+				status = m_tuple4->addItem("mpi02", m_pi02);
+				status = m_tuple4->addItem("mpi03", m_pi03);
+				status = m_tuple4->addItem("momega", m_omega);
+				status = m_tuple4->addItem("momegapi02", m_omegapi02);
+				status = m_tuple4->addItem("momegapi03", m_omegapi03);
+				status = m_tuple4->addItem("mpi02pi03", m_pi02pi03);
+				status = m_tuple4->addItem("mpi01pi02", m_pi01pi02);
+				status = m_tuple4->addItem("mpi01pi03", m_pi01pi03);
 
 				status = m_tuple4->addItem("runID", runID);
 				status = m_tuple4->addItem("eventID", eventID);
@@ -102,26 +103,30 @@ StatusCode Omega::initialize()
 			}
 		}
 	}
-	//initialize-data-in-fit5c
+	// initialize-data-in-truth
 	if (1 == 1)
 	{
-		NTuplePtr nt5(ntupleSvc(), "FILE1/fit5c");
+		NTuplePtr nt5(ntupleSvc(), "FILE1/truth");
 		if (nt5)
 		{
 			m_tuple5 = nt5;
 		}
 		else
 		{
-			m_tuple5 = ntupleSvc()->book("FILE1/fit5c", CLID_ColumnWiseTuple, "ks N-Tuple example");
+			m_tuple5 = ntupleSvc()->book("FILE1/truth", CLID_ColumnWiseTuple, "ks N-Tuple example");
 			if (m_tuple5)
 			{
-				status = m_tuple5->addItem("chisq", m_chisq_5c);
-				status = m_tuple5->addItem("momega", m_omega_5c);
-				status = m_tuple5->addItem("mpi01", m_pi01_5c);
-				status = m_tuple5->addItem("mpi02", m_pi02_5c);
-				status = m_tuple5->addItem("mpi03", m_pi03_5c);
-				status = m_tuple5->addItem("mf0", m_f0_5c);
-				status = m_tuple5->addItem("mb0", m_b0_5c);
+				status = m_tuple5->addItem("chisq", t_chisq_4c);
+				status = m_tuple5->addItem("chisq_pi", t_chisq_3pi);
+				status = m_tuple5->addItem("mpi01", t_pi01);
+				status = m_tuple5->addItem("mpi02", t_pi02);
+				status = m_tuple5->addItem("mpi03", t_pi03);
+				status = m_tuple5->addItem("momega", t_omega);
+				status = m_tuple5->addItem("momegapi02", t_omegapi02);
+				status = m_tuple5->addItem("momegapi03", t_omegapi03);
+				status = m_tuple5->addItem("mpi02pi03", t_pi02pi03);
+				status = m_tuple5->addItem("mpi01pi02", t_pi01pi02);
+				status = m_tuple5->addItem("mpi01pi03", t_pi01pi03);
 			}
 			else
 			{
@@ -130,33 +135,32 @@ StatusCode Omega::initialize()
 			}
 		}
 	}
-	//end-line
+	//
 	log << MSG::INFO << "successfully return from initialize()" << endmsg;
 	return StatusCode::SUCCESS;
 }
 //*********************************************************************************************************
 //***                                                execute                                            ***
 //*********************************************************************************************************
-StatusCode Omega::execute()																	   //
-{																							   //
-	std::cout << "execute()" << std::endl;													   //
-	MsgStream log(msgSvc(), name());														   //
-	log << MSG::INFO << "in execute()" << endreq;											   //
-	SmartDataPtr<Event::EventHeader> eventHeader(eventSvc(), "/Event/EventHeader");			   //
-	int runNo = eventHeader->runNumber();													   // 读取runNo：runnumber
-	int event = eventHeader->eventNumber();													   // 读取event：eventnumber
-	runID = runNo;																			   // 变量：topo
-	eventID = event;																		   //
-	log << MSG::DEBUG << "run, evtnum = "													   //
-		<< runNo << " , "																	   //
-		<< event << endreq;																	   //
-	Ncut0++;																				   //
-	SmartDataPtr<EvtRecEvent> evtRecEvent(eventSvc(), EventModel::EvtRec::EvtRecEvent);		   //
-	log << MSG::DEBUG << "ncharg, nneu, tottks = "											   //
-		<< evtRecEvent->totalCharged() << " , "												   //
-		<< evtRecEvent->totalNeutral() << " , "												   //
-		<< evtRecEvent->totalTracks() << endreq;											   //
-	SmartDataPtr<EvtRecTrackCol> evtRecTrkCol(eventSvc(), EventModel::EvtRec::EvtRecTrackCol); //
+StatusCode Omega::execute()																//
+{																						//
+	MsgStream log(msgSvc(), name());													//
+	log << MSG::INFO << "in execute()" << endreq;										//
+	SmartDataPtr<Event::EventHeader> eventHeader(eventSvc(), "/Event/EventHeader");		//
+	int runNo = eventHeader->runNumber();												// 读取runNo：runnumber
+	int event = eventHeader->eventNumber();												// 读取event：eventnumber
+	runID = runNo;																		// 变量：topo
+	eventID = event;																	//
+	log << MSG::DEBUG << "run, evtnum = "												//
+		<< runNo << " , "																//
+		<< event << endreq;																//
+	Ncut0++;																			//
+	SmartDataPtr<EvtRecEvent> evtRecEvent(eventSvc(), EventModel::EvtRec::EvtRecEvent); //
+	log << MSG::DEBUG << "ncharg, nneu, tottks = "										//
+		<< evtRecEvent->totalCharged() << " , "											//
+		<< evtRecEvent->totalNeutral() << " , "											//
+		<< evtRecEvent->totalTracks() << endreq;										//
+	SmartDataPtr<EvtRecTrackCol> evtRecTrkCol(eventSvc(), EventModel::EvtRec::EvtRecTrackCol);
 	//*********************************************************************************
 	// Selection 0: Topology
 	//*********************************************************************************
@@ -229,7 +233,171 @@ StatusCode Omega::execute()																	   //
 				m_idxmc = m_numParticle;														 // 变量：topo
 			}																					 //
 		}																						 //
-	}																							 //
+	}
+	//*********************************************************************************
+	// Selection 0: Truth
+	//*********************************************************************************
+	int truth_check = 0;
+	if (eventHeader->runNumber() < 0)
+	{
+		SmartDataPtr<Event::McParticleCol> mcParticleCol(eventSvc(), "/Event/MC/McParticleCol");
+		HepLorentzVector pip_track;
+		HepLorentzVector pim_track;
+		HepLorentzVector pi01_track;
+		HepLorentzVector pi02_track;
+		HepLorentzVector pi03_track;
+		HepLorentzVector omega_track;
+		Event::McParticleCol::iterator iter_mc = mcParticleCol->begin();
+		int nomega = 0, npi01 = 0, npi02 = 0, npi03 = 0, npip = 0, npim = 0, ncount = 0;
+		for (; iter_mc != mcParticleCol->end(); iter_mc++)
+		{
+			if (!(*iter_mc)->decayFromGenerator())
+				continue;
+			HepLorentzVector mctrue_track = (*iter_mc)->initialFourMomentum();
+			if ((*iter_mc)->particleProperty() == 223)
+			{
+				omega_track = mctrue_track;
+				nomega += 1;
+			}
+			else if ((*iter_mc)->particleProperty() == 111)
+			{
+				if (((*iter_mc)->mother()).particleProperty() == 223)
+				{
+					pi01_track = mctrue_track;
+					npi01 += 1;
+				}
+				else if (ncount == 0)
+				{
+					pi02_track = mctrue_track;
+					npi02 += 1;
+					ncount += 1;
+				}
+				else
+				{
+					pi03_track = mctrue_track;
+					npi03 += 1;
+					ncount += 1;
+				}
+			}
+			else if ((*iter_mc)->particleProperty() == 211 && ((*iter_mc)->mother()).particleProperty() == 223)
+			{
+				pip_track = mctrue_track;
+				npip += 1;
+			}
+			else if ((*iter_mc)->particleProperty() == -211 && ((*iter_mc)->mother()).particleProperty() == 223)
+			{
+				pim_track = mctrue_track;
+				npim += 1;
+			}
+		}
+		if (npip == 1 && npim == 1 && npi01 == 1 && npi02 == 1 && npi03 == 1 && nomega == 1 && ncount == 2)
+		{
+			truth_check = 1;
+		}
+		if (truth_check == 1)
+		{
+			HepLorentzVector omegapi02_track = omega_track + pi02_track;
+			HepLorentzVector omegapi03_track = omega_track + pi03_track;
+			HepLorentzVector pi02pi03_track = pi02_track + pi03_track;
+			HepLorentzVector pi01pi02_track = pi01_track + pi02_track;
+			HepLorentzVector pi01pi03_track = pi01_track + pi03_track;
+			t_chisq_4c = 0;
+			t_chisq_3pi = 0;
+			t_pi01 = pi01_track.m();
+			t_pi02 = pi02_track.m();
+			t_pi03 = pi03_track.m();
+			t_omega = omega_track.m();
+			t_omegapi02 = omegapi02_track.m();
+			t_omegapi03 = omegapi03_track.m();
+			t_pi02pi03 = pi02pi03_track.m();
+			t_pi01pi02 = pi01pi02_track.m();
+			t_pi01pi03 = pi01pi03_track.m();
+			m_tuple5->write();
+			Ncut1 += 1;
+		}
+	}
+	//*********************************************************************************
+	// Selection 0: Check runnumber
+	//*********************************************************************************
+	if (eventHeader->runNumber() > 0)
+	{
+		int m_status = 0;
+		if (runNo == 34326 || runNo == 34334 || runNo == 34478 || runNo == 34818 || runNo == 34982 ||
+			runNo == 35101 || runNo == 40459 || runNo == 40460 || runNo == 40461 || runNo == 40462 ||
+			runNo == 41408 || runNo == 41416 || runNo == 41902)
+		{
+			m_status = -1;
+		}
+		if (runNo == 34018 || runNo == 34020 || runNo == 34021 ||
+			runNo == 34023 || runNo == 34027 || runNo == 34040 || runNo == 34042 || runNo == 34046 ||
+			runNo == 34048 || runNo == 34058 || runNo == 34061 || runNo == 34065 || runNo == 34099 ||
+			runNo == 34100 || runNo == 34110 || runNo == 34117 || runNo == 34123 || runNo == 34124 ||
+			runNo == 34145 || runNo == 34152 || runNo == 34153 || runNo == 34168 || runNo == 34169 ||
+			runNo == 34170 || runNo == 34171 || runNo == 34172 || runNo == 34173 || runNo == 34174 ||
+			runNo == 34177 || runNo == 34178 || runNo == 34211 || runNo == 34212 || runNo == 34217 ||
+			runNo == 34227 || runNo == 34228 || runNo == 34237 || runNo == 34238 || runNo == 34261 ||
+			runNo == 34262 || runNo == 34282 || runNo == 34283 || runNo == 34301 || runNo == 34308 ||
+			runNo == 34309 || runNo == 34336 || runNo == 34337 || runNo == 34338 || runNo == 34352 ||
+			runNo == 34353 || runNo == 34377 || runNo == 34378 || runNo == 34383 || runNo == 34392 ||
+			runNo == 34401 || runNo == 34404 || runNo == 34406 || runNo == 34429 || runNo == 34432 ||
+			runNo == 34434 || runNo == 34440 || runNo == 34441 || runNo == 34464 || runNo == 34465 ||
+			runNo == 34467 || runNo == 34490 || runNo == 34492 || runNo == 34516 || runNo == 34517 ||
+			runNo == 34518 || runNo == 34519 || runNo == 34520 || runNo == 34521 || runNo == 34522 ||
+			runNo == 34523 || runNo == 34525 || runNo == 34527 || runNo == 34528 || runNo == 34529 ||
+			runNo == 34537 || runNo == 34544 || runNo == 34546 || runNo == 34547 || runNo == 34548 ||
+			runNo == 34549 || runNo == 34576 || runNo == 34577 || runNo == 34578 || runNo == 34600 ||
+			runNo == 34602 || runNo == 34625 || runNo == 34626 || runNo == 34628 || runNo == 34650 ||
+			runNo == 34653 || runNo == 34676 || runNo == 34678 || runNo == 34700 || runNo == 34711 ||
+			runNo == 34720 || runNo == 34722 || runNo == 34744 || runNo == 34745 || runNo == 34746 ||
+			runNo == 34748 || runNo == 34770 || runNo == 34771 || runNo == 34772 || runNo == 34795 ||
+			runNo == 34798 || runNo == 34815 || runNo == 34817 || runNo == 34848 || runNo == 34849 ||
+			runNo == 34853 || runNo == 34854 || runNo == 34870 || runNo == 34872 || runNo == 34875 ||
+			runNo == 34880 || runNo == 34882 || runNo == 34900 || runNo == 34904 || runNo == 34907 ||
+			runNo == 34916 || runNo == 34917 || runNo == 34936 || runNo == 34951 || runNo == 34954 ||
+			runNo == 34975 || runNo == 34977 || runNo == 34979 || runNo == 34985 || runNo == 34986 ||
+			runNo == 34988 || runNo == 34989 || runNo == 34990 || runNo == 35006 || runNo == 35014 ||
+			runNo == 35021 || runNo == 35023 || runNo == 35043 || runNo == 35044 || runNo == 35045 ||
+			runNo == 35046 || runNo == 35052 || runNo == 35066 || runNo == 35071 || runNo == 35074 ||
+			runNo == 35080 || runNo == 35091 || runNo == 35092 || runNo == 35096 || runNo == 35103 ||
+			runNo == 35117 || runNo == 35118)
+		{
+			m_status = -1;
+		}
+		if (m_status == -1)
+		{
+			return StatusCode::SUCCESS;
+		}
+	}
+	//*********************************************************************************
+	// Selection 0: Statistic Runnumber
+	//*********************************************************************************
+	if (firstrun == 0)						   //
+	{										   //
+		number = 0;							   //
+		checkexit = 0;						   //
+		checki = 0;							   //
+		SeriesRun.clear();					   //
+		SeriesNum.clear();					   //
+	}										   //
+	firstrun = 1;							   //
+	checkexit = 0;							   //
+	for (int i = 0; i < SeriesRun.size(); i++) //
+	{										   //
+		if (runNo == SeriesRun[i])			   //
+		{									   //
+			checkexit = 1;					   //
+			checki = i;						   //
+		}									   //
+	}										   //
+	if (checkexit == 1)						   //
+	{										   //
+		SeriesNum[checki] += 1;				   //
+	}										   //
+	else									   //
+	{										   //
+		SeriesRun.push_back(runNo);			   //
+		SeriesNum.push_back(1);				   //
+	}
 	//*********************************************************************************
 	// Selection 1: Good Charged Track Selection
 	//*********************************************************************************
@@ -340,13 +508,15 @@ StatusCode Omega::execute()																	   //
 		dphi = dphi * 180 / (CLHEP::pi);																  //
 		dang = dang * 180 / (CLHEP::pi);																  //
 		double ctht = cos(emcTrk->theta());																  //
-		if ((emcTrk->module() == 1) && (fabs(ctht) > 0.8))												  //
+		if ((emcTrk->module() == 1) && (fabs(ctht) > 0.8))												  // 选择：E-endcap
 			continue;																					  //
 		if ((emcTrk->module() == 0 || emcTrk->module() == 2) && (fabs(ctht) > 0.92 || fabs(ctht) < 0.86)) // 选择：E-endcap
 			continue;																					  //
 		if (emcTrk->time() < 0 || emcTrk->time() > 14)													  // 选择：TDC
 			continue;																					  //
-		if (eraw < 0.025)																				  // 选择：E-barrel
+		if ((emcTrk->module() == 1) && eraw < 0.025)													  // 选择：E-barrel
+			continue;																					  //
+		if ((emcTrk->module() == 0 || emcTrk->module() == 2) && eraw < 0.050)							  // 选择：E-barrel
 			continue;																					  //
 		if (fabs(dang) < 10)																			  // 选择：
 			continue;																					  //
@@ -354,7 +524,7 @@ StatusCode Omega::execute()																	   //
 	}																									  //
 	int nGam = iGam.size();																				  // 变量：nGam（中性track数量）
 	log << MSG::DEBUG << "num Good Photon " << nGam << " , " << evtRecEvent->totalNeutral() << endreq;	//
-	if (nGam < 6)																						  // 选择：nGam
+	if (nGam < 6 || nGam > 55)																			  // 选择：nGam
 	{																									  //
 		return StatusCode::SUCCESS;																		  //
 	}																									  //
@@ -426,7 +596,6 @@ StatusCode Omega::execute()																	   //
 	if (npip * npim != 1)																   //
 		return SUCCESS;																	   //
 	Ncut3++;																			   //
-	cout << "pass pid" << endl;
 	//*********************************************************************************
 	// Selection 3: Vertex fit Selection, check ppi0, pTot
 	//*********************************************************************************
@@ -454,7 +623,6 @@ StatusCode Omega::execute()																	   //
 	if (!vtxfit->Fit(0))														  //
 		return SUCCESS;															  //
 	vtxfit->Swim(0);															  //
-	cout << "pass VFit" << endl;												  //
 	//*********************************************************************************
 	// Selection 7: 4~5C Selection
 	//*********************************************************************************
@@ -481,479 +649,355 @@ StatusCode Omega::execute()																	   //
 	//*********************************************************************************
 	// Selection 7-1: 4C Selection
 	//*********************************************************************************
-	WTrackParameter wpip = vtxfit->wtrk(0);																			  //
-	WTrackParameter wpim = vtxfit->wtrk(1);																			  //
-	KalmanKinematicFit *kmfit = KalmanKinematicFit::instance();														  //
-	if (m_test4C == 1)																								  //
-	{																												  //
-		HepLorentzVector ecms(0.034 * m_energy / 3.097, 0, 0, m_energy);											  //
-		HepLorentzVector ptrackp;																					  //
-		HepLorentzVector ptrackm;																					  //
-		HepLorentzVector ptrack1, nptrack1;																			  //
-		HepLorentzVector ptrack2, nptrack2;																			  //
-		HepLorentzVector ptrack3, nptrack3;																			  //
-		HepLorentzVector ptrack4, nptrack4;																			  //
-		HepLorentzVector ptrack5, nptrack5;																			  //
-		HepLorentzVector ptrack6, nptrack6;																			  //
-		double chisq_4c_5g = 9999;																					  //
-		double chisq_4c_6g = 9999;																					  //
-		double chisq_4c_7g = 9999;																					  //
-		double chisq_4c_pi = 9999;																					  //
-		double chisq_4c_om = 9999;																					  //
-		double chisq_4c_b0 = 9999;																					  //
-		for (int i1 = 0; i1 < nGam; i1++)																			  // 得到6Gamma-chisq
-		{																											  //
-			RecEmcShower *g1Trk = (*(evtRecTrkCol->begin() + iGam[i1]))->emcShower();								  //
-			for (int i2 = i1; i2 < nGam; i2++)																		  //
-			{																										  //
-				if (i2 == i1)																						  //
-				{																									  //
-					continue;																						  //
-				}																									  //
-				RecEmcShower *g2Trk = (*(evtRecTrkCol->begin() + iGam[i2]))->emcShower();							  //
-				for (int i3 = i2; i3 < nGam; i3++)																	  //
-				{																									  //
-					if (i3 == i1 || i3 == i2)																		  //
-					{																								  //
-						continue;																					  //
-					}																								  //
-					RecEmcShower *g3Trk = (*(evtRecTrkCol->begin() + iGam[i3]))->emcShower();						  //
-					for (int i4 = i3; i4 < nGam; i4++)																  //
-					{																								  //
-						if (i4 == i1 || i4 == i2 || i4 == i3)														  //
-						{																							  //
-							continue;																				  //
-						}																							  //
-						RecEmcShower *g4Trk = (*(evtRecTrkCol->begin() + iGam[i4]))->emcShower();					  //
-						for (int i5 = i4; i5 < nGam; i5++)															  //
-						{																							  //
-							if (i5 == i1 || i5 == i2 || i5 == i3 || i5 == i4)										  //
-							{																						  //
-								continue;																			  //
-							}																						  //
-							RecEmcShower *g5Trk = (*(evtRecTrkCol->begin() + iGam[i5]))->emcShower();				  //
-							for (int i6 = i5; i6 < nGam; i6++)														  //
-							{																						  //
-								if (i6 == i1 || i6 == i2 || i6 == i3 || i6 == i4 || i6 == i5)						  //
-								{																					  //
-									continue;																		  //
-								}																					  //
-								RecEmcShower *g6Trk = (*(evtRecTrkCol->begin() + iGam[i6]))->emcShower();			  //
-								kmfit->init();																		  //
-								kmfit->AddTrack(0, wpip);															  //
-								kmfit->AddTrack(1, wpim);															  //
-								kmfit->AddTrack(2, 0.0, g1Trk);														  //
-								kmfit->AddTrack(3, 0.0, g2Trk);														  //
-								kmfit->AddTrack(4, 0.0, g3Trk);														  //
-								kmfit->AddTrack(5, 0.0, g4Trk);														  //
-								kmfit->AddTrack(6, 0.0, g5Trk);														  //
-								kmfit->AddTrack(7, 0.0, g6Trk);														  //
-								kmfit->AddFourMomentum(0, ecms);													  //
-								bool oksq = kmfit->Fit();															  //
-								if (oksq)																			  //
-								{																					  //
-									double chi2 = kmfit->chisq();													  //
-									if (chi2 <= chisq_4c_6g)														  // 选择：最小chi-4c
-									{																				  //
-										chisq_4c_6g = chi2;															  //
-										ptrackp = kmfit->pfit(0);													  //
-										ptrackm = kmfit->pfit(1);													  //
-										ptrack1 = kmfit->pfit(2);													  //
-										ptrack2 = kmfit->pfit(3);													  //
-										ptrack3 = kmfit->pfit(4);													  //
-										ptrack4 = kmfit->pfit(5);													  //
-										ptrack5 = kmfit->pfit(6);													  //
-										ptrack6 = kmfit->pfit(7);													  //
-									}																				  //
-								}																					  //
-							}																						  //
-						}																							  //
-					}																								  //
-				}																									  //
-			}																										  //
-		}																											  //
-		for (int i1 = 0; i1 < nGam; i1++)																			  // 得到5Gamma-chisq
-		{																											  //
-			RecEmcShower *g1Trk = (*(evtRecTrkCol->begin() + iGam[i1]))->emcShower();								  //
-			for (int i2 = i1; i2 < nGam; i2++)																		  //
-			{																										  //
-				if (i2 == i1)																						  //
-				{																									  //
-					continue;																						  //
-				}																									  //
-				RecEmcShower *g2Trk = (*(evtRecTrkCol->begin() + iGam[i2]))->emcShower();							  //
-				for (int i3 = i2; i3 < nGam; i3++)																	  //
-				{																									  //
-					if (i3 == i1 || i3 == i2)																		  //
-					{																								  //
-						continue;																					  //
-					}																								  //
-					RecEmcShower *g3Trk = (*(evtRecTrkCol->begin() + iGam[i3]))->emcShower();						  //
-					for (int i4 = i3; i4 < nGam; i4++)																  //
-					{																								  //
-						if (i4 == i1 || i4 == i2 || i4 == i3)														  //
-						{																							  //
-							continue;																				  //
-						}																							  //
-						RecEmcShower *g4Trk = (*(evtRecTrkCol->begin() + iGam[i4]))->emcShower();					  //
-						for (int i5 = i4; i5 < nGam; i5++)															  //
-						{																							  //
-							if (i5 == i1 || i5 == i2 || i5 == i3 || i5 == i4)										  //
-							{																						  //
-								continue;																			  //
-							}																						  //
-							RecEmcShower *g5Trk = (*(evtRecTrkCol->begin() + iGam[i5]))->emcShower();				  //
-							kmfit->init();																			  //
-							kmfit->AddTrack(0, wpip);																  //
-							kmfit->AddTrack(1, wpim);																  //
-							kmfit->AddTrack(2, 0.0, g1Trk);															  //
-							kmfit->AddTrack(3, 0.0, g2Trk);															  //
-							kmfit->AddTrack(4, 0.0, g3Trk);															  //
-							kmfit->AddTrack(5, 0.0, g4Trk);															  //
-							kmfit->AddTrack(6, 0.0, g5Trk);															  //
-							kmfit->AddFourMomentum(0, ecms);														  //
-							bool oksq = kmfit->Fit();																  //
-							if (oksq)																				  //
-							{																						  //
-								double chi2 = kmfit->chisq();														  //
-								if (chi2 < chisq_4c_5g)																  //
-								{																					  //
-									chisq_4c_5g = chi2;																  //
-								}																					  //
-							}																						  //
-						}																							  //
-					}																								  //
-				}																									  //
-			}																										  //
-		}																											  //
-		if (nGam > 6)																								  // 得到7Gamma-chisq
-		{																											  //
-			for (int i1 = 0; i1 < nGam; i1++)																		  //
-			{																										  //
-				RecEmcShower *g1Trk = (*(evtRecTrkCol->begin() + iGam[i1]))->emcShower();							  //
-				for (int i2 = i1; i2 < nGam; i2++)																	  //
-				{																									  //
-					if (i2 == i1)																					  //
-					{																								  //
-						continue;																					  //
-					}																								  //
-					RecEmcShower *g2Trk = (*(evtRecTrkCol->begin() + iGam[i2]))->emcShower();						  //
-					for (int i3 = i2; i3 < nGam; i3++)																  //
-					{																								  //
-						if (i3 == i1 || i3 == i2)																	  //
-						{																							  //
-							continue;																				  //
-						}																							  //
-						RecEmcShower *g3Trk = (*(evtRecTrkCol->begin() + iGam[i3]))->emcShower();					  //
-						for (int i4 = i3; i4 < nGam; i4++)															  //
-						{																							  //
-							if (i4 == i1 || i4 == i2 || i4 == i3)													  //
-							{																						  //
-								continue;																			  //
-							}																						  //
-							RecEmcShower *g4Trk = (*(evtRecTrkCol->begin() + iGam[i4]))->emcShower();				  //
-							for (int i5 = i4; i5 < nGam; i5++)														  //
-							{																						  //
-								if (i5 == i1 || i5 == i2 || i5 == i3 || i5 == i4)									  //
-								{																					  //
-									continue;																		  //
-								}																					  //
-								RecEmcShower *g5Trk = (*(evtRecTrkCol->begin() + iGam[i5]))->emcShower();			  //
-								for (int i6 = i5; i6 < nGam; i6++)													  //
-								{																					  //
-									if (i6 == i1 || i6 == i2 || i6 == i3 || i6 == i4 || i6 == i5)					  //
-									{																				  //
-										continue;																	  //
-									}																				  //
-									RecEmcShower *g6Trk = (*(evtRecTrkCol->begin() + iGam[i6]))->emcShower();		  //
-									for (int i7 = i6; i7 < nGam; i7++)												  //
-									{																				  //
-										if (i7 == i1 || i7 == i2 || i7 == i3 || i7 == i4 || i7 == i5 || i7 == i6)	 //
-										{																			  //
-											continue;																  //
-										}																			  //
-										RecEmcShower *g7Trk = (*(evtRecTrkCol->begin() + iGam[i7]))->emcShower();	 //
-										kmfit->init();																  //
-										kmfit->AddTrack(0, wpip);													  //
-										kmfit->AddTrack(1, wpim);													  //
-										kmfit->AddTrack(2, 0.0, g1Trk);												  //
-										kmfit->AddTrack(3, 0.0, g2Trk);												  //
-										kmfit->AddTrack(4, 0.0, g3Trk);												  //
-										kmfit->AddTrack(5, 0.0, g4Trk);												  //
-										kmfit->AddTrack(6, 0.0, g5Trk);												  //
-										kmfit->AddTrack(7, 0.0, g6Trk);												  //
-										kmfit->AddTrack(8, 0.0, g7Trk);												  //
-										kmfit->AddFourMomentum(0, ecms);											  //
-										bool oksq = kmfit->Fit();													  //
-										if (oksq)																	  //
-										{																			  //
-											double chi2 = kmfit->chisq();											  //
-											if (chi2 < chisq_4c_7g)													  //
-											{																		  //
-												chisq_4c_7g = chi2;													  //
-											}																		  //
-										}																			  //
-									}																				  //
-								}																					  //
-							}																						  //
-						}																							  //
-					}																								  //
-				}																									  //
-			}																										  //
-		}																											  //
-		int g6 = 0;																									  //
-		if (chisq_4c_6g < 200)																						  // 选择：chisq-6Gamma
-		{																											  //
-			g6 = 1;																									  //
-		}																											  //
-		if (chisq_4c_5g < chisq_4c_6g)																				  // 选择：chisq-5Gamma
-		{																											  //
-			g6 = 0;																									  //
-		}																											  //
-		if (nGam > 6)																								  // 选择：chisq-7Gamma
-		{																											  //
-			if (chisq_4c_7g < chisq_4c_6g)																			  //
-			{																										  //
-				g6 = 0;																								  //
-			}																										  //
-		}																											  //
-		if (g6 == 1)																								  //
-		{																											  //
-			if (1 == 1)																								  //
-			{																										  //
-				HepLorentzVector ptrack[6] = {ptrack1,																  //
-											  ptrack2,																  //
-											  ptrack3,																  //
-											  ptrack4,																  //
-											  ptrack5,																  //
-											  ptrack6};																  //
-				for (int i = 0; i < 15; i++)																		  //
-				{																									  //
-					double chisq_mpi01 = pow((ptrack[combine[i][0] - 1] + ptrack[combine[i][0] - 1]).m() - 0.135, 2); //
-					double chisq_mpi02 = pow((ptrack[combine[i][2] - 1] + ptrack[combine[i][3] - 1]).m() - 0.135, 2); //
-					double chisq_mpi03 = pow((ptrack[combine[i][4] - 1] + ptrack[combine[i][5] - 1]).m() - 0.135, 2); //
-					double chisq_mpi0 = (chisq_mpi01 + chisq_mpi02 + chisq_mpi03) / 3;								  //
-					if (chisq_mpi0 < chisq_4c_pi)																	  //
-					{																								  //
-						chisq_4c_pi = chisq_mpi0;																	  //
-						nptrack1 = ptrack[combine[i][0] - 1];														  //
-						nptrack2 = ptrack[combine[i][1] - 1];														  //
-						nptrack3 = ptrack[combine[i][2] - 1];														  //
-						nptrack4 = ptrack[combine[i][3] - 1];														  //
-						nptrack5 = ptrack[combine[i][4] - 1];														  //
-						nptrack6 = ptrack[combine[i][5] - 1];														  //
-					}																								  //
-				}																									  //
-			}																										  //
-			if (1 == 1)
-			{
-				HepLorentzVector ptrack[6] = {nptrack1,  //
-											  nptrack2,  //
-											  nptrack3,  //
-											  nptrack4,  //
-											  nptrack5,  //
-											  nptrack6}; //
+	WTrackParameter wpip = vtxfit->wtrk(0);																				  //
+	WTrackParameter wpim = vtxfit->wtrk(1);																				  //
+	KalmanKinematicFit *kmfit = KalmanKinematicFit::instance();															  //
+	if (m_test4C == 1)																									  //
+	{																													  //
+		HepLorentzVector ecms(0.034 * m_energy / 3.097, 0, 0, m_energy);												  //
+		HepLorentzVector ptrackp;																						  //
+		HepLorentzVector ptrackm;																						  //
+		HepLorentzVector ptrack1, n1ptrack1, n2ptrack1, n3ptrack1;														  //
+		HepLorentzVector ptrack2, n1ptrack2, n2ptrack2, n3ptrack2;														  //
+		HepLorentzVector ptrack3, n1ptrack3, n2ptrack3, n3ptrack3;														  //
+		HepLorentzVector ptrack4, n1ptrack4, n2ptrack4, n3ptrack4;														  //
+		HepLorentzVector ptrack5, n1ptrack5, n2ptrack5, n3ptrack5;														  //
+		HepLorentzVector ptrack6, n1ptrack6, n2ptrack6, n3ptrack6;														  //
+		double chisq_4c_5g = 9999;																						  //
+		double chisq_4c_6g = 9999;																						  //
+		double chisq_4c_7g = 9999;																						  //
+		double chisq_4c_pi = 9999;																						  //
+		double chisq_4c_om = 9999;																						  //
+		double chisq_4c_b0 = 9999;																						  //
+		for (int i1 = 0; i1 < nGam; i1++)																				  // 得到6Gamma-chisq
+		{																												  //
+			RecEmcShower *g1Trk = (*(evtRecTrkCol->begin() + iGam[i1]))->emcShower();									  //
+			for (int i2 = i1; i2 < nGam; i2++)																			  //
+			{																											  //
+				if (i2 == i1)																							  //
+				{																										  //
+					continue;																							  //
+				}																										  //
+				RecEmcShower *g2Trk = (*(evtRecTrkCol->begin() + iGam[i2]))->emcShower();								  //
+				for (int i3 = i2; i3 < nGam; i3++)																		  //
+				{																										  //
+					if (i3 == i1 || i3 == i2)																			  //
+					{																									  //
+						continue;																						  //
+					}																									  //
+					RecEmcShower *g3Trk = (*(evtRecTrkCol->begin() + iGam[i3]))->emcShower();							  //
+					for (int i4 = i3; i4 < nGam; i4++)																	  //
+					{																									  //
+						if (i4 == i1 || i4 == i2 || i4 == i3)															  //
+						{																								  //
+							continue;																					  //
+						}																								  //
+						RecEmcShower *g4Trk = (*(evtRecTrkCol->begin() + iGam[i4]))->emcShower();						  //
+						for (int i5 = i4; i5 < nGam; i5++)																  //
+						{																								  //
+							if (i5 == i1 || i5 == i2 || i5 == i3 || i5 == i4)											  //
+							{																							  //
+								continue;																				  //
+							}																							  //
+							RecEmcShower *g5Trk = (*(evtRecTrkCol->begin() + iGam[i5]))->emcShower();					  //
+							for (int i6 = i5; i6 < nGam; i6++)															  //
+							{																							  //
+								if (i6 == i1 || i6 == i2 || i6 == i3 || i6 == i4 || i6 == i5)							  //
+								{																						  //
+									continue;																			  //
+								}																						  //
+								RecEmcShower *g6Trk = (*(evtRecTrkCol->begin() + iGam[i6]))->emcShower();				  //
+								kmfit->init();																			  //
+								kmfit->AddTrack(0, wpip);																  //
+								kmfit->AddTrack(1, wpim);																  //
+								kmfit->AddTrack(2, 0.0, g1Trk);															  //
+								kmfit->AddTrack(3, 0.0, g2Trk);															  //
+								kmfit->AddTrack(4, 0.0, g3Trk);															  //
+								kmfit->AddTrack(5, 0.0, g4Trk);															  //
+								kmfit->AddTrack(6, 0.0, g5Trk);															  //
+								kmfit->AddTrack(7, 0.0, g6Trk);															  //
+								kmfit->AddFourMomentum(0, ecms);														  //
+								bool oksq = kmfit->Fit();																  //
+								if (oksq)																				  //
+								{																						  //
+									double chi2 = kmfit->chisq();														  //
+									if (chi2 <= chisq_4c_6g)															  // 选择：最小chi-4c
+									{																					  //
+										chisq_4c_6g = chi2;																  //
+										ptrackp = kmfit->pfit(0);														  //
+										ptrackm = kmfit->pfit(1);														  //
+										ptrack1 = kmfit->pfit(2);														  //
+										ptrack2 = kmfit->pfit(3);														  //
+										ptrack3 = kmfit->pfit(4);														  //
+										ptrack4 = kmfit->pfit(5);														  //
+										ptrack5 = kmfit->pfit(6);														  //
+										ptrack6 = kmfit->pfit(7);														  //
+									}																					  //
+								}																						  //
+							}																							  //
+						}																								  //
+					}																									  //
+				}																										  //
+			}																											  //
+		}																												  //
+		for (int i1 = 0; i1 < nGam; i1++)																				  // 得到5Gamma-chisq
+		{																												  //
+			RecEmcShower *g1Trk = (*(evtRecTrkCol->begin() + iGam[i1]))->emcShower();									  //
+			for (int i2 = i1; i2 < nGam; i2++)																			  //
+			{																											  //
+				if (i2 == i1)																							  //
+				{																										  //
+					continue;																							  //
+				}																										  //
+				RecEmcShower *g2Trk = (*(evtRecTrkCol->begin() + iGam[i2]))->emcShower();								  //
+				for (int i3 = i2; i3 < nGam; i3++)																		  //
+				{																										  //
+					if (i3 == i1 || i3 == i2)																			  //
+					{																									  //
+						continue;																						  //
+					}																									  //
+					RecEmcShower *g3Trk = (*(evtRecTrkCol->begin() + iGam[i3]))->emcShower();							  //
+					for (int i4 = i3; i4 < nGam; i4++)																	  //
+					{																									  //
+						if (i4 == i1 || i4 == i2 || i4 == i3)															  //
+						{																								  //
+							continue;																					  //
+						}																								  //
+						RecEmcShower *g4Trk = (*(evtRecTrkCol->begin() + iGam[i4]))->emcShower();						  //
+						for (int i5 = i4; i5 < nGam; i5++)																  //
+						{																								  //
+							if (i5 == i1 || i5 == i2 || i5 == i3 || i5 == i4)											  //
+							{																							  //
+								continue;																				  //
+							}																							  //
+							RecEmcShower *g5Trk = (*(evtRecTrkCol->begin() + iGam[i5]))->emcShower();					  //
+							kmfit->init();																				  //
+							kmfit->AddTrack(0, wpip);																	  //
+							kmfit->AddTrack(1, wpim);																	  //
+							kmfit->AddTrack(2, 0.0, g1Trk);																  //
+							kmfit->AddTrack(3, 0.0, g2Trk);																  //
+							kmfit->AddTrack(4, 0.0, g3Trk);																  //
+							kmfit->AddTrack(5, 0.0, g4Trk);																  //
+							kmfit->AddTrack(6, 0.0, g5Trk);																  //
+							kmfit->AddFourMomentum(0, ecms);															  //
+							bool oksq = kmfit->Fit();																	  //
+							if (oksq)																					  //
+							{																							  //
+								double chi2 = kmfit->chisq();															  //
+								if (chi2 < chisq_4c_5g)																	  //
+								{																						  //
+									chisq_4c_5g = chi2;																	  //
+								}																						  //
+							}																							  //
+						}																								  //
+					}																									  //
+				}																										  //
+			}																											  //
+		}																												  //
+		if (nGam > 6)																									  // 得到7Gamma-chisq
+		{																												  //
+			for (int i1 = 0; i1 < nGam; i1++)																			  //
+			{																											  //
+				RecEmcShower *g1Trk = (*(evtRecTrkCol->begin() + iGam[i1]))->emcShower();								  //
+				for (int i2 = i1; i2 < nGam; i2++)																		  //
+				{																										  //
+					if (i2 == i1)																						  //
+					{																									  //
+						continue;																						  //
+					}																									  //
+					RecEmcShower *g2Trk = (*(evtRecTrkCol->begin() + iGam[i2]))->emcShower();							  //
+					for (int i3 = i2; i3 < nGam; i3++)																	  //
+					{																									  //
+						if (i3 == i1 || i3 == i2)																		  //
+						{																								  //
+							continue;																					  //
+						}																								  //
+						RecEmcShower *g3Trk = (*(evtRecTrkCol->begin() + iGam[i3]))->emcShower();						  //
+						for (int i4 = i3; i4 < nGam; i4++)																  //
+						{																								  //
+							if (i4 == i1 || i4 == i2 || i4 == i3)														  //
+							{																							  //
+								continue;																				  //
+							}																							  //
+							RecEmcShower *g4Trk = (*(evtRecTrkCol->begin() + iGam[i4]))->emcShower();					  //
+							for (int i5 = i4; i5 < nGam; i5++)															  //
+							{																							  //
+								if (i5 == i1 || i5 == i2 || i5 == i3 || i5 == i4)										  //
+								{																						  //
+									continue;																			  //
+								}																						  //
+								RecEmcShower *g5Trk = (*(evtRecTrkCol->begin() + iGam[i5]))->emcShower();				  //
+								for (int i6 = i5; i6 < nGam; i6++)														  //
+								{																						  //
+									if (i6 == i1 || i6 == i2 || i6 == i3 || i6 == i4 || i6 == i5)						  //
+									{																					  //
+										continue;																		  //
+									}																					  //
+									RecEmcShower *g6Trk = (*(evtRecTrkCol->begin() + iGam[i6]))->emcShower();			  //
+									for (int i7 = i6; i7 < nGam; i7++)													  //
+									{																					  //
+										if (i7 == i1 || i7 == i2 || i7 == i3 || i7 == i4 || i7 == i5 || i7 == i6)		  //
+										{																				  //
+											continue;																	  //
+										}																				  //
+										RecEmcShower *g7Trk = (*(evtRecTrkCol->begin() + iGam[i7]))->emcShower();		  //
+										kmfit->init();																	  //
+										kmfit->AddTrack(0, wpip);														  //
+										kmfit->AddTrack(1, wpim);														  //
+										kmfit->AddTrack(2, 0.0, g1Trk);													  //
+										kmfit->AddTrack(3, 0.0, g2Trk);													  //
+										kmfit->AddTrack(4, 0.0, g3Trk);													  //
+										kmfit->AddTrack(5, 0.0, g4Trk);													  //
+										kmfit->AddTrack(6, 0.0, g5Trk);													  //
+										kmfit->AddTrack(7, 0.0, g6Trk);													  //
+										kmfit->AddTrack(8, 0.0, g7Trk);													  //
+										kmfit->AddFourMomentum(0, ecms);												  //
+										bool oksq = kmfit->Fit();														  //
+										if (oksq)																		  //
+										{																				  //
+											double chi2 = kmfit->chisq();												  //
+											if (chi2 < chisq_4c_7g)														  //
+											{																			  //
+												chisq_4c_7g = chi2;														  //
+											}																			  //
+										}																				  //
+									}																					  //
+								}																						  //
+							}																							  //
+						}																								  //
+					}																									  //
+				}																										  //
+			}																											  //
+		}																												  //
+		int g6 = 0;																										  //
+		if (chisq_4c_6g < 200)																							  // 选择：chisq-6Gamma
+		{																												  //
+			g6 = 1;																										  //
+		}																												  //
+		if (chisq_4c_5g < chisq_4c_6g)																					  // 选择：chisq-5Gamma
+		{																												  //
+			g6 = 0;																										  //
+		}																												  //
+		if (nGam > 6)																									  // 选择：chisq-7Gamma
+		{																												  //
+			if (chisq_4c_7g < chisq_4c_6g)																				  //
+			{																											  //
+				g6 = 0;																									  //
+			}																											  //
+		}																												  //
+		if (g6 == 1)																									  //
+		{																												  //
+			if (1 == 1)																									  //
+			{																											  //
+				HepLorentzVector ptrackg1[6] = {ptrack1,																  //
+												ptrack2,																  //
+												ptrack3,																  //
+												ptrack4,																  //
+												ptrack5,																  //
+												ptrack6};																  //
+				for (int i = 0; i < 15; i++)																			  //
+				{																										  //
+					double chisq_mpi01 = pow((ptrackg1[combine[i][0] - 1] + ptrackg1[combine[i][1] - 1]).m() - 0.135, 2); //
+					double chisq_mpi02 = pow((ptrackg1[combine[i][2] - 1] + ptrackg1[combine[i][3] - 1]).m() - 0.135, 2); //
+					double chisq_mpi03 = pow((ptrackg1[combine[i][4] - 1] + ptrackg1[combine[i][5] - 1]).m() - 0.135, 2); //
+					double chisq_mpi0 = (chisq_mpi01 + chisq_mpi02 + chisq_mpi03) / 3;									  //
+					if (chisq_mpi0 < chisq_4c_pi)																		  //
+					{																									  //
+						chisq_4c_pi = chisq_mpi0;																		  //
+						n1ptrack1 = ptrackg1[combine[i][0] - 1];														  //
+						n1ptrack2 = ptrackg1[combine[i][1] - 1];														  //
+						n1ptrack3 = ptrackg1[combine[i][2] - 1];														  //
+						n1ptrack4 = ptrackg1[combine[i][3] - 1];														  //
+						n1ptrack5 = ptrackg1[combine[i][4] - 1];														  //
+						n1ptrack6 = ptrackg1[combine[i][5] - 1];														  //
+					}																									  //
+				}																										  //
+			}																											  //
+			if (1 == 1)																									  //
+			{																											  //
+				HepLorentzVector ptrackg2[6] = {n1ptrack1,																  //
+												n1ptrack2,																  //
+												n1ptrack3,																  //
+												n1ptrack4,																  //
+												n1ptrack5,																  //
+												n1ptrack6};																  //
 				for (int i = 0; i < 3; i++)
 				{
-					double chisq_momega = pow((ptrackp + ptrackm + ptrack[2 * selecto[i][0] - 2] + ptrack[2 * selecto[i][0] - 1]).m() - 0.782, 2);
+					double chisq_momega = pow((ptrackp + ptrackm + ptrackg2[2 * selecto[i][0] - 2] + ptrackg2[2 * selecto[i][0] - 1]).m() - 0.782, 2);
 					if (chisq_momega < chisq_4c_om)
 					{
 						chisq_4c_om = chisq_momega;
-						nptrack1 = ptrack[2 * selecto[i][0] - 2];
-						nptrack2 = ptrack[2 * selecto[i][0] - 1];
-						nptrack3 = ptrack[2 * selecto[i][1] - 2];
-						nptrack4 = ptrack[2 * selecto[i][1] - 1];
-						nptrack5 = ptrack[2 * selecto[i][2] - 2];
-						nptrack6 = ptrack[2 * selecto[i][2] - 1];
+						n2ptrack1 = ptrackg2[2 * selecto[i][0] - 2];
+						n2ptrack2 = ptrackg2[2 * selecto[i][0] - 1];
+						n2ptrack3 = ptrackg2[2 * selecto[i][1] - 2];
+						n2ptrack4 = ptrackg2[2 * selecto[i][1] - 1];
+						n2ptrack5 = ptrackg2[2 * selecto[i][2] - 2];
+						n2ptrack6 = ptrackg2[2 * selecto[i][2] - 1];
 					}
 				}
 			}
-			if (1 == 1)
+			if (1 == 0)
 			{
-				HepLorentzVector ptrack[6] = {nptrack1,  //
-											  nptrack2,  //
-											  nptrack3,  //
-											  nptrack4,  //
-											  nptrack5,  //
-											  nptrack6}; //
+				HepLorentzVector ptrackg3[6] = {n2ptrack1,  //
+												n2ptrack2,  //
+												n2ptrack3,  //
+												n2ptrack4,  //
+												n2ptrack5,  //
+												n2ptrack6}; //
 				for (int i = 0; i < 2; i++)
 				{
-					double chisq_mb = pow((ptrackp + ptrackm + ptrack[0] + ptrack[1] + ptrack[2 * selectb[i][0]] + ptrack[2 * selectb[i][0] + 1]).m() - 1.235, 2);
+					double chisq_mb = pow((ptrackg3[2 * selectb[i][0]] + ptrackg3[2 * selectb[i][0] + 1]).m(), 2);
 					if (chisq_mb < chisq_4c_b0)
 					{
 						chisq_4c_b0 = chisq_mb;
-						nptrack1 = ptrack[0];
-						nptrack2 = ptrack[1];
-						nptrack3 = ptrack[2 * selectb[i][0] + 0];
-						nptrack4 = ptrack[2 * selectb[i][0] + 1];
-						nptrack5 = ptrack[2 * selectb[i][1] + 0];
-						nptrack6 = ptrack[2 * selectb[i][1] + 1];
+						n3ptrack1 = ptrackg3[0];
+						n3ptrack2 = ptrackg3[1];
+						n3ptrack3 = ptrackg3[2 * selectb[i][0] + 0];
+						n3ptrack4 = ptrackg3[2 * selectb[i][0] + 1];
+						n3ptrack5 = ptrackg3[2 * selectb[i][1] + 0];
+						n3ptrack6 = ptrackg3[2 * selectb[i][1] + 1];
 					}
 				}
 			}
-			HepLorentzVector out_pi01 = nptrack1 + nptrack2;
-			HepLorentzVector out_pi02 = nptrack3 + nptrack4;
-			HepLorentzVector out_pi03 = nptrack5 + nptrack6;
+			HepLorentzVector out_pi01 = n2ptrack1 + n2ptrack2;
+			HepLorentzVector out_pi02 = n2ptrack3 + n2ptrack4;
+			HepLorentzVector out_pi03 = n2ptrack5 + n2ptrack6;
 			HepLorentzVector out_omega = ptrackp + ptrackm + out_pi01;
-			HepLorentzVector out_f0 = out_pi02 + out_pi03;
-			HepLorentzVector out_b0 = out_omega + out_pi02;
+			HepLorentzVector out_omegapi02 = out_omega + out_pi02;
+			HepLorentzVector out_omegapi03 = out_omega + out_pi03;
+			HepLorentzVector out_pi02pi03 = out_pi02 + out_pi03;
+			HepLorentzVector out_pi01pi02 = out_pi01 + out_pi02;
+			HepLorentzVector out_pi01pi03 = out_pi01 + out_pi03;
 			double out_mpi01 = out_pi01.m();
 			double out_mpi02 = out_pi02.m();
 			double out_mpi03 = out_pi03.m();
 			double out_momega = out_omega.m();
-			double out_mf0 = out_f0.m();
-			double out_mb0 = out_b0.m();
+			double out_momegapi02 = out_omegapi02.m();
+			double out_momegapi03 = out_omegapi03.m();
+			double out_mpi02pi03 = out_pi02pi03.m();
+			double out_mpi01pi02 = out_pi01pi02.m();
+			double out_mpi01pi03 = out_pi01pi03.m();
 			if (1 == 1)
 			{
 				m_chisq_4c = chisq_4c_6g;
 				m_chisq_3pi = chisq_4c_pi;
-				m_omega_4c = out_momega;
-				m_pi01_4c = out_mpi01;
-				m_pi02_4c = out_mpi02;
-				m_pi03_4c = out_mpi03;
-				m_f0_4c = out_mf0;
-				m_b0_4c = out_mb0;
+				m_pi01 = out_mpi01;
+				m_pi02 = out_mpi02;
+				m_pi03 = out_mpi03;
+				m_omega = out_momega;
+				m_omegapi02 = out_momegapi02;
+				m_omegapi03 = out_momegapi03;
+				m_pi02pi03 = out_mpi02pi03;
+				m_pi01pi02 = out_mpi02pi03;
+				m_pi01pi03 = out_mpi02pi03;
 				m_tuple4->write();
 				Ncut4++;
 			}
 		}
 	}
 	//*********************************************************************************
-	// Selection 7-2: 5C Selection
+	// Selection 8: End mission
 	//*********************************************************************************
-	cout << "before 5c" << endl;																				//准备5C声明
-	if (m_test5C == 1)																							//
-	{																											//
-		HepLorentzVector ecms(0.034 * m_energy / 3.097, 0, 0, m_energy);										//
-		HepLorentzVector ptrackp;																				//
-		HepLorentzVector ptrackm;																				//
-		HepLorentzVector ptrack1, nptrack1;																		//
-		HepLorentzVector ptrack2, nptrack2;																		//
-		HepLorentzVector ptrack3, nptrack3;																		//
-		HepLorentzVector ptrack4;																				//
-		HepLorentzVector ptrack5;																				//
-		HepLorentzVector ptrack6;																				//
-		double chisq_5c_6g = 9999;																				//
-		double chisq_5c_om = 9999;																				//
-		double chisq_5c_b0 = 9999;																				//
-		for (int i1 = 0; i1 < nGam - 5; i1++)																	//
-		{																										//
-			RecEmcShower *g1Trk = (*(evtRecTrkCol->begin() + iGam[i1]))->emcShower();							//
-			for (int i2 = i1 + 1; i2 < nGam - 4; i2++)															//
-			{																									//
-				RecEmcShower *g2Trk = (*(evtRecTrkCol->begin() + iGam[i2]))->emcShower();						//
-				for (int i3 = i2 + 1; i3 < nGam - 3; i3++)														//
-				{																								//
-					RecEmcShower *g3Trk = (*(evtRecTrkCol->begin() + iGam[i3]))->emcShower();					//
-					for (int i4 = i3 + 1; i4 < nGam - 2; i4++)													//
-					{																							//
-						RecEmcShower *g4Trk = (*(evtRecTrkCol->begin() + iGam[i4]))->emcShower();				//
-						for (int i5 = i4 + 1; i5 < nGam - 1; i5++)												//
-						{																						//
-							RecEmcShower *g5Trk = (*(evtRecTrkCol->begin() + iGam[i5]))->emcShower();			//
-							for (int i6 = i5 + 1; i6 < nGam - 0; i6++)											//
-							{																					//
-								RecEmcShower *g6Trk = (*(evtRecTrkCol->begin() + iGam[i6]))->emcShower();		//
-								for (int i = 0; i < 15; i++)													//
-								{																				//
-									kmfit->init();																//
-									kmfit->AddTrack(0, wpip);													//
-									kmfit->AddTrack(1, wpim);													//
-									kmfit->AddTrack(2, 0.0, g1Trk);												//
-									kmfit->AddTrack(3, 0.0, g2Trk);												//
-									kmfit->AddTrack(4, 0.0, g3Trk);												//
-									kmfit->AddTrack(5, 0.0, g4Trk);												//
-									kmfit->AddTrack(6, 0.0, g5Trk);												//
-									kmfit->AddTrack(7, 0.0, g6Trk);												//
-									kmfit->AddResonance(0, 0.135, combine[i][0] + 1, combine[i][1] + 1);		//
-									kmfit->AddResonance(1, 0.135, combine[i][2] + 1, combine[i][3] + 1);		//
-									kmfit->AddResonance(2, 0.135, combine[i][4] + 1, combine[i][5] + 1);		//
-									kmfit->AddFourMomentum(3, ecms);											//
-									bool oksq = kmfit->Fit();													//
-									if (oksq)																	//
-									{																			//
-										double chi2_5c = kmfit->chisq();										//
-										if (chi2_5c < chisq_5c_6g)												//
-										{																		//
-											chisq_5c_6g = chi2_5c;												//
-											ptrackp = kmfit->pfit(0);											//
-											ptrackm = kmfit->pfit(1);											//
-											ptrack1 = kmfit->pfit(combine[i][0] + 1);							//
-											ptrack2 = kmfit->pfit(combine[i][1] + 1);							//
-											ptrack3 = kmfit->pfit(combine[i][2] + 1);							//
-											ptrack4 = kmfit->pfit(combine[i][3] + 1);							//
-											ptrack5 = kmfit->pfit(combine[i][4] + 1);							//
-											ptrack6 = kmfit->pfit(combine[i][5] + 1);							//
-										}																		//
-									}																			//
-								}																				//
-							}																					//
-						}																						//
-					}																							//
-				}																								//
-			}																									//
-		}																										//
-		if (chisq_5c_6g < 200)																					//
-		{																										//
-			HepLorentzVector ptrack[3] = {ptrack1 + ptrack2,													//
-										  ptrack3 + ptrack4,													//
-										  ptrack5 + ptrack6};													//
-			for (int i1 = 0; i1 < 3; i1++)																		//
-			{																									//
-				for (int i2 = 0; i2 < 3; i2++)																	//
-				{																								//
-					if (i2 == i1)																				//
-					{																							//
-						continue;																				//
-					}																							//
-					for (int i3 = 0; i3 < 3; i3++)																//
-					{																							//
-						if (i3 == i1 || i3 == i2)																//
-						{																						//
-							continue;																			//
-						}																						//
-						double chi2_om = pow((ptrackp + ptrackm + ptrack[i1]).m() - 0.782, 2);					//
-						if (chi2_om <= chisq_5c_om)																// 选择：最小chi-omega
-						{																						//
-							double chi2_b0 = pow((ptrackp + ptrackm + ptrack[i1] + ptrack[i2]).m() - 1.235, 2); //
-							if (chi2_b0 <= chisq_5c_b0)															// 选择：最小chi-b0
-							{																					//
-								chisq_5c_om = chi2_om;															//
-								chisq_5c_b0 = chi2_b0;															//
-								nptrack1 = ptrack[i1];															//
-								nptrack2 = ptrack[i2];															//
-								nptrack3 = ptrack[i3];															//
-							}																					//
-						}																						//
-					}
-				}
-			}
-			HepLorentzVector out_pi01 = nptrack1;
-			HepLorentzVector out_pi02 = nptrack2;
-			HepLorentzVector out_pi03 = nptrack3;
-			HepLorentzVector out_omega = ptrackp + ptrackm + out_pi01;
-			HepLorentzVector out_f0 = out_pi02 + out_pi03;
-			HepLorentzVector out_b0 = out_omega + out_pi02;
-			double out_mpi01 = out_pi01.m();
-			double out_mpi02 = out_pi02.m();
-			double out_mpi03 = out_pi03.m();
-			double out_momega = out_omega.m();
-			double out_mf0 = out_f0.m();
-			double out_mb0 = out_b0.m();
-			if (1 == 1)
-			{
-				m_chisq_5c = chisq_5c_6g;
-				m_omega_5c = out_momega;
-				m_pi01_5c = out_mpi01;
-				m_pi02_5c = out_mpi02;
-				m_pi03_5c = out_mpi03;
-				m_f0_5c = out_mf0;
-				m_b0_5c = out_mb0;
-				m_tuple5->write();
-				Ncut5++;
-			}
-		}
-	}
 	return StatusCode::SUCCESS;
 }
 //*********************************************************************************************************
@@ -963,9 +1007,13 @@ StatusCode Omega::finalize()
 {
 	cout << "能量为                 " << m_energy << endl;
 	cout << "total number:         " << Ncut0 << endl;
+	cout << "Pass truth:           " << Ncut1 << endl;
 	cout << "Pass Pid:             " << Ncut3 << endl;
 	cout << "Pass 4C:              " << Ncut4 << endl;
-	cout << "Pass 5C:              " << Ncut5 << endl;
+	for (int i = 0; i < SeriesRun.size(); i++)
+	{
+		cout << "oooooooo" << SeriesRun[i] << "oooooooo" << SeriesNum[i] << "oooooooo" << endl;
+	}
 	MsgStream log(msgSvc(), name());
 	log << MSG::INFO << "in finalize()" << endmsg;
 	return StatusCode::SUCCESS;
