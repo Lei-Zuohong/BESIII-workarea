@@ -38,7 +38,7 @@ typedef HepGeom::Point3D<double> HepPoint3D;
 #include "VertexFit/Helix.h"
 #include "ParticleID/ParticleID.h"
 #include <vector>
-#include "OmegaAlg/Omega.h"
+#include "PmAlg/Pm.h"
 //*********************************************************************************************************
 //***                                                变量设置                                            ***
 //*********************************************************************************************************
@@ -51,16 +51,15 @@ int Ncut0, Ncut1, Ncut3, Ncut4, Ncut5, number, checkexit, checki, firstrun;
 //*********************************************************************************************************
 //***                                                声明容器                                            ***
 //*********************************************************************************************************
-Omega::Omega(const std::string &name, ISvcLocator *pSvcLocator) : Algorithm(name, pSvcLocator)
+Pm::Pm(const std::string &name, ISvcLocator *pSvcLocator) : Algorithm(name, pSvcLocator)
 {
 	declareProperty("Test4C", m_test4C = 1);
-	declareProperty("Test5C", m_test5C = 0);
 	declareProperty("Energy", m_energy = 2.125);
 }
 //*********************************************************************************************************
 //***                                               initialize                                          ***
 //*********************************************************************************************************
-StatusCode Omega::initialize()
+StatusCode Pm::initialize()
 {
 	MsgStream log(msgSvc(), name());
 	log << MSG::INFO << "in initialize()" << endmsg;
@@ -83,54 +82,16 @@ StatusCode Omega::initialize()
 				status = m_tuple4->addItem("mpi01", m_pi01);
 				status = m_tuple4->addItem("mpi02", m_pi02);
 				status = m_tuple4->addItem("mpi03", m_pi03);
-				status = m_tuple4->addItem("momega", m_omega);
-				status = m_tuple4->addItem("momegapi02", m_omegapi02);
-				status = m_tuple4->addItem("momegapi03", m_omegapi03);
+				status = m_tuple4->addItem("mPm", m_Pm);
+				status = m_tuple4->addItem("mPmpi02", m_Pmpi02);
+				status = m_tuple4->addItem("mPmpi03", m_Pmpi03);
 				status = m_tuple4->addItem("mpi02pi03", m_pi02pi03);
 				status = m_tuple4->addItem("mpi01pi02", m_pi01pi02);
 				status = m_tuple4->addItem("mpi01pi03", m_pi01pi03);
-
-				status = m_tuple4->addItem("runID", runID);
-				status = m_tuple4->addItem("eventID", eventID);
-				status = m_tuple4->addItem("indexmc", m_idxmc, 0, 100);
-				status = m_tuple4->addIndexedItem("pdgid", m_idxmc, m_pdgid);
-				status = m_tuple4->addIndexedItem("motheridx", m_idxmc, m_motheridx);
 			}
 			else
 			{
 				log << MSG::ERROR << "    Cannot book N-tuple:" << long(m_tuple4) << endmsg;
-				return StatusCode::FAILURE;
-			}
-		}
-	}
-	// initialize-data-in-truth
-	if (1 == 1)
-	{
-		NTuplePtr nt5(ntupleSvc(), "FILE1/truth");
-		if (nt5)
-		{
-			m_tuple5 = nt5;
-		}
-		else
-		{
-			m_tuple5 = ntupleSvc()->book("FILE1/truth", CLID_ColumnWiseTuple, "ks N-Tuple example");
-			if (m_tuple5)
-			{
-				status = m_tuple5->addItem("chisq", t_chisq_4c);
-				status = m_tuple5->addItem("chisq_pi", t_chisq_3pi);
-				status = m_tuple5->addItem("mpi01", t_pi01);
-				status = m_tuple5->addItem("mpi02", t_pi02);
-				status = m_tuple5->addItem("mpi03", t_pi03);
-				status = m_tuple5->addItem("momega", t_omega);
-				status = m_tuple5->addItem("momegapi02", t_omegapi02);
-				status = m_tuple5->addItem("momegapi03", t_omegapi03);
-				status = m_tuple5->addItem("mpi02pi03", t_pi02pi03);
-				status = m_tuple5->addItem("mpi01pi02", t_pi01pi02);
-				status = m_tuple5->addItem("mpi01pi03", t_pi01pi03);
-			}
-			else
-			{
-				log << MSG::ERROR << "    Cannot book N-tuple:" << long(m_tuple5) << endmsg;
 				return StatusCode::FAILURE;
 			}
 		}
@@ -142,7 +103,7 @@ StatusCode Omega::initialize()
 //*********************************************************************************************************
 //***                                                execute                                            ***
 //*********************************************************************************************************
-StatusCode Omega::execute()																//
+StatusCode Pm::execute()																//
 {																						//
 	MsgStream log(msgSvc(), name());													//
 	log << MSG::INFO << "in execute()" << endreq;										//
@@ -161,161 +122,6 @@ StatusCode Omega::execute()																//
 		<< evtRecEvent->totalNeutral() << " , "											//
 		<< evtRecEvent->totalTracks() << endreq;										//
 	SmartDataPtr<EvtRecTrackCol> evtRecTrkCol(eventSvc(), EventModel::EvtRec::EvtRecTrackCol);
-	//*********************************************************************************
-	// Selection 0: Topology
-	//*********************************************************************************
-	if (eventHeader->runNumber() < 0)															 //
-	{																							 //
-		SmartDataPtr<Event::McParticleCol> mcParticleCol(eventSvc(), "/Event/MC/McParticleCol"); //
-		int m_numParticle = 1;																	 //
-		if (!mcParticleCol)																		 //
-		{																						 //
-			cout << "Could not retrieve McParticelCol" << endl;									 //
-			return StatusCode::FAILURE;															 //
-		}																						 //
-		else																					 //
-		{																						 //
-			int nprmary = 0;																	 //
-			Event::McParticleCol::iterator iter_mc1 = mcParticleCol->begin();					 //
-			for (; iter_mc1 != mcParticleCol->end(); iter_mc1++)								 //
-			{																					 //
-				if (!(*iter_mc1)->decayFromGenerator())											 //
-					continue;																	 //
-				if ((*iter_mc1)->primaryParticle())												 //
-				{																				 //
-					nprmary++;																	 //
-				}																				 //
-			}																					 //
-			Event::McParticleCol::iterator iter_mc2 = mcParticleCol->begin();					 //
-			if (nprmary == 1)																	 //
-			{																					 //
-				m_numParticle = 0;																 //
-				for (; iter_mc2 != mcParticleCol->end(); iter_mc2++)							 //
-				{																				 //
-					if (!(*iter_mc2)->decayFromGenerator())										 //
-						continue;																 //
-					if ((*iter_mc2)->primaryParticle())											 //
-					{																			 //
-						m_pdgid[m_numParticle] = (*iter_mc2)->particleProperty();				 // 变量：topo
-						m_motheridx[m_numParticle] = 0;											 // 变量：topo
-					}																			 //
-					else																		 //
-					{																			 //
-						m_pdgid[m_numParticle] = (*iter_mc2)->particleProperty();				 // 变量：topo
-						m_motheridx[m_numParticle] = ((*iter_mc2)->mother()).trackIndex();		 // 变量：topo
-					}																			 //
-					m_numParticle += 1;															 //
-				}																				 //
-				m_idxmc = m_numParticle;														 // 变量：topo
-			}																					 //
-			if (nprmary > 1)																	 //
-			{																					 //
-				m_numParticle = 1;																 //
-				for (; iter_mc2 != mcParticleCol->end(); iter_mc2++)							 //
-				{																				 //
-					if (!(*iter_mc2)->decayFromGenerator())										 //
-						continue;																 //
-					if ((*iter_mc2)->primaryParticle())											 //
-					{																			 //
-						m_pdgid[m_numParticle] = (*iter_mc2)->particleProperty();				 // 变量：topo
-						m_motheridx[m_numParticle] = 0;											 // 变量：topo
-					}																			 //
-					else																		 //
-					{																			 //
-																								 //
-						m_pdgid[m_numParticle] = (*iter_mc2)->particleProperty();				 // 变量：topo
-						m_motheridx[m_numParticle] = ((*iter_mc2)->mother()).trackIndex() + 1;   // 变量：topo
-					}																			 //
-					m_numParticle += 1;															 //
-					m_pdgid[0] = 11111;															 // 变量：topo
-					m_motheridx[0] = 0;															 // 变量：topo
-				}																				 //
-				m_idxmc = m_numParticle;														 // 变量：topo
-			}																					 //
-		}																						 //
-	}
-	//*********************************************************************************
-	// Selection 0: Truth
-	//*********************************************************************************
-	int truth_check = 0;
-	if (eventHeader->runNumber() < 0)
-	{
-		SmartDataPtr<Event::McParticleCol> mcParticleCol(eventSvc(), "/Event/MC/McParticleCol");
-		HepLorentzVector pip_track;
-		HepLorentzVector pim_track;
-		HepLorentzVector pi01_track;
-		HepLorentzVector pi02_track;
-		HepLorentzVector pi03_track;
-		HepLorentzVector omega_track;
-		Event::McParticleCol::iterator iter_mc = mcParticleCol->begin();
-		int nomega = 0, npi01 = 0, npi02 = 0, npi03 = 0, npip = 0, npim = 0, ncount = 0;
-		for (; iter_mc != mcParticleCol->end(); iter_mc++)
-		{
-			if (!(*iter_mc)->decayFromGenerator())
-				continue;
-			HepLorentzVector mctrue_track = (*iter_mc)->initialFourMomentum();
-			if ((*iter_mc)->particleProperty() == 223)
-			{
-				omega_track = mctrue_track;
-				nomega += 1;
-			}
-			else if ((*iter_mc)->particleProperty() == 111)
-			{
-				if (((*iter_mc)->mother()).particleProperty() == 223)
-				{
-					pi01_track = mctrue_track;
-					npi01 += 1;
-				}
-				else if (ncount == 0)
-				{
-					pi02_track = mctrue_track;
-					npi02 += 1;
-					ncount += 1;
-				}
-				else
-				{
-					pi03_track = mctrue_track;
-					npi03 += 1;
-					ncount += 1;
-				}
-			}
-			else if ((*iter_mc)->particleProperty() == 211 && ((*iter_mc)->mother()).particleProperty() == 223)
-			{
-				pip_track = mctrue_track;
-				npip += 1;
-			}
-			else if ((*iter_mc)->particleProperty() == -211 && ((*iter_mc)->mother()).particleProperty() == 223)
-			{
-				pim_track = mctrue_track;
-				npim += 1;
-			}
-		}
-		if (npip == 1 && npim == 1 && npi01 == 1 && npi02 == 1 && npi03 == 1 && nomega == 1 && ncount == 2)
-		{
-			truth_check = 1;
-		}
-		if (truth_check == 1)
-		{
-			HepLorentzVector omegapi02_track = omega_track + pi02_track;
-			HepLorentzVector omegapi03_track = omega_track + pi03_track;
-			HepLorentzVector pi02pi03_track = pi02_track + pi03_track;
-			HepLorentzVector pi01pi02_track = pi01_track + pi02_track;
-			HepLorentzVector pi01pi03_track = pi01_track + pi03_track;
-			t_chisq_4c = 0;
-			t_chisq_3pi = 0;
-			t_pi01 = pi01_track.m();
-			t_pi02 = pi02_track.m();
-			t_pi03 = pi03_track.m();
-			t_omega = omega_track.m();
-			t_omegapi02 = omegapi02_track.m();
-			t_omegapi03 = omegapi03_track.m();
-			t_pi02pi03 = pi02pi03_track.m();
-			t_pi01pi02 = pi01pi02_track.m();
-			t_pi01pi03 = pi01pi03_track.m();
-			m_tuple5->write();
-			Ncut1 += 1;
-		}
-	}
 	//*********************************************************************************
 	// Selection 0: Check runnumber
 	//*********************************************************************************
@@ -461,7 +267,7 @@ StatusCode Omega::execute()																//
 	}																				   //
 	int nGood = iGood.size();														   // 变量：nGood（带电track数目）
 	log << MSG::DEBUG << "ngood, totcharge = " << nGood << " , " << nCharge << endreq; // 变量：nCharge（带电track总电量）
-	if ((nGood != 2) || (nCharge != 0))												   // 选择：nGood
+	if ((nGood != 4) || (nCharge != 0))												   // 选择：nGood
 	{																				   // 选择：nCharge
 		return StatusCode::SUCCESS;													   //
 	}																				   //
@@ -524,7 +330,7 @@ StatusCode Omega::execute()																//
 	}																									  //
 	int nGam = iGam.size();																				  // 变量：nGam（中性track数量）
 	log << MSG::DEBUG << "num Good Photon " << nGam << " , " << evtRecEvent->totalNeutral() << endreq;	//
-	if (nGam < 6 || nGam > 55)																			  // 选择：nGam
+	if (nGam < 2 || nGam > 55)																			  // 选择：nGam
 	{																									  //
 		return StatusCode::SUCCESS;																		  //
 	}																									  //
@@ -923,10 +729,10 @@ StatusCode Omega::execute()																//
 												n1ptrack6};																  //
 				for (int i = 0; i < 3; i++)
 				{
-					double chisq_momega = pow((ptrackp + ptrackm + ptrackg2[2 * selecto[i][0] - 2] + ptrackg2[2 * selecto[i][0] - 1]).m() - 0.782, 2);
-					if (chisq_momega < chisq_4c_om)
+					double chisq_mPm = pow((ptrackp + ptrackm + ptrackg2[2 * selecto[i][0] - 2] + ptrackg2[2 * selecto[i][0] - 1]).m() - 0.782, 2);
+					if (chisq_mPm < chisq_4c_om)
 					{
-						chisq_4c_om = chisq_momega;
+						chisq_4c_om = chisq_mPm;
 						n2ptrack1 = ptrackg2[2 * selecto[i][0] - 2];
 						n2ptrack2 = ptrackg2[2 * selecto[i][0] - 1];
 						n2ptrack3 = ptrackg2[2 * selecto[i][1] - 2];
@@ -962,18 +768,18 @@ StatusCode Omega::execute()																//
 			HepLorentzVector out_pi01 = n2ptrack1 + n2ptrack2;
 			HepLorentzVector out_pi02 = n2ptrack3 + n2ptrack4;
 			HepLorentzVector out_pi03 = n2ptrack5 + n2ptrack6;
-			HepLorentzVector out_omega = ptrackp + ptrackm + out_pi01;
-			HepLorentzVector out_omegapi02 = out_omega + out_pi02;
-			HepLorentzVector out_omegapi03 = out_omega + out_pi03;
+			HepLorentzVector out_Pm = ptrackp + ptrackm + out_pi01;
+			HepLorentzVector out_Pmpi02 = out_Pm + out_pi02;
+			HepLorentzVector out_Pmpi03 = out_Pm + out_pi03;
 			HepLorentzVector out_pi02pi03 = out_pi02 + out_pi03;
 			HepLorentzVector out_pi01pi02 = out_pi01 + out_pi02;
 			HepLorentzVector out_pi01pi03 = out_pi01 + out_pi03;
 			double out_mpi01 = out_pi01.m();
 			double out_mpi02 = out_pi02.m();
 			double out_mpi03 = out_pi03.m();
-			double out_momega = out_omega.m();
-			double out_momegapi02 = out_omegapi02.m();
-			double out_momegapi03 = out_omegapi03.m();
+			double out_mPm = out_Pm.m();
+			double out_mPmpi02 = out_Pmpi02.m();
+			double out_mPmpi03 = out_Pmpi03.m();
 			double out_mpi02pi03 = out_pi02pi03.m();
 			double out_mpi01pi02 = out_pi01pi02.m();
 			double out_mpi01pi03 = out_pi01pi03.m();
@@ -984,9 +790,9 @@ StatusCode Omega::execute()																//
 				m_pi01 = out_mpi01;
 				m_pi02 = out_mpi02;
 				m_pi03 = out_mpi03;
-				m_omega = out_momega;
-				m_omegapi02 = out_momegapi02;
-				m_omegapi03 = out_momegapi03;
+				m_Pm = out_mPm;
+				m_Pmpi02 = out_mPmpi02;
+				m_Pmpi03 = out_mPmpi03;
 				m_pi02pi03 = out_mpi02pi03;
 				m_pi01pi02 = out_mpi02pi03;
 				m_pi01pi03 = out_mpi02pi03;
@@ -1003,7 +809,7 @@ StatusCode Omega::execute()																//
 //*********************************************************************************************************
 //***                                               finalize                                            ***
 //*********************************************************************************************************
-StatusCode Omega::finalize()
+StatusCode Pm::finalize()
 {
 	cout << "能量为                 " << m_energy << endl;
 	cout << "total number:         " << Ncut0 << endl;
