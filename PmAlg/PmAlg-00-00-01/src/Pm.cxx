@@ -104,8 +104,6 @@ StatusCode Pm::execute()																//
 	SmartDataPtr<Event::EventHeader> eventHeader(eventSvc(), "/Event/EventHeader");		//
 	int runNo = eventHeader->runNumber();												// 读取runNo：runnumber
 	int event = eventHeader->eventNumber();												// 读取event：eventnumber
-	runID = runNo;																		// 变量：topo
-	eventID = event;																	//
 	log << MSG::DEBUG << "run, evtnum = "												//
 		<< runNo << " , "																//
 		<< event << endreq;																//
@@ -401,8 +399,8 @@ StatusCode Pm::execute()																//
 	// Selection 3: Vertex fit Selection, check ppi0, pTot
 	//*********************************************************************************
 	RecMdcKalTrack *pipTrk1 = (*(evtRecTrkCol->begin() + ipip[0]))->mdcKalTrack(); // 读取track
-	RecMdcKalTrack *pipTrk1 = (*(evtRecTrkCol->begin() + ipip[1]))->mdcKalTrack(); //
-	RecMdcKalTrack *pimTrk2 = (*(evtRecTrkCol->begin() + ipim[0]))->mdcKalTrack(); //
+	RecMdcKalTrack *pipTrk2 = (*(evtRecTrkCol->begin() + ipip[1]))->mdcKalTrack(); //
+	RecMdcKalTrack *pimTrk1 = (*(evtRecTrkCol->begin() + ipim[0]))->mdcKalTrack(); //
 	RecMdcKalTrack *pimTrk2 = (*(evtRecTrkCol->begin() + ipim[1]))->mdcKalTrack(); //
 	WTrackParameter wvpipTrk1;													   //
 	WTrackParameter wvpipTrk2;													   //

@@ -23,7 +23,7 @@ private:
   NTuple::Item<double> m_pi0;
   NTuple::Item<double> m_omega;
   NTuple::Item<double> m_omegapip;
-  NTuple::Item<double> m_oemgapim;
+  NTuple::Item<double> m_omegapim;
   NTuple::Item<double> m_pipm;
 };
 
