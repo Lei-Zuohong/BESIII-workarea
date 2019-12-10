@@ -20,16 +20,11 @@ private:
 
   NTuple::Tuple *m_tuple4; // Pm 4C
   NTuple::Item<double> m_chisq_4c;
-  NTuple::Item<double> m_chisq_3pi;
-  NTuple::Item<double> m_pi01;
-  NTuple::Item<double> m_pi02;
-  NTuple::Item<double> m_pi03;
-  NTuple::Item<double> m_Pm;
-  NTuple::Item<double> m_Pmpi02;
-  NTuple::Item<double> m_Pmpi03;
-  NTuple::Item<double> m_pi02pi03;
-  NTuple::Item<double> m_pi01pi02;
-  NTuple::Item<double> m_pi01pi03;
+  NTuple::Item<double> m_pi0;
+  NTuple::Item<double> m_omega;
+  NTuple::Item<double> m_omegapip;
+  NTuple::Item<double> m_omegapim;
+  NTuple::Item<double> m_pipm;
 };
 
 #endif
