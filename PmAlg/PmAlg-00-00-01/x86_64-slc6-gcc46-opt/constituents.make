@@ -155,157 +155,157 @@ cmt_actionsclean ::  $(cmt_actions_constituentsclean)
 #-- end of group ------
 #-- start of constituent ------
 
-cmt_OmegaAlg_has_no_target_tag = 1
+cmt_PmAlg_has_no_target_tag = 1
 
 #--------------------------------------------------------
 
-ifdef cmt_OmegaAlg_has_target_tag
+ifdef cmt_PmAlg_has_target_tag
 
-#cmt_local_tagfile_OmegaAlg = $(PmAlg_tag)_OmegaAlg.make
-cmt_local_tagfile_OmegaAlg = $(bin)$(PmAlg_tag)_OmegaAlg.make
-cmt_local_setup_OmegaAlg = $(bin)setup_OmegaAlg$$$$.make
-cmt_final_setup_OmegaAlg = $(bin)setup_OmegaAlg.make
-#cmt_final_setup_OmegaAlg = $(bin)PmAlg_OmegaAlgsetup.make
-cmt_local_OmegaAlg_makefile = $(bin)OmegaAlg.make
+#cmt_local_tagfile_PmAlg = $(PmAlg_tag)_PmAlg.make
+cmt_local_tagfile_PmAlg = $(bin)$(PmAlg_tag)_PmAlg.make
+cmt_local_setup_PmAlg = $(bin)setup_PmAlg$$$$.make
+cmt_final_setup_PmAlg = $(bin)setup_PmAlg.make
+#cmt_final_setup_PmAlg = $(bin)PmAlg_PmAlgsetup.make
+cmt_local_PmAlg_makefile = $(bin)PmAlg.make
 
-OmegaAlg_extratags = -tag_add=target_OmegaAlg
+PmAlg_extratags = -tag_add=target_PmAlg
 
-#$(cmt_local_tagfile_OmegaAlg) : $(cmt_lock_setup)
+#$(cmt_local_tagfile_PmAlg) : $(cmt_lock_setup)
 ifndef QUICK
-$(cmt_local_tagfile_OmegaAlg) ::
+$(cmt_local_tagfile_PmAlg) ::
 else
-$(cmt_local_tagfile_OmegaAlg) :
+$(cmt_local_tagfile_PmAlg) :
 endif
 	$(echo) "(constituents.make) Rebuilding $@"; \
-	  if test -f $(cmt_local_tagfile_OmegaAlg); then /bin/rm -f $(cmt_local_tagfile_OmegaAlg); fi ; \
-	  $(cmtexe) -tag=$(tags) $(OmegaAlg_extratags) build tag_makefile >>$(cmt_local_tagfile_OmegaAlg)
-	$(echo) "(constituents.make) Rebuilding $(cmt_final_setup_OmegaAlg)"; \
-	  test ! -f $(cmt_local_setup_OmegaAlg) || \rm -f $(cmt_local_setup_OmegaAlg); \
-	  trap '\rm -f $(cmt_local_setup_OmegaAlg)' 0 1 2 15; \
-	  $(cmtexe) -tag=$(tags) $(OmegaAlg_extratags) show setup >$(cmt_local_setup_OmegaAlg) && \
-	  if [ -f $(cmt_final_setup_OmegaAlg) ] && \
-	    \cmp -s $(cmt_final_setup_OmegaAlg) $(cmt_local_setup_OmegaAlg); then \
-	    \rm $(cmt_local_setup_OmegaAlg); else \
-	    \mv -f $(cmt_local_setup_OmegaAlg) $(cmt_final_setup_OmegaAlg); fi
+	  if test -f $(cmt_local_tagfile_PmAlg); then /bin/rm -f $(cmt_local_tagfile_PmAlg); fi ; \
+	  $(cmtexe) -tag=$(tags) $(PmAlg_extratags) build tag_makefile >>$(cmt_local_tagfile_PmAlg)
+	$(echo) "(constituents.make) Rebuilding $(cmt_final_setup_PmAlg)"; \
+	  test ! -f $(cmt_local_setup_PmAlg) || \rm -f $(cmt_local_setup_PmAlg); \
+	  trap '\rm -f $(cmt_local_setup_PmAlg)' 0 1 2 15; \
+	  $(cmtexe) -tag=$(tags) $(PmAlg_extratags) show setup >$(cmt_local_setup_PmAlg) && \
+	  if [ -f $(cmt_final_setup_PmAlg) ] && \
+	    \cmp -s $(cmt_final_setup_PmAlg) $(cmt_local_setup_PmAlg); then \
+	    \rm $(cmt_local_setup_PmAlg); else \
+	    \mv -f $(cmt_local_setup_PmAlg) $(cmt_final_setup_PmAlg); fi
 
 else
 
-#cmt_local_tagfile_OmegaAlg = $(PmAlg_tag).make
-cmt_local_tagfile_OmegaAlg = $(bin)$(PmAlg_tag).make
-cmt_final_setup_OmegaAlg = $(bin)setup.make
-#cmt_final_setup_OmegaAlg = $(bin)PmAlgsetup.make
-cmt_local_OmegaAlg_makefile = $(bin)OmegaAlg.make
+#cmt_local_tagfile_PmAlg = $(PmAlg_tag).make
+cmt_local_tagfile_PmAlg = $(bin)$(PmAlg_tag).make
+cmt_final_setup_PmAlg = $(bin)setup.make
+#cmt_final_setup_PmAlg = $(bin)PmAlgsetup.make
+cmt_local_PmAlg_makefile = $(bin)PmAlg.make
 
 endif
 
-not_OmegaAlg_dependencies = { n=0; for p in $?; do m=0; for d in $(OmegaAlg_dependencies); do if [ $$p = $$d ]; then m=1; break; fi; done; if [ $$m -eq 0 ]; then n=1; break; fi; done; [ $$n -eq 1 ]; }
+not_PmAlg_dependencies = { n=0; for p in $?; do m=0; for d in $(PmAlg_dependencies); do if [ $$p = $$d ]; then m=1; break; fi; done; if [ $$m -eq 0 ]; then n=1; break; fi; done; [ $$n -eq 1 ]; }
 
 ifdef STRUCTURED_OUTPUT
-OmegaAlgdirs :
-	@if test ! -d $(bin)OmegaAlg; then $(mkdir) -p $(bin)OmegaAlg; fi
-	$(echo) "STRUCTURED_OUTPUT="$(bin)OmegaAlg
+PmAlgdirs :
+	@if test ! -d $(bin)PmAlg; then $(mkdir) -p $(bin)PmAlg; fi
+	$(echo) "STRUCTURED_OUTPUT="$(bin)PmAlg
 else
-OmegaAlgdirs : ;
+PmAlgdirs : ;
 endif
 
 #ifndef QUICK
 #ifdef STRUCTURED_OUTPUT
-# OmegaAlgdirs ::
-#	@if test ! -d $(bin)OmegaAlg; then $(mkdir) -p $(bin)OmegaAlg; fi
-#	$(echo) "STRUCTURED_OUTPUT="$(bin)OmegaAlg
+# PmAlgdirs ::
+#	@if test ! -d $(bin)PmAlg; then $(mkdir) -p $(bin)PmAlg; fi
+#	$(echo) "STRUCTURED_OUTPUT="$(bin)PmAlg
 #
-#$(cmt_local_OmegaAlg_makefile) :: $(OmegaAlg_dependencies) $(cmt_local_tagfile_OmegaAlg) build_library_links dirs OmegaAlgdirs
+#$(cmt_local_PmAlg_makefile) :: $(PmAlg_dependencies) $(cmt_local_tagfile_PmAlg) build_library_links dirs PmAlgdirs
 #else
-#$(cmt_local_OmegaAlg_makefile) :: $(OmegaAlg_dependencies) $(cmt_local_tagfile_OmegaAlg) build_library_links dirs
+#$(cmt_local_PmAlg_makefile) :: $(PmAlg_dependencies) $(cmt_local_tagfile_PmAlg) build_library_links dirs
 #endif
 #else
-#$(cmt_local_OmegaAlg_makefile) :: $(cmt_local_tagfile_OmegaAlg)
+#$(cmt_local_PmAlg_makefile) :: $(cmt_local_tagfile_PmAlg)
 #endif
 
-ifdef cmt_OmegaAlg_has_target_tag
+ifdef cmt_PmAlg_has_target_tag
 
 ifndef QUICK
-$(cmt_local_OmegaAlg_makefile) : $(OmegaAlg_dependencies) build_library_links
-	$(echo) "(constituents.make) Building OmegaAlg.make"; \
-	  $(cmtexe) -tag=$(tags) $(OmegaAlg_extratags) build constituent_config -out=$(cmt_local_OmegaAlg_makefile) OmegaAlg
+$(cmt_local_PmAlg_makefile) : $(PmAlg_dependencies) build_library_links
+	$(echo) "(constituents.make) Building PmAlg.make"; \
+	  $(cmtexe) -tag=$(tags) $(PmAlg_extratags) build constituent_config -out=$(cmt_local_PmAlg_makefile) PmAlg
 else
-$(cmt_local_OmegaAlg_makefile) : $(OmegaAlg_dependencies) $(cmt_build_library_linksstamp) $(use_requirements)
-	@if [ ! -f $@ ] || [ ! -f $(cmt_local_tagfile_OmegaAlg) ] || \
-	  [ ! -f $(cmt_final_setup_OmegaAlg) ] || \
-	  $(not_OmegaAlg_dependencies) ; then \
+$(cmt_local_PmAlg_makefile) : $(PmAlg_dependencies) $(cmt_build_library_linksstamp) $(use_requirements)
+	@if [ ! -f $@ ] || [ ! -f $(cmt_local_tagfile_PmAlg) ] || \
+	  [ ! -f $(cmt_final_setup_PmAlg) ] || \
+	  $(not_PmAlg_dependencies) ; then \
 	  test -z "$(cmtmsg)" || \
-	  echo "$(CMTMSGPREFIX)" "(constituents.make) Building OmegaAlg.make"; \
-	  $(cmtexe) -tag=$(tags) $(OmegaAlg_extratags) build constituent_config -out=$(cmt_local_OmegaAlg_makefile) OmegaAlg; \
+	  echo "$(CMTMSGPREFIX)" "(constituents.make) Building PmAlg.make"; \
+	  $(cmtexe) -tag=$(tags) $(PmAlg_extratags) build constituent_config -out=$(cmt_local_PmAlg_makefile) PmAlg; \
 	  fi
 endif
 
 else
 
 ifndef QUICK
-$(cmt_local_OmegaAlg_makefile) : $(OmegaAlg_dependencies) build_library_links
-	$(echo) "(constituents.make) Building OmegaAlg.make"; \
-	  $(cmtexe) -f=$(bin)OmegaAlg.in -tag=$(tags) $(OmegaAlg_extratags) build constituent_makefile -without_cmt -out=$(cmt_local_OmegaAlg_makefile) OmegaAlg
+$(cmt_local_PmAlg_makefile) : $(PmAlg_dependencies) build_library_links
+	$(echo) "(constituents.make) Building PmAlg.make"; \
+	  $(cmtexe) -f=$(bin)PmAlg.in -tag=$(tags) $(PmAlg_extratags) build constituent_makefile -without_cmt -out=$(cmt_local_PmAlg_makefile) PmAlg
 else
-$(cmt_local_OmegaAlg_makefile) : $(OmegaAlg_dependencies) $(cmt_build_library_linksstamp) $(bin)OmegaAlg.in
-	@if [ ! -f $@ ] || [ ! -f $(cmt_local_tagfile_OmegaAlg) ] || \
-	  [ ! -f $(cmt_final_setup_OmegaAlg) ] || \
-	  $(not_OmegaAlg_dependencies) ; then \
+$(cmt_local_PmAlg_makefile) : $(PmAlg_dependencies) $(cmt_build_library_linksstamp) $(bin)PmAlg.in
+	@if [ ! -f $@ ] || [ ! -f $(cmt_local_tagfile_PmAlg) ] || \
+	  [ ! -f $(cmt_final_setup_PmAlg) ] || \
+	  $(not_PmAlg_dependencies) ; then \
 	  test -z "$(cmtmsg)" || \
-	  echo "$(CMTMSGPREFIX)" "(constituents.make) Building OmegaAlg.make"; \
-	  $(cmtexe) -f=$(bin)OmegaAlg.in -tag=$(tags) $(OmegaAlg_extratags) build constituent_makefile -without_cmt -out=$(cmt_local_OmegaAlg_makefile) OmegaAlg; \
+	  echo "$(CMTMSGPREFIX)" "(constituents.make) Building PmAlg.make"; \
+	  $(cmtexe) -f=$(bin)PmAlg.in -tag=$(tags) $(PmAlg_extratags) build constituent_makefile -without_cmt -out=$(cmt_local_PmAlg_makefile) PmAlg; \
 	  fi
 endif
 
 endif
 
-#	  $(cmtexe) -tag=$(tags) $(OmegaAlg_extratags) build constituent_makefile -out=$(cmt_local_OmegaAlg_makefile) OmegaAlg
+#	  $(cmtexe) -tag=$(tags) $(PmAlg_extratags) build constituent_makefile -out=$(cmt_local_PmAlg_makefile) PmAlg
 
-OmegaAlg :: $(OmegaAlg_dependencies) $(cmt_local_OmegaAlg_makefile) dirs OmegaAlgdirs
-	$(echo) "(constituents.make) Starting OmegaAlg"
-	@if test -f $(cmt_local_OmegaAlg_makefile); then \
-	  $(MAKE) -f $(cmt_local_OmegaAlg_makefile) OmegaAlg; \
+PmAlg :: $(PmAlg_dependencies) $(cmt_local_PmAlg_makefile) dirs PmAlgdirs
+	$(echo) "(constituents.make) Starting PmAlg"
+	@if test -f $(cmt_local_PmAlg_makefile); then \
+	  $(MAKE) -f $(cmt_local_PmAlg_makefile) PmAlg; \
 	  fi
-#	@$(MAKE) -f $(cmt_local_OmegaAlg_makefile) OmegaAlg
-	$(echo) "(constituents.make) OmegaAlg done"
+#	@$(MAKE) -f $(cmt_local_PmAlg_makefile) PmAlg
+	$(echo) "(constituents.make) PmAlg done"
 
-clean :: OmegaAlgclean
+clean :: PmAlgclean
 
-OmegaAlgclean :: $(OmegaAlgclean_dependencies) ##$(cmt_local_OmegaAlg_makefile)
-	$(echo) "(constituents.make) Starting OmegaAlgclean"
-	@-if test -f $(cmt_local_OmegaAlg_makefile); then \
-	  $(MAKE) -f $(cmt_local_OmegaAlg_makefile) OmegaAlgclean; \
+PmAlgclean :: $(PmAlgclean_dependencies) ##$(cmt_local_PmAlg_makefile)
+	$(echo) "(constituents.make) Starting PmAlgclean"
+	@-if test -f $(cmt_local_PmAlg_makefile); then \
+	  $(MAKE) -f $(cmt_local_PmAlg_makefile) PmAlgclean; \
 	fi
-	$(echo) "(constituents.make) OmegaAlgclean done"
-#	@-$(MAKE) -f $(cmt_local_OmegaAlg_makefile) OmegaAlgclean
+	$(echo) "(constituents.make) PmAlgclean done"
+#	@-$(MAKE) -f $(cmt_local_PmAlg_makefile) PmAlgclean
 
-##	  /bin/rm -f $(cmt_local_OmegaAlg_makefile) $(bin)OmegaAlg_dependencies.make
+##	  /bin/rm -f $(cmt_local_PmAlg_makefile) $(bin)PmAlg_dependencies.make
 
-install :: OmegaAlginstall
+install :: PmAlginstall
 
-OmegaAlginstall :: $(OmegaAlg_dependencies) $(cmt_local_OmegaAlg_makefile)
-	$(echo) "(constituents.make) Starting install OmegaAlg"
-	@-$(MAKE) -f $(cmt_local_OmegaAlg_makefile) install
-	$(echo) "(constituents.make) install OmegaAlg done"
+PmAlginstall :: $(PmAlg_dependencies) $(cmt_local_PmAlg_makefile)
+	$(echo) "(constituents.make) Starting install PmAlg"
+	@-$(MAKE) -f $(cmt_local_PmAlg_makefile) install
+	$(echo) "(constituents.make) install PmAlg done"
 
-uninstall : OmegaAlguninstall
+uninstall : PmAlguninstall
 
-$(foreach d,$(OmegaAlg_dependencies),$(eval $(d)uninstall_dependencies += OmegaAlguninstall))
+$(foreach d,$(PmAlg_dependencies),$(eval $(d)uninstall_dependencies += PmAlguninstall))
 
-OmegaAlguninstall : $(OmegaAlguninstall_dependencies) ##$(cmt_local_OmegaAlg_makefile)
-	$(echo) "(constituents.make) Starting uninstall OmegaAlg"
-	@if test -f $(cmt_local_OmegaAlg_makefile); then \
-	  $(MAKE) -f $(cmt_local_OmegaAlg_makefile) uninstall; \
+PmAlguninstall : $(PmAlguninstall_dependencies) ##$(cmt_local_PmAlg_makefile)
+	$(echo) "(constituents.make) Starting uninstall PmAlg"
+	@if test -f $(cmt_local_PmAlg_makefile); then \
+	  $(MAKE) -f $(cmt_local_PmAlg_makefile) uninstall; \
 	  fi
-#	@$(MAKE) -f $(cmt_local_OmegaAlg_makefile) uninstall
-	$(echo) "(constituents.make) uninstall OmegaAlg done"
+#	@$(MAKE) -f $(cmt_local_PmAlg_makefile) uninstall
+	$(echo) "(constituents.make) uninstall PmAlg done"
 
-remove_library_links :: OmegaAlguninstall
+remove_library_links :: PmAlguninstall
 
 ifndef PEDANTIC
 .DEFAULT::
-	$(echo) "(constituents.make) Starting $@ OmegaAlg"
+	$(echo) "(constituents.make) Starting $@ PmAlg"
 	$(echo) Using default action for $@
-	$(echo) "(constituents.make) $@ OmegaAlg done"
+	$(echo) "(constituents.make) $@ PmAlg done"
 endif
 
 #-- end of constituent ------

@@ -431,7 +431,7 @@ StatusCode Pm::execute()																//
 	if (!vtxfit->Fit(0))														   //
 		return SUCCESS;															   //
 	vtxfit->Swim(0);															   //
-	Ncut4++;
+	Ncut4++;																	   //
 	//*********************************************************************************
 	// Selection 7: 4~5C Selection
 	//*********************************************************************************
@@ -484,11 +484,11 @@ StatusCode Pm::execute()																//
 					{																													 //
 						chisq_4c_2g = chi2;																								 //
 						ptrackp1 = kmfit->pfit(0);																						 //
-						ptrackp2 = kmfit->pfit(0);																						 //
-						ptrackm1 = kmfit->pfit(0);																						 //
-						ptrackm2 = kmfit->pfit(0);																						 //
-						ptrackn1 = kmfit->pfit(0);																						 //
-						ptrackn2 = kmfit->pfit(0);																						 //
+						ptrackp2 = kmfit->pfit(1);																						 //
+						ptrackm1 = kmfit->pfit(2);																						 //
+						ptrackm2 = kmfit->pfit(3);																						 //
+						ptrackn1 = kmfit->pfit(4);																						 //
+						ptrackn2 = kmfit->pfit(5);																						 //
 					}																													 //
 				}																														 //
 			}																															 //

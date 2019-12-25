@@ -3,7 +3,7 @@
 #====================================
 #  Library OmegaAlg
 #
-#   Generated Tue Dec 10 14:33:19 2019  by leizh
+#   Generated Tue Dec 24 23:34:10 2019  by leizh
 #
 #====================================
 
@@ -23,19 +23,19 @@ ifdef cmt_OmegaAlg_has_target_tag
 
 tags      = $(tag),$(CMTEXTRATAGS),target_OmegaAlg
 
-PmAlg_tag = $(tag)
+OmegaAlg_tag = $(tag)
 
-#cmt_local_tagfile_OmegaAlg = $(PmAlg_tag)_OmegaAlg.make
-cmt_local_tagfile_OmegaAlg = $(bin)$(PmAlg_tag)_OmegaAlg.make
+#cmt_local_tagfile_OmegaAlg = $(OmegaAlg_tag)_OmegaAlg.make
+cmt_local_tagfile_OmegaAlg = $(bin)$(OmegaAlg_tag)_OmegaAlg.make
 
 else
 
 tags      = $(tag),$(CMTEXTRATAGS)
 
-PmAlg_tag = $(tag)
+OmegaAlg_tag = $(tag)
 
-#cmt_local_tagfile_OmegaAlg = $(PmAlg_tag).make
-cmt_local_tagfile_OmegaAlg = $(bin)$(PmAlg_tag).make
+#cmt_local_tagfile_OmegaAlg = $(OmegaAlg_tag).make
+cmt_local_tagfile_OmegaAlg = $(bin)$(OmegaAlg_tag).make
 
 endif
 
@@ -46,20 +46,20 @@ ifdef cmt_OmegaAlg_has_target_tag
 
 cmt_final_setup_OmegaAlg = $(bin)setup_OmegaAlg.make
 cmt_dependencies_in_OmegaAlg = $(bin)dependencies_OmegaAlg.in
-#cmt_final_setup_OmegaAlg = $(bin)PmAlg_OmegaAlgsetup.make
+#cmt_final_setup_OmegaAlg = $(bin)OmegaAlg_OmegaAlgsetup.make
 cmt_local_OmegaAlg_makefile = $(bin)OmegaAlg.make
 
 else
 
 cmt_final_setup_OmegaAlg = $(bin)setup.make
 cmt_dependencies_in_OmegaAlg = $(bin)dependencies.in
-#cmt_final_setup_OmegaAlg = $(bin)PmAlgsetup.make
+#cmt_final_setup_OmegaAlg = $(bin)OmegaAlgsetup.make
 cmt_local_OmegaAlg_makefile = $(bin)OmegaAlg.make
 
 endif
 
 #cmt_final_setup = $(bin)setup.make
-#cmt_final_setup = $(bin)PmAlgsetup.make
+#cmt_final_setup = $(bin)OmegaAlgsetup.make
 
 #OmegaAlg :: ;
 
@@ -105,7 +105,7 @@ OmegaAlg :: dirs  OmegaAlgLIB
 OmegaAlgLIB :: $(OmegaAlglib) $(OmegaAlgshstamp)
 	@/bin/echo "------> OmegaAlg : library ok"
 
-$(OmegaAlglib) :: $(bin)Pm.o $(bin)Pm_entries.o $(bin)Pm_load.o
+$(OmegaAlglib) :: $(bin)Omega.o $(bin)Omega_load.o $(bin)Omega_entries.o
 	$(lib_echo) library
 	$(lib_silent) cd $(bin); \
 	  $(ar) $(OmegaAlglib) $?
@@ -129,7 +129,7 @@ $(OmegaAlgshstamp) :: $(OmegaAlglibname).$(shlibsuffix)
 
 OmegaAlgclean ::
 	$(cleanup_echo) objects
-	$(cleanup_silent) cd $(bin); /bin/rm -f $(bin)Pm.o $(bin)Pm_entries.o $(bin)Pm_load.o
+	$(cleanup_silent) cd $(bin); /bin/rm -f $(bin)Omega.o $(bin)Omega_load.o $(bin)Omega_entries.o
 
 #-----------------------------------------------------------------
 #
@@ -207,26 +207,26 @@ ifneq (-MMD -MP -MF $*.d -MQ $@,)
 
 ifneq ($(MAKECMDGOALS),OmegaAlgclean)
 ifneq ($(MAKECMDGOALS),uninstall)
--include $(bin)$(binobj)Pm.d
+-include $(bin)$(binobj)Omega.d
 
-$(bin)$(binobj)Pm.d :
+$(bin)$(binobj)Omega.d :
 
-$(bin)$(binobj)Pm.o : $(cmt_final_setup_OmegaAlg)
+$(bin)$(binobj)Omega.o : $(cmt_final_setup_OmegaAlg)
 
-$(bin)$(binobj)Pm.o : $(src)Pm.cxx
-	$(cpp_echo) $(src)Pm.cxx
-	$(cpp_silent) $(cppcomp) -MMD -MP -MF $*.d -MQ $@ -o $@ $(use_pp_cppflags) $(OmegaAlg_pp_cppflags) $(lib_OmegaAlg_pp_cppflags) $(Pm_pp_cppflags) $(use_cppflags) $(OmegaAlg_cppflags) $(lib_OmegaAlg_cppflags) $(Pm_cppflags) $(Pm_cxx_cppflags)  $(src)Pm.cxx
+$(bin)$(binobj)Omega.o : $(src)Omega.cxx
+	$(cpp_echo) $(src)Omega.cxx
+	$(cpp_silent) $(cppcomp) -MMD -MP -MF $*.d -MQ $@ -o $@ $(use_pp_cppflags) $(OmegaAlg_pp_cppflags) $(lib_OmegaAlg_pp_cppflags) $(Omega_pp_cppflags) $(use_cppflags) $(OmegaAlg_cppflags) $(lib_OmegaAlg_cppflags) $(Omega_cppflags) $(Omega_cxx_cppflags)  $(src)Omega.cxx
 endif
 endif
 
 else
-$(bin)OmegaAlg_dependencies.make : $(Pm_cxx_dependencies)
+$(bin)OmegaAlg_dependencies.make : $(Omega_cxx_dependencies)
 
-$(bin)OmegaAlg_dependencies.make : $(src)Pm.cxx
+$(bin)OmegaAlg_dependencies.make : $(src)Omega.cxx
 
-$(bin)$(binobj)Pm.o : $(Pm_cxx_dependencies)
-	$(cpp_echo) $(src)Pm.cxx
-	$(cpp_silent) $(cppcomp) -o $@ $(use_pp_cppflags) $(OmegaAlg_pp_cppflags) $(lib_OmegaAlg_pp_cppflags) $(Pm_pp_cppflags) $(use_cppflags) $(OmegaAlg_cppflags) $(lib_OmegaAlg_cppflags) $(Pm_cppflags) $(Pm_cxx_cppflags)  $(src)Pm.cxx
+$(bin)$(binobj)Omega.o : $(Omega_cxx_dependencies)
+	$(cpp_echo) $(src)Omega.cxx
+	$(cpp_silent) $(cppcomp) -o $@ $(use_pp_cppflags) $(OmegaAlg_pp_cppflags) $(lib_OmegaAlg_pp_cppflags) $(Omega_pp_cppflags) $(use_cppflags) $(OmegaAlg_cppflags) $(lib_OmegaAlg_cppflags) $(Omega_cppflags) $(Omega_cxx_cppflags)  $(src)Omega.cxx
 
 endif
 
@@ -237,26 +237,26 @@ ifneq (-MMD -MP -MF $*.d -MQ $@,)
 
 ifneq ($(MAKECMDGOALS),OmegaAlgclean)
 ifneq ($(MAKECMDGOALS),uninstall)
--include $(bin)$(binobj)Pm_entries.d
+-include $(bin)$(binobj)Omega_load.d
 
-$(bin)$(binobj)Pm_entries.d :
+$(bin)$(binobj)Omega_load.d :
 
-$(bin)$(binobj)Pm_entries.o : $(cmt_final_setup_OmegaAlg)
+$(bin)$(binobj)Omega_load.o : $(cmt_final_setup_OmegaAlg)
 
-$(bin)$(binobj)Pm_entries.o : $(src)components/Pm_entries.cxx
-	$(cpp_echo) $(src)components/Pm_entries.cxx
-	$(cpp_silent) $(cppcomp) -MMD -MP -MF $*.d -MQ $@ -o $@ $(use_pp_cppflags) $(OmegaAlg_pp_cppflags) $(lib_OmegaAlg_pp_cppflags) $(Pm_entries_pp_cppflags) $(use_cppflags) $(OmegaAlg_cppflags) $(lib_OmegaAlg_cppflags) $(Pm_entries_cppflags) $(Pm_entries_cxx_cppflags) -I../src/components $(src)components/Pm_entries.cxx
+$(bin)$(binobj)Omega_load.o : $(src)components/Omega_load.cxx
+	$(cpp_echo) $(src)components/Omega_load.cxx
+	$(cpp_silent) $(cppcomp) -MMD -MP -MF $*.d -MQ $@ -o $@ $(use_pp_cppflags) $(OmegaAlg_pp_cppflags) $(lib_OmegaAlg_pp_cppflags) $(Omega_load_pp_cppflags) $(use_cppflags) $(OmegaAlg_cppflags) $(lib_OmegaAlg_cppflags) $(Omega_load_cppflags) $(Omega_load_cxx_cppflags) -I../src/components $(src)components/Omega_load.cxx
 endif
 endif
 
 else
-$(bin)OmegaAlg_dependencies.make : $(Pm_entries_cxx_dependencies)
+$(bin)OmegaAlg_dependencies.make : $(Omega_load_cxx_dependencies)
 
-$(bin)OmegaAlg_dependencies.make : $(src)components/Pm_entries.cxx
+$(bin)OmegaAlg_dependencies.make : $(src)components/Omega_load.cxx
 
-$(bin)$(binobj)Pm_entries.o : $(Pm_entries_cxx_dependencies)
-	$(cpp_echo) $(src)components/Pm_entries.cxx
-	$(cpp_silent) $(cppcomp) -o $@ $(use_pp_cppflags) $(OmegaAlg_pp_cppflags) $(lib_OmegaAlg_pp_cppflags) $(Pm_entries_pp_cppflags) $(use_cppflags) $(OmegaAlg_cppflags) $(lib_OmegaAlg_cppflags) $(Pm_entries_cppflags) $(Pm_entries_cxx_cppflags) -I../src/components $(src)components/Pm_entries.cxx
+$(bin)$(binobj)Omega_load.o : $(Omega_load_cxx_dependencies)
+	$(cpp_echo) $(src)components/Omega_load.cxx
+	$(cpp_silent) $(cppcomp) -o $@ $(use_pp_cppflags) $(OmegaAlg_pp_cppflags) $(lib_OmegaAlg_pp_cppflags) $(Omega_load_pp_cppflags) $(use_cppflags) $(OmegaAlg_cppflags) $(lib_OmegaAlg_cppflags) $(Omega_load_cppflags) $(Omega_load_cxx_cppflags) -I../src/components $(src)components/Omega_load.cxx
 
 endif
 
@@ -267,26 +267,26 @@ ifneq (-MMD -MP -MF $*.d -MQ $@,)
 
 ifneq ($(MAKECMDGOALS),OmegaAlgclean)
 ifneq ($(MAKECMDGOALS),uninstall)
--include $(bin)$(binobj)Pm_load.d
+-include $(bin)$(binobj)Omega_entries.d
 
-$(bin)$(binobj)Pm_load.d :
+$(bin)$(binobj)Omega_entries.d :
 
-$(bin)$(binobj)Pm_load.o : $(cmt_final_setup_OmegaAlg)
+$(bin)$(binobj)Omega_entries.o : $(cmt_final_setup_OmegaAlg)
 
-$(bin)$(binobj)Pm_load.o : $(src)components/Pm_load.cxx
-	$(cpp_echo) $(src)components/Pm_load.cxx
-	$(cpp_silent) $(cppcomp) -MMD -MP -MF $*.d -MQ $@ -o $@ $(use_pp_cppflags) $(OmegaAlg_pp_cppflags) $(lib_OmegaAlg_pp_cppflags) $(Pm_load_pp_cppflags) $(use_cppflags) $(OmegaAlg_cppflags) $(lib_OmegaAlg_cppflags) $(Pm_load_cppflags) $(Pm_load_cxx_cppflags) -I../src/components $(src)components/Pm_load.cxx
+$(bin)$(binobj)Omega_entries.o : $(src)components/Omega_entries.cxx
+	$(cpp_echo) $(src)components/Omega_entries.cxx
+	$(cpp_silent) $(cppcomp) -MMD -MP -MF $*.d -MQ $@ -o $@ $(use_pp_cppflags) $(OmegaAlg_pp_cppflags) $(lib_OmegaAlg_pp_cppflags) $(Omega_entries_pp_cppflags) $(use_cppflags) $(OmegaAlg_cppflags) $(lib_OmegaAlg_cppflags) $(Omega_entries_cppflags) $(Omega_entries_cxx_cppflags) -I../src/components $(src)components/Omega_entries.cxx
 endif
 endif
 
 else
-$(bin)OmegaAlg_dependencies.make : $(Pm_load_cxx_dependencies)
+$(bin)OmegaAlg_dependencies.make : $(Omega_entries_cxx_dependencies)
 
-$(bin)OmegaAlg_dependencies.make : $(src)components/Pm_load.cxx
+$(bin)OmegaAlg_dependencies.make : $(src)components/Omega_entries.cxx
 
-$(bin)$(binobj)Pm_load.o : $(Pm_load_cxx_dependencies)
-	$(cpp_echo) $(src)components/Pm_load.cxx
-	$(cpp_silent) $(cppcomp) -o $@ $(use_pp_cppflags) $(OmegaAlg_pp_cppflags) $(lib_OmegaAlg_pp_cppflags) $(Pm_load_pp_cppflags) $(use_cppflags) $(OmegaAlg_cppflags) $(lib_OmegaAlg_cppflags) $(Pm_load_cppflags) $(Pm_load_cxx_cppflags) -I../src/components $(src)components/Pm_load.cxx
+$(bin)$(binobj)Omega_entries.o : $(Omega_entries_cxx_dependencies)
+	$(cpp_echo) $(src)components/Omega_entries.cxx
+	$(cpp_silent) $(cppcomp) -o $@ $(use_pp_cppflags) $(OmegaAlg_pp_cppflags) $(lib_OmegaAlg_pp_cppflags) $(Omega_entries_pp_cppflags) $(use_cppflags) $(OmegaAlg_cppflags) $(lib_OmegaAlg_cppflags) $(Omega_entries_cppflags) $(Omega_entries_cxx_cppflags) -I../src/components $(src)components/Omega_entries.cxx
 
 endif
 
