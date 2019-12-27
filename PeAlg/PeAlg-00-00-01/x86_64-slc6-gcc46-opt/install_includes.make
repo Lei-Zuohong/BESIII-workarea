@@ -3,7 +3,7 @@
 #====================================
 #  Document install_includes
 #
-#   Generated Thu Dec 26 19:23:36 2019  by leizh
+#   Generated Tue Dec 10 17:45:00 2019  by leizh
 #
 #====================================
 
@@ -23,19 +23,19 @@ ifdef cmt_install_includes_has_target_tag
 
 tags      = $(tag),$(CMTEXTRATAGS),target_install_includes
 
-OmegaAlg_tag = $(tag)
+PmAlg_tag = $(tag)
 
-#cmt_local_tagfile_install_includes = $(OmegaAlg_tag)_install_includes.make
-cmt_local_tagfile_install_includes = $(bin)$(OmegaAlg_tag)_install_includes.make
+#cmt_local_tagfile_install_includes = $(PmAlg_tag)_install_includes.make
+cmt_local_tagfile_install_includes = $(bin)$(PmAlg_tag)_install_includes.make
 
 else
 
 tags      = $(tag),$(CMTEXTRATAGS)
 
-OmegaAlg_tag = $(tag)
+PmAlg_tag = $(tag)
 
-#cmt_local_tagfile_install_includes = $(OmegaAlg_tag).make
-cmt_local_tagfile_install_includes = $(bin)$(OmegaAlg_tag).make
+#cmt_local_tagfile_install_includes = $(PmAlg_tag).make
+cmt_local_tagfile_install_includes = $(bin)$(PmAlg_tag).make
 
 endif
 
@@ -46,20 +46,20 @@ ifdef cmt_install_includes_has_target_tag
 
 cmt_final_setup_install_includes = $(bin)setup_install_includes.make
 cmt_dependencies_in_install_includes = $(bin)dependencies_install_includes.in
-#cmt_final_setup_install_includes = $(bin)OmegaAlg_install_includessetup.make
+#cmt_final_setup_install_includes = $(bin)PmAlg_install_includessetup.make
 cmt_local_install_includes_makefile = $(bin)install_includes.make
 
 else
 
 cmt_final_setup_install_includes = $(bin)setup.make
 cmt_dependencies_in_install_includes = $(bin)dependencies.in
-#cmt_final_setup_install_includes = $(bin)OmegaAlgsetup.make
+#cmt_final_setup_install_includes = $(bin)PmAlgsetup.make
 cmt_local_install_includes_makefile = $(bin)install_includes.make
 
 endif
 
 #cmt_final_setup = $(bin)setup.make
-#cmt_final_setup = $(bin)OmegaAlgsetup.make
+#cmt_final_setup = $(bin)PmAlgsetup.make
 
 #install_includes :: ;
 

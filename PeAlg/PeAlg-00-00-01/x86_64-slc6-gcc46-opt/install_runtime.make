@@ -3,7 +3,7 @@
 #====================================
 #  Document install_runtime
 #
-#   Generated Thu Dec 26 19:23:36 2019  by leizh
+#   Generated Tue Dec 10 17:45:00 2019  by leizh
 #
 #====================================
 
@@ -23,19 +23,19 @@ ifdef cmt_install_runtime_has_target_tag
 
 tags      = $(tag),$(CMTEXTRATAGS),target_install_runtime
 
-OmegaAlg_tag = $(tag)
+PmAlg_tag = $(tag)
 
-#cmt_local_tagfile_install_runtime = $(OmegaAlg_tag)_install_runtime.make
-cmt_local_tagfile_install_runtime = $(bin)$(OmegaAlg_tag)_install_runtime.make
+#cmt_local_tagfile_install_runtime = $(PmAlg_tag)_install_runtime.make
+cmt_local_tagfile_install_runtime = $(bin)$(PmAlg_tag)_install_runtime.make
 
 else
 
 tags      = $(tag),$(CMTEXTRATAGS)
 
-OmegaAlg_tag = $(tag)
+PmAlg_tag = $(tag)
 
-#cmt_local_tagfile_install_runtime = $(OmegaAlg_tag).make
-cmt_local_tagfile_install_runtime = $(bin)$(OmegaAlg_tag).make
+#cmt_local_tagfile_install_runtime = $(PmAlg_tag).make
+cmt_local_tagfile_install_runtime = $(bin)$(PmAlg_tag).make
 
 endif
 
@@ -46,20 +46,20 @@ ifdef cmt_install_runtime_has_target_tag
 
 cmt_final_setup_install_runtime = $(bin)setup_install_runtime.make
 cmt_dependencies_in_install_runtime = $(bin)dependencies_install_runtime.in
-#cmt_final_setup_install_runtime = $(bin)OmegaAlg_install_runtimesetup.make
+#cmt_final_setup_install_runtime = $(bin)PmAlg_install_runtimesetup.make
 cmt_local_install_runtime_makefile = $(bin)install_runtime.make
 
 else
 
 cmt_final_setup_install_runtime = $(bin)setup.make
 cmt_dependencies_in_install_runtime = $(bin)dependencies.in
-#cmt_final_setup_install_runtime = $(bin)OmegaAlgsetup.make
+#cmt_final_setup_install_runtime = $(bin)PmAlgsetup.make
 cmt_local_install_runtime_makefile = $(bin)install_runtime.make
 
 endif
 
 #cmt_final_setup = $(bin)setup.make
-#cmt_final_setup = $(bin)OmegaAlgsetup.make
+#cmt_final_setup = $(bin)PmAlgsetup.make
 
 #install_runtime :: ;
 
@@ -114,28 +114,28 @@ uninstall :: install_runtimeuninstall
 
 
 
-jobOptions_Omega_txt_dependencies = ../share/jobOptions_Omega.txt
+jobOptions_Pm_txt_dependencies = ../share/jobOptions_Pm.txt
 
 
-install_runtimeinstall :: ${install_dir}/jobOptions_Omega.txt
+install_runtimeinstall :: ${install_dir}/jobOptions_Pm.txt
 	@if test ! "${installarea}" = ""; then\
 	  echo "installation done"; \
 	fi
 
-${install_dir}/jobOptions_Omega.txt :: ../share/jobOptions_Omega.txt
+${install_dir}/jobOptions_Pm.txt :: ../share/jobOptions_Pm.txt
 	@if test ! "${installarea}" = ""; then \
-	  d=`dirname ../share/jobOptions_Omega.txt`; \
+	  d=`dirname ../share/jobOptions_Pm.txt`; \
 	  d=`(cd $${d}; pwd)`; \
 	  CMTINSTALLAREA=${CMTINSTALLAREA}; export CMTINSTALLAREA; \
-	  $(cmt_install_action) "$${d}" "jobOptions_Omega.txt" "$(install_dir)" "cp -R" ; \
+	  $(cmt_install_action) "$${d}" "jobOptions_Pm.txt" "$(install_dir)" "cp -R" ; \
 	fi
 
 install_runtimeuninstall ::
 	@if test ! "${installarea}" = ""; then \
-	  d=`dirname ../share/jobOptions_Omega.txt`; \
+	  d=`dirname ../share/jobOptions_Pm.txt`; \
 	  d=`(cd $${d}; pwd)`; \
 	  CMTINSTALLAREA=${CMTINSTALLAREA}; export CMTINSTALLAREA; \
-	  $(cmt_uninstall_action) "$${d}" "jobOptions_Omega.txt" "$(install_dir)" "cp -R" ; \
+	  $(cmt_uninstall_action) "$${d}" "jobOptions_Pm.txt" "$(install_dir)" "cp -R" ; \
 	fi
 #-- start of cleanup_header --------------
 

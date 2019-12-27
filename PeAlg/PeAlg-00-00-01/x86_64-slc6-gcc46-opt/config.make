@@ -3,7 +3,7 @@
 #====================================
 #  Document config
 #
-#   Generated Thu Dec 26 19:23:36 2019  by leizh
+#   Generated Tue Dec 10 17:45:00 2019  by leizh
 #
 #====================================
 
@@ -23,19 +23,19 @@ ifdef cmt_config_has_target_tag
 
 tags      = $(tag),$(CMTEXTRATAGS),target_config
 
-OmegaAlg_tag = $(tag)
+PmAlg_tag = $(tag)
 
-#cmt_local_tagfile_config = $(OmegaAlg_tag)_config.make
-cmt_local_tagfile_config = $(bin)$(OmegaAlg_tag)_config.make
+#cmt_local_tagfile_config = $(PmAlg_tag)_config.make
+cmt_local_tagfile_config = $(bin)$(PmAlg_tag)_config.make
 
 else
 
 tags      = $(tag),$(CMTEXTRATAGS)
 
-OmegaAlg_tag = $(tag)
+PmAlg_tag = $(tag)
 
-#cmt_local_tagfile_config = $(OmegaAlg_tag).make
-cmt_local_tagfile_config = $(bin)$(OmegaAlg_tag).make
+#cmt_local_tagfile_config = $(PmAlg_tag).make
+cmt_local_tagfile_config = $(bin)$(PmAlg_tag).make
 
 endif
 
@@ -46,20 +46,20 @@ ifdef cmt_config_has_target_tag
 
 cmt_final_setup_config = $(bin)setup_config.make
 cmt_dependencies_in_config = $(bin)dependencies_config.in
-#cmt_final_setup_config = $(bin)OmegaAlg_configsetup.make
+#cmt_final_setup_config = $(bin)PmAlg_configsetup.make
 cmt_local_config_makefile = $(bin)config.make
 
 else
 
 cmt_final_setup_config = $(bin)setup.make
 cmt_dependencies_in_config = $(bin)dependencies.in
-#cmt_final_setup_config = $(bin)OmegaAlgsetup.make
+#cmt_final_setup_config = $(bin)PmAlgsetup.make
 cmt_local_config_makefile = $(bin)config.make
 
 endif
 
 #cmt_final_setup = $(bin)setup.make
-#cmt_final_setup = $(bin)OmegaAlgsetup.make
+#cmt_final_setup = $(bin)PmAlgsetup.make
 
 #config :: ;
 
@@ -91,12 +91,12 @@ endif
 
 #-- end of make_header ------------------
 
-config :: ../OmegaAlg/config.h
+config :: ../PmAlg/config.h
 	@/bin/echo "------> config.h ok"
 
-../OmegaAlg/config.h :: ../OmegaAlg/config.h.in
-	@if test -f ../OmegaAlg/config.h.in; then \
-	  cd ../OmegaAlg; \
+../PmAlg/config.h :: ../PmAlg/config.h.in
+	@if test -f ../PmAlg/config.h.in; then \
+	  cd ../PmAlg; \
 	  $(config_command) config.h.in config.h; \
         fi
 
