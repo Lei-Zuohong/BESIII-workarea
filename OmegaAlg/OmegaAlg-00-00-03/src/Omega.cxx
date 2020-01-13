@@ -1,42 +1,44 @@
 //*********************************************************************************************************
 //***                                                代码引用                                            ***
 //*********************************************************************************************************
+// include McTruth
 #include "McTruth/McParticle.h"
+// include GaudiKernel
 #include "GaudiKernel/MsgStream.h"
 #include "GaudiKernel/AlgFactory.h"
 #include "GaudiKernel/ISvcLocator.h"
 #include "GaudiKernel/SmartDataPtr.h"
 #include "GaudiKernel/IDataProviderSvc.h"
 #include "GaudiKernel/PropertyMgr.h"
-#include "VertexFit/IVertexDbSvc.h"
 #include "GaudiKernel/Bootstrap.h"
 #include "GaudiKernel/ISvcLocator.h"
-#include "EventModel/EventModel.h"
-#include "EventModel/Event.h"
-#include "EvtRecEvent/EvtRecEvent.h"
-#include "EvtRecEvent/EvtRecTrack.h"
-#include "DstEvent/TofHitStatus.h"
-#include "EventModel/EventHeader.h"
-#include "TMath.h"
 #include "GaudiKernel/INTupleSvc.h"
 #include "GaudiKernel/NTuple.h"
 #include "GaudiKernel/Bootstrap.h"
 #include "GaudiKernel/IHistogramSvc.h"
+// include other
+#include "EventModel/EventModel.h"
+#include "EventModel/EventHeader.h"
+#include "EventModel/Event.h"
+#include "EvtRecEvent/EvtRecEvent.h"
+#include "EvtRecEvent/EvtRecTrack.h"
+#include "DstEvent/TofHitStatus.h"
+#include "TMath.h"
 #include "CLHEP/Vector/ThreeVector.h"
 #include "CLHEP/Vector/LorentzVector.h"
 #include "CLHEP/Vector/TwoVector.h"
-using CLHEP::Hep2Vector;
-using CLHEP::Hep3Vector;
-using CLHEP::HepLorentzVector;
 #include "CLHEP/Geometry/Point3D.h"
-#ifndef ENABLE_BACKWARDS_COMPATIBILITY
-typedef HepGeom::Point3D<double> HepPoint3D;
-#endif
-//#include "VertexFit/KinematicFit.h"
+#include "VertexFit/IVertexDbSvc.h"
 #include "VertexFit/KalmanKinematicFit.h"
 #include "VertexFit/VertexFit.h"
 #include "VertexFit/Helix.h"
 #include "ParticleID/ParticleID.h"
+using CLHEP::Hep2Vector;
+using CLHEP::Hep3Vector;
+using CLHEP::HepLorentzVector;
+#ifndef ENABLE_BACKWARDS_COMPATIBILITY
+typedef HepGeom::Point3D<double> HepPoint3D;
+#endif
 #include <vector>
 #include "OmegaAlg/Omega.h"
 //*********************************************************************************************************
@@ -76,44 +78,67 @@ StatusCode Omega::initialize()
 			m_tuple1 = ntupleSvc()->book("FILE1/truth", CLID_ColumnWiseTuple, "ks N-Tuple example");
 			if (m_tuple1)
 			{
-				//gamma信息
-				if (1 == 1)
-				{
-					status = m_tuple1->addItem("misr", t1_misr);
-					status = m_tuple1->addItem("aisr", t1_aisr);
-					status = m_tuple1->addItem("pisr", t1_pisr);
-					status = m_tuple1->addItem("mpip", t1_mpip);
-					status = m_tuple1->addItem("apip", t1_apip);
-					status = m_tuple1->addItem("ppip", t1_ppip);
-					status = m_tuple1->addItem("mpim", t1_mpim);
-					status = m_tuple1->addItem("apim", t1_apim);
-					status = m_tuple1->addItem("ppim", t1_ppim);
-				}
-				// 粒子信息
-				if (1 == 1)
-				{
-					status = m_tuple1->addItem("mpi01", t1_mpi01);
-					status = m_tuple1->addItem("api01", t1_api01);
-					status = m_tuple1->addItem("ppi01", t1_ppi01);
-					status = m_tuple1->addItem("mpi02", t1_mpi02);
-					status = m_tuple1->addItem("api02", t1_api02);
-					status = m_tuple1->addItem("ppi02", t1_ppi02);
-					status = m_tuple1->addItem("mpi03", t1_mpi03);
-					status = m_tuple1->addItem("api03", t1_api03);
-					status = m_tuple1->addItem("ppi03", t1_ppi03);
-					status = m_tuple1->addItem("momega", t1_momega);
-					status = m_tuple1->addItem("aomega", t1_aomega);
-					status = m_tuple1->addItem("pomega", t1_pomega);
-					status = m_tuple1->addItem("momegapi02", t1_momegapi02);
-					status = m_tuple1->addItem("aomegapi02", t1_aomegapi02);
-					status = m_tuple1->addItem("pomegapi02", t1_pomegapi02);
-					status = m_tuple1->addItem("momegapi03", t1_momegapi03);
-					status = m_tuple1->addItem("aomegapi03", t1_aomegapi03);
-					status = m_tuple1->addItem("pomegapi03", t1_pomegapi03);
-					status = m_tuple1->addItem("mpi02pi03", t1_mpi02pi03);
-					status = m_tuple1->addItem("api02pi03", t1_api02pi03);
-					status = m_tuple1->addItem("ppi02pi03", t1_ppi02pi03);
-				}
+				// isr
+				status = m_tuple1->addItem("misr", t1_misr);
+				status = m_tuple1->addItem("aisr", t1_aisr);
+				status = m_tuple1->addItem("pisr", t1_pisr);
+				status = m_tuple1->addItem("eisr", t1_eisr);
+				status = m_tuple1->addItem("pxisr", t1_pxisr);
+				status = m_tuple1->addItem("pyisr", t1_pyisr);
+				status = m_tuple1->addItem("pzisr", t1_pzisr);
+				// pi+ pi-
+				status = m_tuple1->addItem("mpip", t1_mpip);
+				status = m_tuple1->addItem("apip", t1_apip);
+				status = m_tuple1->addItem("ppip", t1_ppip);
+				status = m_tuple1->addItem("epip", t1_epip);
+				status = m_tuple1->addItem("pxpip", t1_pxpip);
+				status = m_tuple1->addItem("pypip", t1_pypip);
+				status = m_tuple1->addItem("pzpip", t1_pzpip);
+				status = m_tuple1->addItem("mpim", t1_mpim);
+				status = m_tuple1->addItem("apim", t1_apim);
+				status = m_tuple1->addItem("ppim", t1_ppim);
+				status = m_tuple1->addItem("epim", t1_epim);
+				status = m_tuple1->addItem("pxpim", t1_pxpim);
+				status = m_tuple1->addItem("pypim", t1_pypim);
+				status = m_tuple1->addItem("pzpim", t1_pzpim);
+				// pi01 pi02 pi03 w wpi02 wpi03 pi02pi03
+				status = m_tuple1->addItem("mpi01", t1_mpi01);
+				status = m_tuple1->addItem("api01", t1_api01);
+				status = m_tuple1->addItem("ppi01", t1_ppi01);
+				status = m_tuple1->addItem("epi01", t1_epi01);
+				status = m_tuple1->addItem("pxpi01", t1_pxpi01);
+				status = m_tuple1->addItem("pypi01", t1_pypi01);
+				status = m_tuple1->addItem("pzpi01", t1_pzpi01);
+				status = m_tuple1->addItem("mpi02", t1_mpi02);
+				status = m_tuple1->addItem("api02", t1_api02);
+				status = m_tuple1->addItem("ppi02", t1_ppi02);
+				status = m_tuple1->addItem("epi02", t1_epi02);
+				status = m_tuple1->addItem("pxpi02", t1_pxpi02);
+				status = m_tuple1->addItem("pypi02", t1_pypi02);
+				status = m_tuple1->addItem("pzpi02", t1_pzpi02);
+				status = m_tuple1->addItem("mpi03", t1_mpi03);
+				status = m_tuple1->addItem("api03", t1_api03);
+				status = m_tuple1->addItem("ppi03", t1_ppi03);
+				status = m_tuple1->addItem("epi03", t1_epi03);
+				status = m_tuple1->addItem("pxpi03", t1_pxpi03);
+				status = m_tuple1->addItem("pypi03", t1_pypi03);
+				status = m_tuple1->addItem("pzpi03", t1_pzpi03);
+				status = m_tuple1->addItem("momega", t1_momega);
+				status = m_tuple1->addItem("aomega", t1_aomega);
+				status = m_tuple1->addItem("pomega", t1_pomega);
+				status = m_tuple1->addItem("eomega", t1_eomega);
+				status = m_tuple1->addItem("pxomega", t1_pxomega);
+				status = m_tuple1->addItem("pyomega", t1_pyomega);
+				status = m_tuple1->addItem("pzomega", t1_pzomega);
+				status = m_tuple1->addItem("momegapi02", t1_momegapi02);
+				status = m_tuple1->addItem("aomegapi02", t1_aomegapi02);
+				status = m_tuple1->addItem("pomegapi02", t1_pomegapi02);
+				status = m_tuple1->addItem("momegapi03", t1_momegapi03);
+				status = m_tuple1->addItem("aomegapi03", t1_aomegapi03);
+				status = m_tuple1->addItem("pomegapi03", t1_pomegapi03);
+				status = m_tuple1->addItem("mpi02pi03", t1_mpi02pi03);
+				status = m_tuple1->addItem("api02pi03", t1_api02pi03);
+				status = m_tuple1->addItem("ppi02pi03", t1_ppi02pi03);
 			}
 			else
 			{
@@ -143,69 +168,59 @@ StatusCode Omega::initialize()
 				status = m_tuple4->addItem("indexmc", m_idxmc, 0, 100);
 				status = m_tuple4->addIndexedItem("pdgid", m_idxmc, m_pdgid);
 				status = m_tuple4->addIndexedItem("motheridx", m_idxmc, m_motheridx);
-				//gamma信息
-				if (1 == 1)
-				{
-					status = m_tuple4->addItem("mpip", t4_mpip);
-					status = m_tuple4->addItem("apip", t4_apip);
-					status = m_tuple4->addItem("ppip", t4_ppip);
-					status = m_tuple4->addItem("mpim", t4_mpim);
-					status = m_tuple4->addItem("apim", t4_apim);
-					status = m_tuple4->addItem("ppim", t4_ppim);
-
-					status = m_tuple4->addItem("epip", t4_epip);
-					status = m_tuple4->addItem("pxpip", t4_pxpip);
-					status = m_tuple4->addItem("pypip", t4_pypip);
-					status = m_tuple4->addItem("pzpip", t4_pzpip);
-					status = m_tuple4->addItem("epim", t4_epim);
-					status = m_tuple4->addItem("pxpim", t4_pxpim);
-					status = m_tuple4->addItem("pypim", t4_pypim);
-					status = m_tuple4->addItem("pzpim", t4_pzpim);
-
-				}
-				// 粒子信息
-				if (1 == 1)
-				{
-					status = m_tuple4->addItem("mpi01", t4_mpi01);
-					status = m_tuple4->addItem("api01", t4_api01);
-					status = m_tuple4->addItem("ppi01", t4_ppi01);
-					status = m_tuple4->addItem("mpi02", t4_mpi02);
-					status = m_tuple4->addItem("api02", t4_api02);
-					status = m_tuple4->addItem("ppi02", t4_ppi02);
-					status = m_tuple4->addItem("mpi03", t4_mpi03);
-					status = m_tuple4->addItem("api03", t4_api03);
-					status = m_tuple4->addItem("ppi03", t4_ppi03);
-					status = m_tuple4->addItem("momega", t4_momega);
-					status = m_tuple4->addItem("aomega", t4_aomega);
-					status = m_tuple4->addItem("pomega", t4_pomega);
-
-					status = m_tuple4->addItem("epi01", t4_epi01);
-					status = m_tuple4->addItem("pxpi01", t4_pxpi01);
-					status = m_tuple4->addItem("pypi01", t4_pypi01);
-					status = m_tuple4->addItem("pzpi01", t4_pzpi01);
-					status = m_tuple4->addItem("epi02", t4_epi02);
-					status = m_tuple4->addItem("pxpi02", t4_pxpi02);
-					status = m_tuple4->addItem("pypi02", t4_pypi02);
-					status = m_tuple4->addItem("pzpi02", t4_pzpi02);
-					status = m_tuple4->addItem("epi03", t4_epi03);
-					status = m_tuple4->addItem("pxpi03", t4_pxpi03);
-					status = m_tuple4->addItem("pypi03", t4_pypi03);
-					status = m_tuple4->addItem("pzpi03", t4_pzpi03);
-					status = m_tuple4->addItem("eomega", t4_eomega);
-					status = m_tuple4->addItem("pxomega", t4_pxomega);
-					status = m_tuple4->addItem("pyomega", t4_pyomega);
-					status = m_tuple4->addItem("pzomega", t4_pzomega);
-
-					status = m_tuple4->addItem("momegapi02", t4_momegapi02);
-					status = m_tuple4->addItem("aomegapi02", t4_aomegapi02);
-					status = m_tuple4->addItem("pomegapi02", t4_pomegapi02);
-					status = m_tuple4->addItem("momegapi03", t4_momegapi03);
-					status = m_tuple4->addItem("aomegapi03", t4_aomegapi03);
-					status = m_tuple4->addItem("pomegapi03", t4_pomegapi03);
-					status = m_tuple4->addItem("mpi02pi03", t4_mpi02pi03);
-					status = m_tuple4->addItem("api02pi03", t4_api02pi03);
-					status = m_tuple4->addItem("ppi02pi03", t4_ppi02pi03);
-				}
+				// pi+ pi-
+				status = m_tuple4->addItem("mpip", t4_mpip);
+				status = m_tuple4->addItem("apip", t4_apip);
+				status = m_tuple4->addItem("ppip", t4_ppip);
+				status = m_tuple4->addItem("epip", t4_epip);
+				status = m_tuple4->addItem("pxpip", t4_pxpip);
+				status = m_tuple4->addItem("pypip", t4_pypip);
+				status = m_tuple4->addItem("pzpip", t4_pzpip);
+				status = m_tuple4->addItem("mpim", t4_mpim);
+				status = m_tuple4->addItem("apim", t4_apim);
+				status = m_tuple4->addItem("ppim", t4_ppim);
+				status = m_tuple4->addItem("epim", t4_epim);
+				status = m_tuple4->addItem("pxpim", t4_pxpim);
+				status = m_tuple4->addItem("pypim", t4_pypim);
+				status = m_tuple4->addItem("pzpim", t4_pzpim);
+				// pi01 pi02 pi03 w wpi02 wpi03 pi02pi03
+				status = m_tuple4->addItem("mpi01", t4_mpi01);
+				status = m_tuple4->addItem("api01", t4_api01);
+				status = m_tuple4->addItem("ppi01", t4_ppi01);
+				status = m_tuple4->addItem("epi01", t4_epi01);
+				status = m_tuple4->addItem("pxpi01", t4_pxpi01);
+				status = m_tuple4->addItem("pypi01", t4_pypi01);
+				status = m_tuple4->addItem("pzpi01", t4_pzpi01);
+				status = m_tuple4->addItem("mpi02", t4_mpi02);
+				status = m_tuple4->addItem("api02", t4_api02);
+				status = m_tuple4->addItem("ppi02", t4_ppi02);
+				status = m_tuple4->addItem("epi02", t4_epi02);
+				status = m_tuple4->addItem("pxpi02", t4_pxpi02);
+				status = m_tuple4->addItem("pypi02", t4_pypi02);
+				status = m_tuple4->addItem("pzpi02", t4_pzpi02);
+				status = m_tuple4->addItem("mpi03", t4_mpi03);
+				status = m_tuple4->addItem("api03", t4_api03);
+				status = m_tuple4->addItem("ppi03", t4_ppi03);
+				status = m_tuple4->addItem("epi03", t4_epi03);
+				status = m_tuple4->addItem("pxpi03", t4_pxpi03);
+				status = m_tuple4->addItem("pypi03", t4_pypi03);
+				status = m_tuple4->addItem("pzpi03", t4_pzpi03);
+				status = m_tuple4->addItem("momega", t4_momega);
+				status = m_tuple4->addItem("aomega", t4_aomega);
+				status = m_tuple4->addItem("pomega", t4_pomega);
+				status = m_tuple4->addItem("eomega", t4_eomega);
+				status = m_tuple4->addItem("pxomega", t4_pxomega);
+				status = m_tuple4->addItem("pyomega", t4_pyomega);
+				status = m_tuple4->addItem("pzomega", t4_pzomega);
+				status = m_tuple4->addItem("momegapi02", t4_momegapi02);
+				status = m_tuple4->addItem("aomegapi02", t4_aomegapi02);
+				status = m_tuple4->addItem("pomegapi02", t4_pomegapi02);
+				status = m_tuple4->addItem("momegapi03", t4_momegapi03);
+				status = m_tuple4->addItem("aomegapi03", t4_aomegapi03);
+				status = m_tuple4->addItem("pomegapi03", t4_pomegapi03);
+				status = m_tuple4->addItem("mpi02pi03", t4_mpi02pi03);
+				status = m_tuple4->addItem("api02pi03", t4_api02pi03);
+				status = m_tuple4->addItem("ppi02pi03", t4_ppi02pi03);
 			}
 			else
 			{
@@ -323,21 +338,9 @@ StatusCode Omega::execute()																//
 		HepLorentzVector isr_track;
 		HepLorentzVector pip_track;
 		HepLorentzVector pim_track;
-		HepLorentzVector gamma1_track;
-		HepLorentzVector gamma2_track;
-		HepLorentzVector gamma3_track;
-		HepLorentzVector gamma4_track;
-		HepLorentzVector gamma5_track;
-		HepLorentzVector gamma6_track;
 		int nisr = 0;
 		int npip = 0;
 		int npim = 0;
-		int ngamma1 = 0;
-		int ngamma2 = 0;
-		int ngamma3 = 0;
-		int ngamma4 = 0;
-		int ngamma5 = 0;
-		int ngamma6 = 0;
 		HepLorentzVector pi01_track;
 		HepLorentzVector pi02_track, medium_pi02_track;
 		HepLorentzVector pi03_track, medium_pi03_track;
@@ -429,59 +432,17 @@ StatusCode Omega::execute()																//
 				continue;
 			HepLorentzVector mctrue_track = (*iter_mc)->initialFourMomentum();
 			int mcture_index = (*iter_mc)->trackIndex();
+			//统计isr gamma
 			if ((*iter_mc)->particleProperty() == 22)
 			{
-				//统计isr gamma
 				if (((*iter_mc)->mother()).particleProperty() != 111)
 				{
 					isr_track = mctrue_track;
 					nisr += 1;
 				}
-				// 统计pi01 gamma
-				if (((*iter_mc)->mother()).trackIndex() == pi01_index)
-				{
-					if (ngamma1 == 0)
-					{
-						gamma1_track = mctrue_track;
-						ngamma1 += 1;
-					}
-					else
-					{
-						gamma2_track = mctrue_track;
-						ngamma2 += 1;
-					}
-				}
-				// 统计pi02 gamma
-				if (((*iter_mc)->mother()).trackIndex() == pi02_index)
-				{
-					if (ngamma3 == 0)
-					{
-						gamma3_track = mctrue_track;
-						ngamma3 += 1;
-					}
-					else
-					{
-						gamma4_track = mctrue_track;
-						ngamma4 += 1;
-					}
-				}
-				// 统计pi03 gamma
-				if (((*iter_mc)->mother()).trackIndex() == pi03_index)
-				{
-					if (ngamma5 == 0)
-					{
-						gamma5_track = mctrue_track;
-						ngamma5 += 1;
-					}
-					else
-					{
-						gamma6_track = mctrue_track;
-						ngamma6 += 1;
-					}
-				}
 			}
 		}
-		if (npip == 1 && npim == 1 && npi01 == 1 && npi02 == 1 && npi03 == 1 && nomega == 1 && ngamma1 == 1 && ngamma2 == 1 && ngamma3 == 1 && ngamma4 == 1 && ngamma5 == 1 && ngamma6 == 1)
+		if (npip == 1 && npim == 1 && npi01 == 1 && npi02 == 1 && npi03 == 1 && nomega == 1)
 		{
 			truth_check = 1;
 		}
@@ -495,29 +456,54 @@ StatusCode Omega::execute()																//
 				t1_misr = isr_track.m();
 				t1_aisr = cos(isr_track.theta());
 				t1_pisr = isr_track.rho();
+				t1_eisr = isr_track.e();
+				t1_pxisr = isr_track.px();
+				t1_pyisr = isr_track.py();
+				t1_pzisr = isr_track.pz();
 				//pip pim
 				t1_mpip = pip_track.m();
 				t1_apip = cos(pip_track.theta());
 				t1_ppip = pip_track.rho();
+				t1_epip = pip_track.e();
+				t1_pxpip = pip_track.px();
+				t1_pypip = pip_track.py();
+				t1_pzpip = pip_track.pz();
 				t1_mpim = pim_track.m();
 				t1_apim = cos(pim_track.theta());
 				t1_ppim = pim_track.rho();
-			}
-			// 输出粒子信息
-			if (1 == 1)
-			{
+				t1_epim = pim_track.e();
+				t1_pxpim = pim_track.px();
+				t1_pypim = pim_track.py();
+				t1_pzpim = pim_track.pz();
+				// pi01 pi02 pi03 w wpi02 wpi03 pi02pi03
 				t1_mpi01 = pi01_track.m();
 				t1_api01 = cos(pi01_track.theta());
 				t1_ppi01 = pi01_track.rho();
+				t1_epi01 = pi01_track.e();
+				t1_pxpi01 = pi01_track.px();
+				t1_pypi01 = pi01_track.py();
+				t1_pzpi01 = pi01_track.pz();
 				t1_mpi02 = pi02_track.m();
 				t1_api02 = cos(pi02_track.theta());
 				t1_ppi02 = pi02_track.rho();
+				t1_epi02 = pi02_track.e();
+				t1_pxpi02 = pi02_track.px();
+				t1_pypi02 = pi02_track.py();
+				t1_pzpi02 = pi02_track.pz();
 				t1_mpi03 = pi03_track.m();
 				t1_api03 = cos(pi03_track.theta());
 				t1_ppi03 = pi03_track.rho();
+				t1_epi03 = pi03_track.e();
+				t1_pxpi03 = pi03_track.px();
+				t1_pypi03 = pi03_track.py();
+				t1_pzpi03 = pi03_track.pz();
 				t1_momega = omega_track.m();
 				t1_aomega = cos(omega_track.theta());
 				t1_pomega = omega_track.rho();
+				t1_eomega = omega_track.e();
+				t1_pxomega = omega_track.px();
+				t1_pyomega = omega_track.py();
+				t1_pzomega = omega_track.pz();
 				t1_momegapi03 = omegapi03_track.m();
 				t1_aomegapi03 = cos(omegapi03_track.theta());
 				t1_pomegapi03 = omegapi03_track.rho();
@@ -1195,70 +1181,59 @@ StatusCode Omega::execute()																//
 		{
 			t4_chisq_4c = chisq_4c_6g;
 			t4_chisq_3pi = chisq_4c_pi;
-			// 输出gamma信息
-			if (1 == 1)
-			{
-				//pip pim
-				t4_mpip = out_pip.m();
-				t4_apip = cos(out_pip.theta());
-				t4_ppip = out_pip.rho();
-				t4_mpim = out_pim.m();
-				t4_apim = cos(out_pim.theta());
-				t4_ppim = out_pim.rho();
-				//4-momentum of pip pim
-				t4_epip = out_pip.e();
-				t4_pxpip = out_pip.px();
-				t4_pypip = out_pip.py();
-				t4_pzpip = out_pip.pz();
-				t4_epim = out_pim.e();
-				t4_pxpim = out_pim.px();
-				t4_pypim = out_pim.py();
-				t4_pzpim = out_pim.pz();
-			}
-			// 输出粒子信息
-			if (1 == 1)
-			{
-				//
-				t4_mpi01 = out_pi01.m();
-				t4_api01 = cos(out_pi01.theta());
-				t4_ppi01 = out_pi01.rho();
-				t4_mpi02 = out_pi02.m();
-				t4_api02 = cos(out_pi02.theta());
-				t4_ppi02 = out_pi02.rho();
-				t4_mpi03 = out_pi03.m();
-				t4_api03 = cos(out_pi03.theta());
-				t4_ppi03 = out_pi03.rho();
-				t4_momega = out_omega.m();
-				t4_aomega = cos(out_omega.theta());
-				t4_pomega = out_omega.rho();
-				//
-				t4_epi01 = out_pi01.e();
-				t4_pxpi01 = out_pi01.px();
-				t4_pypi01 = out_pi01.py();
-				t4_pzpi01 = out_pi01.pz();
-				t4_epi02 = out_pi02.e();
-				t4_pxpi02 = out_pi02.px();
-				t4_pypi02 = out_pi02.py();
-				t4_pzpi02 = out_pi02.pz();
-				t4_epi03 = out_pi01.e();
-				t4_pxpi03 = out_pi03.px();
-				t4_pypi03 = out_pi03.py();
-				t4_pzpi03 = out_pi03.pz();
-				t4_eomega = out_omega.e();
-				t4_pxomega = out_omega.px();
-				t4_pyomega = out_omega.py();
-				t4_pzomega = out_omega.pz();
-				//
-				t4_momegapi03 = out_omegapi03.m();
-				t4_aomegapi03 = cos(out_omegapi03.theta());
-				t4_pomegapi03 = out_omegapi03.rho();
-				t4_momegapi02 = out_omegapi02.m();
-				t4_aomegapi02 = cos(out_omegapi02.theta());
-				t4_pomegapi02 = out_omegapi02.rho();
-				t4_mpi02pi03 = out_pi02pi03.m();
-				t4_api02pi03 = cos(out_pi02pi03.theta());
-				t4_ppi02pi03 = out_pi02pi03.rho();
-			}
+			//pip pim
+			t4_mpip = out_pip.m();
+			t4_apip = cos(out_pip.theta());
+			t4_ppip = out_pip.rho();
+			t4_epip = out_pip.e();
+			t4_pxpip = out_pip.px();
+			t4_pypip = out_pip.py();
+			t4_pzpip = out_pip.pz();
+			t4_mpim = out_pim.m();
+			t4_apim = cos(out_pim.theta());
+			t4_ppim = out_pim.rho();
+			t4_epim = out_pim.e();
+			t4_pxpim = out_pim.px();
+			t4_pypim = out_pim.py();
+			t4_pzpim = out_pim.pz();
+			// pi01 pi02 pi03 w wpi02 wpi03 pi02pi03
+			t4_mpi01 = out_pi01.m();
+			t4_api01 = cos(out_pi01.theta());
+			t4_ppi01 = out_pi01.rho();
+			t4_epi01 = out_pi01.e();
+			t4_pxpi01 = out_pi01.px();
+			t4_pypi01 = out_pi01.py();
+			t4_pzpi01 = out_pi01.pz();
+			t4_mpi02 = out_pi02.m();
+			t4_api02 = cos(out_pi02.theta());
+			t4_ppi02 = out_pi02.rho();
+			t4_epi02 = out_pi02.e();
+			t4_pxpi02 = out_pi02.px();
+			t4_pypi02 = out_pi02.py();
+			t4_pzpi02 = out_pi02.pz();
+			t4_mpi03 = out_pi03.m();
+			t4_api03 = cos(out_pi03.theta());
+			t4_ppi03 = out_pi03.rho();
+			t4_epi03 = out_pi03.e();
+			t4_pxpi03 = out_pi03.px();
+			t4_pypi03 = out_pi03.py();
+			t4_pzpi03 = out_pi03.pz();
+			t4_momega = out_omega.m();
+			t4_aomega = cos(out_omega.theta());
+			t4_pomega = out_omega.rho();
+			t4_eomega = out_omega.e();
+			t4_pxomega = out_omega.px();
+			t4_pyomega = out_omega.py();
+			t4_pzomega = out_omega.pz();
+			t4_momegapi03 = out_omegapi03.m();
+			t4_aomegapi03 = cos(out_omegapi03.theta());
+			t4_pomegapi03 = out_omegapi03.rho();
+			t4_momegapi02 = out_omegapi02.m();
+			t4_aomegapi02 = cos(out_omegapi02.theta());
+			t4_pomegapi02 = out_omegapi02.rho();
+			t4_mpi02pi03 = out_pi02pi03.m();
+			t4_api02pi03 = cos(out_pi02pi03.theta());
+			t4_ppi02pi03 = out_pi02pi03.rho();
 			m_tuple4->write();
 			Ncut4++;
 		}

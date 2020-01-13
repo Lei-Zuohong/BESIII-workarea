@@ -17,8 +17,9 @@ private:
   double m_energy;
   // tree for "truth"
   NTuple::Tuple *m_tuple1;
-  // isr pi+ pi-
+  // isr
   NTuple::Item<double> t1_misr, t1_aisr, t1_pisr, t1_eisr, t1_pxisr, t1_pyisr, t1_pzisr;
+  // pi+ pi-
   NTuple::Item<double> t1_mpip, t1_apip, t1_ppip, t1_epip, t1_pxpip, t1_pypip, t1_pzpip;
   NTuple::Item<double> t1_mpim, t1_apim, t1_ppim, t1_epim, t1_pxpim, t1_pypim, t1_pzpim;
   // pi01 pi02 pi03 w wpi02 wpi03 pi02pi03
@@ -32,6 +33,7 @@ private:
 
   // tree for "fit4c"
   NTuple::Tuple *m_tuple4;
+  // chisq
   NTuple::Item<double> t4_chisq_4c;
   NTuple::Item<double> t4_chisq_3pi;
   // pi+ pi-

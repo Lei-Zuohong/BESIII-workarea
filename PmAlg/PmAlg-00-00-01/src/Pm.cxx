@@ -1,42 +1,44 @@
 //*********************************************************************************************************
 //***                                                代码引用                                            ***
 //*********************************************************************************************************
+// include McTruth
 #include "McTruth/McParticle.h"
+// include GaudiKernel
 #include "GaudiKernel/MsgStream.h"
 #include "GaudiKernel/AlgFactory.h"
 #include "GaudiKernel/ISvcLocator.h"
 #include "GaudiKernel/SmartDataPtr.h"
 #include "GaudiKernel/IDataProviderSvc.h"
 #include "GaudiKernel/PropertyMgr.h"
-#include "VertexFit/IVertexDbSvc.h"
 #include "GaudiKernel/Bootstrap.h"
 #include "GaudiKernel/ISvcLocator.h"
-#include "EventModel/EventModel.h"
-#include "EventModel/Event.h"
-#include "EvtRecEvent/EvtRecEvent.h"
-#include "EvtRecEvent/EvtRecTrack.h"
-#include "DstEvent/TofHitStatus.h"
-#include "EventModel/EventHeader.h"
-#include "TMath.h"
 #include "GaudiKernel/INTupleSvc.h"
 #include "GaudiKernel/NTuple.h"
 #include "GaudiKernel/Bootstrap.h"
 #include "GaudiKernel/IHistogramSvc.h"
+// include other
+#include "EventModel/EventModel.h"
+#include "EventModel/EventHeader.h"
+#include "EventModel/Event.h"
+#include "EvtRecEvent/EvtRecEvent.h"
+#include "EvtRecEvent/EvtRecTrack.h"
+#include "DstEvent/TofHitStatus.h"
+#include "TMath.h"
 #include "CLHEP/Vector/ThreeVector.h"
 #include "CLHEP/Vector/LorentzVector.h"
 #include "CLHEP/Vector/TwoVector.h"
-using CLHEP::Hep2Vector;
-using CLHEP::Hep3Vector;
-using CLHEP::HepLorentzVector;
 #include "CLHEP/Geometry/Point3D.h"
-#ifndef ENABLE_BACKWARDS_COMPATIBILITY
-typedef HepGeom::Point3D<double> HepPoint3D;
-#endif
-//#include "VertexFit/KinematicFit.h"
+#include "VertexFit/IVertexDbSvc.h"
 #include "VertexFit/KalmanKinematicFit.h"
 #include "VertexFit/VertexFit.h"
 #include "VertexFit/Helix.h"
 #include "ParticleID/ParticleID.h"
+using CLHEP::Hep2Vector;
+using CLHEP::Hep3Vector;
+using CLHEP::HepLorentzVector;
+#ifndef ENABLE_BACKWARDS_COMPATIBILITY
+typedef HepGeom::Point3D<double> HepPoint3D;
+#endif
 #include <vector>
 #include "PmAlg/Pm.h"
 //*********************************************************************************************************
@@ -53,7 +55,6 @@ int Ncut0, Ncut1, Ncut2, Ncut3, Ncut4, Ncut5, number, checkexit, checki, firstru
 //*********************************************************************************************************
 Pm::Pm(const std::string &name, ISvcLocator *pSvcLocator) : Algorithm(name, pSvcLocator)
 {
-	declareProperty("Test4C", m_test4C = 1);
 	declareProperty("Energy", m_energy = 2.125);
 }
 //*********************************************************************************************************
@@ -64,7 +65,89 @@ StatusCode Pm::initialize()
 	MsgStream log(msgSvc(), name());
 	log << MSG::INFO << "in initialize()" << endmsg;
 	StatusCode status;
-	// initialize-data-in-fit4c
+	// tree for "truth"
+	if (1 == 1)
+	{
+		NTuplePtr nt1(ntupleSvc(), "FILE1/truth");
+		if (nt1)
+		{
+			m_tuple1 = nt1;
+		}
+		else
+		{
+			m_tuple1 = ntupleSvc()->book("FILE1/truth", CLID_ColumnWiseTuple, "ks N-Tuple example");
+			if (m_tuple1)
+			{
+				// isr
+				status = m_tuple1->addItem("misr", t1_misr);
+				status = m_tuple1->addItem("aisr", t1_aisr);
+				status = m_tuple1->addItem("pisr", t1_pisr);
+				status = m_tuple1->addItem("eisr", t1_eisr);
+				status = m_tuple1->addItem("pxisr", t1_pxisr);
+				status = m_tuple1->addItem("pyisr", t1_pyisr);
+				status = m_tuple1->addItem("pzisr", t1_pzisr);
+				// pip2 pim2
+				status = m_tuple1->addItem("mpip2", t1_mpip2);
+				status = m_tuple1->addItem("apip2", t1_apip2);
+				status = m_tuple1->addItem("ppip2", t1_ppip2);
+				status = m_tuple1->addItem("epip2", t1_epip2);
+				status = m_tuple1->addItem("pxpip2", t1_pxpip2);
+				status = m_tuple1->addItem("pypip2", t1_pypip2);
+				status = m_tuple1->addItem("pzpip2", t1_pzpip2);
+				status = m_tuple1->addItem("mpim2", t1_mpim2);
+				status = m_tuple1->addItem("apim2", t1_apim2);
+				status = m_tuple1->addItem("ppim2", t1_ppim2);
+				status = m_tuple1->addItem("epim2", t1_epim2);
+				status = m_tuple1->addItem("pxpim2", t1_pxpim2);
+				status = m_tuple1->addItem("pypim2", t1_pypim2);
+				status = m_tuple1->addItem("pzpim2", t1_pzpim2);
+				// pi0 pip1 pim1 w wpip2 wpim2 pip2pip3
+				status = m_tuple1->addItem("mpi0", t1_mpi0);
+				status = m_tuple1->addItem("api0", t1_api0);
+				status = m_tuple1->addItem("ppi0", t1_ppi0);
+				status = m_tuple1->addItem("epi0", t1_epi0);
+				status = m_tuple1->addItem("pxpi0", t1_pxpi0);
+				status = m_tuple1->addItem("pypi0", t1_pypi0);
+				status = m_tuple1->addItem("pzpi0", t1_pzpi0);
+				status = m_tuple1->addItem("mpip1", t1_mpip1);
+				status = m_tuple1->addItem("apip1", t1_apip1);
+				status = m_tuple1->addItem("ppip1", t1_ppip1);
+				status = m_tuple1->addItem("epip1", t1_epip1);
+				status = m_tuple1->addItem("pxpip1", t1_pxpip1);
+				status = m_tuple1->addItem("pypip1", t1_pypip1);
+				status = m_tuple1->addItem("pzpip1", t1_pzpip1);
+				status = m_tuple1->addItem("mpim1", t1_mpim1);
+				status = m_tuple1->addItem("apim1", t1_apim1);
+				status = m_tuple1->addItem("ppim1", t1_ppim1);
+				status = m_tuple1->addItem("epim1", t1_epim1);
+				status = m_tuple1->addItem("pxpim1", t1_pxpim1);
+				status = m_tuple1->addItem("pypim1", t1_pypim1);
+				status = m_tuple1->addItem("pzpim1", t1_pzpim1);
+				status = m_tuple1->addItem("momega", t1_momega);
+				status = m_tuple1->addItem("aomega", t1_aomega);
+				status = m_tuple1->addItem("pomega", t1_pomega);
+				status = m_tuple1->addItem("eomega", t1_eomega);
+				status = m_tuple1->addItem("pxomega", t1_pxomega);
+				status = m_tuple1->addItem("pyomega", t1_pyomega);
+				status = m_tuple1->addItem("pzomega", t1_pzomega);
+				status = m_tuple1->addItem("momegapip2", t1_momegapip2);
+				status = m_tuple1->addItem("aomegapip2", t1_aomegapip2);
+				status = m_tuple1->addItem("pomegapip2", t1_pomegapip2);
+				status = m_tuple1->addItem("momegapim2", t1_momegapim2);
+				status = m_tuple1->addItem("aomegapim2", t1_aomegapim2);
+				status = m_tuple1->addItem("pomegapim2", t1_pomegapim2);
+				status = m_tuple1->addItem("mpip2pim2", t1_mpip2pim2);
+				status = m_tuple1->addItem("apip2pim2", t1_apip2pim2);
+				status = m_tuple1->addItem("ppip2pim2", t1_ppip2pim2);
+			}
+			else
+			{
+				log << MSG::ERROR << "    Cannot book N-tuple:" << long(m_tuple1) << endmsg;
+				return StatusCode::FAILURE;
+			}
+		}
+	}
+	// tree for "fit4c"
 	if (1 == 1)
 	{
 		NTuplePtr nt4(ntupleSvc(), "FILE1/fit4c");
@@ -77,12 +160,66 @@ StatusCode Pm::initialize()
 			m_tuple4 = ntupleSvc()->book("FILE1/fit4c", CLID_ColumnWiseTuple, "ks N-Tuple example");
 			if (m_tuple4)
 			{
-				status = m_tuple4->addItem("chisq", m_chisq_4c);
-				status = m_tuple4->addItem("mpi0", m_pi0);
-				status = m_tuple4->addItem("momega", m_omega);
-				status = m_tuple4->addItem("momegapip", m_omegapip);
-				status = m_tuple4->addItem("momegapim", m_omegapim);
-				status = m_tuple4->addItem("mpipm", m_pipm);
+				status = m_tuple4->addItem("chisq", t4_chisq_4c);
+				// topo 信息
+				status = m_tuple4->addItem("runID", runID);
+				status = m_tuple4->addItem("eventID", eventID);
+				status = m_tuple4->addItem("indexmc", m_idxmc, 0, 100);
+				status = m_tuple4->addIndexedItem("pdgid", m_idxmc, m_pdgid);
+				status = m_tuple4->addIndexedItem("motheridx", m_idxmc, m_motheridx);
+				// pip2 pim2
+				status = m_tuple4->addItem("mpip2", t4_mpip2);
+				status = m_tuple4->addItem("apip2", t4_apip2);
+				status = m_tuple4->addItem("ppip2", t4_ppip2);
+				status = m_tuple4->addItem("epip2", t4_epip2);
+				status = m_tuple4->addItem("pxpip2", t4_pxpip2);
+				status = m_tuple4->addItem("pypip2", t4_pypip2);
+				status = m_tuple4->addItem("pzpip2", t4_pzpip2);
+				status = m_tuple4->addItem("mpim2", t4_mpim2);
+				status = m_tuple4->addItem("apim2", t4_apim2);
+				status = m_tuple4->addItem("ppim2", t4_ppim2);
+				status = m_tuple4->addItem("epim2", t4_epim2);
+				status = m_tuple4->addItem("pxpim2", t4_pxpim2);
+				status = m_tuple4->addItem("pypim2", t4_pypim2);
+				status = m_tuple4->addItem("pzpim2", t4_pzpim2);
+				// pi01 pi02 pi03 w wpi02 wpi03 pi02pi03
+				status = m_tuple4->addItem("mpi0", t4_mpi0);
+				status = m_tuple4->addItem("api0", t4_api0);
+				status = m_tuple4->addItem("ppi0", t4_ppi0);
+				status = m_tuple4->addItem("epi0", t4_epi0);
+				status = m_tuple4->addItem("pxpi0", t4_pxpi0);
+				status = m_tuple4->addItem("pypi0", t4_pypi0);
+				status = m_tuple4->addItem("pzpi0", t4_pzpi0);
+				status = m_tuple4->addItem("mpip1", t4_mpip1);
+				status = m_tuple4->addItem("apip1", t4_apip1);
+				status = m_tuple4->addItem("ppip1", t4_ppip1);
+				status = m_tuple4->addItem("epip1", t4_epip1);
+				status = m_tuple4->addItem("pxpip1", t4_pxpip1);
+				status = m_tuple4->addItem("pypip1", t4_pypip1);
+				status = m_tuple4->addItem("pzpip1", t4_pzpip1);
+				status = m_tuple4->addItem("mpim1", t4_mpim1);
+				status = m_tuple4->addItem("apim1", t4_apim1);
+				status = m_tuple4->addItem("ppim1", t4_ppim1);
+				status = m_tuple4->addItem("epim1", t4_epim1);
+				status = m_tuple4->addItem("pxpim1", t4_pxpim1);
+				status = m_tuple4->addItem("pypim1", t4_pypim1);
+				status = m_tuple4->addItem("pzpim1", t4_pzpim1);
+				status = m_tuple4->addItem("momega", t4_momega);
+				status = m_tuple4->addItem("aomega", t4_aomega);
+				status = m_tuple4->addItem("pomega", t4_pomega);
+				status = m_tuple4->addItem("eomega", t4_eomega);
+				status = m_tuple4->addItem("pxomega", t4_pxomega);
+				status = m_tuple4->addItem("pyomega", t4_pyomega);
+				status = m_tuple4->addItem("pzomega", t4_pzomega);
+				status = m_tuple4->addItem("momegapip2", t4_momegapip2);
+				status = m_tuple4->addItem("aomegapip2", t4_aomegapip2);
+				status = m_tuple4->addItem("pomegapip2", t4_pomegapip2);
+				status = m_tuple4->addItem("momegapim2", t4_momegapim2);
+				status = m_tuple4->addItem("aomegapim2", t4_aomegapim2);
+				status = m_tuple4->addItem("pomegapim2", t4_pomegapim2);
+				status = m_tuple4->addItem("mpip2pim2", t4_mpip2pim2);
+				status = m_tuple4->addItem("apip2pim2", t4_apip2pim2);
+				status = m_tuple4->addItem("ppip2pim2", t4_ppip2pim2);
 			}
 			else
 			{
@@ -104,6 +241,8 @@ StatusCode Pm::execute()																//
 	SmartDataPtr<Event::EventHeader> eventHeader(eventSvc(), "/Event/EventHeader");		//
 	int runNo = eventHeader->runNumber();												// 读取runNo：runnumber
 	int event = eventHeader->eventNumber();												// 读取event：eventnumber
+	runID = runNo;																		// 变量：topo
+	eventID = event;																	//
 	log << MSG::DEBUG << "run, evtnum = "												//
 		<< runNo << " , "																//
 		<< event << endreq;																//
@@ -114,6 +253,245 @@ StatusCode Pm::execute()																//
 		<< evtRecEvent->totalNeutral() << " , "											//
 		<< evtRecEvent->totalTracks() << endreq;										//
 	SmartDataPtr<EvtRecTrackCol> evtRecTrkCol(eventSvc(), EventModel::EvtRec::EvtRecTrackCol);
+	//*********************************************************************************
+	// Selection 0: Topology
+	//*********************************************************************************
+	if (eventHeader->runNumber() < 0)															 //
+	{																							 //
+		SmartDataPtr<Event::McParticleCol> mcParticleCol(eventSvc(), "/Event/MC/McParticleCol"); //
+		int m_numParticle = 1;																	 //
+		if (!mcParticleCol)																		 //
+		{																						 //
+			cout << "Could not retrieve McParticelCol" << endl;									 //
+			return StatusCode::FAILURE;															 //
+		}																						 //
+		else																					 //
+		{																						 //
+			int nprmary = 0;																	 //
+			Event::McParticleCol::iterator iter_mc1 = mcParticleCol->begin();					 //
+			for (; iter_mc1 != mcParticleCol->end(); iter_mc1++)								 //
+			{																					 //
+				if (!(*iter_mc1)->decayFromGenerator())											 //
+					continue;																	 //
+				if ((*iter_mc1)->primaryParticle())												 //
+				{																				 //
+					nprmary++;																	 //
+				}																				 //
+			}																					 //
+			Event::McParticleCol::iterator iter_mc2 = mcParticleCol->begin();					 //
+			if (nprmary == 1)																	 //
+			{																					 //
+				m_numParticle = 0;																 //
+				for (; iter_mc2 != mcParticleCol->end(); iter_mc2++)							 //
+				{																				 //
+					if (!(*iter_mc2)->decayFromGenerator())										 //
+						continue;																 //
+					if ((*iter_mc2)->primaryParticle())											 //
+					{																			 //
+						m_pdgid[m_numParticle] = (*iter_mc2)->particleProperty();				 // 变量：topo
+						m_motheridx[m_numParticle] = 0;											 // 变量：topo
+					}																			 //
+					else																		 //
+					{																			 //
+						m_pdgid[m_numParticle] = (*iter_mc2)->particleProperty();				 // 变量：topo
+						m_motheridx[m_numParticle] = ((*iter_mc2)->mother()).trackIndex();		 // 变量：topo
+					}																			 //
+					m_numParticle += 1;															 //
+				}																				 //
+				m_idxmc = m_numParticle;														 // 变量：topo
+			}																					 //
+			if (nprmary > 1)																	 //
+			{																					 //
+				m_numParticle = 1;																 //
+				for (; iter_mc2 != mcParticleCol->end(); iter_mc2++)							 //
+				{																				 //
+					if (!(*iter_mc2)->decayFromGenerator())										 //
+						continue;																 //
+					if ((*iter_mc2)->primaryParticle())											 //
+					{																			 //
+						m_pdgid[m_numParticle] = (*iter_mc2)->particleProperty();				 // 变量：topo
+						m_motheridx[m_numParticle] = 0;											 // 变量：topo
+					}																			 //
+					else																		 //
+					{																			 //
+																								 //
+						m_pdgid[m_numParticle] = (*iter_mc2)->particleProperty();				 // 变量：topo
+						m_motheridx[m_numParticle] = ((*iter_mc2)->mother()).trackIndex() + 1;   // 变量：topo
+					}																			 //
+					m_numParticle += 1;															 //
+					m_pdgid[0] = 11111;															 // 变量：topo
+					m_motheridx[0] = 0;															 // 变量：topo
+				}																				 //
+				m_idxmc = m_numParticle;														 // 变量：topo
+			}																					 //
+		}																						 //
+	}
+	//*********************************************************************************
+	// Selection 0: Truth
+	//*********************************************************************************
+	int truth_check = 0;
+	if (eventHeader->runNumber() < 0)
+	{
+		// 设定变量
+		SmartDataPtr<Event::McParticleCol> mcParticleCol(eventSvc(), "/Event/MC/McParticleCol");
+		HepLorentzVector isr_track;
+		HepLorentzVector pip1_track;
+		HepLorentzVector pip2_track;
+		HepLorentzVector pim1_track;
+		HepLorentzVector pim2_track;
+		HepLorentzVector pi0_track;
+		int nisr = 0;
+		int npip1 = 0;
+		int npip2 = 0;
+		int npim1 = 0;
+		int npim2 = 0;
+		int npi0 = 0;
+		HepLorentzVector omega_track;
+		int nomega = 0;
+		HepLorentzVector omegapip2_track;
+		HepLorentzVector omegapim2_track;
+		HepLorentzVector pip2pim2_track;
+		Event::McParticleCol::iterator iter_mc = mcParticleCol->begin();
+		// 统计 omega, pi+, pi-, pi0
+		for (; iter_mc != mcParticleCol->end(); iter_mc++)
+		{
+			if (!(*iter_mc)->decayFromGenerator())
+				continue;
+			HepLorentzVector mctrue_track = (*iter_mc)->initialFourMomentum();
+			int mctrue_index = (*iter_mc)->trackIndex();
+			// 统计omega
+			if ((*iter_mc)->particleProperty() == 223)
+			{
+				omega_track = mctrue_track;
+				nomega += 1;
+			}
+			// 统计pi+
+			if ((*iter_mc)->particleProperty() == 211)
+			{
+				if (((*iter_mc)->mother()).particleProperty() == 223)
+				{
+					pip1_track = mctrue_track;
+					npip1 += 1;
+				}
+				else
+				{
+					pip2_track = mctrue_track;
+					npip2 += 1;
+				}
+			}
+			// 统计pi-
+			if ((*iter_mc)->particleProperty() == -211)
+			{
+				if (((*iter_mc)->mother()).particleProperty() == 223)
+				{
+					pim1_track = mctrue_track;
+					npim1 += 1;
+				}
+				else
+				{
+					pim2_track = mctrue_track;
+					npim2 += 1;
+				}
+			}
+			// 统计pi0
+			if ((*iter_mc)->particleProperty() == 111)
+			{
+				if (((*iter_mc)->mother()).particleProperty() == 223)
+				{
+					pi0_track = mctrue_track;
+					npi0 += 1;
+				}
+			}
+			// 统计isr
+			if ((*iter_mc)->particleProperty() == 22)
+			{
+				if (((*iter_mc)->mother()).particleProperty() != 111)
+				{
+					isr_track = mctrue_track;
+					nisr += 1;
+				}
+			}
+		}
+		if (npip1 == 1 && npip2 == 1 && npim1 == 1 && npim2 == 1 && npi0 == 1 && nomega == 1)
+		{
+			truth_check = 1;
+		}
+		//填入信息
+		if (truth_check == 1)
+		{
+			omega_track = pip1_track + pim1_track + pi0_track;
+			omegapip2_track = omega_track + pip2_track;
+			omegapim2_track = omega_track + pim2_track;
+			pip2pim2_track = pip2_track + pim2_track;
+			// 输出gamma信息
+			if (1 == 1)
+			{
+				//isr
+				t1_misr = isr_track.m();
+				t1_aisr = cos(isr_track.theta());
+				t1_pisr = isr_track.rho();
+				t1_eisr = isr_track.e();
+				t1_pxisr = isr_track.px();
+				t1_pyisr = isr_track.py();
+				t1_pzisr = isr_track.pz();
+				// pip2 pim2
+				t1_mpip2 = pip2_track.m();
+				t1_apip2 = cos(pip2_track.theta());
+				t1_ppip2 = pip2_track.rho();
+				t1_epip2 = pip2_track.e();
+				t1_pxpip2 = pip2_track.px();
+				t1_pypip2 = pip2_track.py();
+				t1_pzpip2 = pip2_track.pz();
+				t1_mpim2 = pim2_track.m();
+				t1_apim2 = cos(pim2_track.theta());
+				t1_ppim2 = pim2_track.rho();
+				t1_epim2 = pim2_track.e();
+				t1_pxpim2 = pim2_track.px();
+				t1_pypim2 = pim2_track.py();
+				t1_pzpim2 = pim2_track.pz();
+				// pi0 pip1 pim1 w wpip2 wpim2 pip2pip3
+				t1_mpi0 = pi0_track.m();
+				t1_api0 = cos(pi0_track.theta());
+				t1_ppi0 = pi0_track.rho();
+				t1_epi0 = pi0_track.e();
+				t1_pxpi0 = pi0_track.px();
+				t1_pypi0 = pi0_track.py();
+				t1_pzpi0 = pi0_track.pz();
+				t1_mpip1 = pip1_track.m();
+				t1_apip1 = cos(pip1_track.theta());
+				t1_ppip1 = pip1_track.rho();
+				t1_epip1 = pip1_track.e();
+				t1_pxpip1 = pip1_track.px();
+				t1_pypip1 = pip1_track.py();
+				t1_pzpip1 = pip1_track.pz();
+				t1_mpim1 = pim1_track.m();
+				t1_apim1 = cos(pim1_track.theta());
+				t1_ppim1 = pim1_track.rho();
+				t1_epim1 = pim1_track.e();
+				t1_pxpim1 = pim1_track.px();
+				t1_pypim1 = pim1_track.py();
+				t1_pzpim1 = pim1_track.pz();
+				t1_momega = omega_track.m();
+				t1_aomega = cos(omega_track.theta());
+				t1_pomega = omega_track.rho();
+				t1_eomega = omega_track.e();
+				t1_pxomega = omega_track.px();
+				t1_pyomega = omega_track.py();
+				t1_pzomega = omega_track.pz();
+				t1_momegapip2 = omegapip2_track.m();
+				t1_aomegapip2 = cos(omegapip2_track.theta());
+				t1_pomegapip2 = omegapip2_track.rho();
+				t1_momegapim2 = omegapim2_track.m();
+				t1_aomegapim2 = cos(omegapim2_track.theta());
+				t1_pomegapim2 = omegapim2_track.rho();
+				t1_mpip2pim2 = pip2pim2_track.m();
+				t1_apip2pim2 = cos(pip2pim2_track.theta());
+				t1_ppip2pim2 = pip2pim2_track.rho();
+			}
+			m_tuple1->write();
+			Ncut1 += 1;
+		}
+	}
 	//*********************************************************************************
 	// Selection 0: Check runnumber
 	//*********************************************************************************
@@ -263,7 +641,6 @@ StatusCode Pm::execute()																//
 	{																				   // 选择：nCharge
 		return StatusCode::SUCCESS;													   //
 	}																				   //
-	Ncut1++;
 	//*********************************************************************************
 	// Selection 2: Good Photon Selection
 	//*********************************************************************************
@@ -311,7 +688,7 @@ StatusCode Pm::execute()																//
 			continue;																					  //
 		if ((emcTrk->module() == 0 || emcTrk->module() == 2) && (fabs(ctht) > 0.92 || fabs(ctht) < 0.86)) // 选择：E-endcap
 			continue;																					  //
-		if (emcTrk->time() < 0 || emcTrk->time() > 15)													  // 选择：TDC
+		if (emcTrk->time() < 0 || emcTrk->time() > 14)													  // 选择：TDC
 			continue;																					  //
 		if ((emcTrk->module() == 1) && eraw < 0.025)													  // 选择：E-barrel
 			continue;																					  //
@@ -322,11 +699,11 @@ StatusCode Pm::execute()																//
 		iGam.push_back(i);																				  // 变量：iGam[]（参数为good-track序号，内容为track编号）
 	}																									  //
 	int nGam = iGam.size();																				  // 变量：nGam（中性track数量）
+	log << MSG::DEBUG << "num Good Photon " << nGam << " , " << evtRecEvent->totalNeutral() << endreq;	//
 	if (nGam < 2 || nGam > 55)																			  // 选择：nGam
 	{																									  //
 		return StatusCode::SUCCESS;																		  //
-	}																									  //
-	Ncut2++;
+	}
 	//*********************************************************************************
 	// Calculation 2: 4-momentum to each photon
 	//*********************************************************************************
@@ -431,7 +808,6 @@ StatusCode Pm::execute()																//
 	if (!vtxfit->Fit(0))														   //
 		return SUCCESS;															   //
 	vtxfit->Swim(0);															   //
-	Ncut4++;																	   //
 	//*********************************************************************************
 	// Selection 7: 4~5C Selection
 	//*********************************************************************************
@@ -442,106 +818,150 @@ StatusCode Pm::execute()																//
 	//*********************************************************************************
 	// Selection 7-1: 4C Selection
 	//*********************************************************************************
-	WTrackParameter wpip1 = vtxfit->wtrk(0);																							 //
-	WTrackParameter wpip2 = vtxfit->wtrk(1);																							 //
-	WTrackParameter wpim1 = vtxfit->wtrk(2);																							 //
-	WTrackParameter wpim2 = vtxfit->wtrk(3);																							 //
-	KalmanKinematicFit *kmfit = KalmanKinematicFit::instance();																			 //
-	if (m_test4C == 1)																													 //
-	{																																	 //
-		HepLorentzVector ecms(0.034 * m_energy / 3.097, 0, 0, m_energy);																 //
-		HepLorentzVector ptrackp1, n1ptrackp1;																							 //
-		HepLorentzVector ptrackp2, n1ptrackp2;																							 //
-		HepLorentzVector ptrackm1, n1ptrackm1;																							 //
-		HepLorentzVector ptrackm2, n1ptrackm2;																							 //
-		HepLorentzVector ptrackn1;																										 //
-		HepLorentzVector ptrackn2;																										 //
-		double chisq_4c_2g = 9999;																										 //
-		double chisq_w = 9999;																											 //
-		for (int i1 = 0; i1 < nGam; i1++)																								 // 得到2Gamma-chisq
-		{																																 //
-			RecEmcShower *g1Trk = (*(evtRecTrkCol->begin() + iGam[i1]))->emcShower();													 //
-			for (int i2 = i1; i2 < nGam; i2++)																							 //
-			{																															 //
-				if (i2 == i1)																											 //
-				{																														 //
-					continue;																											 //
-				}																														 //
-				RecEmcShower *g2Trk = (*(evtRecTrkCol->begin() + iGam[i2]))->emcShower();												 //
-				kmfit->init();																											 //
-				kmfit->AddTrack(0, wpip1);																								 //
-				kmfit->AddTrack(1, wpip2);																								 //
-				kmfit->AddTrack(2, wpim1);																								 //
-				kmfit->AddTrack(3, wpim2);																								 //
-				kmfit->AddTrack(4, 0.0, g1Trk);																							 //
-				kmfit->AddTrack(5, 0.0, g2Trk);																							 //
-				kmfit->AddFourMomentum(0, ecms);																						 //
-				bool oksq = kmfit->Fit();																								 //
-				if (oksq)																												 //
-				{																														 //
-					double chi2 = kmfit->chisq();																						 //
-					if (chi2 <= chisq_4c_2g)																							 //
-					{																													 //
-						chisq_4c_2g = chi2;																								 //
-						ptrackp1 = kmfit->pfit(0);																						 //
-						ptrackp2 = kmfit->pfit(1);																						 //
-						ptrackm1 = kmfit->pfit(2);																						 //
-						ptrackm2 = kmfit->pfit(3);																						 //
-						ptrackn1 = kmfit->pfit(4);																						 //
-						ptrackn2 = kmfit->pfit(5);																						 //
-					}																													 //
-				}																														 //
-			}																															 //
-		}																																 //
-		int g2 = 0;																														 //
-		if (chisq_4c_2g < 200)																											 // 2Gamma-chisq < 200
-		{																																 //
-			g2 = 1;																														 //
-		}																																 //
-		if (g2 == 1)																													 //
-		{																																 //
-			if (1 == 1)																													 // 重建w
-			{																															 //
-				HepLorentzVector ptrackg1[4] = {ptrackp1,																				 //
-												ptrackp2,																				 //
-												ptrackm1,																				 //
-												ptrackm2};																				 //
-				for (int i = 0; i < 4; i++)																								 //
-				{																														 //
-					double chisq_momega = pow((ptrackg1[selecto[i][0]] + ptrackg1[selecto[i][1]] + ptrackn1 + ptrackn2).m() - 0.782, 2); //
-					if (chisq_momega < chisq_w)																							 //
-					{																													 //
-						chisq_w = chisq_momega;																							 //
-						n1ptrackp1 = ptrackg1[selecto[i][0]];																			 //
-						n1ptrackm1 = ptrackg1[selecto[i][1]];																			 //
-						n1ptrackp2 = ptrackg1[selecto[i][2]];																			 //
-						n1ptrackm2 = ptrackg1[selecto[i][3]];																			 //
-					}																													 //
-				}																														 //
-			}																															 //
-			HepLorentzVector out_pi0 = ptrackn1 + ptrackn2;																				 //
-			HepLorentzVector out_omega = n1ptrackp1 + n1ptrackm1 + out_pi0;																 //
-			HepLorentzVector out_omegapip = out_omega + n1ptrackp2;																		 //
-			HepLorentzVector out_omegapim = out_omega + n1ptrackm2;																		 //
-			HepLorentzVector out_pipm = n1ptrackp2 + n1ptrackm2;																		 //
-			double out_mpi0 = out_pi0.m();																								 //
-			double out_momega = out_omega.m();																							 //
-			double out_momegapip = out_omegapip.m();																					 //
-			double out_momegapim = out_omegapim.m();																					 //
-			double out_mpipm = out_pipm.m();																							 //
-			if (1 == 1)																													 //
-			{																															 //
-				m_chisq_4c = chisq_4c_2g;																								 //
-				m_pi0 = out_mpi0;																										 //
-				m_omega = out_momega;																									 //
-				m_omegapip = out_momegapip;																								 //
-				m_omegapim = out_momegapim;																								 //
-				m_pipm = out_mpipm;																										 //
-				m_tuple4->write();																										 //
-				Ncut5++;																												 //
-			}																															 //
-		}																																 //
-	}																																	 //
+	WTrackParameter wpip1 = vtxfit->wtrk(0);																						 //
+	WTrackParameter wpip2 = vtxfit->wtrk(1);																						 //
+	WTrackParameter wpim1 = vtxfit->wtrk(2);																						 //
+	WTrackParameter wpim2 = vtxfit->wtrk(3);																						 //
+	KalmanKinematicFit *kmfit = KalmanKinematicFit::instance();																		 //
+	HepLorentzVector ecms(0.034 * m_energy / 3.097, 0, 0, m_energy);																 //
+	HepLorentzVector ptrackp1, n1ptrackp1;																							 //
+	HepLorentzVector ptrackp2, n1ptrackp2;																							 //
+	HepLorentzVector ptrackm1, n1ptrackm1;																							 //
+	HepLorentzVector ptrackm2, n1ptrackm2;																							 //
+	HepLorentzVector ptrackn1;																										 //
+	HepLorentzVector ptrackn2;																										 //
+	double chisq_4c_2g = 9999;																										 //
+	double chisq_w = 9999;																											 //
+	for (int i1 = 0; i1 < nGam; i1++)																								 // 得到2Gamma-chisq
+	{																																 //
+		RecEmcShower *g1Trk = (*(evtRecTrkCol->begin() + iGam[i1]))->emcShower();													 //
+		for (int i2 = i1; i2 < nGam; i2++)																							 //
+		{																															 //
+			if (i2 == i1)																											 //
+			{																														 //
+				continue;																											 //
+			}																														 //
+			RecEmcShower *g2Trk = (*(evtRecTrkCol->begin() + iGam[i2]))->emcShower();												 //
+			kmfit->init();																											 //
+			kmfit->AddTrack(0, wpip1);																								 //
+			kmfit->AddTrack(1, wpip2);																								 //
+			kmfit->AddTrack(2, wpim1);																								 //
+			kmfit->AddTrack(3, wpim2);																								 //
+			kmfit->AddTrack(4, 0.0, g1Trk);																							 //
+			kmfit->AddTrack(5, 0.0, g2Trk);																							 //
+			kmfit->AddFourMomentum(0, ecms);																						 //
+			bool oksq = kmfit->Fit();																								 //
+			if (oksq)																												 //
+			{																														 //
+				double chi2 = kmfit->chisq();																						 //
+				if (chi2 <= chisq_4c_2g)																							 //
+				{																													 //
+					chisq_4c_2g = chi2;																								 //
+					ptrackp1 = kmfit->pfit(0);																						 //
+					ptrackp2 = kmfit->pfit(1);																						 //
+					ptrackm1 = kmfit->pfit(2);																						 //
+					ptrackm2 = kmfit->pfit(3);																						 //
+					ptrackn1 = kmfit->pfit(4);																						 //
+					ptrackn2 = kmfit->pfit(5);																						 //
+				}																													 //
+			}																														 //
+		}																															 //
+	}																																 //
+	int g2 = 0;																														 //
+	if (chisq_4c_2g < 200)																											 // 2Gamma-chisq < 200
+	{																																 //
+		g2 = 1;																														 //
+	}																																 //
+	if (g2 == 1)																													 //
+	{																																 //
+		if (1 == 1)																													 // 重建w
+		{																															 //
+			HepLorentzVector ptrackg1[4] = {ptrackp1,																				 //
+											ptrackp2,																				 //
+											ptrackm1,																				 //
+											ptrackm2};																				 //
+			for (int i = 0; i < 4; i++)																								 //
+			{																														 //
+				double chisq_momega = pow((ptrackg1[selecto[i][0]] + ptrackg1[selecto[i][1]] + ptrackn1 + ptrackn2).m() - 0.782, 2); //
+				if (chisq_momega < chisq_w)																							 //
+				{																													 //
+					chisq_w = chisq_momega;																							 //
+					n1ptrackp1 = ptrackg1[selecto[i][0]];																			 //
+					n1ptrackm1 = ptrackg1[selecto[i][1]];																			 //
+					n1ptrackp2 = ptrackg1[selecto[i][2]];																			 //
+					n1ptrackm2 = ptrackg1[selecto[i][3]];																			 //
+				}																													 //
+			}																														 //
+		}																															 //
+		HepLorentzVector out_pi0 = ptrackn1 + ptrackn2;																				 //
+		HepLorentzVector out_pip1 = n1ptrackp1;																						 //
+		HepLorentzVector out_pip2 = n1ptrackp2;																						 //
+		HepLorentzVector out_pim1 = n1ptrackm1;																						 //
+		HepLorentzVector out_pim2 = n1ptrackm2;																						 //
+		HepLorentzVector out_omega = n1ptrackp1 + n1ptrackm1 + out_pi0;																 //
+		HepLorentzVector out_omegapip2 = out_omega + n1ptrackp2;																	 //
+		HepLorentzVector out_omegapim2 = out_omega + n1ptrackm2;																	 //
+		HepLorentzVector out_pip2pim2 = n1ptrackp2 + n1ptrackm2;																	 //
+		if (1 == 1)																													 //
+		{
+			t4_chisq_4c = chisq_4c_2g;
+			// pip2 pim2
+			t4_mpip2 = out_pip2.m();
+			t4_apip2 = cos(out_pip2.theta());
+			t4_ppip2 = out_pip2.rho();
+			t4_epip2 = out_pip2.e();
+			t4_pxpip2 = out_pip2.px();
+			t4_pypip2 = out_pip2.py();
+			t4_pzpip2 = out_pip2.pz();
+			t4_mpim2 = out_pim2.m();
+			t4_apim2 = cos(out_pim2.theta());
+			t4_ppim2 = out_pim2.rho();
+			t4_epim2 = out_pim2.e();
+			t4_pxpim2 = out_pim2.px();
+			t4_pypim2 = out_pim2.py();
+			t4_pzpim2 = out_pim2.pz();
+			// pi0 pip1 pim1 w wpip2 wpim2 pip2pip3
+			t4_mpi0 = out_pi0.m();
+			t4_api0 = cos(out_pi0.theta());
+			t4_ppi0 = out_pi0.rho();
+			t4_epi0 = out_pi0.e();
+			t4_pxpi0 = out_pi0.px();
+			t4_pypi0 = out_pi0.py();
+			t4_pzpi0 = out_pi0.pz();
+			t4_mpip1 = out_pip1.m();
+			t4_apip1 = cos(out_pip1.theta());
+			t4_ppip1 = out_pip1.rho();
+			t4_epip1 = out_pip1.e();
+			t4_pxpip1 = out_pip1.px();
+			t4_pypip1 = out_pip1.py();
+			t4_pzpip1 = out_pip1.pz();
+			t4_mpim1 = out_pim1.m();
+			t4_apim1 = cos(out_pim1.theta());
+			t4_ppim1 = out_pim1.rho();
+			t4_epim1 = out_pim1.e();
+			t4_pxpim1 = out_pim1.px();
+			t4_pypim1 = out_pim1.py();
+			t4_pzpim1 = out_pim1.pz();
+			t4_momega = out_omega.m();
+			t4_aomega = cos(out_omega.theta());
+			t4_pomega = out_omega.rho();
+			t4_eomega = out_omega.e();
+			t4_pxomega = out_omega.px();
+			t4_pyomega = out_omega.py();
+			t4_pzomega = out_omega.pz();
+			t4_momegapip2 = out_omegapip2.m();
+			t4_aomegapip2 = cos(out_omegapip2.theta());
+			t4_pomegapip2 = out_omegapip2.rho();
+			t4_momegapim2 = out_omegapim2.m();
+			t4_aomegapim2 = cos(out_omegapim2.theta());
+			t4_pomegapim2 = out_omegapim2.rho();
+			t4_mpip2pim2 = out_pip2pim2.m();
+			t4_apip2pim2 = cos(out_pip2pim2.theta());
+			t4_ppip2pim2 = out_pip2pim2.rho();
+			m_tuple4->write();
+			Ncut5++;
+		}
+	}
 	//*********************************************************************************
 	// Selection 8: End mission
 	//*********************************************************************************
