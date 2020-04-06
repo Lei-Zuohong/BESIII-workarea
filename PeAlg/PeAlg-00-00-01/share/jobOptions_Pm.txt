@@ -1,3 +1,0 @@
-#include "$VERTEXFITROOT/share/jobOptions_VertexDbSvc.txt"
-ApplicationMgr.DLLs += {"PmAlg"};
-ApplicationMgr.TopAlg += { "Pm" };
