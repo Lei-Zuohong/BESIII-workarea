@@ -149,6 +149,69 @@ double my_helicityangle(HepLorentzVector track_gamma, HepLorentzVector track_pi)
     return angle;
 }
 
+void my_seriesinit(vector<int> &seriesrun,
+                   vector<int> &seriesnum,
+                   vector<int> &seriesnum1,
+                   vector<int> &seriesnum2,
+                   vector<int> &seriesnum3,
+                   vector<int> &seriesnum4,
+                   vector<int> &seriesnum5,
+                   int runNo,
+                   int &firstrun)
+{
+    if (firstrun == 0)
+    { // first run, need clear data
+        seriesrun.clear();
+        seriesnum.clear();
+        seriesnum1.clear();
+        seriesnum2.clear();
+        seriesnum3.clear();
+        seriesnum4.clear();
+        seriesnum5.clear();
+        firstrun = 1;
+    }
+    int check_exist = 0;
+    int check_i = 0;
+    for (int i = 0; i < seriesrun.size(); i++)
+    { // check if runnumber exist
+        if (runNo == seriesrun[i])
+        {
+            check_exist = 1;
+            check_i = i;
+        }
+    }
+    if (check_exist == 1)
+    { // exist, count
+        seriesnum[check_i] += 1;
+    }
+    else
+    { // not exist, create
+        seriesrun.push_back(runNo);
+        seriesnum.push_back(1);
+        seriesnum1.push_back(0);
+        seriesnum2.push_back(0);
+        seriesnum3.push_back(0);
+        seriesnum4.push_back(0);
+        seriesnum5.push_back(0);
+    }
+    return;
+}
+void my_seriescount(vector<int> &seriesrun,
+                    vector<int> &seriescount,
+                    int runNo)
+{
+    int check_i;
+    for (int i = 0; i < seriesrun.size(); i++)
+    { // check if runnumber exist
+        if (runNo == seriesrun[i])
+        {
+            check_i = i;
+        }
+    }
+    seriescount[check_i] += 1;
+    return;
+}
+
 class my_constant
 {
 public:

@@ -1,4 +1,4 @@
-#pragma region 调用头文件
+#pragma region 准备：调用头文件
 // include common
 // include McTruth
 #include "McTruth/McParticle.h"
@@ -33,7 +33,7 @@
 #include "VertexFit/Helix.h"
 #include "ParticleID/ParticleID.h"
 #pragma endregion
-#pragma region 调用类型对象
+#pragma region 准备：调用类型
 #ifndef ENABLE_BACKWARDS_COMPATIBILITY
 typedef HepGeom::Point3D<double> HepPoint3D;
 #endif
@@ -44,26 +44,27 @@ using CLHEP::HepLorentzVector;
 #include "OmegaAlg/Omega.h"
 #include "OmegaAlg/Myfunc.h"
 #pragma endregion
-#pragma region 定义全局变量
-// 定义常数
-const double mpi = 0.13957;
-// 定义调用类型
-typedef std::vector<int> Vint;
-typedef std::vector<HepLorentzVector> Vp4;
-// 定义统计run的参数
-std::vector<int> SeriesRun;
-std::vector<int> SeriesNum;
-int number, checkexit, checki, firstrun;
-// 定义计数参数
-int Ncut0, Ncut1, Ncut2, Ncut3, Ncut4, Ncut5;
+#pragma region 准备：定义全局变量
+const double mpi = 0.13957;					  // 定义常数
+typedef std::vector<int> Vint;				  // 定义类型
+typedef std::vector<HepLorentzVector> Vp4;	  //
+Vint SeriesRun;								  // 定义统计run的参数
+Vint SeriesNum;								  //
+Vint SeriesNum1;							  //
+Vint SeriesNum2;							  //
+Vint SeriesNum3;							  //
+Vint SeriesNum4;							  //
+Vint SeriesNum5;							  //
+int firstrun = 0;							  //
+int Ncut0, Ncut1, Ncut2, Ncut3, Ncut4, Ncut5; // 定义计数参数
 #pragma endregion
-#pragma region 引入变量容器
+#pragma region 准备：调用变量容器
 Omega::Omega(const std::string &name, ISvcLocator *pSvcLocator) : Algorithm(name, pSvcLocator)
 {
 	declareProperty("Energy", m_energy = 0);
 }
 #pragma endregion
-#pragma region 初始化
+#pragma region 准备：初始化输出
 StatusCode Omega::initialize()
 {
 	MsgStream log(msgSvc(), name());
@@ -196,6 +197,8 @@ StatusCode Omega::initialize()
 			status = m_tuple1->addItem("mpi02pi03", truth_mpi02pi03);
 			status = m_tuple1->addItem("api02pi03", truth_api02pi03);
 			status = m_tuple1->addItem("ppi02pi03", truth_ppi02pi03);
+			// else
+			status = m_tuple1->addItem("m3pi0", truth_m3pi0);
 			// boost
 			status = m_tuple1->addItem("hgamma1", truth_hgamma1);
 			status = m_tuple1->addItem("hgamma2", truth_hgamma2);
@@ -207,6 +210,47 @@ StatusCode Omega::initialize()
 		else
 		{
 			log << MSG::ERROR << "    Cannot book N-tuple:" << long(m_tuple1) << endmsg;
+			return StatusCode::FAILURE;
+		}
+	}
+#pragma endregion
+#pragma region 新建树：charge
+	NTuplePtr nt2(ntupleSvc(), "FILE1/charge");
+	if (nt2)
+	{
+		m_tuple2 = nt2;
+	}
+	else
+	{
+		m_tuple2 = ntupleSvc()->book("FILE1/charge", CLID_ColumnWiseTuple, "ks N-Tuple example");
+		if (m_tuple2)
+		{
+			status = m_tuple2->addItem("ngood", charge_ngood);
+			status = m_tuple2->addItem("ncharge", charge_ncharge);
+		}
+		else
+		{
+			log << MSG::ERROR << "    Cannot book N-tuple:" << long(m_tuple2) << endmsg;
+			return StatusCode::FAILURE;
+		}
+	}
+#pragma endregion
+#pragma region 新建树：vertex
+	NTuplePtr nt3(ntupleSvc(), "FILE1/vertex");
+	if (nt3)
+	{
+		m_tuple3 = nt3;
+	}
+	else
+	{
+		m_tuple3 = ntupleSvc()->book("FILE1/vertex", CLID_ColumnWiseTuple, "ks N-Tuple example");
+		if (m_tuple3)
+		{
+			status = m_tuple3->addItem("chisq", vertex_chisq);
+		}
+		else
+		{
+			log << MSG::ERROR << "    Cannot book N-tuple:" << long(m_tuple3) << endmsg;
 			return StatusCode::FAILURE;
 		}
 	}
@@ -337,6 +381,8 @@ StatusCode Omega::initialize()
 			status = m_tuple4->addItem("mpi02pi03", fit4c_mpi02pi03);
 			status = m_tuple4->addItem("api02pi03", fit4c_api02pi03);
 			status = m_tuple4->addItem("ppi02pi03", fit4c_ppi02pi03);
+			// else
+			status = m_tuple4->addItem("m3pi0", fit4c_m3pi0);
 			// boost
 			status = m_tuple4->addItem("hgamma1", fit4c_hgamma1);
 			status = m_tuple4->addItem("hgamma2", fit4c_hgamma2);
@@ -362,13 +408,13 @@ StatusCode Omega::execute() //
 #pragma region section_初始化
 	MsgStream log(msgSvc(), name());														   //
 	log << MSG::INFO << "in execute()" << endreq;											   //
-	SmartDataPtr<Event::EventHeader> eventHeader(eventSvc(), "/Event/EventHeader");			   //
+	SmartDataPtr<Event::EventHeader> eventHeader(eventSvc(), "/Event/EventHeader");			   // ****************************************
 	int runNo = eventHeader->runNumber();													   // 读取runNo：runnumber
 	int event = eventHeader->eventNumber();													   // 读取event：eventnumber
-	runID = runNo;																			   // 变量：topo
+	runID = runNo;																			   // 变量：Topology
 	eventID = event;																		   //
-	Ncut0++;																				   // Ncut0
-	log << MSG::DEBUG << "run, evtnum = "													   //
+	Ncut0++;																				   // 变量：Ncut0
+	log << MSG::DEBUG << "run, evtnum = "													   // ****************************************
 		<< runNo << " , "																	   //
 		<< event << endreq;																	   //
 	SmartDataPtr<EvtRecEvent> evtRecEvent(eventSvc(), EventModel::EvtRec::EvtRecEvent);		   //
@@ -377,6 +423,68 @@ StatusCode Omega::execute() //
 		<< evtRecEvent->totalNeutral() << " , "												   //
 		<< evtRecEvent->totalTracks() << endreq;											   //
 	SmartDataPtr<EvtRecTrackCol> evtRecTrkCol(eventSvc(), EventModel::EvtRec::EvtRecTrackCol); //
+#pragma endregion
+#pragma region section_runnunber筛选
+	if (eventHeader->runNumber() > 0)
+	{
+		int m_status = 0;
+		if (runNo == 34326 || runNo == 34334 || runNo == 34478 || runNo == 34818 || runNo == 34982 ||
+			runNo == 35101 || runNo == 40459 || runNo == 40460 || runNo == 40461 || runNo == 40462 ||
+			runNo == 41408 || runNo == 41416 || runNo == 41902)
+		{
+			m_status = -1;
+		}
+		if (runNo == 34018 || runNo == 34020 || runNo == 34021 ||
+			runNo == 34023 || runNo == 34027 || runNo == 34040 || runNo == 34042 || runNo == 34046 ||
+			runNo == 34048 || runNo == 34058 || runNo == 34061 || runNo == 34065 || runNo == 34099 ||
+			runNo == 34100 || runNo == 34110 || runNo == 34117 || runNo == 34123 || runNo == 34124 ||
+			runNo == 34145 || runNo == 34152 || runNo == 34153 || runNo == 34168 || runNo == 34169 ||
+			runNo == 34170 || runNo == 34171 || runNo == 34172 || runNo == 34173 || runNo == 34174 ||
+			runNo == 34177 || runNo == 34178 || runNo == 34211 || runNo == 34212 || runNo == 34217 ||
+			runNo == 34227 || runNo == 34228 || runNo == 34237 || runNo == 34238 || runNo == 34261 ||
+			runNo == 34262 || runNo == 34282 || runNo == 34283 || runNo == 34301 || runNo == 34308 ||
+			runNo == 34309 || runNo == 34336 || runNo == 34337 || runNo == 34338 || runNo == 34352 ||
+			runNo == 34353 || runNo == 34377 || runNo == 34378 || runNo == 34383 || runNo == 34392 ||
+			runNo == 34401 || runNo == 34404 || runNo == 34406 || runNo == 34429 || runNo == 34432 ||
+			runNo == 34434 || runNo == 34440 || runNo == 34441 || runNo == 34464 || runNo == 34465 ||
+			runNo == 34467 || runNo == 34490 || runNo == 34492 || runNo == 34516 || runNo == 34517 ||
+			runNo == 34518 || runNo == 34519 || runNo == 34520 || runNo == 34521 || runNo == 34522 ||
+			runNo == 34523 || runNo == 34525 || runNo == 34527 || runNo == 34528 || runNo == 34529 ||
+			runNo == 34537 || runNo == 34544 || runNo == 34546 || runNo == 34547 || runNo == 34548 ||
+			runNo == 34549 || runNo == 34576 || runNo == 34577 || runNo == 34578 || runNo == 34600 ||
+			runNo == 34602 || runNo == 34625 || runNo == 34626 || runNo == 34628 || runNo == 34650 ||
+			runNo == 34653 || runNo == 34676 || runNo == 34678 || runNo == 34700 || runNo == 34711 ||
+			runNo == 34720 || runNo == 34722 || runNo == 34744 || runNo == 34745 || runNo == 34746 ||
+			runNo == 34748 || runNo == 34770 || runNo == 34771 || runNo == 34772 || runNo == 34795 ||
+			runNo == 34798 || runNo == 34815 || runNo == 34817 || runNo == 34848 || runNo == 34849 ||
+			runNo == 34853 || runNo == 34854 || runNo == 34870 || runNo == 34872 || runNo == 34875 ||
+			runNo == 34880 || runNo == 34882 || runNo == 34900 || runNo == 34904 || runNo == 34907 ||
+			runNo == 34916 || runNo == 34917 || runNo == 34936 || runNo == 34951 || runNo == 34954 ||
+			runNo == 34975 || runNo == 34977 || runNo == 34979 || runNo == 34985 || runNo == 34986 ||
+			runNo == 34988 || runNo == 34989 || runNo == 34990 || runNo == 35006 || runNo == 35014 ||
+			runNo == 35021 || runNo == 35023 || runNo == 35043 || runNo == 35044 || runNo == 35045 ||
+			runNo == 35046 || runNo == 35052 || runNo == 35066 || runNo == 35071 || runNo == 35074 ||
+			runNo == 35080 || runNo == 35091 || runNo == 35092 || runNo == 35096 || runNo == 35103 ||
+			runNo == 35117 || runNo == 35118)
+		{
+			m_status = -1;
+		}
+		if (m_status == -1)
+		{
+			return StatusCode::SUCCESS;
+		}
+	}
+#pragma endregion
+#pragma region section_checkrun
+	my_seriesinit(SeriesRun,
+				  SeriesNum,
+				  SeriesNum1,
+				  SeriesNum2,
+				  SeriesNum3,
+				  SeriesNum4,
+				  SeriesNum5,
+				  runNo,
+				  firstrun);
 #pragma endregion
 #pragma region section_topoloty
 	if (eventHeader->runNumber() < 0)															 //
@@ -472,6 +580,8 @@ StatusCode Omega::execute() //
 		HepLorentzVector track_omegapi02;
 		HepLorentzVector track_omegapi03;
 		HepLorentzVector track_pi02pi03;
+		HepLorentzVector track_3pi0;
+
 		// 设定暂存交换变量
 		HepLorentzVector track_medium;
 		int index_medium;
@@ -552,6 +662,7 @@ StatusCode Omega::execute() //
 			track_omegapi02 = track_omega + track_pi02;
 			track_omegapi03 = track_omega + track_pi03;
 			track_pi02pi03 = track_pi02 + track_pi03;
+			track_3pi0 = track_pi01 + track_pi02 + track_pi03;
 		}
 		// 再次开始筛选
 		iter_mc = mcParticleCol->begin();
@@ -618,39 +729,6 @@ StatusCode Omega::execute() //
 				truth_check = 1;
 			}
 		}
-		HepLorentzVector track_bgamma1 = track_gamma1.boost(-track_pi01.boostVector());
-		HepLorentzVector track_bgamma2 = track_gamma2.boost(-track_pi01.boostVector());
-		HepLorentzVector track_bgamma3 = track_gamma3.boost(-track_pi02.boostVector());
-		HepLorentzVector track_bgamma4 = track_gamma4.boost(-track_pi02.boostVector());
-		HepLorentzVector track_bgamma5 = track_gamma5.boost(-track_pi03.boostVector());
-		HepLorentzVector track_bgamma6 = track_gamma6.boost(-track_pi03.boostVector());
-		double px1 = track_bgamma1.px();
-		double py1 = track_bgamma1.py();
-		double pz1 = track_bgamma1.pz();
-		double px2 = track_bgamma2.px();
-		double py2 = track_bgamma2.py();
-		double pz2 = track_bgamma2.pz();
-		double px3 = track_bgamma3.px();
-		double py3 = track_bgamma3.py();
-		double pz3 = track_bgamma3.pz();
-		double px4 = track_bgamma4.px();
-		double py4 = track_bgamma4.py();
-		double pz4 = track_bgamma4.pz();
-		double px5 = track_bgamma5.px();
-		double py5 = track_bgamma5.py();
-		double pz5 = track_bgamma5.pz();
-		double px6 = track_bgamma6.px();
-		double py6 = track_bgamma6.py();
-		double pz6 = track_bgamma6.pz();
-		double px01 = track_pi01.px();
-		double py01 = track_pi01.py();
-		double pz01 = track_pi01.pz();
-		double px02 = track_pi02.px();
-		double py02 = track_pi02.py();
-		double pz02 = track_pi02.pz();
-		double px03 = track_pi03.px();
-		double py03 = track_pi03.py();
-		double pz03 = track_pi03.pz();
 		// 填入信息
 		if (truth_check == 1)
 		{
@@ -773,6 +851,8 @@ StatusCode Omega::execute() //
 				truth_mpi02pi03 = track_pi02pi03.m();
 				truth_api02pi03 = track_pi02pi03.cosTheta();
 				truth_ppi02pi03 = track_pi02pi03.rho();
+				// else
+				truth_m3pi0 = track_3pi0.m();
 				// boost gamma
 				truth_hgamma1 = my_helicityangle(track_gamma1, track_pi01);
 				truth_hgamma1 = my_helicityangle(track_gamma2, track_pi01);
@@ -782,99 +862,20 @@ StatusCode Omega::execute() //
 				truth_hgamma1 = my_helicityangle(track_gamma6, track_pi03);
 				m_tuple1->write();
 				Ncut1 += 1;
+				my_seriescount(SeriesRun, SeriesNum1, runNo);
 			}
 		}
 	}
 #pragma endregion
-#pragma region section_runnunber筛选
-	if (eventHeader->runNumber() > 0)
-	{
-		int m_status = 0;
-		if (runNo == 34326 || runNo == 34334 || runNo == 34478 || runNo == 34818 || runNo == 34982 ||
-			runNo == 35101 || runNo == 40459 || runNo == 40460 || runNo == 40461 || runNo == 40462 ||
-			runNo == 41408 || runNo == 41416 || runNo == 41902)
-		{
-			m_status = -1;
-		}
-		if (runNo == 34018 || runNo == 34020 || runNo == 34021 ||
-			runNo == 34023 || runNo == 34027 || runNo == 34040 || runNo == 34042 || runNo == 34046 ||
-			runNo == 34048 || runNo == 34058 || runNo == 34061 || runNo == 34065 || runNo == 34099 ||
-			runNo == 34100 || runNo == 34110 || runNo == 34117 || runNo == 34123 || runNo == 34124 ||
-			runNo == 34145 || runNo == 34152 || runNo == 34153 || runNo == 34168 || runNo == 34169 ||
-			runNo == 34170 || runNo == 34171 || runNo == 34172 || runNo == 34173 || runNo == 34174 ||
-			runNo == 34177 || runNo == 34178 || runNo == 34211 || runNo == 34212 || runNo == 34217 ||
-			runNo == 34227 || runNo == 34228 || runNo == 34237 || runNo == 34238 || runNo == 34261 ||
-			runNo == 34262 || runNo == 34282 || runNo == 34283 || runNo == 34301 || runNo == 34308 ||
-			runNo == 34309 || runNo == 34336 || runNo == 34337 || runNo == 34338 || runNo == 34352 ||
-			runNo == 34353 || runNo == 34377 || runNo == 34378 || runNo == 34383 || runNo == 34392 ||
-			runNo == 34401 || runNo == 34404 || runNo == 34406 || runNo == 34429 || runNo == 34432 ||
-			runNo == 34434 || runNo == 34440 || runNo == 34441 || runNo == 34464 || runNo == 34465 ||
-			runNo == 34467 || runNo == 34490 || runNo == 34492 || runNo == 34516 || runNo == 34517 ||
-			runNo == 34518 || runNo == 34519 || runNo == 34520 || runNo == 34521 || runNo == 34522 ||
-			runNo == 34523 || runNo == 34525 || runNo == 34527 || runNo == 34528 || runNo == 34529 ||
-			runNo == 34537 || runNo == 34544 || runNo == 34546 || runNo == 34547 || runNo == 34548 ||
-			runNo == 34549 || runNo == 34576 || runNo == 34577 || runNo == 34578 || runNo == 34600 ||
-			runNo == 34602 || runNo == 34625 || runNo == 34626 || runNo == 34628 || runNo == 34650 ||
-			runNo == 34653 || runNo == 34676 || runNo == 34678 || runNo == 34700 || runNo == 34711 ||
-			runNo == 34720 || runNo == 34722 || runNo == 34744 || runNo == 34745 || runNo == 34746 ||
-			runNo == 34748 || runNo == 34770 || runNo == 34771 || runNo == 34772 || runNo == 34795 ||
-			runNo == 34798 || runNo == 34815 || runNo == 34817 || runNo == 34848 || runNo == 34849 ||
-			runNo == 34853 || runNo == 34854 || runNo == 34870 || runNo == 34872 || runNo == 34875 ||
-			runNo == 34880 || runNo == 34882 || runNo == 34900 || runNo == 34904 || runNo == 34907 ||
-			runNo == 34916 || runNo == 34917 || runNo == 34936 || runNo == 34951 || runNo == 34954 ||
-			runNo == 34975 || runNo == 34977 || runNo == 34979 || runNo == 34985 || runNo == 34986 ||
-			runNo == 34988 || runNo == 34989 || runNo == 34990 || runNo == 35006 || runNo == 35014 ||
-			runNo == 35021 || runNo == 35023 || runNo == 35043 || runNo == 35044 || runNo == 35045 ||
-			runNo == 35046 || runNo == 35052 || runNo == 35066 || runNo == 35071 || runNo == 35074 ||
-			runNo == 35080 || runNo == 35091 || runNo == 35092 || runNo == 35096 || runNo == 35103 ||
-			runNo == 35117 || runNo == 35118)
-		{
-			m_status = -1;
-		}
-		if (m_status == -1)
-		{
-			return StatusCode::SUCCESS;
-		}
-	}
-#pragma endregion
-#pragma region section_runnumber统计
-	if (firstrun == 0)						   // 第一个事例进行初始化
-	{										   //
-		number = 0;							   //
-		checkexit = 0;						   //
-		checki = 0;							   //
-		SeriesRun.clear();					   //
-		SeriesNum.clear();					   //
-	}										   //
-	firstrun = 1;							   //
-	checkexit = 0;							   // run号在SeriesRun中，则为1，在第几位放入checki
-	for (int i = 0; i < SeriesRun.size(); i++) // run号不在SeriesRun中，则为0
-	{										   //
-		if (runNo == SeriesRun[i])			   //
-		{									   //
-			checkexit = 1;					   //
-			checki = i;						   //
-		}									   //
-	}										   //
-	if (checkexit == 1)						   // 若为1，则统计加一
-	{										   //
-		SeriesNum[checki] += 1;				   //
-	}										   //
-	else									   //
-	{										   //
-		SeriesRun.push_back(runNo);			   // 若为0，则加一统计变量
-		SeriesNum.push_back(1);				   //
-	}										   //
-#pragma endregion
 #pragma region section_charged track
-	Vint iGood, ipip, ipim;															   //
+	Vint iGood, ipip, ipim;															   // ****************************************
 	iGood.clear();																	   // 变量：iGood[]（参数为good-track序号，内容为track编号）
 	ipip.clear();																	   // 变量：ipip[]（参数为good-track+序号，内容为track编号）
 	ipim.clear();																	   // 变量：ipim[]（参数为good-track-序号，内容为track编号）
 	Vp4 ppip, ppim;																	   //
 	ppip.clear();																	   // 变量：ppip[]（good-track+的四动量）
 	ppim.clear();																	   // 变量：ppim[]（good-track-的四动量）
-	int nCharge;																	   //
+	int nCharge;																	   // ****************************************
 	nCharge = 0;																	   //
 	Hep3Vector xorigin(0, 0, 0);													   //
 	IVertexDbSvc *vtxsvc;															   //
@@ -896,35 +897,51 @@ StatusCode Omega::execute() //
 		double pch = mdcTrk->p();													   //
 		double x0 = mdcTrk->x();													   //
 		double y0 = mdcTrk->y();													   //
-		double z0 = mdcTrk->z();													   //
+		double z0 = mdcTrk->z();													   // ****************************************
 		double phi0 = mdcTrk->helix(1);												   // 表示螺旋线参数
 		double xv = xorigin.x();													   // 0: d0 -> 螺旋线到对撞顶点的最小距离
 		double yv = xorigin.y();													   // 1: phi0 -> 最小距离的xy平面相角
 		double Rxy = (x0 - xv) * cos(phi0) + (y0 - yv) * sin(phi0);					   // 2: kappa
 		HepVector a = mdcTrk->helix();												   // 3: d
 		HepSymMatrix Ea = mdcTrk->err();											   // 4: tan(lamda)
-		HepPoint3D point0(0., 0., 0.);												   //
+		HepPoint3D point0(0., 0., 0.);												   // ****************************************
 		HepPoint3D IP(xorigin[0], xorigin[1], xorigin[2]);							   //
 		VFHelix helixip(point0, a, Ea);												   //
 		helixip.pivot(IP);															   //
 		HepVector vecipa = helixip.a();												   //
 		double Rvxy0 = fabs(vecipa[0]);												   //
 		double Rvz0 = vecipa[3];													   //
-		double Rvphi0 = vecipa[1];													   //
+		double Rvphi0 = vecipa[1];													   // ****************************************
 		if (fabs(cos(mdcTrk->theta())) > 0.93)										   // 选择：cos(theta)
 			continue;																   //
 		if (fabs(Rvz0) >= 10)														   // 选择：Rvz0
 			continue;																   //
 		if (fabs(Rvxy0) >= 1)														   // 选择：Rvxy0
-			continue;																   //
+			continue;																   // ****************************************
 		iGood.push_back(i);															   //
 		nCharge += mdcTrk->charge();												   //
 	}																				   //
-	int nGood = iGood.size();														   // 变量：nGood（带电track数目）
-	log << MSG::DEBUG << "ngood, totcharge = " << nGood << " , " << nCharge << endreq; // 变量：nCharge（带电track总电量）
-	if ((nGood != 2) || (nCharge != 0))												   // 选择：nGood
-	{																				   // 选择：nCharge
-		return StatusCode::SUCCESS;													   //
+	int nGood = iGood.size();														   //
+	log << MSG::DEBUG << "ngood, totcharge = " << nGood << " , " << nCharge << endreq; // ****************************************
+	if (1 == 1)																		   // 输出2：charge
+	{																				   // ****************************************
+		charge_ngood = nGood;														   //
+		charge_ncharge = nCharge;													   //
+		m_tuple2->write();															   //
+	}																				   //
+	if (1 == 1)																		   // ****************************************
+	{																				   // 变量：nGood（带电track数目）
+		if ((nGood != 2) || (nCharge != 0))											   // 变量：nCharge（带电track总电量）
+		{																			   // 选择1：nGood = 2, nCharge = 0
+			return StatusCode::SUCCESS;												   // 选择2：nGood >= 2
+		}																			   // ****************************************
+	}																				   //
+	else																			   //
+	{																				   //
+		if (nGood < 2)																   //
+		{																			   //
+			return StatusCode::SUCCESS;												   //
+		}																			   //
 	}																				   //
 #pragma endregion
 #pragma region section_neutral track
@@ -1010,35 +1027,37 @@ StatusCode Omega::execute() //
 	ParticleID *pid = ParticleID::instance();											   //
 	for (int i = 0; i < nGood; i++)														   //
 	{																					   //
-		EvtRecTrackIterator itTrk = evtRecTrkCol->begin() + iGood[i];					   //
+		EvtRecTrackIterator itTrk = evtRecTrkCol->begin() + iGood[i];					   // ****************************************
 		pid->init();																	   // 对于Likelihood方法
 		pid->setMethod(pid->methodProbability());										   // pid->setMethod(pid->methodLikelihood());
 		pid->setChiMinCut(4);															   //
 		pid->setRecTrack(*itTrk);														   //
 		pid->usePidSys(pid->useDedx() | pid->useTof1() | pid->useTof2() | pid->useTofE()); // 选择pid的粒子
-		pid->identify(pid->onlyPion() | pid->onlyKaon());								   // pid->identify(pid->onlyPion());
+		pid->identify(pid->onlyPion() | pid->onlyKaon() | pid->onlyProton());			   // pid->identify(pid->onlyPion());
 		pid->calculate();																   // pid->identify(pid->onlyKaon());
 		if (!(pid->IsPidInfoValid()))													   //
 			continue;																	   // 对于Likelihood方法(0=electron 1=muon 2=pion 3=kaon 4=proton)
 		RecMdcTrack *mdcTrk = (*itTrk)->mdcTrack();										   // if(pid->pdf(2) < pid->pdf(3))
 		if (pid->probPion() < pid->probKaon())											   // continue;
 			continue;																	   //
+		if (pid->probPion() < pid->probProton())										   //
+			continue;																	   //
 		RecMdcKalTrack *mdcKalTrk = (*itTrk)->mdcKalTrack();							   // 对于ParticleID, 用RecMdcKalTrack代替RecMdcTrack
 		RecMdcKalTrack::setPidType(RecMdcKalTrack::pion);								   // PID可以设定为electron, muon, pion, kaon and proton;The default setting is pion
-		if (mdcKalTrk->charge() > 0)													   //
+		if (mdcKalTrk->charge() > 0)													   // ****************************************
 		{																				   //
-			ipip.push_back(iGood[i]);													   //
-			HepLorentzVector ptrk;														   //
-			ptrk.setPx(mdcKalTrk->px());												   //
-			ptrk.setPy(mdcKalTrk->py());												   //
-			ptrk.setPz(mdcKalTrk->pz());												   //
-			double p3 = ptrk.mag();														   //
+			ipip.push_back(iGood[i]);													   // ****************************************
+			HepLorentzVector ptrk;														   // 变量：ppip[]（值为pi+动量）
+			ptrk.setPx(mdcKalTrk->px());												   // 变量：ppim[]（值为pi-动量）
+			ptrk.setPy(mdcKalTrk->py());												   // 变量：ipip[]（值为pi+编号）
+			ptrk.setPz(mdcKalTrk->pz());												   // 变量：ipim[]（值为pi-编号）
+			double p3 = ptrk.mag();														   // ****************************************
 			ptrk.setE(sqrt(p3 * p3 + mpi * mpi));										   //
-			ppip.push_back(ptrk);														   // 变量：ppip[]（值为pi+动量）
-		}																				   // 变量：ppim[]（值为pi-动量）
+			ppip.push_back(ptrk);														   //
+		}																				   //
 		else																			   //
-		{																				   // 变量：ipip[]（值为pi+编号）
-			ipim.push_back(iGood[i]);													   // 变量：ipim[]（值为pi-编号）
+		{																				   //
+			ipim.push_back(iGood[i]);													   //
 			HepLorentzVector ptrk;														   //
 			ptrk.setPx(mdcKalTrk->px());												   //
 			ptrk.setPy(mdcKalTrk->py());												   //
@@ -1047,20 +1066,21 @@ StatusCode Omega::execute() //
 			ptrk.setE(sqrt(p3 * p3 + mpi * mpi));										   //
 			ppim.push_back(ptrk);														   //
 		}																				   //
-	}																					   //
+	}																					   // ****************************************
 	int npip = ipip.size();																   // 变量：npip（pi+数目）
 	int npim = ipim.size();																   // 变量：npim（pi-数目）
-	if (npip * npim != 1)																   //
+	if (npip * npim != 1)																   // ****************************************
 		return SUCCESS;																	   //
 	Ncut2++;																			   // Ncut2
+	my_seriescount(SeriesRun, SeriesNum2, runNo);										   // Series2
 #pragma endregion
 #pragma region section_vertex fit
-	RecMdcKalTrack *pipTrk = (*(evtRecTrkCol->begin() + ipip[0]))->mdcKalTrack(); // Default is pion, for other particles:
-	RecMdcKalTrack *pimTrk = (*(evtRecTrkCol->begin() + ipim[0]))->mdcKalTrack(); // wvppTrk = WTrackParameter(mp, pipTrk->getZHelixP(), pipTrk->getZErrorP()); proton
-	WTrackParameter wvpipTrk, wvpimTrk;											  // wvmupTrk = WTrackParameter(mmu, pipTrk->getZHelixMu(), pipTrk->getZErrorMu()); muon
+	RecMdcKalTrack *pipTrk = (*(evtRecTrkCol->begin() + ipip[0]))->mdcKalTrack(); //
+	RecMdcKalTrack *pimTrk = (*(evtRecTrkCol->begin() + ipim[0]))->mdcKalTrack(); // Default is pion, for other particles:
+	WTrackParameter wvpipTrk, wvpimTrk;											  // wvppTrk = WTrackParameter(mp, pipTrk->getZHelixP(), pipTrk->getZErrorP()); proton
 	wvpipTrk = WTrackParameter(mpi, pipTrk->getZHelix(), pipTrk->getZError());	  // wvepTrk = WTrackParameter(me, pipTrk->getZHelixE(), pipTrk->getZErrorE()); electron
 	wvpimTrk = WTrackParameter(mpi, pimTrk->getZHelix(), pimTrk->getZError());	  // wvkpTrk = WTrackParameter(mk, pipTrk->getZHelixK(), pipTrk->getZErrorK()); kaon
-	HepPoint3D vx(0., 0., 0.);													  //
+	HepPoint3D vx(0., 0., 0.);													  // wvmupTrk = WTrackParameter(mmu, pipTrk->getZHelixMu(), pipTrk->getZErrorMu()); muon
 	HepSymMatrix Evx(3, 0);														  //
 	double bx = 1E+6;															  //
 	double by = 1E+6;															  //
@@ -1075,9 +1095,17 @@ StatusCode Omega::execute() //
 	vtxfit->init();																  //
 	vtxfit->AddTrack(0, wvpipTrk);												  // 设定track0
 	vtxfit->AddTrack(1, wvpimTrk);												  // 设定track1
-	vtxfit->AddVertex(0, vxpar, 0, 1);											  // 设定顶点0
+	vtxfit->AddVertex(0, vxpar, 0, 1);											  // 设定顶点0													  //
 	if (!vtxfit->Fit(0))														  //
 		return SUCCESS;															  //
+	double chisq_vertex = vtxfit->chisq(0);										  //
+	if (chisq_vertex > 100)														  //
+		return SUCCESS;															  //
+	if (1 == 1)																	  //
+	{																			  //
+		vertex_chisq = chisq_vertex;											  //
+		m_tuple3->write();														  //
+	}																			  //
 	vtxfit->Swim(0);															  //
 #pragma endregion
 #pragma region section_four constrain
@@ -1309,26 +1337,27 @@ StatusCode Omega::execute() //
 	}																										  //
 #pragma endregion
 #pragma region fourc_判断6gamma是否成功
-	int g6 = 0;							   //
-	if (chisq_4c_6g < 200)				   // 选择：chisq-6Gamma
-	{									   //
-		g6 = 1;							   //
-		Ncut3++;						   // Ncut3
-	}									   //
-	if (1 == 1)							   // 是否比较6gamma与57gamma
-	{									   //
-		if (chisq_4c_5g < chisq_4c_6g)	   // 选择：chisq-5Gamma
-		{								   //
-			g6 = 0;						   //
-		}								   //
-		if (nGam > 6)					   // 选择：chisq-7Gamma
-		{								   //
-			if (chisq_4c_7g < chisq_4c_6g) //
-			{							   //
-				g6 = 0;					   //
-			}							   //
-		}								   //
-	}									   //
+	int g6 = 0;										  //
+	if (chisq_4c_6g < 200)							  // 选择：chisq-6Gamma
+	{												  //
+		g6 = 1;										  //
+		Ncut3++;									  // Ncut3
+		my_seriescount(SeriesRun, SeriesNum3, runNo); //
+	}												  //
+	if (1 == 1)										  // 是否比较6gamma与57gamma
+	{												  //
+		if (chisq_4c_5g < chisq_4c_6g)				  // 选择：chisq-5Gamma
+		{											  //
+			g6 = 0;									  //
+		}											  //
+		if (nGam > 6)								  // 选择：chisq-7Gamma
+		{											  //
+			if (chisq_4c_7g < chisq_4c_6g)			  //
+			{										  //
+				g6 = 0;								  //
+			}										  //
+		}											  //
+	}												  //
 #pragma endregion
 #pragma region fourc_粒子重建
 	HepLorentzVector *tracklist;
@@ -1374,6 +1403,7 @@ StatusCode Omega::execute() //
 		HepLorentzVector out_omegapi02 = out_omega + out_pi02;
 		HepLorentzVector out_omegapi03 = out_omega + out_pi03;
 		HepLorentzVector out_pi02pi03 = out_pi02 + out_pi03;
+		HepLorentzVector out_3pi0 = out_pi01 + out_pi02 + out_pi03;
 		// 填入信息
 		if (1 == 1)
 		{
@@ -1486,6 +1516,8 @@ StatusCode Omega::execute() //
 			fit4c_mpi02pi03 = out_pi02pi03.m();
 			fit4c_api02pi03 = out_pi02pi03.cosTheta();
 			fit4c_ppi02pi03 = out_pi02pi03.rho();
+			// else
+			fit4c_m3pi0 = out_3pi0.m();
 			// boost gamma
 			fit4c_hgamma1 = my_helicityangle(out_gamma1, out_pi01);
 			fit4c_hgamma2 = my_helicityangle(out_gamma2, out_pi01);
@@ -1495,11 +1527,11 @@ StatusCode Omega::execute() //
 			fit4c_hgamma6 = my_helicityangle(out_gamma6, out_pi03);
 			m_tuple4->write();
 			Ncut4++;
+			my_seriescount(SeriesRun, SeriesNum4, runNo);
+			my_seriescount(SeriesRun, SeriesNum5, runNo);
 		}
 #pragma endregion
 	}
-	my_constant a_constant;
-	cout << a_constant.pi << endl;
 #pragma endregion
 	return StatusCode::SUCCESS;
 }
@@ -1516,10 +1548,41 @@ StatusCode Omega::finalize()
 	cout << "Pass Pid:             " << Ncut2 << endl;
 	cout << "Pass 4c-6gamma:       " << Ncut3 << endl;
 	cout << "Pass 4C:              " << Ncut4 << endl;
+	// Start my output
+	cout << "****************************************************" << endl;
+	cout << "**********Exporting Run numbers and events**********" << endl;
 	for (int i = 0; i < SeriesRun.size(); i++)
 	{
-		cout << "oooooooo" << SeriesRun[i] << "oooooooo" << SeriesNum[i] << "oooooooo" << endl;
+		cout << "Run:" << SeriesRun[i] << "for" << SeriesNum[i] << "times" << endl;
 	}
+	cout << "****************************************************" << endl;
+	for (int i = 0; i < SeriesRun.size(); i++)
+	{
+		cout << "Run:" << SeriesRun[i] << "get signal1" << SeriesNum1[i] << "times" << endl;
+	}
+	cout << "****************************************************" << endl;
+	for (int i = 0; i < SeriesRun.size(); i++)
+	{
+		cout << "Run:" << SeriesRun[i] << "get signal2" << SeriesNum2[i] << "times" << endl;
+	}
+	cout << "****************************************************" << endl;
+	for (int i = 0; i < SeriesRun.size(); i++)
+	{
+		cout << "Run:" << SeriesRun[i] << "get signal3" << SeriesNum3[i] << "times" << endl;
+	}
+	cout << "****************************************************" << endl;
+	for (int i = 0; i < SeriesRun.size(); i++)
+	{
+		cout << "Run:" << SeriesRun[i] << "get signal4" << SeriesNum4[i] << "times" << endl;
+	}
+	cout << "****************************************************" << endl;
+	for (int i = 0; i < SeriesRun.size(); i++)
+	{
+		cout << "Run:" << SeriesRun[i] << "get signal5" << SeriesNum5[i] << "times" << endl;
+	}
+	cout << "****************************************************" << endl;
+	cout << "Finish script" << endl;
+	// End my output
 	MsgStream log(msgSvc(), name());
 	log << MSG::INFO << "in finalize()" << endmsg;
 	return StatusCode::SUCCESS;
