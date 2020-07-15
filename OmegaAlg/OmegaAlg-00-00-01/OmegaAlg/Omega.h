@@ -78,6 +78,11 @@ private:
     NTuple::Item<double> fit4c_m3pi0;
     // hgamma
     NTuple::Item<double> fit4c_hgamma1, fit4c_hgamma2, fit4c_hgamma3, fit4c_hgamma4, fit4c_hgamma5, fit4c_hgamma6;
+    // combination
+    NTuple::Item<double> fit4c_acombination;
+    NTuple::Item<double> fit4c_nphoton;
+
+    
     // topo信息
     NTuple::Item<int> runID;
     NTuple::Item<int> eventID;

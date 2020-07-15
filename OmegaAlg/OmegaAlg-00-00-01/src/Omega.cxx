@@ -45,10 +45,13 @@ using CLHEP::HepLorentzVector;
 #include "OmegaAlg/Myfunc.h"
 #pragma endregion
 #pragma region 准备：定义全局变量
-const double mpi = 0.13957;					  // 定义常数
+my_constant use_constant;					  // 定义常数
+const double mpiz = use_constant.mpiz;		  //
+const double mpipm = use_constant.mpipm;	  //
 typedef std::vector<int> Vint;				  // 定义类型
 typedef std::vector<HepLorentzVector> Vp4;	  //
-Vint SeriesRun;								  // 定义统计run的参数
+int Ncut0, Ncut1, Ncut2, Ncut3, Ncut4, Ncut5; // 定义统计总数的参数
+Vint SeriesRun;								  // 定义统计run-number的参数
 Vint SeriesNum;								  //
 Vint SeriesNum1;							  //
 Vint SeriesNum2;							  //
@@ -56,7 +59,8 @@ Vint SeriesNum3;							  //
 Vint SeriesNum4;							  //
 Vint SeriesNum5;							  //
 int firstrun = 0;							  //
-int Ncut0, Ncut1, Ncut2, Ncut3, Ncut4, Ncut5; // 定义计数参数
+HepLorentzVector environment_track_pi01;	  // 定义全局传递变量
+int environment_nphoton;					  //
 #pragma endregion
 #pragma region 准备：调用变量容器
 Omega::Omega(const std::string &name, ISvcLocator *pSvcLocator) : Algorithm(name, pSvcLocator)
@@ -390,6 +394,9 @@ StatusCode Omega::initialize()
 			status = m_tuple4->addItem("hgamma4", fit4c_hgamma4);
 			status = m_tuple4->addItem("hgamma5", fit4c_hgamma5);
 			status = m_tuple4->addItem("hgamma6", fit4c_hgamma6);
+			// combination
+			status = m_tuple4->addItem("acombination", fit4c_acombination);
+			status = m_tuple4->addItem("nphoton", fit4c_nphoton);
 		}
 		else
 		{
@@ -424,7 +431,7 @@ StatusCode Omega::execute() //
 		<< evtRecEvent->totalTracks() << endreq;											   //
 	SmartDataPtr<EvtRecTrackCol> evtRecTrkCol(eventSvc(), EventModel::EvtRec::EvtRecTrackCol); //
 #pragma endregion
-#pragma region section_runnunber筛选
+#pragma region section_runnunber_筛选
 	if (eventHeader->runNumber() > 0)
 	{
 		int m_status = 0;
@@ -475,7 +482,7 @@ StatusCode Omega::execute() //
 		}
 	}
 #pragma endregion
-#pragma region section_checkrun
+#pragma region section_checkrun_初始化
 	my_seriesinit(SeriesRun,
 				  SeriesNum,
 				  SeriesNum1,
@@ -860,6 +867,8 @@ StatusCode Omega::execute() //
 				truth_hgamma1 = my_helicityangle(track_gamma4, track_pi02);
 				truth_hgamma1 = my_helicityangle(track_gamma5, track_pi03);
 				truth_hgamma1 = my_helicityangle(track_gamma6, track_pi03);
+				// combination
+				environment_track_pi01 = track_pi01;
 				m_tuple1->write();
 				Ncut1 += 1;
 				my_seriescount(SeriesRun, SeriesNum1, runNo);
@@ -1000,7 +1009,8 @@ StatusCode Omega::execute() //
 		iGam.push_back(i);			// 变量：iGam[]（参数为good-track序号，内容为track编号）
 	}								//
 	int nGam = iGam.size();			// 变量：nGam（中性track数量）
-	if (nGam < 6 || nGam > 55)		// 选择：nGam
+	environment_nphoton = nGam;		//
+	if (nGam < 6 || nGam > 10)		// 选择：nGam
 	{								//
 		return StatusCode::SUCCESS; //
 	}								//
@@ -1052,7 +1062,7 @@ StatusCode Omega::execute() //
 			ptrk.setPy(mdcKalTrk->py());												   // 变量：ipip[]（值为pi+编号）
 			ptrk.setPz(mdcKalTrk->pz());												   // 变量：ipim[]（值为pi-编号）
 			double p3 = ptrk.mag();														   // ****************************************
-			ptrk.setE(sqrt(p3 * p3 + mpi * mpi));										   //
+			ptrk.setE(sqrt(p3 * p3 + mpipm * mpipm));									   //
 			ppip.push_back(ptrk);														   //
 		}																				   //
 		else																			   //
@@ -1063,7 +1073,7 @@ StatusCode Omega::execute() //
 			ptrk.setPy(mdcKalTrk->py());												   //
 			ptrk.setPz(mdcKalTrk->pz());												   //
 			double p3 = ptrk.mag();														   //
-			ptrk.setE(sqrt(p3 * p3 + mpi * mpi));										   //
+			ptrk.setE(sqrt(p3 * p3 + mpipm * mpipm));									   //
 			ppim.push_back(ptrk);														   //
 		}																				   //
 	}																					   // ****************************************
@@ -1078,8 +1088,8 @@ StatusCode Omega::execute() //
 	RecMdcKalTrack *pipTrk = (*(evtRecTrkCol->begin() + ipip[0]))->mdcKalTrack(); //
 	RecMdcKalTrack *pimTrk = (*(evtRecTrkCol->begin() + ipim[0]))->mdcKalTrack(); // Default is pion, for other particles:
 	WTrackParameter wvpipTrk, wvpimTrk;											  // wvppTrk = WTrackParameter(mp, pipTrk->getZHelixP(), pipTrk->getZErrorP()); proton
-	wvpipTrk = WTrackParameter(mpi, pipTrk->getZHelix(), pipTrk->getZError());	  // wvepTrk = WTrackParameter(me, pipTrk->getZHelixE(), pipTrk->getZErrorE()); electron
-	wvpimTrk = WTrackParameter(mpi, pimTrk->getZHelix(), pimTrk->getZError());	  // wvkpTrk = WTrackParameter(mk, pipTrk->getZHelixK(), pipTrk->getZErrorK()); kaon
+	wvpipTrk = WTrackParameter(mpipm, pipTrk->getZHelix(), pipTrk->getZError());	  // wvepTrk = WTrackParameter(me, pipTrk->getZHelixE(), pipTrk->getZErrorE()); electron
+	wvpimTrk = WTrackParameter(mpipm, pimTrk->getZHelix(), pimTrk->getZError());	  // wvkpTrk = WTrackParameter(mk, pipTrk->getZHelixK(), pipTrk->getZErrorK()); kaon
 	HepPoint3D vx(0., 0., 0.);													  // wvmupTrk = WTrackParameter(mmu, pipTrk->getZHelixMu(), pipTrk->getZErrorMu()); muon
 	HepSymMatrix Evx(3, 0);														  //
 	double bx = 1E+6;															  //
@@ -1374,7 +1384,7 @@ StatusCode Omega::execute() //
 	{
 		if (1 == 1)
 		{
-			tracklist = my_recon_3pi(tracklist, 0.135, 0.135, 0.135);
+			tracklist = my_recon_3pi(tracklist, mpiz, mpiz, mpiz);
 		}
 		if (1 == 1)
 		{
@@ -1525,6 +1535,9 @@ StatusCode Omega::execute() //
 			fit4c_hgamma4 = my_helicityangle(out_gamma4, out_pi02);
 			fit4c_hgamma5 = my_helicityangle(out_gamma5, out_pi03);
 			fit4c_hgamma6 = my_helicityangle(out_gamma6, out_pi03);
+			// combination
+			fit4c_acombination = my_angle(out_pi01, environment_track_pi01);
+			fit4c_nphoton = environment_nphoton;
 			m_tuple4->write();
 			Ncut4++;
 			my_seriescount(SeriesRun, SeriesNum4, runNo);
