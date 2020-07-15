@@ -41,8 +41,8 @@ using CLHEP::Hep2Vector;
 using CLHEP::Hep3Vector;
 using CLHEP::HepLorentzVector;
 #include <vector>
-#include "PPPAlg/PPP.h"
-#include "PPPAlg/Myfunc.h"
+#include "PppmpzAlg/Pppmpz.h"
+#include "PppmpzAlg/Myfunc.h"
 #pragma endregion
 #pragma region 准备：定义全局变量
 my_constant use_constant;					  // 定义常数
@@ -63,13 +63,13 @@ HepLorentzVector environment_track_pi01;	  // 定义全局传递变量
 int environment_nphoton;					  //
 #pragma endregion
 #pragma region 准备：调用变量容器
-PPP::PPP(const std::string &name, ISvcLocator *pSvcLocator) : Algorithm(name, pSvcLocator)
+Pppmpz::Pppmpz(const std::string &name, ISvcLocator *pSvcLocator) : Algorithm(name, pSvcLocator)
 {
 	declareProperty("Energy", m_energy = 0);
 }
 #pragma endregion
 #pragma region 准备：初始化输出
-StatusCode PPP::initialize()
+StatusCode Pppmpz::initialize()
 {
 	MsgStream log(msgSvc(), name());
 	log << MSG::INFO << "in initialize()" << endmsg;
@@ -410,7 +410,7 @@ StatusCode PPP::initialize()
 }
 #pragma endregion
 #pragma region 循环执行事例
-StatusCode PPP::execute() //
+StatusCode Pppmpz::execute() //
 {
 #pragma region section_初始化
 	MsgStream log(msgSvc(), name());														   //
@@ -1553,7 +1553,7 @@ StatusCode PPP::execute() //
 //*********************************************************************************************************
 //***                                               finalize                                            ***
 //*********************************************************************************************************
-StatusCode PPP::finalize()
+StatusCode Pppmpz::finalize()
 {
 	cout << "energy point:         " << m_energy << endl;
 	cout << "total number:         " << Ncut0 << endl;

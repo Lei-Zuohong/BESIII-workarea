@@ -5,10 +5,10 @@
 #include "GaudiKernel/Algorithm.h"
 #include "GaudiKernel/NTuple.h"
 
-class PPP : public Algorithm
+class Pppmpz : public Algorithm
 {
 public:
-    PPP(const std::string &name, ISvcLocator *pSvcLocator);
+    Pppmpz(const std::string &name, ISvcLocator *pSvcLocator);
     StatusCode initialize();
     StatusCode execute();
     StatusCode finalize();
