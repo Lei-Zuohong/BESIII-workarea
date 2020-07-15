@@ -1,4 +1,4 @@
 #include "GaudiKernel/LoadFactoryEntries.h"
 
-LOAD_FACTORY_ENTRIES( OmegaAlg )
+LOAD_FACTORY_ENTRIES( PPPAlg )
 
