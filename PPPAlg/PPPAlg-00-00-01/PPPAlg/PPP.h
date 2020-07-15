@@ -17,6 +17,7 @@ private:
     // ****************************************
     double m_energy;
     // ****************************************
+    /*
     // TREE - "truth"
     NTuple::Tuple *m_tuple1;
     // isr
@@ -42,6 +43,7 @@ private:
     NTuple::Item<double> truth_m3pi0;
     // hgamma
     NTuple::Item<double> truth_hgamma1, truth_hgamma2, truth_hgamma3, truth_hgamma4, truth_hgamma5, truth_hgamma6;
+    */
     // ****************************************
     // TREE - "charge"
     NTuple::Tuple *m_tuple2;
