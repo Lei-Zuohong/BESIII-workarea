@@ -41,8 +41,8 @@ using CLHEP::Hep2Vector;
 using CLHEP::Hep3Vector;
 using CLHEP::HepLorentzVector;
 #include <vector>
-#include "OmegaAlg/Omega.h"
-#include "OmegaAlg/Myfunc.h"
+#include "PPPAlg/PPP.h"
+#include "PPPAlg/Myfunc.h"
 #pragma endregion
 #pragma region 准备：定义全局变量
 my_constant use_constant;					  // 定义常数
@@ -63,13 +63,13 @@ HepLorentzVector environment_track_pi01;	  // 定义全局传递变量
 int environment_nphoton;					  //
 #pragma endregion
 #pragma region 准备：调用变量容器
-Omega::Omega(const std::string &name, ISvcLocator *pSvcLocator) : Algorithm(name, pSvcLocator)
+PPP::PPP(const std::string &name, ISvcLocator *pSvcLocator) : Algorithm(name, pSvcLocator)
 {
 	declareProperty("Energy", m_energy = 0);
 }
 #pragma endregion
 #pragma region 准备：初始化输出
-StatusCode Omega::initialize()
+StatusCode PPP::initialize()
 {
 	MsgStream log(msgSvc(), name());
 	log << MSG::INFO << "in initialize()" << endmsg;
@@ -410,7 +410,7 @@ StatusCode Omega::initialize()
 }
 #pragma endregion
 #pragma region 循环执行事例
-StatusCode Omega::execute() //
+StatusCode PPP::execute() //
 {
 #pragma region section_初始化
 	MsgStream log(msgSvc(), name());														   //
@@ -1553,7 +1553,7 @@ StatusCode Omega::execute() //
 //*********************************************************************************************************
 //***                                               finalize                                            ***
 //*********************************************************************************************************
-StatusCode Omega::finalize()
+StatusCode PPP::finalize()
 {
 	cout << "energy point:         " << m_energy << endl;
 	cout << "total number:         " << Ncut0 << endl;
