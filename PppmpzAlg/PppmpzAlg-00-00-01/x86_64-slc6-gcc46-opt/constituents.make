@@ -11,17 +11,17 @@ endif
 
 tags      = $(tag),$(CMTEXTRATAGS)
 
-PPPAlg_tag = $(tag)
+PppmpzAlg_tag = $(tag)
 
-#cmt_local_tagfile = $(PPPAlg_tag).make
-cmt_local_tagfile = $(bin)$(PPPAlg_tag).make
+#cmt_local_tagfile = $(PppmpzAlg_tag).make
+cmt_local_tagfile = $(bin)$(PppmpzAlg_tag).make
 
 #-include $(cmt_local_tagfile)
 include $(cmt_local_tagfile)
 
 #cmt_local_setup = $(bin)setup$$$$.make
 #cmt_local_setup = $(bin)$(package)setup$$$$.make
-#cmt_final_setup = $(bin)PPPAlgsetup.make
+#cmt_final_setup = $(bin)PppmpzAlgsetup.make
 cmt_final_setup = $(bin)setup.make
 #cmt_final_setup = $(bin)$(package)setup.make
 
@@ -155,157 +155,157 @@ cmt_actionsclean ::  $(cmt_actions_constituentsclean)
 #-- end of group ------
 #-- start of constituent ------
 
-cmt_PPPAlg_has_no_target_tag = 1
+cmt_PppmpzAlg_has_no_target_tag = 1
 
 #--------------------------------------------------------
 
-ifdef cmt_PPPAlg_has_target_tag
+ifdef cmt_PppmpzAlg_has_target_tag
 
-#cmt_local_tagfile_PPPAlg = $(PPPAlg_tag)_PPPAlg.make
-cmt_local_tagfile_PPPAlg = $(bin)$(PPPAlg_tag)_PPPAlg.make
-cmt_local_setup_PPPAlg = $(bin)setup_PPPAlg$$$$.make
-cmt_final_setup_PPPAlg = $(bin)setup_PPPAlg.make
-#cmt_final_setup_PPPAlg = $(bin)PPPAlg_PPPAlgsetup.make
-cmt_local_PPPAlg_makefile = $(bin)PPPAlg.make
+#cmt_local_tagfile_PppmpzAlg = $(PppmpzAlg_tag)_PppmpzAlg.make
+cmt_local_tagfile_PppmpzAlg = $(bin)$(PppmpzAlg_tag)_PppmpzAlg.make
+cmt_local_setup_PppmpzAlg = $(bin)setup_PppmpzAlg$$$$.make
+cmt_final_setup_PppmpzAlg = $(bin)setup_PppmpzAlg.make
+#cmt_final_setup_PppmpzAlg = $(bin)PppmpzAlg_PppmpzAlgsetup.make
+cmt_local_PppmpzAlg_makefile = $(bin)PppmpzAlg.make
 
-PPPAlg_extratags = -tag_add=target_PPPAlg
+PppmpzAlg_extratags = -tag_add=target_PppmpzAlg
 
-#$(cmt_local_tagfile_PPPAlg) : $(cmt_lock_setup)
+#$(cmt_local_tagfile_PppmpzAlg) : $(cmt_lock_setup)
 ifndef QUICK
-$(cmt_local_tagfile_PPPAlg) ::
+$(cmt_local_tagfile_PppmpzAlg) ::
 else
-$(cmt_local_tagfile_PPPAlg) :
+$(cmt_local_tagfile_PppmpzAlg) :
 endif
 	$(echo) "(constituents.make) Rebuilding $@"; \
-	  if test -f $(cmt_local_tagfile_PPPAlg); then /bin/rm -f $(cmt_local_tagfile_PPPAlg); fi ; \
-	  $(cmtexe) -tag=$(tags) $(PPPAlg_extratags) build tag_makefile >>$(cmt_local_tagfile_PPPAlg)
-	$(echo) "(constituents.make) Rebuilding $(cmt_final_setup_PPPAlg)"; \
-	  test ! -f $(cmt_local_setup_PPPAlg) || \rm -f $(cmt_local_setup_PPPAlg); \
-	  trap '\rm -f $(cmt_local_setup_PPPAlg)' 0 1 2 15; \
-	  $(cmtexe) -tag=$(tags) $(PPPAlg_extratags) show setup >$(cmt_local_setup_PPPAlg) && \
-	  if [ -f $(cmt_final_setup_PPPAlg) ] && \
-	    \cmp -s $(cmt_final_setup_PPPAlg) $(cmt_local_setup_PPPAlg); then \
-	    \rm $(cmt_local_setup_PPPAlg); else \
-	    \mv -f $(cmt_local_setup_PPPAlg) $(cmt_final_setup_PPPAlg); fi
+	  if test -f $(cmt_local_tagfile_PppmpzAlg); then /bin/rm -f $(cmt_local_tagfile_PppmpzAlg); fi ; \
+	  $(cmtexe) -tag=$(tags) $(PppmpzAlg_extratags) build tag_makefile >>$(cmt_local_tagfile_PppmpzAlg)
+	$(echo) "(constituents.make) Rebuilding $(cmt_final_setup_PppmpzAlg)"; \
+	  test ! -f $(cmt_local_setup_PppmpzAlg) || \rm -f $(cmt_local_setup_PppmpzAlg); \
+	  trap '\rm -f $(cmt_local_setup_PppmpzAlg)' 0 1 2 15; \
+	  $(cmtexe) -tag=$(tags) $(PppmpzAlg_extratags) show setup >$(cmt_local_setup_PppmpzAlg) && \
+	  if [ -f $(cmt_final_setup_PppmpzAlg) ] && \
+	    \cmp -s $(cmt_final_setup_PppmpzAlg) $(cmt_local_setup_PppmpzAlg); then \
+	    \rm $(cmt_local_setup_PppmpzAlg); else \
+	    \mv -f $(cmt_local_setup_PppmpzAlg) $(cmt_final_setup_PppmpzAlg); fi
 
 else
 
-#cmt_local_tagfile_PPPAlg = $(PPPAlg_tag).make
-cmt_local_tagfile_PPPAlg = $(bin)$(PPPAlg_tag).make
-cmt_final_setup_PPPAlg = $(bin)setup.make
-#cmt_final_setup_PPPAlg = $(bin)PPPAlgsetup.make
-cmt_local_PPPAlg_makefile = $(bin)PPPAlg.make
+#cmt_local_tagfile_PppmpzAlg = $(PppmpzAlg_tag).make
+cmt_local_tagfile_PppmpzAlg = $(bin)$(PppmpzAlg_tag).make
+cmt_final_setup_PppmpzAlg = $(bin)setup.make
+#cmt_final_setup_PppmpzAlg = $(bin)PppmpzAlgsetup.make
+cmt_local_PppmpzAlg_makefile = $(bin)PppmpzAlg.make
 
 endif
 
-not_PPPAlg_dependencies = { n=0; for p in $?; do m=0; for d in $(PPPAlg_dependencies); do if [ $$p = $$d ]; then m=1; break; fi; done; if [ $$m -eq 0 ]; then n=1; break; fi; done; [ $$n -eq 1 ]; }
+not_PppmpzAlg_dependencies = { n=0; for p in $?; do m=0; for d in $(PppmpzAlg_dependencies); do if [ $$p = $$d ]; then m=1; break; fi; done; if [ $$m -eq 0 ]; then n=1; break; fi; done; [ $$n -eq 1 ]; }
 
 ifdef STRUCTURED_OUTPUT
-PPPAlgdirs :
-	@if test ! -d $(bin)PPPAlg; then $(mkdir) -p $(bin)PPPAlg; fi
-	$(echo) "STRUCTURED_OUTPUT="$(bin)PPPAlg
+PppmpzAlgdirs :
+	@if test ! -d $(bin)PppmpzAlg; then $(mkdir) -p $(bin)PppmpzAlg; fi
+	$(echo) "STRUCTURED_OUTPUT="$(bin)PppmpzAlg
 else
-PPPAlgdirs : ;
+PppmpzAlgdirs : ;
 endif
 
 #ifndef QUICK
 #ifdef STRUCTURED_OUTPUT
-# PPPAlgdirs ::
-#	@if test ! -d $(bin)PPPAlg; then $(mkdir) -p $(bin)PPPAlg; fi
-#	$(echo) "STRUCTURED_OUTPUT="$(bin)PPPAlg
+# PppmpzAlgdirs ::
+#	@if test ! -d $(bin)PppmpzAlg; then $(mkdir) -p $(bin)PppmpzAlg; fi
+#	$(echo) "STRUCTURED_OUTPUT="$(bin)PppmpzAlg
 #
-#$(cmt_local_PPPAlg_makefile) :: $(PPPAlg_dependencies) $(cmt_local_tagfile_PPPAlg) build_library_links dirs PPPAlgdirs
+#$(cmt_local_PppmpzAlg_makefile) :: $(PppmpzAlg_dependencies) $(cmt_local_tagfile_PppmpzAlg) build_library_links dirs PppmpzAlgdirs
 #else
-#$(cmt_local_PPPAlg_makefile) :: $(PPPAlg_dependencies) $(cmt_local_tagfile_PPPAlg) build_library_links dirs
+#$(cmt_local_PppmpzAlg_makefile) :: $(PppmpzAlg_dependencies) $(cmt_local_tagfile_PppmpzAlg) build_library_links dirs
 #endif
 #else
-#$(cmt_local_PPPAlg_makefile) :: $(cmt_local_tagfile_PPPAlg)
+#$(cmt_local_PppmpzAlg_makefile) :: $(cmt_local_tagfile_PppmpzAlg)
 #endif
 
-ifdef cmt_PPPAlg_has_target_tag
+ifdef cmt_PppmpzAlg_has_target_tag
 
 ifndef QUICK
-$(cmt_local_PPPAlg_makefile) : $(PPPAlg_dependencies) build_library_links
-	$(echo) "(constituents.make) Building PPPAlg.make"; \
-	  $(cmtexe) -tag=$(tags) $(PPPAlg_extratags) build constituent_config -out=$(cmt_local_PPPAlg_makefile) PPPAlg
+$(cmt_local_PppmpzAlg_makefile) : $(PppmpzAlg_dependencies) build_library_links
+	$(echo) "(constituents.make) Building PppmpzAlg.make"; \
+	  $(cmtexe) -tag=$(tags) $(PppmpzAlg_extratags) build constituent_config -out=$(cmt_local_PppmpzAlg_makefile) PppmpzAlg
 else
-$(cmt_local_PPPAlg_makefile) : $(PPPAlg_dependencies) $(cmt_build_library_linksstamp) $(use_requirements)
-	@if [ ! -f $@ ] || [ ! -f $(cmt_local_tagfile_PPPAlg) ] || \
-	  [ ! -f $(cmt_final_setup_PPPAlg) ] || \
-	  $(not_PPPAlg_dependencies) ; then \
+$(cmt_local_PppmpzAlg_makefile) : $(PppmpzAlg_dependencies) $(cmt_build_library_linksstamp) $(use_requirements)
+	@if [ ! -f $@ ] || [ ! -f $(cmt_local_tagfile_PppmpzAlg) ] || \
+	  [ ! -f $(cmt_final_setup_PppmpzAlg) ] || \
+	  $(not_PppmpzAlg_dependencies) ; then \
 	  test -z "$(cmtmsg)" || \
-	  echo "$(CMTMSGPREFIX)" "(constituents.make) Building PPPAlg.make"; \
-	  $(cmtexe) -tag=$(tags) $(PPPAlg_extratags) build constituent_config -out=$(cmt_local_PPPAlg_makefile) PPPAlg; \
+	  echo "$(CMTMSGPREFIX)" "(constituents.make) Building PppmpzAlg.make"; \
+	  $(cmtexe) -tag=$(tags) $(PppmpzAlg_extratags) build constituent_config -out=$(cmt_local_PppmpzAlg_makefile) PppmpzAlg; \
 	  fi
 endif
 
 else
 
 ifndef QUICK
-$(cmt_local_PPPAlg_makefile) : $(PPPAlg_dependencies) build_library_links
-	$(echo) "(constituents.make) Building PPPAlg.make"; \
-	  $(cmtexe) -f=$(bin)PPPAlg.in -tag=$(tags) $(PPPAlg_extratags) build constituent_makefile -without_cmt -out=$(cmt_local_PPPAlg_makefile) PPPAlg
+$(cmt_local_PppmpzAlg_makefile) : $(PppmpzAlg_dependencies) build_library_links
+	$(echo) "(constituents.make) Building PppmpzAlg.make"; \
+	  $(cmtexe) -f=$(bin)PppmpzAlg.in -tag=$(tags) $(PppmpzAlg_extratags) build constituent_makefile -without_cmt -out=$(cmt_local_PppmpzAlg_makefile) PppmpzAlg
 else
-$(cmt_local_PPPAlg_makefile) : $(PPPAlg_dependencies) $(cmt_build_library_linksstamp) $(bin)PPPAlg.in
-	@if [ ! -f $@ ] || [ ! -f $(cmt_local_tagfile_PPPAlg) ] || \
-	  [ ! -f $(cmt_final_setup_PPPAlg) ] || \
-	  $(not_PPPAlg_dependencies) ; then \
+$(cmt_local_PppmpzAlg_makefile) : $(PppmpzAlg_dependencies) $(cmt_build_library_linksstamp) $(bin)PppmpzAlg.in
+	@if [ ! -f $@ ] || [ ! -f $(cmt_local_tagfile_PppmpzAlg) ] || \
+	  [ ! -f $(cmt_final_setup_PppmpzAlg) ] || \
+	  $(not_PppmpzAlg_dependencies) ; then \
 	  test -z "$(cmtmsg)" || \
-	  echo "$(CMTMSGPREFIX)" "(constituents.make) Building PPPAlg.make"; \
-	  $(cmtexe) -f=$(bin)PPPAlg.in -tag=$(tags) $(PPPAlg_extratags) build constituent_makefile -without_cmt -out=$(cmt_local_PPPAlg_makefile) PPPAlg; \
+	  echo "$(CMTMSGPREFIX)" "(constituents.make) Building PppmpzAlg.make"; \
+	  $(cmtexe) -f=$(bin)PppmpzAlg.in -tag=$(tags) $(PppmpzAlg_extratags) build constituent_makefile -without_cmt -out=$(cmt_local_PppmpzAlg_makefile) PppmpzAlg; \
 	  fi
 endif
 
 endif
 
-#	  $(cmtexe) -tag=$(tags) $(PPPAlg_extratags) build constituent_makefile -out=$(cmt_local_PPPAlg_makefile) PPPAlg
+#	  $(cmtexe) -tag=$(tags) $(PppmpzAlg_extratags) build constituent_makefile -out=$(cmt_local_PppmpzAlg_makefile) PppmpzAlg
 
-PPPAlg :: $(PPPAlg_dependencies) $(cmt_local_PPPAlg_makefile) dirs PPPAlgdirs
-	$(echo) "(constituents.make) Starting PPPAlg"
-	@if test -f $(cmt_local_PPPAlg_makefile); then \
-	  $(MAKE) -f $(cmt_local_PPPAlg_makefile) PPPAlg; \
+PppmpzAlg :: $(PppmpzAlg_dependencies) $(cmt_local_PppmpzAlg_makefile) dirs PppmpzAlgdirs
+	$(echo) "(constituents.make) Starting PppmpzAlg"
+	@if test -f $(cmt_local_PppmpzAlg_makefile); then \
+	  $(MAKE) -f $(cmt_local_PppmpzAlg_makefile) PppmpzAlg; \
 	  fi
-#	@$(MAKE) -f $(cmt_local_PPPAlg_makefile) PPPAlg
-	$(echo) "(constituents.make) PPPAlg done"
+#	@$(MAKE) -f $(cmt_local_PppmpzAlg_makefile) PppmpzAlg
+	$(echo) "(constituents.make) PppmpzAlg done"
 
-clean :: PPPAlgclean
+clean :: PppmpzAlgclean
 
-PPPAlgclean :: $(PPPAlgclean_dependencies) ##$(cmt_local_PPPAlg_makefile)
-	$(echo) "(constituents.make) Starting PPPAlgclean"
-	@-if test -f $(cmt_local_PPPAlg_makefile); then \
-	  $(MAKE) -f $(cmt_local_PPPAlg_makefile) PPPAlgclean; \
+PppmpzAlgclean :: $(PppmpzAlgclean_dependencies) ##$(cmt_local_PppmpzAlg_makefile)
+	$(echo) "(constituents.make) Starting PppmpzAlgclean"
+	@-if test -f $(cmt_local_PppmpzAlg_makefile); then \
+	  $(MAKE) -f $(cmt_local_PppmpzAlg_makefile) PppmpzAlgclean; \
 	fi
-	$(echo) "(constituents.make) PPPAlgclean done"
-#	@-$(MAKE) -f $(cmt_local_PPPAlg_makefile) PPPAlgclean
+	$(echo) "(constituents.make) PppmpzAlgclean done"
+#	@-$(MAKE) -f $(cmt_local_PppmpzAlg_makefile) PppmpzAlgclean
 
-##	  /bin/rm -f $(cmt_local_PPPAlg_makefile) $(bin)PPPAlg_dependencies.make
+##	  /bin/rm -f $(cmt_local_PppmpzAlg_makefile) $(bin)PppmpzAlg_dependencies.make
 
-install :: PPPAlginstall
+install :: PppmpzAlginstall
 
-PPPAlginstall :: $(PPPAlg_dependencies) $(cmt_local_PPPAlg_makefile)
-	$(echo) "(constituents.make) Starting install PPPAlg"
-	@-$(MAKE) -f $(cmt_local_PPPAlg_makefile) install
-	$(echo) "(constituents.make) install PPPAlg done"
+PppmpzAlginstall :: $(PppmpzAlg_dependencies) $(cmt_local_PppmpzAlg_makefile)
+	$(echo) "(constituents.make) Starting install PppmpzAlg"
+	@-$(MAKE) -f $(cmt_local_PppmpzAlg_makefile) install
+	$(echo) "(constituents.make) install PppmpzAlg done"
 
-uninstall : PPPAlguninstall
+uninstall : PppmpzAlguninstall
 
-$(foreach d,$(PPPAlg_dependencies),$(eval $(d)uninstall_dependencies += PPPAlguninstall))
+$(foreach d,$(PppmpzAlg_dependencies),$(eval $(d)uninstall_dependencies += PppmpzAlguninstall))
 
-PPPAlguninstall : $(PPPAlguninstall_dependencies) ##$(cmt_local_PPPAlg_makefile)
-	$(echo) "(constituents.make) Starting uninstall PPPAlg"
-	@if test -f $(cmt_local_PPPAlg_makefile); then \
-	  $(MAKE) -f $(cmt_local_PPPAlg_makefile) uninstall; \
+PppmpzAlguninstall : $(PppmpzAlguninstall_dependencies) ##$(cmt_local_PppmpzAlg_makefile)
+	$(echo) "(constituents.make) Starting uninstall PppmpzAlg"
+	@if test -f $(cmt_local_PppmpzAlg_makefile); then \
+	  $(MAKE) -f $(cmt_local_PppmpzAlg_makefile) uninstall; \
 	  fi
-#	@$(MAKE) -f $(cmt_local_PPPAlg_makefile) uninstall
-	$(echo) "(constituents.make) uninstall PPPAlg done"
+#	@$(MAKE) -f $(cmt_local_PppmpzAlg_makefile) uninstall
+	$(echo) "(constituents.make) uninstall PppmpzAlg done"
 
-remove_library_links :: PPPAlguninstall
+remove_library_links :: PppmpzAlguninstall
 
 ifndef PEDANTIC
 .DEFAULT::
-	$(echo) "(constituents.make) Starting $@ PPPAlg"
+	$(echo) "(constituents.make) Starting $@ PppmpzAlg"
 	$(echo) Using default action for $@
-	$(echo) "(constituents.make) $@ PPPAlg done"
+	$(echo) "(constituents.make) $@ PppmpzAlg done"
 endif
 
 #-- end of constituent ------
@@ -317,11 +317,11 @@ cmt_install_runtime_has_no_target_tag = 1
 
 ifdef cmt_install_runtime_has_target_tag
 
-#cmt_local_tagfile_install_runtime = $(PPPAlg_tag)_install_runtime.make
-cmt_local_tagfile_install_runtime = $(bin)$(PPPAlg_tag)_install_runtime.make
+#cmt_local_tagfile_install_runtime = $(PppmpzAlg_tag)_install_runtime.make
+cmt_local_tagfile_install_runtime = $(bin)$(PppmpzAlg_tag)_install_runtime.make
 cmt_local_setup_install_runtime = $(bin)setup_install_runtime$$$$.make
 cmt_final_setup_install_runtime = $(bin)setup_install_runtime.make
-#cmt_final_setup_install_runtime = $(bin)PPPAlg_install_runtimesetup.make
+#cmt_final_setup_install_runtime = $(bin)PppmpzAlg_install_runtimesetup.make
 cmt_local_install_runtime_makefile = $(bin)install_runtime.make
 
 install_runtime_extratags = -tag_add=target_install_runtime
@@ -346,10 +346,10 @@ endif
 
 else
 
-#cmt_local_tagfile_install_runtime = $(PPPAlg_tag).make
-cmt_local_tagfile_install_runtime = $(bin)$(PPPAlg_tag).make
+#cmt_local_tagfile_install_runtime = $(PppmpzAlg_tag).make
+cmt_local_tagfile_install_runtime = $(bin)$(PppmpzAlg_tag).make
 cmt_final_setup_install_runtime = $(bin)setup.make
-#cmt_final_setup_install_runtime = $(bin)PPPAlgsetup.make
+#cmt_final_setup_install_runtime = $(bin)PppmpzAlgsetup.make
 cmt_local_install_runtime_makefile = $(bin)install_runtime.make
 
 endif
@@ -473,11 +473,11 @@ cmt_config_has_no_target_tag = 1
 
 ifdef cmt_config_has_target_tag
 
-#cmt_local_tagfile_config = $(PPPAlg_tag)_config.make
-cmt_local_tagfile_config = $(bin)$(PPPAlg_tag)_config.make
+#cmt_local_tagfile_config = $(PppmpzAlg_tag)_config.make
+cmt_local_tagfile_config = $(bin)$(PppmpzAlg_tag)_config.make
 cmt_local_setup_config = $(bin)setup_config$$$$.make
 cmt_final_setup_config = $(bin)setup_config.make
-#cmt_final_setup_config = $(bin)PPPAlg_configsetup.make
+#cmt_final_setup_config = $(bin)PppmpzAlg_configsetup.make
 cmt_local_config_makefile = $(bin)config.make
 
 config_extratags = -tag_add=target_config
@@ -502,10 +502,10 @@ endif
 
 else
 
-#cmt_local_tagfile_config = $(PPPAlg_tag).make
-cmt_local_tagfile_config = $(bin)$(PPPAlg_tag).make
+#cmt_local_tagfile_config = $(PppmpzAlg_tag).make
+cmt_local_tagfile_config = $(bin)$(PppmpzAlg_tag).make
 cmt_final_setup_config = $(bin)setup.make
-#cmt_final_setup_config = $(bin)PPPAlgsetup.make
+#cmt_final_setup_config = $(bin)PppmpzAlgsetup.make
 cmt_local_config_makefile = $(bin)config.make
 
 endif
@@ -629,11 +629,11 @@ cmt_install_includes_has_no_target_tag = 1
 
 ifdef cmt_install_includes_has_target_tag
 
-#cmt_local_tagfile_install_includes = $(PPPAlg_tag)_install_includes.make
-cmt_local_tagfile_install_includes = $(bin)$(PPPAlg_tag)_install_includes.make
+#cmt_local_tagfile_install_includes = $(PppmpzAlg_tag)_install_includes.make
+cmt_local_tagfile_install_includes = $(bin)$(PppmpzAlg_tag)_install_includes.make
 cmt_local_setup_install_includes = $(bin)setup_install_includes$$$$.make
 cmt_final_setup_install_includes = $(bin)setup_install_includes.make
-#cmt_final_setup_install_includes = $(bin)PPPAlg_install_includessetup.make
+#cmt_final_setup_install_includes = $(bin)PppmpzAlg_install_includessetup.make
 cmt_local_install_includes_makefile = $(bin)install_includes.make
 
 install_includes_extratags = -tag_add=target_install_includes
@@ -658,10 +658,10 @@ endif
 
 else
 
-#cmt_local_tagfile_install_includes = $(PPPAlg_tag).make
-cmt_local_tagfile_install_includes = $(bin)$(PPPAlg_tag).make
+#cmt_local_tagfile_install_includes = $(PppmpzAlg_tag).make
+cmt_local_tagfile_install_includes = $(bin)$(PppmpzAlg_tag).make
 cmt_final_setup_install_includes = $(bin)setup.make
-#cmt_final_setup_install_includes = $(bin)PPPAlgsetup.make
+#cmt_final_setup_install_includes = $(bin)PppmpzAlgsetup.make
 cmt_local_install_includes_makefile = $(bin)install_includes.make
 
 endif
@@ -785,11 +785,11 @@ cmt_make_has_no_target_tag = 1
 
 ifdef cmt_make_has_target_tag
 
-#cmt_local_tagfile_make = $(PPPAlg_tag)_make.make
-cmt_local_tagfile_make = $(bin)$(PPPAlg_tag)_make.make
+#cmt_local_tagfile_make = $(PppmpzAlg_tag)_make.make
+cmt_local_tagfile_make = $(bin)$(PppmpzAlg_tag)_make.make
 cmt_local_setup_make = $(bin)setup_make$$$$.make
 cmt_final_setup_make = $(bin)setup_make.make
-#cmt_final_setup_make = $(bin)PPPAlg_makesetup.make
+#cmt_final_setup_make = $(bin)PppmpzAlg_makesetup.make
 cmt_local_make_makefile = $(bin)make.make
 
 make_extratags = -tag_add=target_make
@@ -814,10 +814,10 @@ endif
 
 else
 
-#cmt_local_tagfile_make = $(PPPAlg_tag).make
-cmt_local_tagfile_make = $(bin)$(PPPAlg_tag).make
+#cmt_local_tagfile_make = $(PppmpzAlg_tag).make
+cmt_local_tagfile_make = $(bin)$(PppmpzAlg_tag).make
 cmt_final_setup_make = $(bin)setup.make
-#cmt_final_setup_make = $(bin)PPPAlgsetup.make
+#cmt_final_setup_make = $(bin)PppmpzAlgsetup.make
 cmt_local_make_makefile = $(bin)make.make
 
 endif
@@ -941,11 +941,11 @@ cmt_CompilePython_has_no_target_tag = 1
 
 ifdef cmt_CompilePython_has_target_tag
 
-#cmt_local_tagfile_CompilePython = $(PPPAlg_tag)_CompilePython.make
-cmt_local_tagfile_CompilePython = $(bin)$(PPPAlg_tag)_CompilePython.make
+#cmt_local_tagfile_CompilePython = $(PppmpzAlg_tag)_CompilePython.make
+cmt_local_tagfile_CompilePython = $(bin)$(PppmpzAlg_tag)_CompilePython.make
 cmt_local_setup_CompilePython = $(bin)setup_CompilePython$$$$.make
 cmt_final_setup_CompilePython = $(bin)setup_CompilePython.make
-#cmt_final_setup_CompilePython = $(bin)PPPAlg_CompilePythonsetup.make
+#cmt_final_setup_CompilePython = $(bin)PppmpzAlg_CompilePythonsetup.make
 cmt_local_CompilePython_makefile = $(bin)CompilePython.make
 
 CompilePython_extratags = -tag_add=target_CompilePython
@@ -970,10 +970,10 @@ endif
 
 else
 
-#cmt_local_tagfile_CompilePython = $(PPPAlg_tag).make
-cmt_local_tagfile_CompilePython = $(bin)$(PPPAlg_tag).make
+#cmt_local_tagfile_CompilePython = $(PppmpzAlg_tag).make
+cmt_local_tagfile_CompilePython = $(bin)$(PppmpzAlg_tag).make
 cmt_final_setup_CompilePython = $(bin)setup.make
-#cmt_final_setup_CompilePython = $(bin)PPPAlgsetup.make
+#cmt_final_setup_CompilePython = $(bin)PppmpzAlgsetup.make
 cmt_local_CompilePython_makefile = $(bin)CompilePython.make
 
 endif
@@ -1097,11 +1097,11 @@ cmt_qmtest_run_has_no_target_tag = 1
 
 ifdef cmt_qmtest_run_has_target_tag
 
-#cmt_local_tagfile_qmtest_run = $(PPPAlg_tag)_qmtest_run.make
-cmt_local_tagfile_qmtest_run = $(bin)$(PPPAlg_tag)_qmtest_run.make
+#cmt_local_tagfile_qmtest_run = $(PppmpzAlg_tag)_qmtest_run.make
+cmt_local_tagfile_qmtest_run = $(bin)$(PppmpzAlg_tag)_qmtest_run.make
 cmt_local_setup_qmtest_run = $(bin)setup_qmtest_run$$$$.make
 cmt_final_setup_qmtest_run = $(bin)setup_qmtest_run.make
-#cmt_final_setup_qmtest_run = $(bin)PPPAlg_qmtest_runsetup.make
+#cmt_final_setup_qmtest_run = $(bin)PppmpzAlg_qmtest_runsetup.make
 cmt_local_qmtest_run_makefile = $(bin)qmtest_run.make
 
 qmtest_run_extratags = -tag_add=target_qmtest_run
@@ -1126,10 +1126,10 @@ endif
 
 else
 
-#cmt_local_tagfile_qmtest_run = $(PPPAlg_tag).make
-cmt_local_tagfile_qmtest_run = $(bin)$(PPPAlg_tag).make
+#cmt_local_tagfile_qmtest_run = $(PppmpzAlg_tag).make
+cmt_local_tagfile_qmtest_run = $(bin)$(PppmpzAlg_tag).make
 cmt_final_setup_qmtest_run = $(bin)setup.make
-#cmt_final_setup_qmtest_run = $(bin)PPPAlgsetup.make
+#cmt_final_setup_qmtest_run = $(bin)PppmpzAlgsetup.make
 cmt_local_qmtest_run_makefile = $(bin)qmtest_run.make
 
 endif
@@ -1253,11 +1253,11 @@ cmt_qmtest_summarize_has_no_target_tag = 1
 
 ifdef cmt_qmtest_summarize_has_target_tag
 
-#cmt_local_tagfile_qmtest_summarize = $(PPPAlg_tag)_qmtest_summarize.make
-cmt_local_tagfile_qmtest_summarize = $(bin)$(PPPAlg_tag)_qmtest_summarize.make
+#cmt_local_tagfile_qmtest_summarize = $(PppmpzAlg_tag)_qmtest_summarize.make
+cmt_local_tagfile_qmtest_summarize = $(bin)$(PppmpzAlg_tag)_qmtest_summarize.make
 cmt_local_setup_qmtest_summarize = $(bin)setup_qmtest_summarize$$$$.make
 cmt_final_setup_qmtest_summarize = $(bin)setup_qmtest_summarize.make
-#cmt_final_setup_qmtest_summarize = $(bin)PPPAlg_qmtest_summarizesetup.make
+#cmt_final_setup_qmtest_summarize = $(bin)PppmpzAlg_qmtest_summarizesetup.make
 cmt_local_qmtest_summarize_makefile = $(bin)qmtest_summarize.make
 
 qmtest_summarize_extratags = -tag_add=target_qmtest_summarize
@@ -1282,10 +1282,10 @@ endif
 
 else
 
-#cmt_local_tagfile_qmtest_summarize = $(PPPAlg_tag).make
-cmt_local_tagfile_qmtest_summarize = $(bin)$(PPPAlg_tag).make
+#cmt_local_tagfile_qmtest_summarize = $(PppmpzAlg_tag).make
+cmt_local_tagfile_qmtest_summarize = $(bin)$(PppmpzAlg_tag).make
 cmt_final_setup_qmtest_summarize = $(bin)setup.make
-#cmt_final_setup_qmtest_summarize = $(bin)PPPAlgsetup.make
+#cmt_final_setup_qmtest_summarize = $(bin)PppmpzAlgsetup.make
 cmt_local_qmtest_summarize_makefile = $(bin)qmtest_summarize.make
 
 endif
@@ -1409,11 +1409,11 @@ cmt_TestPackage_has_no_target_tag = 1
 
 ifdef cmt_TestPackage_has_target_tag
 
-#cmt_local_tagfile_TestPackage = $(PPPAlg_tag)_TestPackage.make
-cmt_local_tagfile_TestPackage = $(bin)$(PPPAlg_tag)_TestPackage.make
+#cmt_local_tagfile_TestPackage = $(PppmpzAlg_tag)_TestPackage.make
+cmt_local_tagfile_TestPackage = $(bin)$(PppmpzAlg_tag)_TestPackage.make
 cmt_local_setup_TestPackage = $(bin)setup_TestPackage$$$$.make
 cmt_final_setup_TestPackage = $(bin)setup_TestPackage.make
-#cmt_final_setup_TestPackage = $(bin)PPPAlg_TestPackagesetup.make
+#cmt_final_setup_TestPackage = $(bin)PppmpzAlg_TestPackagesetup.make
 cmt_local_TestPackage_makefile = $(bin)TestPackage.make
 
 TestPackage_extratags = -tag_add=target_TestPackage
@@ -1438,10 +1438,10 @@ endif
 
 else
 
-#cmt_local_tagfile_TestPackage = $(PPPAlg_tag).make
-cmt_local_tagfile_TestPackage = $(bin)$(PPPAlg_tag).make
+#cmt_local_tagfile_TestPackage = $(PppmpzAlg_tag).make
+cmt_local_tagfile_TestPackage = $(bin)$(PppmpzAlg_tag).make
 cmt_final_setup_TestPackage = $(bin)setup.make
-#cmt_final_setup_TestPackage = $(bin)PPPAlgsetup.make
+#cmt_final_setup_TestPackage = $(bin)PppmpzAlgsetup.make
 cmt_local_TestPackage_makefile = $(bin)TestPackage.make
 
 endif
@@ -1565,11 +1565,11 @@ cmt_TestProject_has_no_target_tag = 1
 
 ifdef cmt_TestProject_has_target_tag
 
-#cmt_local_tagfile_TestProject = $(PPPAlg_tag)_TestProject.make
-cmt_local_tagfile_TestProject = $(bin)$(PPPAlg_tag)_TestProject.make
+#cmt_local_tagfile_TestProject = $(PppmpzAlg_tag)_TestProject.make
+cmt_local_tagfile_TestProject = $(bin)$(PppmpzAlg_tag)_TestProject.make
 cmt_local_setup_TestProject = $(bin)setup_TestProject$$$$.make
 cmt_final_setup_TestProject = $(bin)setup_TestProject.make
-#cmt_final_setup_TestProject = $(bin)PPPAlg_TestProjectsetup.make
+#cmt_final_setup_TestProject = $(bin)PppmpzAlg_TestProjectsetup.make
 cmt_local_TestProject_makefile = $(bin)TestProject.make
 
 TestProject_extratags = -tag_add=target_TestProject
@@ -1594,10 +1594,10 @@ endif
 
 else
 
-#cmt_local_tagfile_TestProject = $(PPPAlg_tag).make
-cmt_local_tagfile_TestProject = $(bin)$(PPPAlg_tag).make
+#cmt_local_tagfile_TestProject = $(PppmpzAlg_tag).make
+cmt_local_tagfile_TestProject = $(bin)$(PppmpzAlg_tag).make
 cmt_final_setup_TestProject = $(bin)setup.make
-#cmt_final_setup_TestProject = $(bin)PPPAlgsetup.make
+#cmt_final_setup_TestProject = $(bin)PppmpzAlgsetup.make
 cmt_local_TestProject_makefile = $(bin)TestProject.make
 
 endif
@@ -1721,11 +1721,11 @@ cmt_new_rootsys_has_no_target_tag = 1
 
 ifdef cmt_new_rootsys_has_target_tag
 
-#cmt_local_tagfile_new_rootsys = $(PPPAlg_tag)_new_rootsys.make
-cmt_local_tagfile_new_rootsys = $(bin)$(PPPAlg_tag)_new_rootsys.make
+#cmt_local_tagfile_new_rootsys = $(PppmpzAlg_tag)_new_rootsys.make
+cmt_local_tagfile_new_rootsys = $(bin)$(PppmpzAlg_tag)_new_rootsys.make
 cmt_local_setup_new_rootsys = $(bin)setup_new_rootsys$$$$.make
 cmt_final_setup_new_rootsys = $(bin)setup_new_rootsys.make
-#cmt_final_setup_new_rootsys = $(bin)PPPAlg_new_rootsyssetup.make
+#cmt_final_setup_new_rootsys = $(bin)PppmpzAlg_new_rootsyssetup.make
 cmt_local_new_rootsys_makefile = $(bin)new_rootsys.make
 
 new_rootsys_extratags = -tag_add=target_new_rootsys
@@ -1750,10 +1750,10 @@ endif
 
 else
 
-#cmt_local_tagfile_new_rootsys = $(PPPAlg_tag).make
-cmt_local_tagfile_new_rootsys = $(bin)$(PPPAlg_tag).make
+#cmt_local_tagfile_new_rootsys = $(PppmpzAlg_tag).make
+cmt_local_tagfile_new_rootsys = $(bin)$(PppmpzAlg_tag).make
 cmt_final_setup_new_rootsys = $(bin)setup.make
-#cmt_final_setup_new_rootsys = $(bin)PPPAlgsetup.make
+#cmt_final_setup_new_rootsys = $(bin)PppmpzAlgsetup.make
 cmt_local_new_rootsys_makefile = $(bin)new_rootsys.make
 
 endif
@@ -1877,11 +1877,11 @@ cmt_DatabaseSvc_check_install_scripts_has_no_target_tag = 1
 
 ifdef cmt_DatabaseSvc_check_install_scripts_has_target_tag
 
-#cmt_local_tagfile_DatabaseSvc_check_install_scripts = $(PPPAlg_tag)_DatabaseSvc_check_install_scripts.make
-cmt_local_tagfile_DatabaseSvc_check_install_scripts = $(bin)$(PPPAlg_tag)_DatabaseSvc_check_install_scripts.make
+#cmt_local_tagfile_DatabaseSvc_check_install_scripts = $(PppmpzAlg_tag)_DatabaseSvc_check_install_scripts.make
+cmt_local_tagfile_DatabaseSvc_check_install_scripts = $(bin)$(PppmpzAlg_tag)_DatabaseSvc_check_install_scripts.make
 cmt_local_setup_DatabaseSvc_check_install_scripts = $(bin)setup_DatabaseSvc_check_install_scripts$$$$.make
 cmt_final_setup_DatabaseSvc_check_install_scripts = $(bin)setup_DatabaseSvc_check_install_scripts.make
-#cmt_final_setup_DatabaseSvc_check_install_scripts = $(bin)PPPAlg_DatabaseSvc_check_install_scriptssetup.make
+#cmt_final_setup_DatabaseSvc_check_install_scripts = $(bin)PppmpzAlg_DatabaseSvc_check_install_scriptssetup.make
 cmt_local_DatabaseSvc_check_install_scripts_makefile = $(bin)DatabaseSvc_check_install_scripts.make
 
 DatabaseSvc_check_install_scripts_extratags = -tag_add=target_DatabaseSvc_check_install_scripts
@@ -1906,10 +1906,10 @@ endif
 
 else
 
-#cmt_local_tagfile_DatabaseSvc_check_install_scripts = $(PPPAlg_tag).make
-cmt_local_tagfile_DatabaseSvc_check_install_scripts = $(bin)$(PPPAlg_tag).make
+#cmt_local_tagfile_DatabaseSvc_check_install_scripts = $(PppmpzAlg_tag).make
+cmt_local_tagfile_DatabaseSvc_check_install_scripts = $(bin)$(PppmpzAlg_tag).make
 cmt_final_setup_DatabaseSvc_check_install_scripts = $(bin)setup.make
-#cmt_final_setup_DatabaseSvc_check_install_scripts = $(bin)PPPAlgsetup.make
+#cmt_final_setup_DatabaseSvc_check_install_scripts = $(bin)PppmpzAlgsetup.make
 cmt_local_DatabaseSvc_check_install_scripts_makefile = $(bin)DatabaseSvc_check_install_scripts.make
 
 endif
@@ -2027,157 +2027,157 @@ endif
 #-- end of constituent ------
 #-- start of constituent ------
 
-cmt_PPPAlg_check_install_runtime_has_no_target_tag = 1
+cmt_PppmpzAlg_check_install_runtime_has_no_target_tag = 1
 
 #--------------------------------------------------------
 
-ifdef cmt_PPPAlg_check_install_runtime_has_target_tag
+ifdef cmt_PppmpzAlg_check_install_runtime_has_target_tag
 
-#cmt_local_tagfile_PPPAlg_check_install_runtime = $(PPPAlg_tag)_PPPAlg_check_install_runtime.make
-cmt_local_tagfile_PPPAlg_check_install_runtime = $(bin)$(PPPAlg_tag)_PPPAlg_check_install_runtime.make
-cmt_local_setup_PPPAlg_check_install_runtime = $(bin)setup_PPPAlg_check_install_runtime$$$$.make
-cmt_final_setup_PPPAlg_check_install_runtime = $(bin)setup_PPPAlg_check_install_runtime.make
-#cmt_final_setup_PPPAlg_check_install_runtime = $(bin)PPPAlg_PPPAlg_check_install_runtimesetup.make
-cmt_local_PPPAlg_check_install_runtime_makefile = $(bin)PPPAlg_check_install_runtime.make
+#cmt_local_tagfile_PppmpzAlg_check_install_runtime = $(PppmpzAlg_tag)_PppmpzAlg_check_install_runtime.make
+cmt_local_tagfile_PppmpzAlg_check_install_runtime = $(bin)$(PppmpzAlg_tag)_PppmpzAlg_check_install_runtime.make
+cmt_local_setup_PppmpzAlg_check_install_runtime = $(bin)setup_PppmpzAlg_check_install_runtime$$$$.make
+cmt_final_setup_PppmpzAlg_check_install_runtime = $(bin)setup_PppmpzAlg_check_install_runtime.make
+#cmt_final_setup_PppmpzAlg_check_install_runtime = $(bin)PppmpzAlg_PppmpzAlg_check_install_runtimesetup.make
+cmt_local_PppmpzAlg_check_install_runtime_makefile = $(bin)PppmpzAlg_check_install_runtime.make
 
-PPPAlg_check_install_runtime_extratags = -tag_add=target_PPPAlg_check_install_runtime
+PppmpzAlg_check_install_runtime_extratags = -tag_add=target_PppmpzAlg_check_install_runtime
 
-#$(cmt_local_tagfile_PPPAlg_check_install_runtime) : $(cmt_lock_setup)
+#$(cmt_local_tagfile_PppmpzAlg_check_install_runtime) : $(cmt_lock_setup)
 ifndef QUICK
-$(cmt_local_tagfile_PPPAlg_check_install_runtime) ::
+$(cmt_local_tagfile_PppmpzAlg_check_install_runtime) ::
 else
-$(cmt_local_tagfile_PPPAlg_check_install_runtime) :
+$(cmt_local_tagfile_PppmpzAlg_check_install_runtime) :
 endif
 	$(echo) "(constituents.make) Rebuilding $@"; \
-	  if test -f $(cmt_local_tagfile_PPPAlg_check_install_runtime); then /bin/rm -f $(cmt_local_tagfile_PPPAlg_check_install_runtime); fi ; \
-	  $(cmtexe) -tag=$(tags) $(PPPAlg_check_install_runtime_extratags) build tag_makefile >>$(cmt_local_tagfile_PPPAlg_check_install_runtime)
-	$(echo) "(constituents.make) Rebuilding $(cmt_final_setup_PPPAlg_check_install_runtime)"; \
-	  test ! -f $(cmt_local_setup_PPPAlg_check_install_runtime) || \rm -f $(cmt_local_setup_PPPAlg_check_install_runtime); \
-	  trap '\rm -f $(cmt_local_setup_PPPAlg_check_install_runtime)' 0 1 2 15; \
-	  $(cmtexe) -tag=$(tags) $(PPPAlg_check_install_runtime_extratags) show setup >$(cmt_local_setup_PPPAlg_check_install_runtime) && \
-	  if [ -f $(cmt_final_setup_PPPAlg_check_install_runtime) ] && \
-	    \cmp -s $(cmt_final_setup_PPPAlg_check_install_runtime) $(cmt_local_setup_PPPAlg_check_install_runtime); then \
-	    \rm $(cmt_local_setup_PPPAlg_check_install_runtime); else \
-	    \mv -f $(cmt_local_setup_PPPAlg_check_install_runtime) $(cmt_final_setup_PPPAlg_check_install_runtime); fi
+	  if test -f $(cmt_local_tagfile_PppmpzAlg_check_install_runtime); then /bin/rm -f $(cmt_local_tagfile_PppmpzAlg_check_install_runtime); fi ; \
+	  $(cmtexe) -tag=$(tags) $(PppmpzAlg_check_install_runtime_extratags) build tag_makefile >>$(cmt_local_tagfile_PppmpzAlg_check_install_runtime)
+	$(echo) "(constituents.make) Rebuilding $(cmt_final_setup_PppmpzAlg_check_install_runtime)"; \
+	  test ! -f $(cmt_local_setup_PppmpzAlg_check_install_runtime) || \rm -f $(cmt_local_setup_PppmpzAlg_check_install_runtime); \
+	  trap '\rm -f $(cmt_local_setup_PppmpzAlg_check_install_runtime)' 0 1 2 15; \
+	  $(cmtexe) -tag=$(tags) $(PppmpzAlg_check_install_runtime_extratags) show setup >$(cmt_local_setup_PppmpzAlg_check_install_runtime) && \
+	  if [ -f $(cmt_final_setup_PppmpzAlg_check_install_runtime) ] && \
+	    \cmp -s $(cmt_final_setup_PppmpzAlg_check_install_runtime) $(cmt_local_setup_PppmpzAlg_check_install_runtime); then \
+	    \rm $(cmt_local_setup_PppmpzAlg_check_install_runtime); else \
+	    \mv -f $(cmt_local_setup_PppmpzAlg_check_install_runtime) $(cmt_final_setup_PppmpzAlg_check_install_runtime); fi
 
 else
 
-#cmt_local_tagfile_PPPAlg_check_install_runtime = $(PPPAlg_tag).make
-cmt_local_tagfile_PPPAlg_check_install_runtime = $(bin)$(PPPAlg_tag).make
-cmt_final_setup_PPPAlg_check_install_runtime = $(bin)setup.make
-#cmt_final_setup_PPPAlg_check_install_runtime = $(bin)PPPAlgsetup.make
-cmt_local_PPPAlg_check_install_runtime_makefile = $(bin)PPPAlg_check_install_runtime.make
+#cmt_local_tagfile_PppmpzAlg_check_install_runtime = $(PppmpzAlg_tag).make
+cmt_local_tagfile_PppmpzAlg_check_install_runtime = $(bin)$(PppmpzAlg_tag).make
+cmt_final_setup_PppmpzAlg_check_install_runtime = $(bin)setup.make
+#cmt_final_setup_PppmpzAlg_check_install_runtime = $(bin)PppmpzAlgsetup.make
+cmt_local_PppmpzAlg_check_install_runtime_makefile = $(bin)PppmpzAlg_check_install_runtime.make
 
 endif
 
-not_PPPAlg_check_install_runtime_dependencies = { n=0; for p in $?; do m=0; for d in $(PPPAlg_check_install_runtime_dependencies); do if [ $$p = $$d ]; then m=1; break; fi; done; if [ $$m -eq 0 ]; then n=1; break; fi; done; [ $$n -eq 1 ]; }
+not_PppmpzAlg_check_install_runtime_dependencies = { n=0; for p in $?; do m=0; for d in $(PppmpzAlg_check_install_runtime_dependencies); do if [ $$p = $$d ]; then m=1; break; fi; done; if [ $$m -eq 0 ]; then n=1; break; fi; done; [ $$n -eq 1 ]; }
 
 ifdef STRUCTURED_OUTPUT
-PPPAlg_check_install_runtimedirs :
-	@if test ! -d $(bin)PPPAlg_check_install_runtime; then $(mkdir) -p $(bin)PPPAlg_check_install_runtime; fi
-	$(echo) "STRUCTURED_OUTPUT="$(bin)PPPAlg_check_install_runtime
+PppmpzAlg_check_install_runtimedirs :
+	@if test ! -d $(bin)PppmpzAlg_check_install_runtime; then $(mkdir) -p $(bin)PppmpzAlg_check_install_runtime; fi
+	$(echo) "STRUCTURED_OUTPUT="$(bin)PppmpzAlg_check_install_runtime
 else
-PPPAlg_check_install_runtimedirs : ;
+PppmpzAlg_check_install_runtimedirs : ;
 endif
 
 #ifndef QUICK
 #ifdef STRUCTURED_OUTPUT
-# PPPAlg_check_install_runtimedirs ::
-#	@if test ! -d $(bin)PPPAlg_check_install_runtime; then $(mkdir) -p $(bin)PPPAlg_check_install_runtime; fi
-#	$(echo) "STRUCTURED_OUTPUT="$(bin)PPPAlg_check_install_runtime
+# PppmpzAlg_check_install_runtimedirs ::
+#	@if test ! -d $(bin)PppmpzAlg_check_install_runtime; then $(mkdir) -p $(bin)PppmpzAlg_check_install_runtime; fi
+#	$(echo) "STRUCTURED_OUTPUT="$(bin)PppmpzAlg_check_install_runtime
 #
-#$(cmt_local_PPPAlg_check_install_runtime_makefile) :: $(PPPAlg_check_install_runtime_dependencies) $(cmt_local_tagfile_PPPAlg_check_install_runtime) build_library_links dirs PPPAlg_check_install_runtimedirs
+#$(cmt_local_PppmpzAlg_check_install_runtime_makefile) :: $(PppmpzAlg_check_install_runtime_dependencies) $(cmt_local_tagfile_PppmpzAlg_check_install_runtime) build_library_links dirs PppmpzAlg_check_install_runtimedirs
 #else
-#$(cmt_local_PPPAlg_check_install_runtime_makefile) :: $(PPPAlg_check_install_runtime_dependencies) $(cmt_local_tagfile_PPPAlg_check_install_runtime) build_library_links dirs
+#$(cmt_local_PppmpzAlg_check_install_runtime_makefile) :: $(PppmpzAlg_check_install_runtime_dependencies) $(cmt_local_tagfile_PppmpzAlg_check_install_runtime) build_library_links dirs
 #endif
 #else
-#$(cmt_local_PPPAlg_check_install_runtime_makefile) :: $(cmt_local_tagfile_PPPAlg_check_install_runtime)
+#$(cmt_local_PppmpzAlg_check_install_runtime_makefile) :: $(cmt_local_tagfile_PppmpzAlg_check_install_runtime)
 #endif
 
-ifdef cmt_PPPAlg_check_install_runtime_has_target_tag
+ifdef cmt_PppmpzAlg_check_install_runtime_has_target_tag
 
 ifndef QUICK
-$(cmt_local_PPPAlg_check_install_runtime_makefile) : $(PPPAlg_check_install_runtime_dependencies) build_library_links
-	$(echo) "(constituents.make) Building PPPAlg_check_install_runtime.make"; \
-	  $(cmtexe) -tag=$(tags) $(PPPAlg_check_install_runtime_extratags) build constituent_config -out=$(cmt_local_PPPAlg_check_install_runtime_makefile) PPPAlg_check_install_runtime
+$(cmt_local_PppmpzAlg_check_install_runtime_makefile) : $(PppmpzAlg_check_install_runtime_dependencies) build_library_links
+	$(echo) "(constituents.make) Building PppmpzAlg_check_install_runtime.make"; \
+	  $(cmtexe) -tag=$(tags) $(PppmpzAlg_check_install_runtime_extratags) build constituent_config -out=$(cmt_local_PppmpzAlg_check_install_runtime_makefile) PppmpzAlg_check_install_runtime
 else
-$(cmt_local_PPPAlg_check_install_runtime_makefile) : $(PPPAlg_check_install_runtime_dependencies) $(cmt_build_library_linksstamp) $(use_requirements)
-	@if [ ! -f $@ ] || [ ! -f $(cmt_local_tagfile_PPPAlg_check_install_runtime) ] || \
-	  [ ! -f $(cmt_final_setup_PPPAlg_check_install_runtime) ] || \
-	  $(not_PPPAlg_check_install_runtime_dependencies) ; then \
+$(cmt_local_PppmpzAlg_check_install_runtime_makefile) : $(PppmpzAlg_check_install_runtime_dependencies) $(cmt_build_library_linksstamp) $(use_requirements)
+	@if [ ! -f $@ ] || [ ! -f $(cmt_local_tagfile_PppmpzAlg_check_install_runtime) ] || \
+	  [ ! -f $(cmt_final_setup_PppmpzAlg_check_install_runtime) ] || \
+	  $(not_PppmpzAlg_check_install_runtime_dependencies) ; then \
 	  test -z "$(cmtmsg)" || \
-	  echo "$(CMTMSGPREFIX)" "(constituents.make) Building PPPAlg_check_install_runtime.make"; \
-	  $(cmtexe) -tag=$(tags) $(PPPAlg_check_install_runtime_extratags) build constituent_config -out=$(cmt_local_PPPAlg_check_install_runtime_makefile) PPPAlg_check_install_runtime; \
+	  echo "$(CMTMSGPREFIX)" "(constituents.make) Building PppmpzAlg_check_install_runtime.make"; \
+	  $(cmtexe) -tag=$(tags) $(PppmpzAlg_check_install_runtime_extratags) build constituent_config -out=$(cmt_local_PppmpzAlg_check_install_runtime_makefile) PppmpzAlg_check_install_runtime; \
 	  fi
 endif
 
 else
 
 ifndef QUICK
-$(cmt_local_PPPAlg_check_install_runtime_makefile) : $(PPPAlg_check_install_runtime_dependencies) build_library_links
-	$(echo) "(constituents.make) Building PPPAlg_check_install_runtime.make"; \
-	  $(cmtexe) -f=$(bin)PPPAlg_check_install_runtime.in -tag=$(tags) $(PPPAlg_check_install_runtime_extratags) build constituent_makefile -without_cmt -out=$(cmt_local_PPPAlg_check_install_runtime_makefile) PPPAlg_check_install_runtime
+$(cmt_local_PppmpzAlg_check_install_runtime_makefile) : $(PppmpzAlg_check_install_runtime_dependencies) build_library_links
+	$(echo) "(constituents.make) Building PppmpzAlg_check_install_runtime.make"; \
+	  $(cmtexe) -f=$(bin)PppmpzAlg_check_install_runtime.in -tag=$(tags) $(PppmpzAlg_check_install_runtime_extratags) build constituent_makefile -without_cmt -out=$(cmt_local_PppmpzAlg_check_install_runtime_makefile) PppmpzAlg_check_install_runtime
 else
-$(cmt_local_PPPAlg_check_install_runtime_makefile) : $(PPPAlg_check_install_runtime_dependencies) $(cmt_build_library_linksstamp) $(bin)PPPAlg_check_install_runtime.in
-	@if [ ! -f $@ ] || [ ! -f $(cmt_local_tagfile_PPPAlg_check_install_runtime) ] || \
-	  [ ! -f $(cmt_final_setup_PPPAlg_check_install_runtime) ] || \
-	  $(not_PPPAlg_check_install_runtime_dependencies) ; then \
+$(cmt_local_PppmpzAlg_check_install_runtime_makefile) : $(PppmpzAlg_check_install_runtime_dependencies) $(cmt_build_library_linksstamp) $(bin)PppmpzAlg_check_install_runtime.in
+	@if [ ! -f $@ ] || [ ! -f $(cmt_local_tagfile_PppmpzAlg_check_install_runtime) ] || \
+	  [ ! -f $(cmt_final_setup_PppmpzAlg_check_install_runtime) ] || \
+	  $(not_PppmpzAlg_check_install_runtime_dependencies) ; then \
 	  test -z "$(cmtmsg)" || \
-	  echo "$(CMTMSGPREFIX)" "(constituents.make) Building PPPAlg_check_install_runtime.make"; \
-	  $(cmtexe) -f=$(bin)PPPAlg_check_install_runtime.in -tag=$(tags) $(PPPAlg_check_install_runtime_extratags) build constituent_makefile -without_cmt -out=$(cmt_local_PPPAlg_check_install_runtime_makefile) PPPAlg_check_install_runtime; \
+	  echo "$(CMTMSGPREFIX)" "(constituents.make) Building PppmpzAlg_check_install_runtime.make"; \
+	  $(cmtexe) -f=$(bin)PppmpzAlg_check_install_runtime.in -tag=$(tags) $(PppmpzAlg_check_install_runtime_extratags) build constituent_makefile -without_cmt -out=$(cmt_local_PppmpzAlg_check_install_runtime_makefile) PppmpzAlg_check_install_runtime; \
 	  fi
 endif
 
 endif
 
-#	  $(cmtexe) -tag=$(tags) $(PPPAlg_check_install_runtime_extratags) build constituent_makefile -out=$(cmt_local_PPPAlg_check_install_runtime_makefile) PPPAlg_check_install_runtime
+#	  $(cmtexe) -tag=$(tags) $(PppmpzAlg_check_install_runtime_extratags) build constituent_makefile -out=$(cmt_local_PppmpzAlg_check_install_runtime_makefile) PppmpzAlg_check_install_runtime
 
-PPPAlg_check_install_runtime :: $(PPPAlg_check_install_runtime_dependencies) $(cmt_local_PPPAlg_check_install_runtime_makefile) dirs PPPAlg_check_install_runtimedirs
-	$(echo) "(constituents.make) Starting PPPAlg_check_install_runtime"
-	@if test -f $(cmt_local_PPPAlg_check_install_runtime_makefile); then \
-	  $(MAKE) -f $(cmt_local_PPPAlg_check_install_runtime_makefile) PPPAlg_check_install_runtime; \
+PppmpzAlg_check_install_runtime :: $(PppmpzAlg_check_install_runtime_dependencies) $(cmt_local_PppmpzAlg_check_install_runtime_makefile) dirs PppmpzAlg_check_install_runtimedirs
+	$(echo) "(constituents.make) Starting PppmpzAlg_check_install_runtime"
+	@if test -f $(cmt_local_PppmpzAlg_check_install_runtime_makefile); then \
+	  $(MAKE) -f $(cmt_local_PppmpzAlg_check_install_runtime_makefile) PppmpzAlg_check_install_runtime; \
 	  fi
-#	@$(MAKE) -f $(cmt_local_PPPAlg_check_install_runtime_makefile) PPPAlg_check_install_runtime
-	$(echo) "(constituents.make) PPPAlg_check_install_runtime done"
+#	@$(MAKE) -f $(cmt_local_PppmpzAlg_check_install_runtime_makefile) PppmpzAlg_check_install_runtime
+	$(echo) "(constituents.make) PppmpzAlg_check_install_runtime done"
 
-clean :: PPPAlg_check_install_runtimeclean
+clean :: PppmpzAlg_check_install_runtimeclean
 
-PPPAlg_check_install_runtimeclean :: $(PPPAlg_check_install_runtimeclean_dependencies) ##$(cmt_local_PPPAlg_check_install_runtime_makefile)
-	$(echo) "(constituents.make) Starting PPPAlg_check_install_runtimeclean"
-	@-if test -f $(cmt_local_PPPAlg_check_install_runtime_makefile); then \
-	  $(MAKE) -f $(cmt_local_PPPAlg_check_install_runtime_makefile) PPPAlg_check_install_runtimeclean; \
+PppmpzAlg_check_install_runtimeclean :: $(PppmpzAlg_check_install_runtimeclean_dependencies) ##$(cmt_local_PppmpzAlg_check_install_runtime_makefile)
+	$(echo) "(constituents.make) Starting PppmpzAlg_check_install_runtimeclean"
+	@-if test -f $(cmt_local_PppmpzAlg_check_install_runtime_makefile); then \
+	  $(MAKE) -f $(cmt_local_PppmpzAlg_check_install_runtime_makefile) PppmpzAlg_check_install_runtimeclean; \
 	fi
-	$(echo) "(constituents.make) PPPAlg_check_install_runtimeclean done"
-#	@-$(MAKE) -f $(cmt_local_PPPAlg_check_install_runtime_makefile) PPPAlg_check_install_runtimeclean
+	$(echo) "(constituents.make) PppmpzAlg_check_install_runtimeclean done"
+#	@-$(MAKE) -f $(cmt_local_PppmpzAlg_check_install_runtime_makefile) PppmpzAlg_check_install_runtimeclean
 
-##	  /bin/rm -f $(cmt_local_PPPAlg_check_install_runtime_makefile) $(bin)PPPAlg_check_install_runtime_dependencies.make
+##	  /bin/rm -f $(cmt_local_PppmpzAlg_check_install_runtime_makefile) $(bin)PppmpzAlg_check_install_runtime_dependencies.make
 
-install :: PPPAlg_check_install_runtimeinstall
+install :: PppmpzAlg_check_install_runtimeinstall
 
-PPPAlg_check_install_runtimeinstall :: $(PPPAlg_check_install_runtime_dependencies) $(cmt_local_PPPAlg_check_install_runtime_makefile)
-	$(echo) "(constituents.make) Starting install PPPAlg_check_install_runtime"
-	@-$(MAKE) -f $(cmt_local_PPPAlg_check_install_runtime_makefile) install
-	$(echo) "(constituents.make) install PPPAlg_check_install_runtime done"
+PppmpzAlg_check_install_runtimeinstall :: $(PppmpzAlg_check_install_runtime_dependencies) $(cmt_local_PppmpzAlg_check_install_runtime_makefile)
+	$(echo) "(constituents.make) Starting install PppmpzAlg_check_install_runtime"
+	@-$(MAKE) -f $(cmt_local_PppmpzAlg_check_install_runtime_makefile) install
+	$(echo) "(constituents.make) install PppmpzAlg_check_install_runtime done"
 
-uninstall : PPPAlg_check_install_runtimeuninstall
+uninstall : PppmpzAlg_check_install_runtimeuninstall
 
-$(foreach d,$(PPPAlg_check_install_runtime_dependencies),$(eval $(d)uninstall_dependencies += PPPAlg_check_install_runtimeuninstall))
+$(foreach d,$(PppmpzAlg_check_install_runtime_dependencies),$(eval $(d)uninstall_dependencies += PppmpzAlg_check_install_runtimeuninstall))
 
-PPPAlg_check_install_runtimeuninstall : $(PPPAlg_check_install_runtimeuninstall_dependencies) ##$(cmt_local_PPPAlg_check_install_runtime_makefile)
-	$(echo) "(constituents.make) Starting uninstall PPPAlg_check_install_runtime"
-	@if test -f $(cmt_local_PPPAlg_check_install_runtime_makefile); then \
-	  $(MAKE) -f $(cmt_local_PPPAlg_check_install_runtime_makefile) uninstall; \
+PppmpzAlg_check_install_runtimeuninstall : $(PppmpzAlg_check_install_runtimeuninstall_dependencies) ##$(cmt_local_PppmpzAlg_check_install_runtime_makefile)
+	$(echo) "(constituents.make) Starting uninstall PppmpzAlg_check_install_runtime"
+	@if test -f $(cmt_local_PppmpzAlg_check_install_runtime_makefile); then \
+	  $(MAKE) -f $(cmt_local_PppmpzAlg_check_install_runtime_makefile) uninstall; \
 	  fi
-#	@$(MAKE) -f $(cmt_local_PPPAlg_check_install_runtime_makefile) uninstall
-	$(echo) "(constituents.make) uninstall PPPAlg_check_install_runtime done"
+#	@$(MAKE) -f $(cmt_local_PppmpzAlg_check_install_runtime_makefile) uninstall
+	$(echo) "(constituents.make) uninstall PppmpzAlg_check_install_runtime done"
 
-remove_library_links :: PPPAlg_check_install_runtimeuninstall
+remove_library_links :: PppmpzAlg_check_install_runtimeuninstall
 
 ifndef PEDANTIC
 .DEFAULT::
-	$(echo) "(constituents.make) Starting $@ PPPAlg_check_install_runtime"
+	$(echo) "(constituents.make) Starting $@ PppmpzAlg_check_install_runtime"
 	$(echo) Using default action for $@
-	$(echo) "(constituents.make) $@ PPPAlg_check_install_runtime done"
+	$(echo) "(constituents.make) $@ PppmpzAlg_check_install_runtime done"
 endif
 
 #-- end of constituent ------

@@ -59,8 +59,6 @@ Vint SeriesNum3;							  //
 Vint SeriesNum4;							  //
 Vint SeriesNum5;							  //
 int firstrun = 0;							  //
-HepLorentzVector environment_track_pi01;	  // 定义全局传递变量
-int environment_nphoton;					  //
 #pragma endregion
 #pragma region 准备：调用变量容器
 Pppmpz::Pppmpz(const std::string &name, ISvcLocator *pSvcLocator) : Algorithm(name, pSvcLocator)
@@ -74,6 +72,7 @@ StatusCode Pppmpz::initialize()
 	MsgStream log(msgSvc(), name());
 	log << MSG::INFO << "in initialize()" << endmsg;
 	StatusCode status;
+	/*
 #pragma region 新建树：truth
 	NTuplePtr nt1(ntupleSvc(), "FILE1/truth");
 	if (nt1)
@@ -259,6 +258,8 @@ StatusCode Pppmpz::initialize()
 		}
 	}
 #pragma endregion
+
+	*/
 #pragma region 新建树：fit4c
 	NTuplePtr nt4(ntupleSvc(), "FILE1/fit4c");
 	if (nt4)
@@ -277,126 +278,25 @@ StatusCode Pppmpz::initialize()
 			status = m_tuple4->addItem("indexmc", m_idxmc, 0, 100);
 			status = m_tuple4->addIndexedItem("pdgid", m_idxmc, m_pdgid);
 			status = m_tuple4->addIndexedItem("motheridx", m_idxmc, m_motheridx);
-			// pip
+			//
 			status = m_tuple4->addItem("mpip", fit4c_mpip);
 			status = m_tuple4->addItem("apip", fit4c_apip);
 			status = m_tuple4->addItem("ppip", fit4c_ppip);
-			status = m_tuple4->addItem("epip", fit4c_epip);
-			status = m_tuple4->addItem("pxpip", fit4c_pxpip);
-			status = m_tuple4->addItem("pypip", fit4c_pypip);
-			status = m_tuple4->addItem("pzpip", fit4c_pzpip);
-			// pim
 			status = m_tuple4->addItem("mpim", fit4c_mpim);
 			status = m_tuple4->addItem("apim", fit4c_apim);
 			status = m_tuple4->addItem("ppim", fit4c_ppim);
-			status = m_tuple4->addItem("epim", fit4c_epim);
-			status = m_tuple4->addItem("pxpim", fit4c_pxpim);
-			status = m_tuple4->addItem("pypim", fit4c_pypim);
-			status = m_tuple4->addItem("pzpim", fit4c_pzpim);
-			// gamma1
-			status = m_tuple4->addItem("mgamma1", fit4c_mgamma1);
-			status = m_tuple4->addItem("agamma1", fit4c_agamma1);
-			status = m_tuple4->addItem("pgamma1", fit4c_pgamma1);
-			status = m_tuple4->addItem("egamma1", fit4c_egamma1);
-			status = m_tuple4->addItem("pxgamma1", fit4c_pxgamma1);
-			status = m_tuple4->addItem("pygamma1", fit4c_pygamma1);
-			status = m_tuple4->addItem("pzgamma1", fit4c_pzgamma1);
-			// gamma2
-			status = m_tuple4->addItem("mgamma2", fit4c_mgamma2);
-			status = m_tuple4->addItem("agamma2", fit4c_agamma2);
-			status = m_tuple4->addItem("pgamma2", fit4c_pgamma2);
-			status = m_tuple4->addItem("egamma2", fit4c_egamma2);
-			status = m_tuple4->addItem("pxgamma2", fit4c_pxgamma2);
-			status = m_tuple4->addItem("pygamma2", fit4c_pygamma2);
-			status = m_tuple4->addItem("pzgamma2", fit4c_pzgamma2);
-			// gamma3
-			status = m_tuple4->addItem("mgamma3", fit4c_mgamma3);
-			status = m_tuple4->addItem("agamma3", fit4c_agamma3);
-			status = m_tuple4->addItem("pgamma3", fit4c_pgamma3);
-			status = m_tuple4->addItem("egamma3", fit4c_egamma3);
-			status = m_tuple4->addItem("pxgamma3", fit4c_pxgamma3);
-			status = m_tuple4->addItem("pygamma3", fit4c_pygamma3);
-			status = m_tuple4->addItem("pzgamma3", fit4c_pzgamma3);
-			// gamma4
-			status = m_tuple4->addItem("mgamma4", fit4c_mgamma4);
-			status = m_tuple4->addItem("agamma4", fit4c_agamma4);
-			status = m_tuple4->addItem("pgamma4", fit4c_pgamma4);
-			status = m_tuple4->addItem("egamma4", fit4c_egamma4);
-			status = m_tuple4->addItem("pxgamma4", fit4c_pxgamma4);
-			status = m_tuple4->addItem("pygamma4", fit4c_pygamma4);
-			status = m_tuple4->addItem("pzgamma4", fit4c_pzgamma4);
-			// gamma5
-			status = m_tuple4->addItem("mgamma5", fit4c_mgamma5);
-			status = m_tuple4->addItem("agamma5", fit4c_agamma5);
-			status = m_tuple4->addItem("pgamma5", fit4c_pgamma5);
-			status = m_tuple4->addItem("egamma5", fit4c_egamma5);
-			status = m_tuple4->addItem("pxgamma5", fit4c_pxgamma5);
-			status = m_tuple4->addItem("pygamma5", fit4c_pygamma5);
-			status = m_tuple4->addItem("pzgamma5", fit4c_pzgamma5);
-			// gamma6
-			status = m_tuple4->addItem("mgamma6", fit4c_mgamma6);
-			status = m_tuple4->addItem("agamma6", fit4c_agamma6);
-			status = m_tuple4->addItem("pgamma6", fit4c_pgamma6);
-			status = m_tuple4->addItem("egamma6", fit4c_egamma6);
-			status = m_tuple4->addItem("pxgamma6", fit4c_pxgamma6);
-			status = m_tuple4->addItem("pygamma6", fit4c_pygamma6);
-			status = m_tuple4->addItem("pzgamma6", fit4c_pzgamma6);
-			// pi01
-			status = m_tuple4->addItem("mpi01", fit4c_mpi01);
-			status = m_tuple4->addItem("api01", fit4c_api01);
-			status = m_tuple4->addItem("ppi01", fit4c_ppi01);
-			status = m_tuple4->addItem("epi01", fit4c_epi01);
-			status = m_tuple4->addItem("pxpi01", fit4c_pxpi01);
-			status = m_tuple4->addItem("pypi01", fit4c_pypi01);
-			status = m_tuple4->addItem("pzpi01", fit4c_pzpi01);
-			// pi02
-			status = m_tuple4->addItem("mpi02", fit4c_mpi02);
-			status = m_tuple4->addItem("api02", fit4c_api02);
-			status = m_tuple4->addItem("ppi02", fit4c_ppi02);
-			status = m_tuple4->addItem("epi02", fit4c_epi02);
-			status = m_tuple4->addItem("pxpi02", fit4c_pxpi02);
-			status = m_tuple4->addItem("pypi02", fit4c_pypi02);
-			status = m_tuple4->addItem("pzpi02", fit4c_pzpi02);
-			// pi03
-			status = m_tuple4->addItem("mpi03", fit4c_mpi03);
-			status = m_tuple4->addItem("api03", fit4c_api03);
-			status = m_tuple4->addItem("ppi03", fit4c_ppi03);
-			status = m_tuple4->addItem("epi03", fit4c_epi03);
-			status = m_tuple4->addItem("pxpi03", fit4c_pxpi03);
-			status = m_tuple4->addItem("pypi03", fit4c_pypi03);
-			status = m_tuple4->addItem("pzpi03", fit4c_pzpi03);
-			// omega
-			status = m_tuple4->addItem("momega", fit4c_momega);
-			status = m_tuple4->addItem("aomega", fit4c_aomega);
-			status = m_tuple4->addItem("pomega", fit4c_pomega);
-			status = m_tuple4->addItem("eomega", fit4c_eomega);
-			status = m_tuple4->addItem("pxomega", fit4c_pxomega);
-			status = m_tuple4->addItem("pyomega", fit4c_pyomega);
-			status = m_tuple4->addItem("pzomega", fit4c_pzomega);
-			// omegapi02
-			status = m_tuple4->addItem("momegapi02", fit4c_momegapi02);
-			status = m_tuple4->addItem("aomegapi02", fit4c_aomegapi02);
-			status = m_tuple4->addItem("pomegapi02", fit4c_pomegapi02);
-			// omegapi03
-			status = m_tuple4->addItem("momegapi03", fit4c_momegapi03);
-			status = m_tuple4->addItem("aomegapi03", fit4c_aomegapi03);
-			status = m_tuple4->addItem("pomegapi03", fit4c_pomegapi03);
-			// pi02pi03
-			status = m_tuple4->addItem("mpi02pi03", fit4c_mpi02pi03);
-			status = m_tuple4->addItem("api02pi03", fit4c_api02pi03);
-			status = m_tuple4->addItem("ppi02pi03", fit4c_ppi02pi03);
-			// else
-			status = m_tuple4->addItem("m3pi0", fit4c_m3pi0);
-			// boost
-			status = m_tuple4->addItem("hgamma1", fit4c_hgamma1);
-			status = m_tuple4->addItem("hgamma2", fit4c_hgamma2);
-			status = m_tuple4->addItem("hgamma3", fit4c_hgamma3);
-			status = m_tuple4->addItem("hgamma4", fit4c_hgamma4);
-			status = m_tuple4->addItem("hgamma5", fit4c_hgamma5);
-			status = m_tuple4->addItem("hgamma6", fit4c_hgamma6);
-			// combination
-			status = m_tuple4->addItem("acombination", fit4c_acombination);
-			status = m_tuple4->addItem("nphoton", fit4c_nphoton);
+			status = m_tuple4->addItem("mpiz", fit4c_mpiz);
+			status = m_tuple4->addItem("apiz", fit4c_apiz);
+			status = m_tuple4->addItem("ppiz", fit4c_ppiz);
+			status = m_tuple4->addItem("mpipz", fit4c_mpipz);
+			status = m_tuple4->addItem("apipz", fit4c_apipz);
+			status = m_tuple4->addItem("ppipz", fit4c_ppipz);
+			status = m_tuple4->addItem("mpimz", fit4c_mpimz);
+			status = m_tuple4->addItem("apimz", fit4c_apimz);
+			status = m_tuple4->addItem("ppimz", fit4c_ppimz);
+			status = m_tuple4->addItem("mpipm", fit4c_mpipm);
+			status = m_tuple4->addItem("apipm", fit4c_apipm);
+			status = m_tuple4->addItem("ppipm", fit4c_ppipm);
 		}
 		else
 		{
@@ -566,6 +466,7 @@ StatusCode Pppmpz::execute() //
 	}																							 //
 #pragma endregion
 #pragma region section_truth
+	/*
 	int truth_check = 0;
 	if (eventHeader->runNumber() < 0)
 	{
@@ -875,6 +776,7 @@ StatusCode Pppmpz::execute() //
 			}
 		}
 	}
+	*/
 #pragma endregion
 #pragma region section_charged track
 	Vint iGood, ipip, ipim;															   // ****************************************
@@ -932,26 +834,27 @@ StatusCode Pppmpz::execute() //
 	}																				   //
 	int nGood = iGood.size();														   //
 	log << MSG::DEBUG << "ngood, totcharge = " << nGood << " , " << nCharge << endreq; // ****************************************
-	if (1 == 1)																		   // 输出2：charge
+	/*if (1 == 1)																		   // 输出2：charge
 	{																				   // ****************************************
 		charge_ngood = nGood;														   //
 		charge_ncharge = nCharge;													   //
 		m_tuple2->write();															   //
-	}																				   //
-	if (1 == 1)																		   // ****************************************
-	{																				   // 变量：nGood（带电track数目）
-		if ((nGood != 2) || (nCharge != 0))											   // 变量：nCharge（带电track总电量）
-		{																			   // 选择1：nGood = 2, nCharge = 0
-			return StatusCode::SUCCESS;												   // 选择2：nGood >= 2
-		}																			   // ****************************************
-	}																				   //
-	else																			   //
-	{																				   //
-		if (nGood < 2)																   //
-		{																			   //
-			return StatusCode::SUCCESS;												   //
-		}																			   //
-	}																				   //
+	}*/
+	//
+	if (1 == 1)								// ****************************************
+	{										// 变量：nGood（带电track数目）
+		if ((nGood != 2) || (nCharge != 0)) // 变量：nCharge（带电track总电量）
+		{									// 选择1：nGood = 2, nCharge = 0
+			return StatusCode::SUCCESS;		// 选择2：nGood >= 2
+		}									// ****************************************
+	}										//
+	else									//
+	{										//
+		if (nGood < 2)						//
+		{									//
+			return StatusCode::SUCCESS;		//
+		}									//
+	}										//
 #pragma endregion
 #pragma region section_neutral track
 	Vint iGam;																							  //
@@ -1009,8 +912,7 @@ StatusCode Pppmpz::execute() //
 		iGam.push_back(i);			// 变量：iGam[]（参数为good-track序号，内容为track编号）
 	}								//
 	int nGam = iGam.size();			// 变量：nGam（中性track数量）
-	environment_nphoton = nGam;		//
-	if (nGam < 6 || nGam > 10)		// 选择：nGam
+	if (nGam < 2 || nGam > 10)		// 选择：nGam
 	{								//
 		return StatusCode::SUCCESS; //
 	}								//
@@ -1088,8 +990,10 @@ StatusCode Pppmpz::execute() //
 	RecMdcKalTrack *pipTrk = (*(evtRecTrkCol->begin() + ipip[0]))->mdcKalTrack(); //
 	RecMdcKalTrack *pimTrk = (*(evtRecTrkCol->begin() + ipim[0]))->mdcKalTrack(); // Default is pion, for other particles:
 	WTrackParameter wvpipTrk, wvpimTrk;											  // wvppTrk = WTrackParameter(mp, pipTrk->getZHelixP(), pipTrk->getZErrorP()); proton
-	wvpipTrk = WTrackParameter(mpipm, pipTrk->getZHelix(), pipTrk->getZError());	  // wvepTrk = WTrackParameter(me, pipTrk->getZHelixE(), pipTrk->getZErrorE()); electron
-	wvpimTrk = WTrackParameter(mpipm, pimTrk->getZHelix(), pimTrk->getZError());	  // wvkpTrk = WTrackParameter(mk, pipTrk->getZHelixK(), pipTrk->getZErrorK()); kaon
+	wvpipTrk = WTrackParameter(mpipm, pipTrk->getZHelix(), pipTrk->getZError());  // wvepTrk = WTrackParameter(me, pipTrk->getZHelixE(), pipTrk->getZErrorE()); electron
+	wvpimTrk = WTrackParameter(mpipm, pimTrk->getZHelix(), pimTrk->getZError());  // wvkpTrk = WTrackParameter(mk, pipTrk->getZHelixK(), pipTrk->getZErrorK()); kaon
+
+	/*
 	HepPoint3D vx(0., 0., 0.);													  // wvmupTrk = WTrackParameter(mmu, pipTrk->getZHelixMu(), pipTrk->getZErrorMu()); muon
 	HepSymMatrix Evx(3, 0);														  //
 	double bx = 1E+6;															  //
@@ -1117,234 +1021,139 @@ StatusCode Pppmpz::execute() //
 		m_tuple3->write();														  //
 	}																			  //
 	vtxfit->Swim(0);															  //
+	*/
 #pragma endregion
 #pragma region section_four constrain
-#pragma region fourc_循环数组定义
-	int selectb[2][2] = {{1, 2},  // selectb
-						 {2, 1}}; // 12顺序遍历
-#pragma endregion
 #pragma region fourc_初始参数定义
-	WTrackParameter wpip = vtxfit->wtrk(0);							 //
-	WTrackParameter wpim = vtxfit->wtrk(1);							 //
+	WTrackParameter wpip = wvpipTrk;								 //
+	WTrackParameter wpim = wvpimTrk;								 //
 	KalmanKinematicFit *kmfit = KalmanKinematicFit::instance();		 //
 	HepLorentzVector ecms(0.034 * m_energy / 3.097, 0, 0, m_energy); //
-	HepLorentzVector ptrackp;										 // ptrack? 代表最初拟合得到的track
-	HepLorentzVector ptrackm;										 // n?ptrack? 代表经过?次拟合得到的track
+	HepLorentzVector ptrackp;										 //
+	HepLorentzVector ptrackm;										 //
 	HepLorentzVector ptrack1;										 //
 	HepLorentzVector ptrack2;										 //
-	HepLorentzVector ptrack3;										 //
-	HepLorentzVector ptrack4;										 //
-	HepLorentzVector ptrack5;										 //
-	HepLorentzVector ptrack6;										 //
 	double chisq_4c_5g = 9999;										 //
 	double chisq_4c_6g = 9999;										 //
 	double chisq_4c_7g = 9999;										 //
 #pragma endregion
 #pragma region fourc_6gamma拟合
-	for (int i1 = 0; i1 < nGam; i1++)																  // 得到6Gamma-chisq
-	{																								  //
-		RecEmcShower *g1Trk = (*(evtRecTrkCol->begin() + iGam[i1]))->emcShower();					  //
-		for (int i2 = i1; i2 < nGam; i2++)															  //
-		{																							  //
-			if (i2 == i1)																			  //
-			{																						  //
-				continue;																			  //
-			}																						  //
-			RecEmcShower *g2Trk = (*(evtRecTrkCol->begin() + iGam[i2]))->emcShower();				  //
-			for (int i3 = i2; i3 < nGam; i3++)														  //
-			{																						  //
-				if (i3 == i1 || i3 == i2)															  //
-				{																					  //
-					continue;																		  //
-				}																					  //
-				RecEmcShower *g3Trk = (*(evtRecTrkCol->begin() + iGam[i3]))->emcShower();			  //
-				for (int i4 = i3; i4 < nGam; i4++)													  //
-				{																					  //
-					if (i4 == i1 || i4 == i2 || i4 == i3)											  //
-					{																				  //
-						continue;																	  //
-					}																				  //
-					RecEmcShower *g4Trk = (*(evtRecTrkCol->begin() + iGam[i4]))->emcShower();		  //
-					for (int i5 = i4; i5 < nGam; i5++)												  //
-					{																				  //
-						if (i5 == i1 || i5 == i2 || i5 == i3 || i5 == i4)							  //
-						{																			  //
-							continue;																  //
-						}																			  //
-						RecEmcShower *g5Trk = (*(evtRecTrkCol->begin() + iGam[i5]))->emcShower();	  //
-						for (int i6 = i5; i6 < nGam; i6++)											  //
-						{																			  //
-							if (i6 == i1 || i6 == i2 || i6 == i3 || i6 == i4 || i6 == i5)			  //
-							{																		  //
-								continue;															  //
-							}																		  //
-							RecEmcShower *g6Trk = (*(evtRecTrkCol->begin() + iGam[i6]))->emcShower(); //
-							kmfit->init();															  //
-							kmfit->AddTrack(0, wpip);												  //
-							kmfit->AddTrack(1, wpim);												  //
-							kmfit->AddTrack(2, 0.0, g1Trk);											  //
-							kmfit->AddTrack(3, 0.0, g2Trk);											  //
-							kmfit->AddTrack(4, 0.0, g3Trk);											  //
-							kmfit->AddTrack(5, 0.0, g4Trk);											  //
-							kmfit->AddTrack(6, 0.0, g5Trk);											  //
-							kmfit->AddTrack(7, 0.0, g6Trk);											  //
-							kmfit->AddFourMomentum(0, ecms);										  //
-							bool oksq = kmfit->Fit();												  //
-							if (oksq)																  //
-							{																		  //
-								double chi2 = kmfit->chisq();										  //
-								if (chi2 <= chisq_4c_6g)											  // 选择：最小chi-4c
-								{																	  //
-									chisq_4c_6g = chi2;												  //
-									ptrackp = kmfit->pfit(0);										  //
-									ptrackm = kmfit->pfit(1);										  //
-									ptrack1 = kmfit->pfit(2);										  //
-									ptrack2 = kmfit->pfit(3);										  //
-									ptrack3 = kmfit->pfit(4);										  //
-									ptrack4 = kmfit->pfit(5);										  //
-									ptrack5 = kmfit->pfit(6);										  //
-									ptrack6 = kmfit->pfit(7);										  //
-								}																	  //
-							}																		  //
-						}																			  //
-					}																				  //
-				}																					  //
-			}																						  //
-		}																							  //
-	}																								  //
+	for (int i1 = 0; i1 < nGam; i1++)												  // 得到2Gamma-chisq
+	{																				  //
+		RecEmcShower *g1Trk = (*(evtRecTrkCol->begin() + iGam[i1]))->emcShower();	  //
+		for (int i2 = i1; i2 < nGam; i2++)											  //
+		{																			  //
+			if (i2 == i1)															  //
+			{																		  //
+				continue;															  //
+			}																		  //
+			RecEmcShower *g2Trk = (*(evtRecTrkCol->begin() + iGam[i2]))->emcShower(); //
+			kmfit->init();															  //
+			kmfit->AddTrack(0, wpip);												  //
+			kmfit->AddTrack(1, wpim);												  //
+			kmfit->AddTrack(2, 0.0, g1Trk);											  //
+			kmfit->AddTrack(3, 0.0, g2Trk);											  //
+			kmfit->AddFourMomentum(0, ecms);										  //
+			bool oksq = kmfit->Fit();												  //
+			if (oksq)																  //
+			{																		  //
+				double chi2 = kmfit->chisq();										  //
+				if (chi2 <= chisq_4c_6g)											  // 选择：最小chi-4c
+				{																	  //
+					chisq_4c_6g = chi2;												  //
+					ptrackp = kmfit->pfit(0);										  //
+					ptrackm = kmfit->pfit(1);										  //
+					ptrack1 = kmfit->pfit(2);										  //
+					ptrack2 = kmfit->pfit(3);										  //
+				}																	  //
+			}																		  //
+		}																			  //
+	}																				  //
 #pragma endregion
-#pragma region fourc_5gamma拟合
-	for (int i1 = 0; i1 < nGam; i1++)															  // 得到5Gamma-chisq
-	{																							  //
-		RecEmcShower *g1Trk = (*(evtRecTrkCol->begin() + iGam[i1]))->emcShower();				  //
-		for (int i2 = i1; i2 < nGam; i2++)														  //
-		{																						  //
-			if (i2 == i1)																		  //
-			{																					  //
-				continue;																		  //
-			}																					  //
-			RecEmcShower *g2Trk = (*(evtRecTrkCol->begin() + iGam[i2]))->emcShower();			  //
-			for (int i3 = i2; i3 < nGam; i3++)													  //
-			{																					  //
-				if (i3 == i1 || i3 == i2)														  //
-				{																				  //
-					continue;																	  //
-				}																				  //
-				RecEmcShower *g3Trk = (*(evtRecTrkCol->begin() + iGam[i3]))->emcShower();		  //
-				for (int i4 = i3; i4 < nGam; i4++)												  //
-				{																				  //
-					if (i4 == i1 || i4 == i2 || i4 == i3)										  //
-					{																			  //
-						continue;																  //
-					}																			  //
-					RecEmcShower *g4Trk = (*(evtRecTrkCol->begin() + iGam[i4]))->emcShower();	  //
-					for (int i5 = i4; i5 < nGam; i5++)											  //
-					{																			  //
-						if (i5 == i1 || i5 == i2 || i5 == i3 || i5 == i4)						  //
-						{																		  //
-							continue;															  //
-						}																		  //
-						RecEmcShower *g5Trk = (*(evtRecTrkCol->begin() + iGam[i5]))->emcShower(); //
-						kmfit->init();															  //
-						kmfit->AddTrack(0, wpip);												  //
-						kmfit->AddTrack(1, wpim);												  //
-						kmfit->AddTrack(2, 0.0, g1Trk);											  //
-						kmfit->AddTrack(3, 0.0, g2Trk);											  //
-						kmfit->AddTrack(4, 0.0, g3Trk);											  //
-						kmfit->AddTrack(5, 0.0, g4Trk);											  //
-						kmfit->AddTrack(6, 0.0, g5Trk);											  //
-						kmfit->AddFourMomentum(0, ecms);										  //
-						bool oksq = kmfit->Fit();												  //
-						if (oksq)																  //
-						{																		  //
-							double chi2 = kmfit->chisq();										  //
-							if (chi2 < chisq_4c_5g)												  //
-							{																	  //
-								chisq_4c_5g = chi2;												  //
-							}																	  //
-						}																		  //
-					}																			  //
-				}																				  //
-			}																					  //
-		}																						  //
-	}																							  //
+#pragma region fourc_3gamma拟合
+	for (int i1 = 0; i1 < nGam; i1++)													  // 得到3Gamma-chisq
+	{																					  //
+		RecEmcShower *g1Trk = (*(evtRecTrkCol->begin() + iGam[i1]))->emcShower();		  //
+		for (int i2 = i1; i2 < nGam; i2++)												  //
+		{																				  //
+			if (i2 == i1)																  //
+			{																			  //
+				continue;																  //
+			}																			  //
+			RecEmcShower *g2Trk = (*(evtRecTrkCol->begin() + iGam[i2]))->emcShower();	  //
+			for (int i3 = i2; i3 < nGam; i3++)											  //
+			{																			  //
+				if (i3 == i1 || i3 == i2)												  //
+				{																		  //
+					continue;															  //
+				}																		  //
+				RecEmcShower *g3Trk = (*(evtRecTrkCol->begin() + iGam[i3]))->emcShower(); //
+				kmfit->init();															  //
+				kmfit->AddTrack(0, wpip);												  //
+				kmfit->AddTrack(1, wpim);												  //
+				kmfit->AddTrack(2, 0.0, g1Trk);											  //
+				kmfit->AddTrack(3, 0.0, g2Trk);											  //
+				kmfit->AddTrack(4, 0.0, g3Trk);											  //
+				kmfit->AddFourMomentum(0, ecms);										  //
+				bool oksq = kmfit->Fit();												  //
+				if (oksq)																  //
+				{																		  //
+					double chi2 = kmfit->chisq();										  //
+					if (chi2 < chisq_4c_5g)												  //
+					{																	  //
+						chisq_4c_5g = chi2;												  //
+					}																	  //
+				}																		  //
+			}																			  //
+		}																				  //
+	}																					  //
 #pragma endregion
-#pragma region fourc_7gamma拟合
-	if (nGam > 6)																							  // 得到7Gamma-chisq
-	{																										  //
-		for (int i1 = 0; i1 < nGam; i1++)																	  //
-		{																									  //
-			RecEmcShower *g1Trk = (*(evtRecTrkCol->begin() + iGam[i1]))->emcShower();						  //
-			for (int i2 = i1; i2 < nGam; i2++)																  //
-			{																								  //
-				if (i2 == i1)																				  //
-				{																							  //
-					continue;																				  //
-				}																							  //
-				RecEmcShower *g2Trk = (*(evtRecTrkCol->begin() + iGam[i2]))->emcShower();					  //
-				for (int i3 = i2; i3 < nGam; i3++)															  //
-				{																							  //
-					if (i3 == i1 || i3 == i2)																  //
-					{																						  //
-						continue;																			  //
-					}																						  //
-					RecEmcShower *g3Trk = (*(evtRecTrkCol->begin() + iGam[i3]))->emcShower();				  //
-					for (int i4 = i3; i4 < nGam; i4++)														  //
-					{																						  //
-						if (i4 == i1 || i4 == i2 || i4 == i3)												  //
-						{																					  //
-							continue;																		  //
-						}																					  //
-						RecEmcShower *g4Trk = (*(evtRecTrkCol->begin() + iGam[i4]))->emcShower();			  //
-						for (int i5 = i4; i5 < nGam; i5++)													  //
-						{																					  //
-							if (i5 == i1 || i5 == i2 || i5 == i3 || i5 == i4)								  //
-							{																				  //
-								continue;																	  //
-							}																				  //
-							RecEmcShower *g5Trk = (*(evtRecTrkCol->begin() + iGam[i5]))->emcShower();		  //
-							for (int i6 = i5; i6 < nGam; i6++)												  //
-							{																				  //
-								if (i6 == i1 || i6 == i2 || i6 == i3 || i6 == i4 || i6 == i5)				  //
-								{																			  //
-									continue;																  //
-								}																			  //
-								RecEmcShower *g6Trk = (*(evtRecTrkCol->begin() + iGam[i6]))->emcShower();	  //
-								for (int i7 = i6; i7 < nGam; i7++)											  //
-								{																			  //
-									if (i7 == i1 || i7 == i2 || i7 == i3 || i7 == i4 || i7 == i5 || i7 == i6) //
-									{																		  //
-										continue;															  //
-									}																		  //
-									RecEmcShower *g7Trk = (*(evtRecTrkCol->begin() + iGam[i7]))->emcShower(); //
-									kmfit->init();															  //
-									kmfit->AddTrack(0, wpip);												  //
-									kmfit->AddTrack(1, wpim);												  //
-									kmfit->AddTrack(2, 0.0, g1Trk);											  //
-									kmfit->AddTrack(3, 0.0, g2Trk);											  //
-									kmfit->AddTrack(4, 0.0, g3Trk);											  //
-									kmfit->AddTrack(5, 0.0, g4Trk);											  //
-									kmfit->AddTrack(6, 0.0, g5Trk);											  //
-									kmfit->AddTrack(7, 0.0, g6Trk);											  //
-									kmfit->AddTrack(8, 0.0, g7Trk);											  //
-									kmfit->AddFourMomentum(0, ecms);										  //
-									bool oksq = kmfit->Fit();												  //
-									if (oksq)																  //
-									{																		  //
-										double chi2 = kmfit->chisq();										  //
-										if (chi2 < chisq_4c_7g)												  //
-										{																	  //
-											chisq_4c_7g = chi2;												  //
-										}																	  //
-									}																		  //
-								}																			  //
-							}																				  //
-						}																					  //
-					}																						  //
-				}																							  //
-			}																								  //
-		}																									  //
-	}																										  //
+#pragma region fourc_4gamma拟合
+	for (int i1 = 0; i1 < nGam; i1++)														  //
+	{																						  //
+		RecEmcShower *g1Trk = (*(evtRecTrkCol->begin() + iGam[i1]))->emcShower();			  //
+		for (int i2 = i1; i2 < nGam; i2++)													  //
+		{																					  //
+			if (i2 == i1)																	  //
+			{																				  //
+				continue;																	  //
+			}																				  //
+			RecEmcShower *g2Trk = (*(evtRecTrkCol->begin() + iGam[i2]))->emcShower();		  //
+			for (int i3 = i2; i3 < nGam; i3++)												  //
+			{																				  //
+				if (i3 == i1 || i3 == i2)													  //
+				{																			  //
+					continue;																  //
+				}																			  //
+				RecEmcShower *g3Trk = (*(evtRecTrkCol->begin() + iGam[i3]))->emcShower();	  //
+				for (int i4 = i3; i4 < nGam; i4++)											  //
+				{																			  //
+					if (i4 == i1 || i4 == i2 || i4 == i3)									  //
+					{																		  //
+						continue;															  //
+					}																		  //
+					RecEmcShower *g4Trk = (*(evtRecTrkCol->begin() + iGam[i4]))->emcShower(); //
+					kmfit->init();															  //
+					kmfit->AddTrack(0, wpip);												  //
+					kmfit->AddTrack(1, wpim);												  //
+					kmfit->AddTrack(2, 0.0, g1Trk);											  //
+					kmfit->AddTrack(3, 0.0, g2Trk);											  //
+					kmfit->AddTrack(4, 0.0, g3Trk);											  //
+					kmfit->AddTrack(5, 0.0, g4Trk);											  //
+					kmfit->AddFourMomentum(0, ecms);										  //
+					bool oksq = kmfit->Fit();												  //
+					if (oksq)																  //
+					{																		  //
+						double chi2 = kmfit->chisq();										  //
+						if (chi2 < chisq_4c_7g)												  //
+						{																	  //
+							chisq_4c_7g = chi2;												  //
+						}																	  //
+					}																		  //
+				}																			  //
+			}																				  //
+		}																					  //
+	}																						  //
 #pragma endregion
 #pragma region fourc_判断6gamma是否成功
 	int g6 = 0;										  //
@@ -1376,24 +1185,8 @@ StatusCode Pppmpz::execute() //
 	tracklist[1] = ptrackm;
 	tracklist[2] = ptrack1;
 	tracklist[3] = ptrack2;
-	tracklist[4] = ptrack3;
-	tracklist[5] = ptrack4;
-	tracklist[6] = ptrack5;
-	tracklist[7] = ptrack6;
 	if (g6 == 1)
 	{
-		if (1 == 1)
-		{
-			tracklist = my_recon_3pi(tracklist, mpiz, mpiz, mpiz);
-		}
-		if (1 == 1)
-		{
-			tracklist = my_recon_omega(tracklist, 0.782);
-		}
-		if (1 == 1)
-		{
-			tracklist = my_recon_lower(tracklist);
-		}
 #pragma endregion
 #pragma region fourc_信息输出
 		// gamma 信息
@@ -1401,143 +1194,33 @@ StatusCode Pppmpz::execute() //
 		HepLorentzVector out_pim = tracklist[1];
 		HepLorentzVector out_gamma1 = tracklist[2];
 		HepLorentzVector out_gamma2 = tracklist[3];
-		HepLorentzVector out_gamma3 = tracklist[4];
-		HepLorentzVector out_gamma4 = tracklist[5];
-		HepLorentzVector out_gamma5 = tracklist[6];
-		HepLorentzVector out_gamma6 = tracklist[7];
 		// 粒子信息
-		HepLorentzVector out_pi01 = out_gamma1 + out_gamma2;
-		HepLorentzVector out_pi02 = out_gamma3 + out_gamma4;
-		HepLorentzVector out_pi03 = out_gamma5 + out_gamma6;
-		HepLorentzVector out_omega = out_pip + out_pim + out_pi01;
-		HepLorentzVector out_omegapi02 = out_omega + out_pi02;
-		HepLorentzVector out_omegapi03 = out_omega + out_pi03;
-		HepLorentzVector out_pi02pi03 = out_pi02 + out_pi03;
-		HepLorentzVector out_3pi0 = out_pi01 + out_pi02 + out_pi03;
+		HepLorentzVector out_piz = out_gamma1 + out_gamma2;
+		HepLorentzVector out_pipm = out_pip + out_pim;
+		HepLorentzVector out_pipz = out_pip + out_piz;
+		HepLorentzVector out_pimz = out_pim + out_piz;
 		// 填入信息
 		if (1 == 1)
 		{
 			fit4c_chisq_4c = chisq_4c_6g;
-			// pip
 			fit4c_mpip = out_pip.m();
 			fit4c_apip = out_pip.cosTheta();
 			fit4c_ppip = out_pip.rho();
-			fit4c_epip = out_pip.e();
-			fit4c_pxpip = out_pip.px();
-			fit4c_pypip = out_pip.py();
-			fit4c_pzpip = out_pip.pz();
-			// pim
 			fit4c_mpim = out_pim.m();
 			fit4c_apim = out_pim.cosTheta();
 			fit4c_ppim = out_pim.rho();
-			fit4c_epim = out_pim.e();
-			fit4c_pxpim = out_pim.px();
-			fit4c_pypim = out_pim.py();
-			fit4c_pzpim = out_pim.pz();
-			// gamma1
-			fit4c_mgamma1 = out_gamma1.m();
-			fit4c_agamma1 = out_gamma1.cosTheta();
-			fit4c_pgamma1 = out_gamma1.rho();
-			fit4c_egamma1 = out_gamma1.e();
-			fit4c_pxgamma1 = out_gamma1.px();
-			fit4c_pygamma1 = out_gamma1.py();
-			fit4c_pzgamma1 = out_gamma1.pz();
-			// gamma2
-			fit4c_mgamma2 = out_gamma2.m();
-			fit4c_agamma2 = out_gamma2.cosTheta();
-			fit4c_pgamma2 = out_gamma2.rho();
-			fit4c_egamma2 = out_gamma2.e();
-			fit4c_pxgamma2 = out_gamma2.px();
-			fit4c_pygamma2 = out_gamma2.py();
-			fit4c_pzgamma2 = out_gamma2.pz();
-			// gamma3
-			fit4c_mgamma3 = out_gamma3.m();
-			fit4c_agamma3 = out_gamma3.cosTheta();
-			fit4c_pgamma3 = out_gamma3.rho();
-			fit4c_egamma3 = out_gamma3.e();
-			fit4c_pxgamma3 = out_gamma3.px();
-			fit4c_pygamma3 = out_gamma3.py();
-			fit4c_pzgamma3 = out_gamma3.pz();
-			// gamma4
-			fit4c_mgamma4 = out_gamma4.m();
-			fit4c_agamma4 = out_gamma4.cosTheta();
-			fit4c_pgamma4 = out_gamma4.rho();
-			fit4c_egamma4 = out_gamma4.e();
-			fit4c_pxgamma4 = out_gamma4.px();
-			fit4c_pygamma4 = out_gamma4.py();
-			fit4c_pzgamma4 = out_gamma4.pz();
-			// gamma5
-			fit4c_mgamma5 = out_gamma5.m();
-			fit4c_agamma5 = out_gamma5.cosTheta();
-			fit4c_pgamma5 = out_gamma5.rho();
-			fit4c_egamma5 = out_gamma5.e();
-			fit4c_pxgamma5 = out_gamma5.px();
-			fit4c_pygamma5 = out_gamma5.py();
-			fit4c_pzgamma5 = out_gamma5.pz();
-			// gamma6
-			fit4c_mgamma6 = out_gamma6.m();
-			fit4c_agamma6 = out_gamma6.cosTheta();
-			fit4c_pgamma6 = out_gamma6.rho();
-			fit4c_egamma6 = out_gamma6.e();
-			fit4c_pxgamma6 = out_gamma6.px();
-			fit4c_pygamma6 = out_gamma6.py();
-			fit4c_pzgamma6 = out_gamma6.pz();
-			// pi01
-			fit4c_mpi01 = out_pi01.m();
-			fit4c_api01 = out_pi01.cosTheta();
-			fit4c_ppi01 = out_pi01.rho();
-			fit4c_epi01 = out_pi01.e();
-			fit4c_pxpi01 = out_pi01.px();
-			fit4c_pypi01 = out_pi01.py();
-			fit4c_pzpi01 = out_pi01.pz();
-			// pi02
-			fit4c_mpi02 = out_pi02.m();
-			fit4c_api02 = out_pi02.cosTheta();
-			fit4c_ppi02 = out_pi02.rho();
-			fit4c_epi02 = out_pi02.e();
-			fit4c_pxpi02 = out_pi02.px();
-			fit4c_pypi02 = out_pi02.py();
-			fit4c_pzpi02 = out_pi02.pz();
-			// pi03
-			fit4c_mpi03 = out_pi03.m();
-			fit4c_api03 = out_pi03.cosTheta();
-			fit4c_ppi03 = out_pi03.rho();
-			fit4c_epi03 = out_pi03.e();
-			fit4c_pxpi03 = out_pi03.px();
-			fit4c_pypi03 = out_pi03.py();
-			fit4c_pzpi03 = out_pi03.pz();
-			// omega
-			fit4c_momega = out_omega.m();
-			fit4c_aomega = out_omega.cosTheta();
-			fit4c_pomega = out_omega.rho();
-			fit4c_eomega = out_omega.e();
-			fit4c_pxomega = out_omega.px();
-			fit4c_pyomega = out_omega.py();
-			fit4c_pzomega = out_omega.pz();
-			// omegapi02
-			fit4c_momegapi02 = out_omegapi02.m();
-			fit4c_aomegapi02 = out_omegapi02.cosTheta();
-			fit4c_pomegapi02 = out_omegapi02.rho();
-			// omegapi03
-			fit4c_momegapi03 = out_omegapi03.m();
-			fit4c_aomegapi03 = out_omegapi03.cosTheta();
-			fit4c_pomegapi03 = out_omegapi03.rho();
-			// pi02pi03
-			fit4c_mpi02pi03 = out_pi02pi03.m();
-			fit4c_api02pi03 = out_pi02pi03.cosTheta();
-			fit4c_ppi02pi03 = out_pi02pi03.rho();
-			// else
-			fit4c_m3pi0 = out_3pi0.m();
-			// boost gamma
-			fit4c_hgamma1 = my_helicityangle(out_gamma1, out_pi01);
-			fit4c_hgamma2 = my_helicityangle(out_gamma2, out_pi01);
-			fit4c_hgamma3 = my_helicityangle(out_gamma3, out_pi02);
-			fit4c_hgamma4 = my_helicityangle(out_gamma4, out_pi02);
-			fit4c_hgamma5 = my_helicityangle(out_gamma5, out_pi03);
-			fit4c_hgamma6 = my_helicityangle(out_gamma6, out_pi03);
-			// combination
-			fit4c_acombination = my_angle(out_pi01, environment_track_pi01);
-			fit4c_nphoton = environment_nphoton;
+			fit4c_mpiz = out_piz.m();
+			fit4c_apiz = out_piz.cosTheta();
+			fit4c_ppiz = out_piz.rho();
+			fit4c_mpipz = out_pipz.m();
+			fit4c_apipz = out_pipz.cosTheta();
+			fit4c_ppipz = out_pipz.rho();
+			fit4c_mpimz = out_pimz.m();
+			fit4c_apimz = out_pimz.cosTheta();
+			fit4c_ppimz = out_pimz.rho();
+			fit4c_mpipm = out_pipm.m();
+			fit4c_apipm = out_pipm.cosTheta();
+			fit4c_ppipm = out_pipm.rho();
 			m_tuple4->write();
 			Ncut4++;
 			my_seriescount(SeriesRun, SeriesNum4, runNo);

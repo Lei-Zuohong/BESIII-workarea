@@ -3,7 +3,7 @@
 #====================================
 #  Document install_includes
 #
-#   Generated Wed Jul 15 14:22:20 2020  by leizh
+#   Generated Wed Jul 15 15:26:02 2020  by leizh
 #
 #====================================
 
@@ -23,19 +23,19 @@ ifdef cmt_install_includes_has_target_tag
 
 tags      = $(tag),$(CMTEXTRATAGS),target_install_includes
 
-PPPAlg_tag = $(tag)
+PppmpzAlg_tag = $(tag)
 
-#cmt_local_tagfile_install_includes = $(PPPAlg_tag)_install_includes.make
-cmt_local_tagfile_install_includes = $(bin)$(PPPAlg_tag)_install_includes.make
+#cmt_local_tagfile_install_includes = $(PppmpzAlg_tag)_install_includes.make
+cmt_local_tagfile_install_includes = $(bin)$(PppmpzAlg_tag)_install_includes.make
 
 else
 
 tags      = $(tag),$(CMTEXTRATAGS)
 
-PPPAlg_tag = $(tag)
+PppmpzAlg_tag = $(tag)
 
-#cmt_local_tagfile_install_includes = $(PPPAlg_tag).make
-cmt_local_tagfile_install_includes = $(bin)$(PPPAlg_tag).make
+#cmt_local_tagfile_install_includes = $(PppmpzAlg_tag).make
+cmt_local_tagfile_install_includes = $(bin)$(PppmpzAlg_tag).make
 
 endif
 
@@ -46,20 +46,20 @@ ifdef cmt_install_includes_has_target_tag
 
 cmt_final_setup_install_includes = $(bin)setup_install_includes.make
 cmt_dependencies_in_install_includes = $(bin)dependencies_install_includes.in
-#cmt_final_setup_install_includes = $(bin)PPPAlg_install_includessetup.make
+#cmt_final_setup_install_includes = $(bin)PppmpzAlg_install_includessetup.make
 cmt_local_install_includes_makefile = $(bin)install_includes.make
 
 else
 
 cmt_final_setup_install_includes = $(bin)setup.make
 cmt_dependencies_in_install_includes = $(bin)dependencies.in
-#cmt_final_setup_install_includes = $(bin)PPPAlgsetup.make
+#cmt_final_setup_install_includes = $(bin)PppmpzAlgsetup.make
 cmt_local_install_includes_makefile = $(bin)install_includes.make
 
 endif
 
 #cmt_final_setup = $(bin)setup.make
-#cmt_final_setup = $(bin)PPPAlgsetup.make
+#cmt_final_setup = $(bin)PppmpzAlgsetup.make
 
 #install_includes :: ;
 

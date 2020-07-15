@@ -3,7 +3,7 @@
 #====================================
 #  Document config
 #
-#   Generated Wed Jul 15 14:22:20 2020  by leizh
+#   Generated Wed Jul 15 15:26:02 2020  by leizh
 #
 #====================================
 
@@ -23,19 +23,19 @@ ifdef cmt_config_has_target_tag
 
 tags      = $(tag),$(CMTEXTRATAGS),target_config
 
-PPPAlg_tag = $(tag)
+PppmpzAlg_tag = $(tag)
 
-#cmt_local_tagfile_config = $(PPPAlg_tag)_config.make
-cmt_local_tagfile_config = $(bin)$(PPPAlg_tag)_config.make
+#cmt_local_tagfile_config = $(PppmpzAlg_tag)_config.make
+cmt_local_tagfile_config = $(bin)$(PppmpzAlg_tag)_config.make
 
 else
 
 tags      = $(tag),$(CMTEXTRATAGS)
 
-PPPAlg_tag = $(tag)
+PppmpzAlg_tag = $(tag)
 
-#cmt_local_tagfile_config = $(PPPAlg_tag).make
-cmt_local_tagfile_config = $(bin)$(PPPAlg_tag).make
+#cmt_local_tagfile_config = $(PppmpzAlg_tag).make
+cmt_local_tagfile_config = $(bin)$(PppmpzAlg_tag).make
 
 endif
 
@@ -46,20 +46,20 @@ ifdef cmt_config_has_target_tag
 
 cmt_final_setup_config = $(bin)setup_config.make
 cmt_dependencies_in_config = $(bin)dependencies_config.in
-#cmt_final_setup_config = $(bin)PPPAlg_configsetup.make
+#cmt_final_setup_config = $(bin)PppmpzAlg_configsetup.make
 cmt_local_config_makefile = $(bin)config.make
 
 else
 
 cmt_final_setup_config = $(bin)setup.make
 cmt_dependencies_in_config = $(bin)dependencies.in
-#cmt_final_setup_config = $(bin)PPPAlgsetup.make
+#cmt_final_setup_config = $(bin)PppmpzAlgsetup.make
 cmt_local_config_makefile = $(bin)config.make
 
 endif
 
 #cmt_final_setup = $(bin)setup.make
-#cmt_final_setup = $(bin)PPPAlgsetup.make
+#cmt_final_setup = $(bin)PppmpzAlgsetup.make
 
 #config :: ;
 
@@ -91,12 +91,12 @@ endif
 
 #-- end of make_header ------------------
 
-config :: ../PPPAlg/config.h
+config :: ../PppmpzAlg/config.h
 	@/bin/echo "------> config.h ok"
 
-../PPPAlg/config.h :: ../PPPAlg/config.h.in
-	@if test -f ../PPPAlg/config.h.in; then \
-	  cd ../PPPAlg; \
+../PppmpzAlg/config.h :: ../PppmpzAlg/config.h.in
+	@if test -f ../PppmpzAlg/config.h.in; then \
+	  cd ../PppmpzAlg; \
 	  $(config_command) config.h.in config.h; \
         fi
 
