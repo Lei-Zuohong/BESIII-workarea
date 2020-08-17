@@ -66,6 +66,7 @@ int environment_nphoton;					  //
 Omega::Omega(const std::string &name, ISvcLocator *pSvcLocator) : Algorithm(name, pSvcLocator)
 {
 	declareProperty("Energy", m_energy = 0);
+	declareProperty("Do_compare_6_57", Do_compare_6_57 = 1);
 }
 #pragma endregion
 #pragma region 准备：初始化输出
@@ -109,54 +110,6 @@ StatusCode Omega::initialize()
 			status = m_tuple1->addItem("pxpim", truth_pxpim);
 			status = m_tuple1->addItem("pypim", truth_pypim);
 			status = m_tuple1->addItem("pzpim", truth_pzpim);
-			// gamma1
-			status = m_tuple1->addItem("mgamma1", truth_mgamma1);
-			status = m_tuple1->addItem("agamma1", truth_agamma1);
-			status = m_tuple1->addItem("pgamma1", truth_pgamma1);
-			status = m_tuple1->addItem("egamma1", truth_egamma1);
-			status = m_tuple1->addItem("pxgamma1", truth_pxgamma1);
-			status = m_tuple1->addItem("pygamma1", truth_pygamma1);
-			status = m_tuple1->addItem("pzgamma1", truth_pzgamma1);
-			// gamma2
-			status = m_tuple1->addItem("mgamma2", truth_mgamma2);
-			status = m_tuple1->addItem("agamma2", truth_agamma2);
-			status = m_tuple1->addItem("pgamma2", truth_pgamma2);
-			status = m_tuple1->addItem("egamma2", truth_egamma2);
-			status = m_tuple1->addItem("pxgamma2", truth_pxgamma2);
-			status = m_tuple1->addItem("pygamma2", truth_pygamma2);
-			status = m_tuple1->addItem("pzgamma2", truth_pzgamma2);
-			// gamma3
-			status = m_tuple1->addItem("mgamma3", truth_mgamma3);
-			status = m_tuple1->addItem("agamma3", truth_agamma3);
-			status = m_tuple1->addItem("pgamma3", truth_pgamma3);
-			status = m_tuple1->addItem("egamma3", truth_egamma3);
-			status = m_tuple1->addItem("pxgamma3", truth_pxgamma3);
-			status = m_tuple1->addItem("pygamma3", truth_pygamma3);
-			status = m_tuple1->addItem("pzgamma3", truth_pzgamma3);
-			// gamma4
-			status = m_tuple1->addItem("mgamma4", truth_mgamma4);
-			status = m_tuple1->addItem("agamma4", truth_agamma4);
-			status = m_tuple1->addItem("pgamma4", truth_pgamma4);
-			status = m_tuple1->addItem("egamma4", truth_egamma4);
-			status = m_tuple1->addItem("pxgamma4", truth_pxgamma4);
-			status = m_tuple1->addItem("pygamma4", truth_pygamma4);
-			status = m_tuple1->addItem("pzgamma4", truth_pzgamma4);
-			// gamma5
-			status = m_tuple1->addItem("mgamma5", truth_mgamma5);
-			status = m_tuple1->addItem("agamma5", truth_agamma5);
-			status = m_tuple1->addItem("pgamma5", truth_pgamma5);
-			status = m_tuple1->addItem("egamma5", truth_egamma5);
-			status = m_tuple1->addItem("pxgamma5", truth_pxgamma5);
-			status = m_tuple1->addItem("pygamma5", truth_pygamma5);
-			status = m_tuple1->addItem("pzgamma5", truth_pzgamma5);
-			// gamma6
-			status = m_tuple1->addItem("mgamma6", truth_mgamma6);
-			status = m_tuple1->addItem("agamma6", truth_agamma6);
-			status = m_tuple1->addItem("pgamma6", truth_pgamma6);
-			status = m_tuple1->addItem("egamma6", truth_egamma6);
-			status = m_tuple1->addItem("pxgamma6", truth_pxgamma6);
-			status = m_tuple1->addItem("pygamma6", truth_pygamma6);
-			status = m_tuple1->addItem("pzgamma6", truth_pzgamma6);
 			// pi01
 			status = m_tuple1->addItem("mpi01", truth_mpi01);
 			status = m_tuple1->addItem("api01", truth_api01);
@@ -201,15 +154,10 @@ StatusCode Omega::initialize()
 			status = m_tuple1->addItem("mpi02pi03", truth_mpi02pi03);
 			status = m_tuple1->addItem("api02pi03", truth_api02pi03);
 			status = m_tuple1->addItem("ppi02pi03", truth_ppi02pi03);
-			// else
+			// 3pi0
 			status = m_tuple1->addItem("m3pi0", truth_m3pi0);
-			// boost
-			status = m_tuple1->addItem("hgamma1", truth_hgamma1);
-			status = m_tuple1->addItem("hgamma2", truth_hgamma2);
-			status = m_tuple1->addItem("hgamma3", truth_hgamma3);
-			status = m_tuple1->addItem("hgamma4", truth_hgamma4);
-			status = m_tuple1->addItem("hgamma5", truth_hgamma5);
-			status = m_tuple1->addItem("hgamma6", truth_hgamma6);
+			status = m_tuple1->addItem("a3pi0", truth_a3pi0);
+			status = m_tuple1->addItem("p3pi0", truth_p3pi0);
 		}
 		else
 		{
@@ -270,13 +218,14 @@ StatusCode Omega::initialize()
 		m_tuple4 = ntupleSvc()->book("FILE1/fit4c", CLID_ColumnWiseTuple, "ks N-Tuple example");
 		if (m_tuple4)
 		{
-			status = m_tuple4->addItem("chisq", fit4c_chisq_4c);
 			// topo 信息
 			status = m_tuple4->addItem("runID", runID);
 			status = m_tuple4->addItem("eventID", eventID);
 			status = m_tuple4->addItem("indexmc", m_idxmc, 0, 100);
 			status = m_tuple4->addIndexedItem("pdgid", m_idxmc, m_pdgid);
 			status = m_tuple4->addIndexedItem("motheridx", m_idxmc, m_motheridx);
+			// chisq
+			status = m_tuple4->addItem("chisq", fit4c_chisq_6g);
 			// pip
 			status = m_tuple4->addItem("mpip", fit4c_mpip);
 			status = m_tuple4->addItem("apip", fit4c_apip);
@@ -293,54 +242,6 @@ StatusCode Omega::initialize()
 			status = m_tuple4->addItem("pxpim", fit4c_pxpim);
 			status = m_tuple4->addItem("pypim", fit4c_pypim);
 			status = m_tuple4->addItem("pzpim", fit4c_pzpim);
-			// gamma1
-			status = m_tuple4->addItem("mgamma1", fit4c_mgamma1);
-			status = m_tuple4->addItem("agamma1", fit4c_agamma1);
-			status = m_tuple4->addItem("pgamma1", fit4c_pgamma1);
-			status = m_tuple4->addItem("egamma1", fit4c_egamma1);
-			status = m_tuple4->addItem("pxgamma1", fit4c_pxgamma1);
-			status = m_tuple4->addItem("pygamma1", fit4c_pygamma1);
-			status = m_tuple4->addItem("pzgamma1", fit4c_pzgamma1);
-			// gamma2
-			status = m_tuple4->addItem("mgamma2", fit4c_mgamma2);
-			status = m_tuple4->addItem("agamma2", fit4c_agamma2);
-			status = m_tuple4->addItem("pgamma2", fit4c_pgamma2);
-			status = m_tuple4->addItem("egamma2", fit4c_egamma2);
-			status = m_tuple4->addItem("pxgamma2", fit4c_pxgamma2);
-			status = m_tuple4->addItem("pygamma2", fit4c_pygamma2);
-			status = m_tuple4->addItem("pzgamma2", fit4c_pzgamma2);
-			// gamma3
-			status = m_tuple4->addItem("mgamma3", fit4c_mgamma3);
-			status = m_tuple4->addItem("agamma3", fit4c_agamma3);
-			status = m_tuple4->addItem("pgamma3", fit4c_pgamma3);
-			status = m_tuple4->addItem("egamma3", fit4c_egamma3);
-			status = m_tuple4->addItem("pxgamma3", fit4c_pxgamma3);
-			status = m_tuple4->addItem("pygamma3", fit4c_pygamma3);
-			status = m_tuple4->addItem("pzgamma3", fit4c_pzgamma3);
-			// gamma4
-			status = m_tuple4->addItem("mgamma4", fit4c_mgamma4);
-			status = m_tuple4->addItem("agamma4", fit4c_agamma4);
-			status = m_tuple4->addItem("pgamma4", fit4c_pgamma4);
-			status = m_tuple4->addItem("egamma4", fit4c_egamma4);
-			status = m_tuple4->addItem("pxgamma4", fit4c_pxgamma4);
-			status = m_tuple4->addItem("pygamma4", fit4c_pygamma4);
-			status = m_tuple4->addItem("pzgamma4", fit4c_pzgamma4);
-			// gamma5
-			status = m_tuple4->addItem("mgamma5", fit4c_mgamma5);
-			status = m_tuple4->addItem("agamma5", fit4c_agamma5);
-			status = m_tuple4->addItem("pgamma5", fit4c_pgamma5);
-			status = m_tuple4->addItem("egamma5", fit4c_egamma5);
-			status = m_tuple4->addItem("pxgamma5", fit4c_pxgamma5);
-			status = m_tuple4->addItem("pygamma5", fit4c_pygamma5);
-			status = m_tuple4->addItem("pzgamma5", fit4c_pzgamma5);
-			// gamma6
-			status = m_tuple4->addItem("mgamma6", fit4c_mgamma6);
-			status = m_tuple4->addItem("agamma6", fit4c_agamma6);
-			status = m_tuple4->addItem("pgamma6", fit4c_pgamma6);
-			status = m_tuple4->addItem("egamma6", fit4c_egamma6);
-			status = m_tuple4->addItem("pxgamma6", fit4c_pxgamma6);
-			status = m_tuple4->addItem("pygamma6", fit4c_pygamma6);
-			status = m_tuple4->addItem("pzgamma6", fit4c_pzgamma6);
 			// pi01
 			status = m_tuple4->addItem("mpi01", fit4c_mpi01);
 			status = m_tuple4->addItem("api01", fit4c_api01);
@@ -387,16 +288,12 @@ StatusCode Omega::initialize()
 			status = m_tuple4->addItem("ppi02pi03", fit4c_ppi02pi03);
 			// else
 			status = m_tuple4->addItem("m3pi0", fit4c_m3pi0);
-			// boost
-			status = m_tuple4->addItem("hgamma1", fit4c_hgamma1);
-			status = m_tuple4->addItem("hgamma2", fit4c_hgamma2);
-			status = m_tuple4->addItem("hgamma3", fit4c_hgamma3);
-			status = m_tuple4->addItem("hgamma4", fit4c_hgamma4);
-			status = m_tuple4->addItem("hgamma5", fit4c_hgamma5);
-			status = m_tuple4->addItem("hgamma6", fit4c_hgamma6);
+			status = m_tuple4->addItem("a3pi0", fit4c_a3pi0);
+			status = m_tuple4->addItem("p3pi0", fit4c_p3pi0);
 			// combination
 			status = m_tuple4->addItem("acombination", fit4c_acombination);
 			status = m_tuple4->addItem("nphoton", fit4c_nphoton);
+			status = m_tuple4->addItem("eloss", fit4c_eloss);
 		}
 		else
 		{
@@ -766,54 +663,6 @@ StatusCode Omega::execute() //
 				truth_pxpim = track_pim.px();
 				truth_pypim = track_pim.py();
 				truth_pzpim = track_pim.pz();
-				// gamma1
-				truth_mgamma1 = track_gamma1.m();
-				truth_agamma1 = track_gamma1.cosTheta();
-				truth_pgamma1 = track_gamma1.rho();
-				truth_egamma1 = track_gamma1.e();
-				truth_pxgamma1 = track_gamma1.px();
-				truth_pygamma1 = track_gamma1.py();
-				truth_pzgamma1 = track_gamma1.pz();
-				// gamma2
-				truth_mgamma2 = track_gamma2.m();
-				truth_agamma2 = track_gamma2.cosTheta();
-				truth_pgamma2 = track_gamma2.rho();
-				truth_egamma2 = track_gamma2.e();
-				truth_pxgamma2 = track_gamma2.px();
-				truth_pygamma2 = track_gamma2.py();
-				truth_pzgamma2 = track_gamma2.pz();
-				// gamma3
-				truth_mgamma3 = track_gamma3.m();
-				truth_agamma3 = track_gamma3.cosTheta();
-				truth_pgamma3 = track_gamma3.rho();
-				truth_egamma3 = track_gamma3.e();
-				truth_pxgamma3 = track_gamma3.px();
-				truth_pygamma3 = track_gamma3.py();
-				truth_pzgamma3 = track_gamma3.pz();
-				// gamma4
-				truth_mgamma4 = track_gamma4.m();
-				truth_agamma4 = track_gamma4.cosTheta();
-				truth_pgamma4 = track_gamma4.rho();
-				truth_egamma4 = track_gamma4.e();
-				truth_pxgamma4 = track_gamma4.px();
-				truth_pygamma4 = track_gamma4.py();
-				truth_pzgamma4 = track_gamma4.pz();
-				// gamma5
-				truth_mgamma5 = track_gamma5.m();
-				truth_agamma5 = track_gamma5.cosTheta();
-				truth_pgamma5 = track_gamma5.rho();
-				truth_egamma5 = track_gamma5.e();
-				truth_pxgamma5 = track_gamma5.px();
-				truth_pygamma5 = track_gamma5.py();
-				truth_pzgamma5 = track_gamma5.pz();
-				// gamma6
-				truth_mgamma6 = track_gamma6.m();
-				truth_agamma6 = track_gamma6.cosTheta();
-				truth_pgamma6 = track_gamma6.rho();
-				truth_egamma6 = track_gamma6.e();
-				truth_pxgamma6 = track_gamma6.px();
-				truth_pygamma6 = track_gamma6.py();
-				truth_pzgamma6 = track_gamma6.pz();
 				// pi01
 				truth_mpi01 = track_pi01.m();
 				truth_api01 = track_pi01.cosTheta();
@@ -858,17 +707,13 @@ StatusCode Omega::execute() //
 				truth_mpi02pi03 = track_pi02pi03.m();
 				truth_api02pi03 = track_pi02pi03.cosTheta();
 				truth_ppi02pi03 = track_pi02pi03.rho();
-				// else
+				// 3pi0
 				truth_m3pi0 = track_3pi0.m();
-				// boost gamma
-				truth_hgamma1 = my_helicityangle(track_gamma1, track_pi01);
-				truth_hgamma1 = my_helicityangle(track_gamma2, track_pi01);
-				truth_hgamma1 = my_helicityangle(track_gamma3, track_pi02);
-				truth_hgamma1 = my_helicityangle(track_gamma4, track_pi02);
-				truth_hgamma1 = my_helicityangle(track_gamma5, track_pi03);
-				truth_hgamma1 = my_helicityangle(track_gamma6, track_pi03);
+				truth_a3pi0 = track_3pi0.cosTheta();
+				truth_p3pi0 = track_3pi0.rho();
 				// combination
 				environment_track_pi01 = track_pi01;
+				fit4c_eloss = track_isr.e();
 				m_tuple1->write();
 				Ncut1 += 1;
 				my_seriescount(SeriesRun, SeriesNum1, runNo);
@@ -944,13 +789,6 @@ StatusCode Omega::execute() //
 		{																			   // 选择1：nGood = 2, nCharge = 0
 			return StatusCode::SUCCESS;												   // 选择2：nGood >= 2
 		}																			   // ****************************************
-	}																				   //
-	else																			   //
-	{																				   //
-		if (nGood < 2)																   //
-		{																			   //
-			return StatusCode::SUCCESS;												   //
-		}																			   //
 	}																				   //
 #pragma endregion
 #pragma region section_neutral track
@@ -1088,8 +926,8 @@ StatusCode Omega::execute() //
 	RecMdcKalTrack *pipTrk = (*(evtRecTrkCol->begin() + ipip[0]))->mdcKalTrack(); //
 	RecMdcKalTrack *pimTrk = (*(evtRecTrkCol->begin() + ipim[0]))->mdcKalTrack(); // Default is pion, for other particles:
 	WTrackParameter wvpipTrk, wvpimTrk;											  // wvppTrk = WTrackParameter(mp, pipTrk->getZHelixP(), pipTrk->getZErrorP()); proton
-	wvpipTrk = WTrackParameter(mpipm, pipTrk->getZHelix(), pipTrk->getZError());	  // wvepTrk = WTrackParameter(me, pipTrk->getZHelixE(), pipTrk->getZErrorE()); electron
-	wvpimTrk = WTrackParameter(mpipm, pimTrk->getZHelix(), pimTrk->getZError());	  // wvkpTrk = WTrackParameter(mk, pipTrk->getZHelixK(), pipTrk->getZErrorK()); kaon
+	wvpipTrk = WTrackParameter(mpipm, pipTrk->getZHelix(), pipTrk->getZError());  // wvepTrk = WTrackParameter(me, pipTrk->getZHelixE(), pipTrk->getZErrorE()); electron
+	wvpimTrk = WTrackParameter(mpipm, pimTrk->getZHelix(), pimTrk->getZError());  // wvkpTrk = WTrackParameter(mk, pipTrk->getZHelixK(), pipTrk->getZErrorK()); kaon
 	HepPoint3D vx(0., 0., 0.);													  // wvmupTrk = WTrackParameter(mmu, pipTrk->getZHelixMu(), pipTrk->getZErrorMu()); muon
 	HepSymMatrix Evx(3, 0);														  //
 	double bx = 1E+6;															  //
@@ -1347,27 +1185,20 @@ StatusCode Omega::execute() //
 	}																										  //
 #pragma endregion
 #pragma region fourc_判断6gamma是否成功
-	int g6 = 0;										  //
-	if (chisq_4c_6g < 200)							  // 选择：chisq-6Gamma
-	{												  //
-		g6 = 1;										  //
-		Ncut3++;									  // Ncut3
-		my_seriescount(SeriesRun, SeriesNum3, runNo); //
-	}												  //
-	if (1 == 1)										  // 是否比较6gamma与57gamma
-	{												  //
-		if (chisq_4c_5g < chisq_4c_6g)				  // 选择：chisq-5Gamma
-		{											  //
-			g6 = 0;									  //
-		}											  //
-		if (nGam > 6)								  // 选择：chisq-7Gamma
-		{											  //
-			if (chisq_4c_7g < chisq_4c_6g)			  //
-			{										  //
-				g6 = 0;								  //
-			}										  //
-		}											  //
-	}												  //
+	int g6 = 0;
+	if (chisq_4c_6g < 200)
+	{
+		g6 = 1;
+		Ncut3++;
+		my_seriescount(SeriesRun, SeriesNum3, runNo);
+	}
+	if (g6 && Do_compare_6_57)
+	{
+		if (chisq_4c_5g < chisq_4c_6g || chisq_4c_7g < chisq_4c_6g)
+		{
+			g6 = 0;
+		}
+	}
 #pragma endregion
 #pragma region fourc_粒子重建
 	HepLorentzVector *tracklist;
@@ -1415,134 +1246,78 @@ StatusCode Omega::execute() //
 		HepLorentzVector out_pi02pi03 = out_pi02 + out_pi03;
 		HepLorentzVector out_3pi0 = out_pi01 + out_pi02 + out_pi03;
 		// 填入信息
-		if (1 == 1)
-		{
-			fit4c_chisq_4c = chisq_4c_6g;
-			// pip
-			fit4c_mpip = out_pip.m();
-			fit4c_apip = out_pip.cosTheta();
-			fit4c_ppip = out_pip.rho();
-			fit4c_epip = out_pip.e();
-			fit4c_pxpip = out_pip.px();
-			fit4c_pypip = out_pip.py();
-			fit4c_pzpip = out_pip.pz();
-			// pim
-			fit4c_mpim = out_pim.m();
-			fit4c_apim = out_pim.cosTheta();
-			fit4c_ppim = out_pim.rho();
-			fit4c_epim = out_pim.e();
-			fit4c_pxpim = out_pim.px();
-			fit4c_pypim = out_pim.py();
-			fit4c_pzpim = out_pim.pz();
-			// gamma1
-			fit4c_mgamma1 = out_gamma1.m();
-			fit4c_agamma1 = out_gamma1.cosTheta();
-			fit4c_pgamma1 = out_gamma1.rho();
-			fit4c_egamma1 = out_gamma1.e();
-			fit4c_pxgamma1 = out_gamma1.px();
-			fit4c_pygamma1 = out_gamma1.py();
-			fit4c_pzgamma1 = out_gamma1.pz();
-			// gamma2
-			fit4c_mgamma2 = out_gamma2.m();
-			fit4c_agamma2 = out_gamma2.cosTheta();
-			fit4c_pgamma2 = out_gamma2.rho();
-			fit4c_egamma2 = out_gamma2.e();
-			fit4c_pxgamma2 = out_gamma2.px();
-			fit4c_pygamma2 = out_gamma2.py();
-			fit4c_pzgamma2 = out_gamma2.pz();
-			// gamma3
-			fit4c_mgamma3 = out_gamma3.m();
-			fit4c_agamma3 = out_gamma3.cosTheta();
-			fit4c_pgamma3 = out_gamma3.rho();
-			fit4c_egamma3 = out_gamma3.e();
-			fit4c_pxgamma3 = out_gamma3.px();
-			fit4c_pygamma3 = out_gamma3.py();
-			fit4c_pzgamma3 = out_gamma3.pz();
-			// gamma4
-			fit4c_mgamma4 = out_gamma4.m();
-			fit4c_agamma4 = out_gamma4.cosTheta();
-			fit4c_pgamma4 = out_gamma4.rho();
-			fit4c_egamma4 = out_gamma4.e();
-			fit4c_pxgamma4 = out_gamma4.px();
-			fit4c_pygamma4 = out_gamma4.py();
-			fit4c_pzgamma4 = out_gamma4.pz();
-			// gamma5
-			fit4c_mgamma5 = out_gamma5.m();
-			fit4c_agamma5 = out_gamma5.cosTheta();
-			fit4c_pgamma5 = out_gamma5.rho();
-			fit4c_egamma5 = out_gamma5.e();
-			fit4c_pxgamma5 = out_gamma5.px();
-			fit4c_pygamma5 = out_gamma5.py();
-			fit4c_pzgamma5 = out_gamma5.pz();
-			// gamma6
-			fit4c_mgamma6 = out_gamma6.m();
-			fit4c_agamma6 = out_gamma6.cosTheta();
-			fit4c_pgamma6 = out_gamma6.rho();
-			fit4c_egamma6 = out_gamma6.e();
-			fit4c_pxgamma6 = out_gamma6.px();
-			fit4c_pygamma6 = out_gamma6.py();
-			fit4c_pzgamma6 = out_gamma6.pz();
-			// pi01
-			fit4c_mpi01 = out_pi01.m();
-			fit4c_api01 = out_pi01.cosTheta();
-			fit4c_ppi01 = out_pi01.rho();
-			fit4c_epi01 = out_pi01.e();
-			fit4c_pxpi01 = out_pi01.px();
-			fit4c_pypi01 = out_pi01.py();
-			fit4c_pzpi01 = out_pi01.pz();
-			// pi02
-			fit4c_mpi02 = out_pi02.m();
-			fit4c_api02 = out_pi02.cosTheta();
-			fit4c_ppi02 = out_pi02.rho();
-			fit4c_epi02 = out_pi02.e();
-			fit4c_pxpi02 = out_pi02.px();
-			fit4c_pypi02 = out_pi02.py();
-			fit4c_pzpi02 = out_pi02.pz();
-			// pi03
-			fit4c_mpi03 = out_pi03.m();
-			fit4c_api03 = out_pi03.cosTheta();
-			fit4c_ppi03 = out_pi03.rho();
-			fit4c_epi03 = out_pi03.e();
-			fit4c_pxpi03 = out_pi03.px();
-			fit4c_pypi03 = out_pi03.py();
-			fit4c_pzpi03 = out_pi03.pz();
-			// omega
-			fit4c_momega = out_omega.m();
-			fit4c_aomega = out_omega.cosTheta();
-			fit4c_pomega = out_omega.rho();
-			fit4c_eomega = out_omega.e();
-			fit4c_pxomega = out_omega.px();
-			fit4c_pyomega = out_omega.py();
-			fit4c_pzomega = out_omega.pz();
-			// omegapi02
-			fit4c_momegapi02 = out_omegapi02.m();
-			fit4c_aomegapi02 = out_omegapi02.cosTheta();
-			fit4c_pomegapi02 = out_omegapi02.rho();
-			// omegapi03
-			fit4c_momegapi03 = out_omegapi03.m();
-			fit4c_aomegapi03 = out_omegapi03.cosTheta();
-			fit4c_pomegapi03 = out_omegapi03.rho();
-			// pi02pi03
-			fit4c_mpi02pi03 = out_pi02pi03.m();
-			fit4c_api02pi03 = out_pi02pi03.cosTheta();
-			fit4c_ppi02pi03 = out_pi02pi03.rho();
-			// else
-			fit4c_m3pi0 = out_3pi0.m();
-			// boost gamma
-			fit4c_hgamma1 = my_helicityangle(out_gamma1, out_pi01);
-			fit4c_hgamma2 = my_helicityangle(out_gamma2, out_pi01);
-			fit4c_hgamma3 = my_helicityangle(out_gamma3, out_pi02);
-			fit4c_hgamma4 = my_helicityangle(out_gamma4, out_pi02);
-			fit4c_hgamma5 = my_helicityangle(out_gamma5, out_pi03);
-			fit4c_hgamma6 = my_helicityangle(out_gamma6, out_pi03);
-			// combination
-			fit4c_acombination = my_angle(out_pi01, environment_track_pi01);
-			fit4c_nphoton = environment_nphoton;
-			m_tuple4->write();
-			Ncut4++;
-			my_seriescount(SeriesRun, SeriesNum4, runNo);
-			my_seriescount(SeriesRun, SeriesNum5, runNo);
-		}
+		fit4c_chisq_6g = chisq_4c_6g;
+		// pip
+		fit4c_mpip = out_pip.m();
+		fit4c_apip = out_pip.cosTheta();
+		fit4c_ppip = out_pip.rho();
+		fit4c_epip = out_pip.e();
+		fit4c_pxpip = out_pip.px();
+		fit4c_pypip = out_pip.py();
+		fit4c_pzpip = out_pip.pz();
+		// pim
+		fit4c_mpim = out_pim.m();
+		fit4c_apim = out_pim.cosTheta();
+		fit4c_ppim = out_pim.rho();
+		fit4c_epim = out_pim.e();
+		fit4c_pxpim = out_pim.px();
+		fit4c_pypim = out_pim.py();
+		fit4c_pzpim = out_pim.pz();
+		// pi01
+		fit4c_mpi01 = out_pi01.m();
+		fit4c_api01 = out_pi01.cosTheta();
+		fit4c_ppi01 = out_pi01.rho();
+		fit4c_epi01 = out_pi01.e();
+		fit4c_pxpi01 = out_pi01.px();
+		fit4c_pypi01 = out_pi01.py();
+		fit4c_pzpi01 = out_pi01.pz();
+		// pi02
+		fit4c_mpi02 = out_pi02.m();
+		fit4c_api02 = out_pi02.cosTheta();
+		fit4c_ppi02 = out_pi02.rho();
+		fit4c_epi02 = out_pi02.e();
+		fit4c_pxpi02 = out_pi02.px();
+		fit4c_pypi02 = out_pi02.py();
+		fit4c_pzpi02 = out_pi02.pz();
+		// pi03
+		fit4c_mpi03 = out_pi03.m();
+		fit4c_api03 = out_pi03.cosTheta();
+		fit4c_ppi03 = out_pi03.rho();
+		fit4c_epi03 = out_pi03.e();
+		fit4c_pxpi03 = out_pi03.px();
+		fit4c_pypi03 = out_pi03.py();
+		fit4c_pzpi03 = out_pi03.pz();
+		// omega
+		fit4c_momega = out_omega.m();
+		fit4c_aomega = out_omega.cosTheta();
+		fit4c_pomega = out_omega.rho();
+		fit4c_eomega = out_omega.e();
+		fit4c_pxomega = out_omega.px();
+		fit4c_pyomega = out_omega.py();
+		fit4c_pzomega = out_omega.pz();
+		// omegapi02
+		fit4c_momegapi02 = out_omegapi02.m();
+		fit4c_aomegapi02 = out_omegapi02.cosTheta();
+		fit4c_pomegapi02 = out_omegapi02.rho();
+		// omegapi03
+		fit4c_momegapi03 = out_omegapi03.m();
+		fit4c_aomegapi03 = out_omegapi03.cosTheta();
+		fit4c_pomegapi03 = out_omegapi03.rho();
+		// pi02pi03
+		fit4c_mpi02pi03 = out_pi02pi03.m();
+		fit4c_api02pi03 = out_pi02pi03.cosTheta();
+		fit4c_ppi02pi03 = out_pi02pi03.rho();
+		// 3pi0
+		fit4c_m3pi0 = out_3pi0.m();
+		fit4c_a3pi0 = out_3pi0.cosTheta();
+		fit4c_p3pi0 = out_3pi0.rho();
+		// combination
+		fit4c_acombination = my_angle(out_pi01, environment_track_pi01);
+		fit4c_nphoton = environment_nphoton;
+		m_tuple4->write();
+		Ncut4++;
+		my_seriescount(SeriesRun, SeriesNum4, runNo);
+		my_seriescount(SeriesRun, SeriesNum5, runNo);
 #pragma endregion
 	}
 #pragma endregion
