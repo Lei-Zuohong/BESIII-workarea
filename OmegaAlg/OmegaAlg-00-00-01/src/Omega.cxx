@@ -1,8 +1,5 @@
 #pragma region 准备：调用头文件
-// include common
-// include McTruth
 #include "McTruth/McParticle.h"
-// include GaudiKernel
 #include "GaudiKernel/MsgStream.h"
 #include "GaudiKernel/AlgFactory.h"
 #include "GaudiKernel/ISvcLocator.h"
@@ -15,7 +12,6 @@
 #include "GaudiKernel/NTuple.h"
 #include "GaudiKernel/Bootstrap.h"
 #include "GaudiKernel/IHistogramSvc.h"
-// include other
 #include "EventModel/EventModel.h"
 #include "EventModel/EventHeader.h"
 #include "EventModel/Event.h"

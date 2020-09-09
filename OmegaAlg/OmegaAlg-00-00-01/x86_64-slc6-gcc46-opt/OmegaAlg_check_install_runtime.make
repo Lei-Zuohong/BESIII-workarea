@@ -3,7 +3,7 @@
 #====================================
 #  Document OmegaAlg_check_install_runtime
 #
-#   Generated Fri Jul 24 15:24:48 2020  by leizh
+#   Generated Fri Aug 21 11:46:37 2020  by leizh
 #
 #====================================
 
@@ -107,7 +107,7 @@ OmegaAlg_check_install_runtime :: $(OmegaAlg_check_install_runtimeactionstamp)
 
 #$(OmegaAlg_check_install_runtimeactionstamp) :: $(OmegaAlg_check_install_runtime_dependencies)
 $(OmegaAlg_check_install_runtimeactionstamp) ::
-	$(silent) /afs/ihep.ac.cn/bes3/offline/Boss/6.6.5.p01/BesPolicy/BesPolicy-01-05-05/cmt/bes_check_installations.sh -files= -s=../share *.txt   -installdir=/workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/share
+	$(silent) /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/BesPolicy/BesPolicy-01-05-05/cmt/bes_check_installations.sh -files= -s=../share *.txt   -installdir=/workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/share
 	$(silent) cat /dev/null > $(OmegaAlg_check_install_runtimeactionstamp)
 #	@echo ok > $(OmegaAlg_check_install_runtimeactionstamp)
 
@@ -118,7 +118,7 @@ else
 
 #OmegaAlg_check_install_runtime :: $(OmegaAlg_check_install_runtime_dependencies)
 OmegaAlg_check_install_runtime ::
-	$(silent) /afs/ihep.ac.cn/bes3/offline/Boss/6.6.5.p01/BesPolicy/BesPolicy-01-05-05/cmt/bes_check_installations.sh -files= -s=../share *.txt   -installdir=/workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/share
+	$(silent) /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/BesPolicy/BesPolicy-01-05-05/cmt/bes_check_installations.sh -files= -s=../share *.txt   -installdir=/workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/share
 
 endif
 
