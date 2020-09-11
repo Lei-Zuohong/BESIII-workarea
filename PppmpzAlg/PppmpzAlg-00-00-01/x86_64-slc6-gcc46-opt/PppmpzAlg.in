@@ -12,9 +12,9 @@ make_fragment cleanup_java /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/contri
 make_fragment jar_header /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/contrib/CMT/v1r25/mgr/fragments/jar_header
 make_fragment library_header /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/contrib/CMT/v1r25/mgr/fragments/library_header
 make_fragment jar /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/contrib/CMT/v1r25/mgr/fragments/jar
-make_fragment library_no_share /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/BesPolicy/BesPolicy-01-05-05/cmt/fragments/library_no_share
+make_fragment library_no_share /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/BesPolicy/BesPolicy-01-05-05/cmt/fragments/library_no_share
 make_fragment library_no_static /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/GaudiPolicy/cmt/fragments/library_no_static
-make_fragment library /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/BesPolicy/BesPolicy-01-05-05/cmt/fragments/library
+make_fragment library /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/BesPolicy/BesPolicy-01-05-05/cmt/fragments/library
 make_fragment cleanup_library /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/contrib/CMT/v1r25/mgr/fragments/cleanup_library
 make_fragment fortran_library /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/contrib/CMT/v1r25/mgr/fragments/fortran_library
 make_fragment c_library /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/contrib/CMT/v1r25/mgr/fragments/c_library

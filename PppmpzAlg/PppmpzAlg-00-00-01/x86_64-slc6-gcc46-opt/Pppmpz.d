@@ -1,5 +1,5 @@
 ../x86_64-slc6-gcc46-opt/Pppmpz.o: ../src/Pppmpz.cxx \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/InstallArea/include/McTruth/McTruth/McParticle.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/InstallArea/include/McTruth/McTruth/McParticle.h \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/Kernel.h \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/ContainedObject.h \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/StreamBuffer.h \
@@ -54,7 +54,7 @@
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Geometry/BasicVector3D.h \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/ObjectVector.h \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/ObjectList.h \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Event/EventModel/EventModel-01-05-33/EventModel/EventModel.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Event/EventModel/EventModel-01-05-34/EventModel/EventModel.h \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/MsgStream.h \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/IMessageSvc.h \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/IInterface.h \
@@ -431,12 +431,12 @@
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/INTuple.h \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/IOpaqueAddress.h \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/IHistogramSvc.h \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Event/EventModel/EventModel-01-05-33/EventModel/EventHeader.h \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Event/EventModel/EventModel-01-05-33/EventModel/Event.h \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/InstallArea/include/EvtRecEvent/EvtRecEvent/EvtRecEvent.h \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/InstallArea/include/EvtRecEvent/EvtRecEvent/EvtRecTrack.h \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Mdc/MdcRecEvent/MdcRecEvent-00-05-14/MdcRecEvent/RecMdcTrack.h \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Event/DstEvent/DstEvent-00-02-50-p01/DstEvent/DstMdcTrack.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Event/EventModel/EventModel-01-05-34/EventModel/EventHeader.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Event/EventModel/EventModel-01-05-34/EventModel/Event.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/InstallArea/include/EvtRecEvent/EvtRecEvent/EvtRecEvent.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/InstallArea/include/EvtRecEvent/EvtRecEvent/EvtRecTrack.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Mdc/MdcRecEvent/MdcRecEvent-00-05-14/MdcRecEvent/RecMdcTrack.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Event/DstEvent/DstEvent-00-02-51/DstEvent/DstMdcTrack.h \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Matrix/Vector.h \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Matrix/defs.h \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Matrix/GenMatrix.h \
@@ -444,40 +444,40 @@
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Matrix/Vector.icc \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Matrix/SymMatrix.h \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Matrix/SymMatrix.icc \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Mdc/MdcRecEvent/MdcRecEvent-00-05-14/MdcRecEvent/RecMdcHit.h \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Mdc/MdcGeomSvc/MdcGeomSvc-00-01-37/MdcGeomSvc/MdcGeoWire.h \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Mdc/MdcGeomSvc/MdcGeomSvc-00-01-37/MdcGeomSvc/MdcGeoLayer.h \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/DetectorDescription/Identifier/Identifier-00-02-15/Identifier/Identifier.h \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Mdc/MdcRecEvent/MdcRecEvent-00-05-14/MdcRecEvent/RecMdcKalTrack.h \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Event/DstEvent/DstEvent-00-02-50-p01/DstEvent/DstMdcKalTrack.h \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Mdc/MdcRecEvent/MdcRecEvent-00-05-14/MdcRecEvent/RecMdcKalHelixSeg.h \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/DetectorDescription/Identifier/Identifier-00-02-15/Identifier/MdcID.h \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/DetectorDescription/Identifier/Identifier-00-02-15/Identifier/BesDetectorID.h \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Mdc/MdcRecEvent/MdcRecEvent-00-05-14/MdcRecEvent/RecMdcDedx.h \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Mdc/MdcRecEvent/MdcRecEvent-00-05-14/MdcRecEvent/RecMdcTrack.h \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Mdc/MdcRecEvent/MdcRecEvent-00-05-14/MdcRecEvent/RecMdcKalTrack.h \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Mdc/MdcRecEvent/MdcRecEvent-00-05-14/MdcRecEvent/RecMdcDedxHit.h \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Event/DstEvent/DstEvent-00-02-50-p01/DstEvent/DstMdcDedx.h \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Event/ExtEvent/ExtEvent-00-00-13/ExtEvent/RecExtTrack.h \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Event/ExtEvent/ExtEvent-00-00-13/ExtEvent/ExtMucHit.h \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Event/DstEvent/DstEvent-00-02-50-p01/DstEvent/DstExtTrack.h \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Tof/TofRecEvent/TofRecEvent-00-02-14/TofRecEvent/RecTofTrack.h \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Event/DstEvent/DstEvent-00-02-50-p01/DstEvent/DstTofTrack.h \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Emc/EmcRecEventModel/EmcRecEventModel-01-01-18/EmcRecEventModel/RecEmcShower.h \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Emc/EmcRecEventModel/EmcRecEventModel-01-01-18/EmcRecEventModel/RecEmcFraction.h \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Emc/EmcRecEventModel/EmcRecEventModel-01-01-18/EmcRecEventModel/RecEmcDataType.h \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/DetectorDescription/Identifier/Identifier-00-02-15/Identifier/EmcID.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Mdc/MdcRecEvent/MdcRecEvent-00-05-14/MdcRecEvent/RecMdcHit.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Mdc/MdcGeomSvc/MdcGeomSvc-00-01-37/MdcGeomSvc/MdcGeoWire.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Mdc/MdcGeomSvc/MdcGeomSvc-00-01-37/MdcGeomSvc/MdcGeoLayer.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/DetectorDescription/Identifier/Identifier-00-02-17/Identifier/Identifier.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Mdc/MdcRecEvent/MdcRecEvent-00-05-14/MdcRecEvent/RecMdcKalTrack.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Event/DstEvent/DstEvent-00-02-51/DstEvent/DstMdcKalTrack.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Mdc/MdcRecEvent/MdcRecEvent-00-05-14/MdcRecEvent/RecMdcKalHelixSeg.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/DetectorDescription/Identifier/Identifier-00-02-17/Identifier/MdcID.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/DetectorDescription/Identifier/Identifier-00-02-17/Identifier/BesDetectorID.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Mdc/MdcRecEvent/MdcRecEvent-00-05-14/MdcRecEvent/RecMdcDedx.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Mdc/MdcRecEvent/MdcRecEvent-00-05-14/MdcRecEvent/RecMdcTrack.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Mdc/MdcRecEvent/MdcRecEvent-00-05-14/MdcRecEvent/RecMdcKalTrack.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Mdc/MdcRecEvent/MdcRecEvent-00-05-14/MdcRecEvent/RecMdcDedxHit.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Event/DstEvent/DstEvent-00-02-51/DstEvent/DstMdcDedx.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Event/ExtEvent/ExtEvent-00-00-13/ExtEvent/RecExtTrack.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Event/ExtEvent/ExtEvent-00-00-13/ExtEvent/ExtMucHit.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Event/DstEvent/DstEvent-00-02-51/DstEvent/DstExtTrack.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Tof/TofRecEvent/TofRecEvent-00-02-14/TofRecEvent/RecTofTrack.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Event/DstEvent/DstEvent-00-02-51/DstEvent/DstTofTrack.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Emc/EmcRecEventModel/EmcRecEventModel-01-01-18/EmcRecEventModel/RecEmcShower.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Emc/EmcRecEventModel/EmcRecEventModel-01-01-18/EmcRecEventModel/RecEmcFraction.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Emc/EmcRecEventModel/EmcRecEventModel-01-01-18/EmcRecEventModel/RecEmcDataType.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/DetectorDescription/Identifier/Identifier-00-02-17/Identifier/EmcID.h \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Units/SystemOfUnits.h \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Units/defs.h \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Units/PhysicalConstants.h \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Emc/EmcRecEventModel/EmcRecEventModel-01-01-18/EmcRecEventModel/RecEmcHit.h \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Emc/EmcRecEventModel/EmcRecEventModel-01-01-18/EmcRecEventModel/RecEmcCluster.h \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Event/DstEvent/DstEvent-00-02-50-p01/DstEvent/DstEmcShower.h \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/InstallArea/include/MucRecEvent/MucRecEvent/RecMucTrack.h \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Event/DstEvent/DstEvent-00-02-50-p01/DstEvent/DstMucTrack.h \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/InstallArea/include/MucRecEvent/MucRecEvent/MucRecHit.h \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/InstallArea/include/MucGeomSvc/MucGeomSvc/MucGeomSvc.h \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/InstallArea/include/MucGeomSvc/MucGeomSvc/MucGeoGeneral.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Emc/EmcRecEventModel/EmcRecEventModel-01-01-18/EmcRecEventModel/RecEmcHit.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Emc/EmcRecEventModel/EmcRecEventModel-01-01-18/EmcRecEventModel/RecEmcCluster.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Event/DstEvent/DstEvent-00-02-51/DstEvent/DstEmcShower.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/InstallArea/include/MucRecEvent/MucRecEvent/RecMucTrack.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Event/DstEvent/DstEvent-00-02-51/DstEvent/DstMucTrack.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/InstallArea/include/MucRecEvent/MucRecEvent/MucRecHit.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/InstallArea/include/MucGeomSvc/MucGeomSvc/MucGeomSvc.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/InstallArea/include/MucGeomSvc/MucGeomSvc/MucGeoGeneral.h \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Geometry/Plane3D.h \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Geometry/Normal3D.h \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Geometry/Transform3D.h \
@@ -495,8 +495,8 @@
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Vector/RotationZ.icc \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Vector/Rotation.icc \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Geometry/Vector3D.h \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/DetectorDescription/Identifier/Identifier-00-02-15/Identifier/MucID.h \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/InstallArea/include/MucGeomSvc/MucGeomSvc/MucGeoStrip.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/DetectorDescription/Identifier/Identifier-00-02-17/Identifier/MucID.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/InstallArea/include/MucGeomSvc/MucGeomSvc/MucGeoStrip.h \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/ROOT/5.34.09/x86_64-slc6-gcc46-opt/root/include/TGeoNode.h \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/ROOT/5.34.09/x86_64-slc6-gcc46-opt/root/include/Riosfwd.h \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/ROOT/5.34.09/x86_64-slc6-gcc46-opt/root/include/RConfig.h \
@@ -531,12 +531,12 @@
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/ROOT/5.34.09/x86_64-slc6-gcc46-opt/root/include/TGeoPatternFinder.h \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/ROOT/5.34.09/x86_64-slc6-gcc46-opt/root/include/TGeoMatrix.h \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/ROOT/5.34.09/x86_64-slc6-gcc46-opt/root/include/TGeoPhysicalNode.h \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/InstallArea/include/MucGeomSvc/MucGeomSvc/MucGeoGap.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/InstallArea/include/MucGeomSvc/MucGeomSvc/MucGeoGap.h \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Matrix/Matrix.h \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Matrix/Matrix.icc \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/InstallArea/include/MucGeomSvc/MucGeomSvc/IMucGeomSvc.h \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/InstallArea/include/G4Geo/G4Geo/MucG4Geo.h \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/InstallArea/include/G4Geo/G4Geo/SubDetectorG4Geo.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/InstallArea/include/MucGeomSvc/MucGeomSvc/IMucGeomSvc.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/InstallArea/include/G4Geo/G4Geo/MucG4Geo.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/InstallArea/include/G4Geo/G4Geo/SubDetectorG4Geo.h \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/geant4/4.9.3p01/x86_64-slc6-gcc46-opt/include/G4LogicalVolume.hh \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/geant4/4.9.3p01/x86_64-slc6-gcc46-opt/include/G4Types.hh \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/geant4/4.9.3p01/x86_64-slc6-gcc46-opt/include/G4Region.hh \
@@ -613,7 +613,7 @@
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/IAuditorSvc.h \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/IAuditor.h \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/CommonMessaging.h \
- /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Event/DstEvent/DstEvent-00-02-50-p01/DstEvent/TofHitStatus.h \
+ /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Event/DstEvent/DstEvent-00-02-51/DstEvent/TofHitStatus.h \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/ROOT/5.34.09/x86_64-slc6-gcc46-opt/root/include/TMath.h \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/ROOT/5.34.09/x86_64-slc6-gcc46-opt/root/include/TError.h \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Vector/TwoVector.h \
@@ -661,7 +661,7 @@
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/IAlgContextSvc.h \
  /workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/PppmpzAlg/PppmpzAlg/Myfunc.h
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/InstallArea/include/McTruth/McTruth/McParticle.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/InstallArea/include/McTruth/McTruth/McParticle.h:
 
 /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/Kernel.h:
 
@@ -771,7 +771,7 @@
 
 /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/ObjectList.h:
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Event/EventModel/EventModel-01-05-33/EventModel/EventModel.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Event/EventModel/EventModel-01-05-34/EventModel/EventModel.h:
 
 /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/MsgStream.h:
 
@@ -1525,17 +1525,17 @@
 
 /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/IHistogramSvc.h:
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Event/EventModel/EventModel-01-05-33/EventModel/EventHeader.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Event/EventModel/EventModel-01-05-34/EventModel/EventHeader.h:
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Event/EventModel/EventModel-01-05-33/EventModel/Event.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Event/EventModel/EventModel-01-05-34/EventModel/Event.h:
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/InstallArea/include/EvtRecEvent/EvtRecEvent/EvtRecEvent.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/InstallArea/include/EvtRecEvent/EvtRecEvent/EvtRecEvent.h:
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/InstallArea/include/EvtRecEvent/EvtRecEvent/EvtRecTrack.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/InstallArea/include/EvtRecEvent/EvtRecEvent/EvtRecTrack.h:
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Mdc/MdcRecEvent/MdcRecEvent-00-05-14/MdcRecEvent/RecMdcTrack.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Mdc/MdcRecEvent/MdcRecEvent-00-05-14/MdcRecEvent/RecMdcTrack.h:
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Event/DstEvent/DstEvent-00-02-50-p01/DstEvent/DstMdcTrack.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Event/DstEvent/DstEvent-00-02-51/DstEvent/DstMdcTrack.h:
 
 /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Matrix/Vector.h:
 
@@ -1551,51 +1551,51 @@
 
 /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Matrix/SymMatrix.icc:
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Mdc/MdcRecEvent/MdcRecEvent-00-05-14/MdcRecEvent/RecMdcHit.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Mdc/MdcRecEvent/MdcRecEvent-00-05-14/MdcRecEvent/RecMdcHit.h:
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Mdc/MdcGeomSvc/MdcGeomSvc-00-01-37/MdcGeomSvc/MdcGeoWire.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Mdc/MdcGeomSvc/MdcGeomSvc-00-01-37/MdcGeomSvc/MdcGeoWire.h:
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Mdc/MdcGeomSvc/MdcGeomSvc-00-01-37/MdcGeomSvc/MdcGeoLayer.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Mdc/MdcGeomSvc/MdcGeomSvc-00-01-37/MdcGeomSvc/MdcGeoLayer.h:
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/DetectorDescription/Identifier/Identifier-00-02-15/Identifier/Identifier.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/DetectorDescription/Identifier/Identifier-00-02-17/Identifier/Identifier.h:
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Mdc/MdcRecEvent/MdcRecEvent-00-05-14/MdcRecEvent/RecMdcKalTrack.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Mdc/MdcRecEvent/MdcRecEvent-00-05-14/MdcRecEvent/RecMdcKalTrack.h:
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Event/DstEvent/DstEvent-00-02-50-p01/DstEvent/DstMdcKalTrack.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Event/DstEvent/DstEvent-00-02-51/DstEvent/DstMdcKalTrack.h:
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Mdc/MdcRecEvent/MdcRecEvent-00-05-14/MdcRecEvent/RecMdcKalHelixSeg.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Mdc/MdcRecEvent/MdcRecEvent-00-05-14/MdcRecEvent/RecMdcKalHelixSeg.h:
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/DetectorDescription/Identifier/Identifier-00-02-15/Identifier/MdcID.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/DetectorDescription/Identifier/Identifier-00-02-17/Identifier/MdcID.h:
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/DetectorDescription/Identifier/Identifier-00-02-15/Identifier/BesDetectorID.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/DetectorDescription/Identifier/Identifier-00-02-17/Identifier/BesDetectorID.h:
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Mdc/MdcRecEvent/MdcRecEvent-00-05-14/MdcRecEvent/RecMdcDedx.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Mdc/MdcRecEvent/MdcRecEvent-00-05-14/MdcRecEvent/RecMdcDedx.h:
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Mdc/MdcRecEvent/MdcRecEvent-00-05-14/MdcRecEvent/RecMdcTrack.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Mdc/MdcRecEvent/MdcRecEvent-00-05-14/MdcRecEvent/RecMdcTrack.h:
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Mdc/MdcRecEvent/MdcRecEvent-00-05-14/MdcRecEvent/RecMdcKalTrack.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Mdc/MdcRecEvent/MdcRecEvent-00-05-14/MdcRecEvent/RecMdcKalTrack.h:
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Mdc/MdcRecEvent/MdcRecEvent-00-05-14/MdcRecEvent/RecMdcDedxHit.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Mdc/MdcRecEvent/MdcRecEvent-00-05-14/MdcRecEvent/RecMdcDedxHit.h:
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Event/DstEvent/DstEvent-00-02-50-p01/DstEvent/DstMdcDedx.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Event/DstEvent/DstEvent-00-02-51/DstEvent/DstMdcDedx.h:
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Event/ExtEvent/ExtEvent-00-00-13/ExtEvent/RecExtTrack.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Event/ExtEvent/ExtEvent-00-00-13/ExtEvent/RecExtTrack.h:
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Event/ExtEvent/ExtEvent-00-00-13/ExtEvent/ExtMucHit.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Event/ExtEvent/ExtEvent-00-00-13/ExtEvent/ExtMucHit.h:
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Event/DstEvent/DstEvent-00-02-50-p01/DstEvent/DstExtTrack.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Event/DstEvent/DstEvent-00-02-51/DstEvent/DstExtTrack.h:
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Tof/TofRecEvent/TofRecEvent-00-02-14/TofRecEvent/RecTofTrack.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Tof/TofRecEvent/TofRecEvent-00-02-14/TofRecEvent/RecTofTrack.h:
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Event/DstEvent/DstEvent-00-02-50-p01/DstEvent/DstTofTrack.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Event/DstEvent/DstEvent-00-02-51/DstEvent/DstTofTrack.h:
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Emc/EmcRecEventModel/EmcRecEventModel-01-01-18/EmcRecEventModel/RecEmcShower.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Emc/EmcRecEventModel/EmcRecEventModel-01-01-18/EmcRecEventModel/RecEmcShower.h:
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Emc/EmcRecEventModel/EmcRecEventModel-01-01-18/EmcRecEventModel/RecEmcFraction.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Emc/EmcRecEventModel/EmcRecEventModel-01-01-18/EmcRecEventModel/RecEmcFraction.h:
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Emc/EmcRecEventModel/EmcRecEventModel-01-01-18/EmcRecEventModel/RecEmcDataType.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Emc/EmcRecEventModel/EmcRecEventModel-01-01-18/EmcRecEventModel/RecEmcDataType.h:
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/DetectorDescription/Identifier/Identifier-00-02-15/Identifier/EmcID.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/DetectorDescription/Identifier/Identifier-00-02-17/Identifier/EmcID.h:
 
 /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Units/SystemOfUnits.h:
 
@@ -1603,21 +1603,21 @@
 
 /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Units/PhysicalConstants.h:
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Emc/EmcRecEventModel/EmcRecEventModel-01-01-18/EmcRecEventModel/RecEmcHit.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Emc/EmcRecEventModel/EmcRecEventModel-01-01-18/EmcRecEventModel/RecEmcHit.h:
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Emc/EmcRecEventModel/EmcRecEventModel-01-01-18/EmcRecEventModel/RecEmcCluster.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Emc/EmcRecEventModel/EmcRecEventModel-01-01-18/EmcRecEventModel/RecEmcCluster.h:
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Event/DstEvent/DstEvent-00-02-50-p01/DstEvent/DstEmcShower.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Event/DstEvent/DstEvent-00-02-51/DstEvent/DstEmcShower.h:
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/InstallArea/include/MucRecEvent/MucRecEvent/RecMucTrack.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/InstallArea/include/MucRecEvent/MucRecEvent/RecMucTrack.h:
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Event/DstEvent/DstEvent-00-02-50-p01/DstEvent/DstMucTrack.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Event/DstEvent/DstEvent-00-02-51/DstEvent/DstMucTrack.h:
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/InstallArea/include/MucRecEvent/MucRecEvent/MucRecHit.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/InstallArea/include/MucRecEvent/MucRecEvent/MucRecHit.h:
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/InstallArea/include/MucGeomSvc/MucGeomSvc/MucGeomSvc.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/InstallArea/include/MucGeomSvc/MucGeomSvc/MucGeomSvc.h:
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/InstallArea/include/MucGeomSvc/MucGeomSvc/MucGeoGeneral.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/InstallArea/include/MucGeomSvc/MucGeomSvc/MucGeoGeneral.h:
 
 /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Geometry/Plane3D.h:
 
@@ -1653,9 +1653,9 @@
 
 /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Geometry/Vector3D.h:
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/DetectorDescription/Identifier/Identifier-00-02-15/Identifier/MucID.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/DetectorDescription/Identifier/Identifier-00-02-17/Identifier/MucID.h:
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/InstallArea/include/MucGeomSvc/MucGeomSvc/MucGeoStrip.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/InstallArea/include/MucGeomSvc/MucGeomSvc/MucGeoStrip.h:
 
 /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/ROOT/5.34.09/x86_64-slc6-gcc46-opt/root/include/TGeoNode.h:
 
@@ -1725,17 +1725,17 @@
 
 /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/ROOT/5.34.09/x86_64-slc6-gcc46-opt/root/include/TGeoPhysicalNode.h:
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/InstallArea/include/MucGeomSvc/MucGeomSvc/MucGeoGap.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/InstallArea/include/MucGeomSvc/MucGeomSvc/MucGeoGap.h:
 
 /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Matrix/Matrix.h:
 
 /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Matrix/Matrix.icc:
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/InstallArea/include/MucGeomSvc/MucGeomSvc/IMucGeomSvc.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/InstallArea/include/MucGeomSvc/MucGeomSvc/IMucGeomSvc.h:
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/InstallArea/include/G4Geo/G4Geo/MucG4Geo.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/InstallArea/include/G4Geo/G4Geo/MucG4Geo.h:
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/InstallArea/include/G4Geo/G4Geo/SubDetectorG4Geo.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/InstallArea/include/G4Geo/G4Geo/SubDetectorG4Geo.h:
 
 /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/geant4/4.9.3p01/x86_64-slc6-gcc46-opt/include/G4LogicalVolume.hh:
 
@@ -1889,7 +1889,7 @@
 
 /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/CommonMessaging.h:
 
-/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/Event/DstEvent/DstEvent-00-02-50-p01/DstEvent/TofHitStatus.h:
+/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/Event/DstEvent/DstEvent-00-02-51/DstEvent/TofHitStatus.h:
 
 /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/ROOT/5.34.09/x86_64-slc6-gcc46-opt/root/include/TMath.h:
 
