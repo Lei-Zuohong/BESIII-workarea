@@ -1,4 +1,4 @@
-# echo "cleanup PppmpzAlg PppmpzAlg-00-00-01 in /besfs/users/leizh/besiii/workarea705/Analysis/Physics"
+# echo "cleanup PppmpzAlg PppmpzAlg-00-00-01 in /besfs/users/leizh/besiii/workarea665/Analysis/Physics"
 
 if test "${CMTROOT}" = ""; then
   CMTROOT=/cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/contrib/CMT/v1r25; export CMTROOT
@@ -6,9 +6,9 @@ fi
 . ${CMTROOT}/mgr/setup.sh
 cmtPppmpzAlgtempfile=`${CMTROOT}/mgr/cmt -quiet build temporary_name`
 if test ! $? = 0 ; then cmtPppmpzAlgtempfile=/tmp/cmt.$$; fi
-${CMTROOT}/mgr/cmt cleanup -sh -pack=PppmpzAlg -version=PppmpzAlg-00-00-01 -path=/besfs/users/leizh/besiii/workarea705/Analysis/Physics  $* >${cmtPppmpzAlgtempfile}
+${CMTROOT}/mgr/cmt cleanup -sh -pack=PppmpzAlg -version=PppmpzAlg-00-00-01 -path=/besfs/users/leizh/besiii/workarea665/Analysis/Physics  $* >${cmtPppmpzAlgtempfile}
 if test $? != 0 ; then
-  echo >&2 "${CMTROOT}/mgr/cmt cleanup -sh -pack=PppmpzAlg -version=PppmpzAlg-00-00-01 -path=/besfs/users/leizh/besiii/workarea705/Analysis/Physics  $* >${cmtPppmpzAlgtempfile}"
+  echo >&2 "${CMTROOT}/mgr/cmt cleanup -sh -pack=PppmpzAlg -version=PppmpzAlg-00-00-01 -path=/besfs/users/leizh/besiii/workarea665/Analysis/Physics  $* >${cmtPppmpzAlgtempfile}"
   cmtcleanupstatus=2
   /bin/rm -f ${cmtPppmpzAlgtempfile}
   unset cmtPppmpzAlgtempfile
