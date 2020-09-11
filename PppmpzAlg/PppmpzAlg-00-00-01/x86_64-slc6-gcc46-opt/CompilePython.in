@@ -1,4 +1,4 @@
-document cmt_action_runner CompilePython -group=cmt_actions action_value=python'"'" "'"'-m'"'" "'"'compileall'"'" "'"'/workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/x86_64-slc6-gcc46-opt/python'"'" "'"'/workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/x86_64-slc6-gcc46-opt/scripts
+document cmt_action_runner CompilePython -group=cmt_actions action_value=python'"'" "'"'-m'"'" "'"'compileall'"'" "'"'/besfs/users/leizh/besiii/workarea705/InstallArea/x86_64-slc6-gcc46-opt/python'"'" "'"'/besfs/users/leizh/besiii/workarea705/InstallArea/x86_64-slc6-gcc46-opt/scripts
 make_fragment make_header /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/contrib/CMT/v1r25/mgr/fragments/make_header
 make_fragment dependencies /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/contrib/CMT/v1r25/mgr/fragments/dependencies
 make_fragment cleanup_header /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/contrib/CMT/v1r25/mgr/fragments/cleanup_header

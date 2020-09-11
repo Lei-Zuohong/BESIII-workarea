@@ -618,34 +618,33 @@
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/ROOT/5.34.09/x86_64-slc6-gcc46-opt/root/include/TError.h \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Vector/TwoVector.h \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Vector/TwoVector.icc \
- /workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/VertexFit/VertexFit/IVertexDbSvc.h \
- /workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/VertexFit/VertexFit/KalmanKinematicFit.h \
- /workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/VertexFit/VertexFit/WTrackParameter.h \
- /workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/VertexFit/VertexFit/KinematicConstraints.h \
- /workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/VertexFit/VertexFit/TrackPool.h \
- /workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/VertexFit/VertexFit/GammaShape.h \
+ /besfs/users/leizh/besiii/workarea705/InstallArea/include/VertexFit/VertexFit/IVertexDbSvc.h \
+ /besfs/users/leizh/besiii/workarea705/InstallArea/include/VertexFit/VertexFit/KalmanKinematicFit.h \
+ /besfs/users/leizh/besiii/workarea705/InstallArea/include/VertexFit/VertexFit/WTrackParameter.h \
+ /besfs/users/leizh/besiii/workarea705/InstallArea/include/VertexFit/VertexFit/KinematicConstraints.h \
+ /besfs/users/leizh/besiii/workarea705/InstallArea/include/VertexFit/VertexFit/TrackPool.h \
+ /besfs/users/leizh/besiii/workarea705/InstallArea/include/VertexFit/VertexFit/GammaShape.h \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/ROOT/5.34.09/x86_64-slc6-gcc46-opt/root/include/TGraph2D.h \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/ROOT/5.34.09/x86_64-slc6-gcc46-opt/root/include/TVirtualHistPainter.h \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/ROOT/5.34.09/x86_64-slc6-gcc46-opt/root/include/TFitResultPtr.h \
- /workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/VertexFit/VertexFit/VertexFit.h \
- /workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/VertexFit/VertexFit/VertexParameter.h \
- /workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/VertexFit/VertexFit/VertexConstraints.h \
- /workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/VertexFit/VertexFit/Helix.h \
- /workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/ParticleID/ParticleID/ParticleID.h \
- /workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/ParticleID/ParticleID/ParticleIDBase.h \
- /workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/ParticleID/ParticleID/DedxPID.h \
- /workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/ParticleID/ParticleID/TofPID.h \
- /workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/ParticleID/ParticleID/Tof1PID.h \
- /workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/ParticleID/ParticleID/Tof2PID.h \
- /workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/ParticleID/ParticleID/TofEPID.h \
- /workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/ParticleID/ParticleID/TofQPID.h \
- /workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/ParticleID/ParticleID/TofCPID.h \
- /workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/ParticleID/ParticleID/TofCorrPID.h \
- /workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/ParticleID/ParticleID/EmcPID.h \
- /workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/ParticleID/ParticleID/MucPID.h \
- /workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/ParticleID/ParticleID/MrpcPID.h \
- /workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/ParticleID/ParticleID/ParticleID.icc \
- /workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/PppmpzAlg/PppmpzAlg/Pppmpz.h \
+ /besfs/users/leizh/besiii/workarea705/InstallArea/include/VertexFit/VertexFit/VertexFit.h \
+ /besfs/users/leizh/besiii/workarea705/InstallArea/include/VertexFit/VertexFit/VertexParameter.h \
+ /besfs/users/leizh/besiii/workarea705/InstallArea/include/VertexFit/VertexFit/VertexConstraints.h \
+ /besfs/users/leizh/besiii/workarea705/InstallArea/include/VertexFit/VertexFit/Helix.h \
+ /besfs/users/leizh/besiii/workarea705/InstallArea/include/ParticleID/ParticleID/ParticleID.h \
+ /besfs/users/leizh/besiii/workarea705/InstallArea/include/ParticleID/ParticleID/ParticleIDBase.h \
+ /besfs/users/leizh/besiii/workarea705/InstallArea/include/ParticleID/ParticleID/DedxPID.h \
+ /besfs/users/leizh/besiii/workarea705/InstallArea/include/ParticleID/ParticleID/TofPID.h \
+ /besfs/users/leizh/besiii/workarea705/InstallArea/include/ParticleID/ParticleID/Tof1PID.h \
+ /besfs/users/leizh/besiii/workarea705/InstallArea/include/ParticleID/ParticleID/Tof2PID.h \
+ /besfs/users/leizh/besiii/workarea705/InstallArea/include/ParticleID/ParticleID/TofEPID.h \
+ /besfs/users/leizh/besiii/workarea705/InstallArea/include/ParticleID/ParticleID/TofQPID.h \
+ /besfs/users/leizh/besiii/workarea705/InstallArea/include/ParticleID/ParticleID/TofCPID.h \
+ /besfs/users/leizh/besiii/workarea705/InstallArea/include/ParticleID/ParticleID/TofCorrPID.h \
+ /besfs/users/leizh/besiii/workarea705/InstallArea/include/ParticleID/ParticleID/EmcPID.h \
+ /besfs/users/leizh/besiii/workarea705/InstallArea/include/ParticleID/ParticleID/MucPID.h \
+ /besfs/users/leizh/besiii/workarea705/InstallArea/include/ParticleID/ParticleID/ParticleID.icc \
+ /besfs/users/leizh/besiii/workarea705/InstallArea/include/PppmpzAlg/PppmpzAlg/Pppmpz.h \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/Algorithm.h \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/IAlgorithm.h \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/IConversionSvc.h \
@@ -659,7 +658,7 @@
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/IMonitorSvc.h \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/IExceptionSvc.h \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/IAlgContextSvc.h \
- /workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/PppmpzAlg/PppmpzAlg/Myfunc.h
+ /besfs/users/leizh/besiii/workarea705/InstallArea/include/PppmpzAlg/PppmpzAlg/Myfunc.h
 
 /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/InstallArea/include/McTruth/McTruth/McParticle.h:
 
@@ -1899,17 +1898,17 @@
 
 /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/clhep/2.0.4.5/x86_64-slc6-gcc46-opt/include/CLHEP/Vector/TwoVector.icc:
 
-/workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/VertexFit/VertexFit/IVertexDbSvc.h:
+/besfs/users/leizh/besiii/workarea705/InstallArea/include/VertexFit/VertexFit/IVertexDbSvc.h:
 
-/workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/VertexFit/VertexFit/KalmanKinematicFit.h:
+/besfs/users/leizh/besiii/workarea705/InstallArea/include/VertexFit/VertexFit/KalmanKinematicFit.h:
 
-/workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/VertexFit/VertexFit/WTrackParameter.h:
+/besfs/users/leizh/besiii/workarea705/InstallArea/include/VertexFit/VertexFit/WTrackParameter.h:
 
-/workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/VertexFit/VertexFit/KinematicConstraints.h:
+/besfs/users/leizh/besiii/workarea705/InstallArea/include/VertexFit/VertexFit/KinematicConstraints.h:
 
-/workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/VertexFit/VertexFit/TrackPool.h:
+/besfs/users/leizh/besiii/workarea705/InstallArea/include/VertexFit/VertexFit/TrackPool.h:
 
-/workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/VertexFit/VertexFit/GammaShape.h:
+/besfs/users/leizh/besiii/workarea705/InstallArea/include/VertexFit/VertexFit/GammaShape.h:
 
 /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/ROOT/5.34.09/x86_64-slc6-gcc46-opt/root/include/TGraph2D.h:
 
@@ -1917,43 +1916,41 @@
 
 /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/external/ROOT/5.34.09/x86_64-slc6-gcc46-opt/root/include/TFitResultPtr.h:
 
-/workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/VertexFit/VertexFit/VertexFit.h:
+/besfs/users/leizh/besiii/workarea705/InstallArea/include/VertexFit/VertexFit/VertexFit.h:
 
-/workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/VertexFit/VertexFit/VertexParameter.h:
+/besfs/users/leizh/besiii/workarea705/InstallArea/include/VertexFit/VertexFit/VertexParameter.h:
 
-/workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/VertexFit/VertexFit/VertexConstraints.h:
+/besfs/users/leizh/besiii/workarea705/InstallArea/include/VertexFit/VertexFit/VertexConstraints.h:
 
-/workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/VertexFit/VertexFit/Helix.h:
+/besfs/users/leizh/besiii/workarea705/InstallArea/include/VertexFit/VertexFit/Helix.h:
 
-/workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/ParticleID/ParticleID/ParticleID.h:
+/besfs/users/leizh/besiii/workarea705/InstallArea/include/ParticleID/ParticleID/ParticleID.h:
 
-/workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/ParticleID/ParticleID/ParticleIDBase.h:
+/besfs/users/leizh/besiii/workarea705/InstallArea/include/ParticleID/ParticleID/ParticleIDBase.h:
 
-/workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/ParticleID/ParticleID/DedxPID.h:
+/besfs/users/leizh/besiii/workarea705/InstallArea/include/ParticleID/ParticleID/DedxPID.h:
 
-/workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/ParticleID/ParticleID/TofPID.h:
+/besfs/users/leizh/besiii/workarea705/InstallArea/include/ParticleID/ParticleID/TofPID.h:
 
-/workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/ParticleID/ParticleID/Tof1PID.h:
+/besfs/users/leizh/besiii/workarea705/InstallArea/include/ParticleID/ParticleID/Tof1PID.h:
 
-/workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/ParticleID/ParticleID/Tof2PID.h:
+/besfs/users/leizh/besiii/workarea705/InstallArea/include/ParticleID/ParticleID/Tof2PID.h:
 
-/workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/ParticleID/ParticleID/TofEPID.h:
+/besfs/users/leizh/besiii/workarea705/InstallArea/include/ParticleID/ParticleID/TofEPID.h:
 
-/workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/ParticleID/ParticleID/TofQPID.h:
+/besfs/users/leizh/besiii/workarea705/InstallArea/include/ParticleID/ParticleID/TofQPID.h:
 
-/workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/ParticleID/ParticleID/TofCPID.h:
+/besfs/users/leizh/besiii/workarea705/InstallArea/include/ParticleID/ParticleID/TofCPID.h:
 
-/workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/ParticleID/ParticleID/TofCorrPID.h:
+/besfs/users/leizh/besiii/workarea705/InstallArea/include/ParticleID/ParticleID/TofCorrPID.h:
 
-/workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/ParticleID/ParticleID/EmcPID.h:
+/besfs/users/leizh/besiii/workarea705/InstallArea/include/ParticleID/ParticleID/EmcPID.h:
 
-/workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/ParticleID/ParticleID/MucPID.h:
+/besfs/users/leizh/besiii/workarea705/InstallArea/include/ParticleID/ParticleID/MucPID.h:
 
-/workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/ParticleID/ParticleID/MrpcPID.h:
+/besfs/users/leizh/besiii/workarea705/InstallArea/include/ParticleID/ParticleID/ParticleID.icc:
 
-/workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/ParticleID/ParticleID/ParticleID.icc:
-
-/workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/PppmpzAlg/PppmpzAlg/Pppmpz.h:
+/besfs/users/leizh/besiii/workarea705/InstallArea/include/PppmpzAlg/PppmpzAlg/Pppmpz.h:
 
 /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/Algorithm.h:
 
@@ -1981,4 +1978,4 @@
 
 /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/IAlgContextSvc.h:
 
-/workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/include/PppmpzAlg/PppmpzAlg/Myfunc.h:
+/besfs/users/leizh/besiii/workarea705/InstallArea/include/PppmpzAlg/PppmpzAlg/Myfunc.h:

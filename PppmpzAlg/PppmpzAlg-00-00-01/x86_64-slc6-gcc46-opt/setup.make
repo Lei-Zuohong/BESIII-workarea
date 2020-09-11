@@ -290,8 +290,8 @@ use EmcRecEventModel EmcRecEventModel-01-01-18 Emc (/cvmfs/bes3.ihep.ac.cn/bes3s
 use TofRecEvent TofRecEvent-00-02-14 Tof (/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5)
 use MdcRecEvent MdcRecEvent-00-05-14 Mdc (/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5)
 use EvtRecEvent EvtRecEvent-00-02-03 Event (/cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5)
-use ParticleID ParticleID-00-04-55 Analysis (/workfs/bes/leizh/workarea-6.6.5.p01)
-use VertexFit VertexFit-00-02-75 Analysis (/workfs/bes/leizh/workarea-6.6.5.p01)
+use ParticleID ParticleID-00-04-68 Analysis (/besfs/users/leizh/besiii/workarea705)
+use VertexFit VertexFit-00-02-85 Analysis (/besfs/users/leizh/besiii/workarea705)
 ----------> tags
 CMTv1 (from CMTVERSION)
 CMTr25 (from CMTVERSION)
@@ -299,14 +299,14 @@ CMTp0 (from CMTVERSION)
 Linux (from uname) package [CMT LCG_Platforms BesPolicy] implies [Unix host-linux]
 x86_64-linux (from HOSTTYPE)
 x86_64-slc6-gcc46-opt (from CMTCONFIG) package [LCG_Platforms] implies [target-x86_64 target-slc6 target-gcc46 target-opt]
-leizh_no_config (from PROJECT) excludes [leizh_config]
-leizh_root (from PROJECT) excludes [leizh_no_root]
-leizh_cleanup (from PROJECT) excludes [leizh_no_cleanup]
-leizh_scripts (from PROJECT) excludes [leizh_no_scripts]
-leizh_prototypes (from PROJECT) excludes [leizh_no_prototypes]
-leizh_with_installarea (from PROJECT) excludes [leizh_without_installarea]
-leizh_with_version_directory (from PROJECT) excludes [leizh_without_version_directory]
-leizh (from PROJECT)
+besiii_no_config (from PROJECT) excludes [besiii_config]
+besiii_root (from PROJECT) excludes [besiii_no_root]
+besiii_cleanup (from PROJECT) excludes [besiii_no_cleanup]
+besiii_scripts (from PROJECT) excludes [besiii_no_scripts]
+besiii_prototypes (from PROJECT) excludes [besiii_no_prototypes]
+besiii_with_installarea (from PROJECT) excludes [besiii_without_installarea]
+besiii_with_version_directory (from PROJECT) excludes [besiii_without_version_directory]
+besiii (from PROJECT)
 BOSS_no_config (from PROJECT) excludes [BOSS_config]
 BOSS_root (from PROJECT) excludes [BOSS_no_root]
 BOSS_cleanup (from PROJECT) excludes [BOSS_no_cleanup]
@@ -353,7 +353,7 @@ ROOT_GE_5_19 (from package LCG_Configuration)
 HasAthenaRunTime (from package BesPolicy)
 ROOTBasicLibs (from package BesROOT)
 ----------> CMTPATH
-# Add path /workfs/bes/leizh/workarea-6.6.5.p01 from initialization
+# Add path /besfs/users/leizh/besiii/workarea705 from initialization
 # Add path /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5 from initialization
 # Add path /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9 from initialization
 # Add path /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/LCGCMT/LCGCMT_65a from initialization

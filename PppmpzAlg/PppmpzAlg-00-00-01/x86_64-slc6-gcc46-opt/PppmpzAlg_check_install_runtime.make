@@ -3,7 +3,7 @@
 #====================================
 #  Document PppmpzAlg_check_install_runtime
 #
-#   Generated Fri Sep 11 14:03:35 2020  by leizh
+#   Generated Fri Sep 11 14:37:08 2020  by leizh
 #
 #====================================
 
@@ -107,7 +107,7 @@ PppmpzAlg_check_install_runtime :: $(PppmpzAlg_check_install_runtimeactionstamp)
 
 #$(PppmpzAlg_check_install_runtimeactionstamp) :: $(PppmpzAlg_check_install_runtime_dependencies)
 $(PppmpzAlg_check_install_runtimeactionstamp) ::
-	$(silent) /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/BesPolicy/BesPolicy-01-05-05/cmt/bes_check_installations.sh -files= -s=../share *.txt   -installdir=/workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/share
+	$(silent) /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/BesPolicy/BesPolicy-01-05-05/cmt/bes_check_installations.sh -files= -s=../share *.txt   -installdir=/besfs/users/leizh/besiii/workarea705/InstallArea/share
 	$(silent) cat /dev/null > $(PppmpzAlg_check_install_runtimeactionstamp)
 #	@echo ok > $(PppmpzAlg_check_install_runtimeactionstamp)
 
@@ -118,7 +118,7 @@ else
 
 #PppmpzAlg_check_install_runtime :: $(PppmpzAlg_check_install_runtime_dependencies)
 PppmpzAlg_check_install_runtime ::
-	$(silent) /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/BesPolicy/BesPolicy-01-05-05/cmt/bes_check_installations.sh -files= -s=../share *.txt   -installdir=/workfs/bes/leizh/workarea-6.6.5.p01/InstallArea/share
+	$(silent) /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/7.0.5/BesPolicy/BesPolicy-01-05-05/cmt/bes_check_installations.sh -files= -s=../share *.txt   -installdir=/besfs/users/leizh/besiii/workarea705/InstallArea/share
 
 endif
 
