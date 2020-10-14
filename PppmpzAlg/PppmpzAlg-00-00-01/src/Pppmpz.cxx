@@ -1,4 +1,4 @@
-#pragma region 1.1.include
+#pragma region 1.1.引用函数库
 #include "McTruth/McParticle.h"
 #include "GaudiKernel/MsgStream.h"
 #include "GaudiKernel/AlgFactory.h"
@@ -38,42 +38,28 @@ using CLHEP::HepLorentzVector;
 #include "PppmpzAlg/Pppmpz.h"
 #include "PppmpzAlg/Myfunc.h"
 #pragma endregion
-#pragma region 1.2.init_parameter
+#pragma region 1.2.初始化变量
 // 定义类型
 typedef std::vector<int> Vint;
 typedef std::vector<double> Vdouble;
 typedef std::vector<HepLorentzVector> Vp4;
 // 定义常数
-my_constant use_constant;
-const double mpiz = use_constant.mpiz;
-const double mpipm = use_constant.mpipm;
-const double me = use_constant.me;
-const double mkaon = use_constant.mkaon;
-const double mmiu = use_constant.mmiu;
-int Ncut0, Ncut1, Ncut2, Ncut3, Ncut4, Ncut5;
-Vint SeriesRun;
-Vint SeriesNum;
-Vint SeriesNum1;
-Vint SeriesNum2;
-Vint SeriesNum3;
-Vint SeriesNum4;
-Vint SeriesNum5;
-int firstrun = 0;
+MY_CONST use_const;
+MY_RUN use_run;
 Pppmpz::Pppmpz(const std::string &name, ISvcLocator *pSvcLocator) : Algorithm(name, pSvcLocator)
 {
-	// Determine parameter
 	declareProperty("Energy", job_energy = 0);
 	declareProperty("flag3", job_flag3 = 0);
-	// Determine process
+
 	declareProperty("do_truth", job_do_truth = 1);
 	declareProperty("do_4c", job_do_4c = 1);
-	declareProperty("do_4c_0", job_do_4c_0 = 1);
-	declareProperty("do_4c_1", job_do_4c_1 = 1);
-	declareProperty("do_4c_3", job_do_4c_3 = 1);
-	declareProperty("do_4c_4", job_do_4c_4 = 1);
+	declareProperty("do_4c_0", job_do_4c_0 = 0);
+	declareProperty("do_4c_1", job_do_4c_1 = 0);
+	declareProperty("do_4c_3", job_do_4c_3 = 0);
+	declareProperty("do_4c_4", job_do_4c_4 = 0);
 }
 #pragma endregion
-#pragma region 1.3.init_tuple
+#pragma region 1.3.初始化输出
 StatusCode Pppmpz::initialize()
 {
 	MsgStream log(msgSvc(), name());
@@ -168,12 +154,31 @@ StatusCode Pppmpz::initialize()
 		m_tuple_charge = ntupleSvc()->book("FILE1/charge", CLID_ColumnWiseTuple, "ks N-Tuple example");
 		if (m_tuple_charge)
 		{
-			status = m_tuple_charge->addItem("ngood", charge_ngood);
-			status = m_tuple_charge->addItem("ncharge", charge_ncharge);
+			status = m_tuple_charge->addItem("nCharge", charge_nCharge);
 		}
 		else
 		{
 			log << MSG::ERROR << "Cannot book N-tuple:" << long(m_tuple_charge) << endmsg;
+			return StatusCode::FAILURE;
+		}
+	}
+#pragma endregion
+#pragma region init_vertex
+	NTuplePtr nt_vertex(ntupleSvc(), "FILE1/vertex");
+	if (nt_vertex)
+	{
+		m_tuple_vertex = nt_vertex;
+	}
+	else
+	{
+		m_tuple_vertex = ntupleSvc()->book("FILE1/vertex", CLID_ColumnWiseTuple, "ks N-Tuple example");
+		if (m_tuple_vertex)
+		{
+			status = m_tuple_vertex->addItem("chisq", vertex_chisq);
+		}
+		else
+		{
+			log << MSG::ERROR << "Cannot book N-tuple:" << long(m_tuple_vertex) << endmsg;
 			return StatusCode::FAILURE;
 		}
 	}
@@ -193,27 +198,38 @@ StatusCode Pppmpz::initialize()
 			{
 				// Topology信息
 				status = m_tuple_fit4c->addItem("runID", runNo);
-				status = m_tuple_fit4c->addItem("eventID", event);
+				status = m_tuple_fit4c->addItem("eventID", eventNo);
 				status = m_tuple_fit4c->addItem("indexmc", m_idxmc, 0, 100);
 				status = m_tuple_fit4c->addIndexedItem("pdgid", m_idxmc, m_pdgid);
 				status = m_tuple_fit4c->addIndexedItem("motheridx", m_idxmc, m_motheridx);
 				status = m_tuple_fit4c->addItem("flag1", flag1);
 				status = m_tuple_fit4c->addItem("flag2", flag2);
 				status = m_tuple_fit4c->addItem("flag3", flag3);
-				// For Cut
+
+				status = m_tuple_fit4c->addItem("pip_ep", fit4c_pip_ep);
+				status = m_tuple_fit4c->addItem("pim_ep", fit4c_pim_ep);
+				status = m_tuple_fit4c->addItem("pip_pid_pi", fit4c_pip_pid_pi);
+				status = m_tuple_fit4c->addItem("pim_pid_pi", fit4c_pim_pid_pi);
+				status = m_tuple_fit4c->addItem("pip_pid_mu", fit4c_pip_pid_mu);
+				status = m_tuple_fit4c->addItem("pim_pid_mu", fit4c_pim_pid_mu);
+				status = m_tuple_fit4c->addItem("pip_pid_e", fit4c_pip_pid_e);
+				status = m_tuple_fit4c->addItem("pim_pid_e", fit4c_pim_pid_e);
+
+				status = m_tuple_fit4c->addItem("ngamma", fit4c_ngamma);
+
+				status = m_tuple_fit4c->addItem("vertex", fit4c_vertex);
+
 				status = m_tuple_fit4c->addItem("chisq", fit4c_chisq);
 				status = m_tuple_fit4c->addItem("chisq_0g", fit4c_chisq_0g);
 				status = m_tuple_fit4c->addItem("chisq_1g", fit4c_chisq_1g);
 				status = m_tuple_fit4c->addItem("chisq_3g", fit4c_chisq_3g);
 				status = m_tuple_fit4c->addItem("chisq_4g", fit4c_chisq_4g);
-				// For 00 track
+
 				status = m_tuple_fit4c->addItem("gamma1_heli", fit4c_gamma1_heli);
 				status = m_tuple_fit4c->addItem("gamma2_heli", fit4c_gamma2_heli);
 				status = m_tuple_fit4c->addItem("a_pippim", fit4c_a_pippim);
-				// For +- track
-				status = m_tuple_fit4c->addItem("pip_ep", fit4c_pip_ep);
-				status = m_tuple_fit4c->addItem("pim_ep", fit4c_pim_ep);
-				// For track
+				status = m_tuple_fit4c->addItem("b_pippim", fit4c_b_pippim);
+
 				status = m_tuple_fit4c->addItem("pip_m", fit4c_pip_m);
 				status = m_tuple_fit4c->addItem("pip_p", fit4c_pip_p);
 				status = m_tuple_fit4c->addItem("pip_a", fit4c_pip_a);
@@ -270,6 +286,10 @@ StatusCode Pppmpz::initialize()
 				status = m_tuple_fit4c->addItem("pimz_px", fit4c_pimz_px);
 				status = m_tuple_fit4c->addItem("pimz_py", fit4c_pimz_py);
 				status = m_tuple_fit4c->addItem("pimz_pz", fit4c_pimz_pz);
+
+				status = m_tuple_fit4c->addItem("dalitz_pm", fit4c_dalitz_pm);
+				status = m_tuple_fit4c->addItem("dalitz_pz", fit4c_dalitz_pz);
+				status = m_tuple_fit4c->addItem("dalitz_mz", fit4c_dalitz_mz);
 			}
 			else
 			{
@@ -283,7 +303,7 @@ StatusCode Pppmpz::initialize()
 	return StatusCode::SUCCESS;
 }
 #pragma endregion
-#pragma region 循环执行事例
+#pragma region 2.0.循环执行事例
 StatusCode Pppmpz::execute() //
 {
 #pragma region section_初始化
@@ -292,9 +312,10 @@ StatusCode Pppmpz::execute() //
 	log << MSG::INFO << "in execute()" << endreq;
 	SmartDataPtr<Event::EventHeader> eventHeader(eventSvc(), "/Event/EventHeader");
 	runNo = eventHeader->runNumber();
-	event = eventHeader->eventNumber();
+	eventNo = eventHeader->eventNumber();
+	use_run.INIT(eventHeader->runNumber());
 	// 处理flag信息
-	if (runNo < 0)
+	if (eventHeader->runNumber() < 0)
 	{
 		flag1 = eventHeader->flag1();
 		flag2 = eventHeader->flag2();
@@ -305,10 +326,9 @@ StatusCode Pppmpz::execute() //
 		flag2 = 0;
 	}
 	flag3 = job_flag3;
-	Ncut0++;
 	log << MSG::DEBUG << "run, evtnum = "
-		<< runNo << " , "
-		<< event << endreq;
+		<< eventHeader->runNumber() << " , "
+		<< eventHeader->eventNumber() << endreq;
 	SmartDataPtr<EvtRecEvent> evtRecEvent(eventSvc(), EventModel::EvtRec::EvtRecEvent);
 	log << MSG::DEBUG << "ncharg, nneu, tottks = "
 		<< evtRecEvent->totalCharged() << " , "
@@ -320,44 +340,9 @@ StatusCode Pppmpz::execute() //
 	if (eventHeader->runNumber() > 0)
 	{
 		int m_status = 0;
-		if (runNo == 34326 || runNo == 34334 || runNo == 34478 || runNo == 34818 || runNo == 34982 ||
-			runNo == 35101 || runNo == 40459 || runNo == 40460 || runNo == 40461 || runNo == 40462 ||
-			runNo == 41408 || runNo == 41416 || runNo == 41902)
-		{
-			m_status = -1;
-		}
-		if (runNo == 34018 || runNo == 34020 || runNo == 34021 ||
-			runNo == 34023 || runNo == 34027 || runNo == 34040 || runNo == 34042 || runNo == 34046 ||
-			runNo == 34048 || runNo == 34058 || runNo == 34061 || runNo == 34065 || runNo == 34099 ||
-			runNo == 34100 || runNo == 34110 || runNo == 34117 || runNo == 34123 || runNo == 34124 ||
-			runNo == 34145 || runNo == 34152 || runNo == 34153 || runNo == 34168 || runNo == 34169 ||
-			runNo == 34170 || runNo == 34171 || runNo == 34172 || runNo == 34173 || runNo == 34174 ||
-			runNo == 34177 || runNo == 34178 || runNo == 34211 || runNo == 34212 || runNo == 34217 ||
-			runNo == 34227 || runNo == 34228 || runNo == 34237 || runNo == 34238 || runNo == 34261 ||
-			runNo == 34262 || runNo == 34282 || runNo == 34283 || runNo == 34301 || runNo == 34308 ||
-			runNo == 34309 || runNo == 34336 || runNo == 34337 || runNo == 34338 || runNo == 34352 ||
-			runNo == 34353 || runNo == 34377 || runNo == 34378 || runNo == 34383 || runNo == 34392 ||
-			runNo == 34401 || runNo == 34404 || runNo == 34406 || runNo == 34429 || runNo == 34432 ||
-			runNo == 34434 || runNo == 34440 || runNo == 34441 || runNo == 34464 || runNo == 34465 ||
-			runNo == 34467 || runNo == 34490 || runNo == 34492 || runNo == 34516 || runNo == 34517 ||
-			runNo == 34518 || runNo == 34519 || runNo == 34520 || runNo == 34521 || runNo == 34522 ||
-			runNo == 34523 || runNo == 34525 || runNo == 34527 || runNo == 34528 || runNo == 34529 ||
-			runNo == 34537 || runNo == 34544 || runNo == 34546 || runNo == 34547 || runNo == 34548 ||
-			runNo == 34549 || runNo == 34576 || runNo == 34577 || runNo == 34578 || runNo == 34600 ||
-			runNo == 34602 || runNo == 34625 || runNo == 34626 || runNo == 34628 || runNo == 34650 ||
-			runNo == 34653 || runNo == 34676 || runNo == 34678 || runNo == 34700 || runNo == 34711 ||
-			runNo == 34720 || runNo == 34722 || runNo == 34744 || runNo == 34745 || runNo == 34746 ||
-			runNo == 34748 || runNo == 34770 || runNo == 34771 || runNo == 34772 || runNo == 34795 ||
-			runNo == 34798 || runNo == 34815 || runNo == 34817 || runNo == 34848 || runNo == 34849 ||
-			runNo == 34853 || runNo == 34854 || runNo == 34870 || runNo == 34872 || runNo == 34875 ||
-			runNo == 34880 || runNo == 34882 || runNo == 34900 || runNo == 34904 || runNo == 34907 ||
-			runNo == 34916 || runNo == 34917 || runNo == 34936 || runNo == 34951 || runNo == 34954 ||
-			runNo == 34975 || runNo == 34977 || runNo == 34979 || runNo == 34985 || runNo == 34986 ||
-			runNo == 34988 || runNo == 34989 || runNo == 34990 || runNo == 35006 || runNo == 35014 ||
-			runNo == 35021 || runNo == 35023 || runNo == 35043 || runNo == 35044 || runNo == 35045 ||
-			runNo == 35046 || runNo == 35052 || runNo == 35066 || runNo == 35071 || runNo == 35074 ||
-			runNo == 35080 || runNo == 35091 || runNo == 35092 || runNo == 35096 || runNo == 35103 ||
-			runNo == 35117 || runNo == 35118)
+		if (eventHeader->runNumber() == 34326 || eventHeader->runNumber() == 34334 || eventHeader->runNumber() == 34478 || eventHeader->runNumber() == 34818 || eventHeader->runNumber() == 34982 ||
+			eventHeader->runNumber() == 35101 || eventHeader->runNumber() == 40459 || eventHeader->runNumber() == 40460 || eventHeader->runNumber() == 40461 || eventHeader->runNumber() == 40462 ||
+			eventHeader->runNumber() == 41408 || eventHeader->runNumber() == 41416 || eventHeader->runNumber() == 41902)
 		{
 			m_status = -1;
 		}
@@ -366,17 +351,6 @@ StatusCode Pppmpz::execute() //
 			return StatusCode::SUCCESS;
 		}
 	}
-#pragma endregion
-#pragma region section_init_checkrun
-	my_seriesinit(SeriesRun,
-				  SeriesNum,
-				  SeriesNum1,
-				  SeriesNum2,
-				  SeriesNum3,
-				  SeriesNum4,
-				  SeriesNum5,
-				  runNo,
-				  firstrun);
 #pragma endregion
 #pragma region section_topoloty
 	if (eventHeader->runNumber() < 0)
@@ -458,23 +432,20 @@ StatusCode Pppmpz::execute() //
 		HepLorentzVector truth_isr;
 		HepLorentzVector truth_pip;
 		HepLorentzVector truth_pim;
+		HepLorentzVector truth_piz;
 		HepLorentzVector truth_gamma1;
 		HepLorentzVector truth_gamma2;
-		HepLorentzVector truth_piz;
 		// 设定直接轨迹变量 - number
 		int n_isr = 0, index_isr;
 		int n_pip = 0, index_pip;
 		int n_pim = 0, index_pim;
+		int n_piz = 0, index_piz;
 		int n_gamma1 = 0, index_gamma1;
 		int n_gamma2 = 0, index_gamma2;
-		int n_piz = 0, index_piz;
 		// 设定间接轨迹变量
 		HepLorentzVector truth_pipm;
 		HepLorentzVector truth_pipz;
 		HepLorentzVector truth_pimz;
-		// 设定暂存交换变量
-		HepLorentzVector truth_medium;
-		int index_medium;
 		// 开始筛选
 		Event::McParticleCol::iterator iter_mc = mcParticleCol->begin();
 		// 统计粒子
@@ -538,149 +509,158 @@ StatusCode Pppmpz::execute() //
 			my_tracktovalue(truth_pipz, truth_pipz_m, truth_pipz_p, truth_pipz_a, truth_pipz_pe, truth_pipz_px, truth_pipz_py, truth_pipz_pz);
 			my_tracktovalue(truth_pimz, truth_pimz_m, truth_pimz_p, truth_pimz_a, truth_pimz_pe, truth_pimz_px, truth_pimz_py, truth_pimz_pz);
 			m_tuple_truth->write();
-			Ncut1 += 1;
-			my_seriescount(SeriesRun, SeriesNum1, runNo);
-		}
-		else
-		{
-			cout << "Truth error with:" << n_pip << n_pim << n_piz << n_gamma1 << n_gamma2 << endl;
+			use_run.COUNT(eventHeader->runNumber(), 1);
 		}
 	}
 #pragma endregion
 #pragma region section_charged track
-	Vint iGood, ipip, ipim;															   //
-	iGood.clear();																	   // 变量：iGood[]（参数为good-track序号，内容为track编号）
-	ipip.clear();																	   // 变量：ipip[]（参数为good-track+序号，内容为track编号）
-	ipim.clear();																	   // 变量：ipim[]（参数为good-track-序号，内容为track编号）
-	Vdouble eppip, eppim;															   //
-	eppip.clear();																	   // 变量：eppip[]（参数为good-track+序号，内容为e/p ratio）
-	eppim.clear();																	   // 变量：eppim[]（参数为good-track-序号，内容为e/p ratio）
-	Vp4 ppip, ppim;																	   //
-	ppip.clear();																	   // 变量：ppip[]（good-track+的四动量）
-	ppim.clear();																	   // 变量：ppim[]（good-track-的四动量）
-	int nGood = 0;																	   //
-	int npip = 0;																	   //
-	int npim = 0;																	   //
-	int nCharge = 0;																   //
-	Hep3Vector xorigin(0, 0, 0);													   //
-	IVertexDbSvc *vtxsvc;															   //
-	Gaudi::svcLocator()->service("VertexDbSvc", vtxsvc);							   //
-	if (vtxsvc->isVertexValid())													   //
-	{																				   //
-		double *dbv = vtxsvc->PrimaryVertex();										   //
-		double *vv = vtxsvc->SigmaPrimaryVertex();									   //
-		xorigin.setX(dbv[0]);														   //
-		xorigin.setY(dbv[1]);														   //
-		xorigin.setZ(dbv[2]);														   //
-	}																				   //
-	for (int i = 0; i < evtRecEvent->totalCharged(); i++)							   //
-	{																				   //
-		EvtRecTrackIterator itTrk = evtRecTrkCol->begin() + i;						   //
-		if (!(*itTrk)->isMdcTrackValid())											   //
-			continue;																   //
-		RecMdcTrack *mdcTrk = (*itTrk)->mdcTrack();									   //
-		double pch = mdcTrk->p();													   //
-		double x0 = mdcTrk->x();													   //
-		double y0 = mdcTrk->y();													   //
-		double z0 = mdcTrk->z();													   // ****************************************
-		double phi0 = mdcTrk->helix(1);												   // 表示螺旋线参数
-		double xv = xorigin.x();													   // 0: d0 -> 螺旋线到对撞顶点的最小距离
-		double yv = xorigin.y();													   // 1: phi0 -> 最小距离的xy平面相角
-		double Rxy = (x0 - xv) * cos(phi0) + (y0 - yv) * sin(phi0);					   // 2: kappa
-		HepVector a = mdcTrk->helix();												   // 3: d
-		HepSymMatrix Ea = mdcTrk->err();											   // 4: tan(lamda)
-		HepPoint3D point0(0., 0., 0.);												   // ****************************************
-		HepPoint3D IP(xorigin[0], xorigin[1], xorigin[2]);							   //
-		VFHelix helixip(point0, a, Ea);												   //
-		helixip.pivot(IP);															   //
-		HepVector vecipa = helixip.a();												   //
-		double Rvxy0 = fabs(vecipa[0]);												   //
-		double Rvz0 = vecipa[3];													   //
-		double Rvphi0 = vecipa[1];													   // ****************************************
-		if (fabs(cos(mdcTrk->theta())) > 0.93)										   // 选择：cos(theta)
-			continue;																   //
-		if (fabs(Rvz0) >= 10)														   // 选择：Rvz0
-			continue;																   //
-		if (fabs(Rvxy0) >= 1)														   // 选择：Rvxy0
-			continue;																   // ****************************************
-		double epratio = 9999;														   //
-		if ((*itTrk)->isEmcShowerValid())											   //
-		{																			   //
-			RecEmcShower *emcTrk = (*itTrk)->emcShower();							   //
-			epratio = emcTrk->energy() / mdcTrk->p();								   //
-		}																			   //
-		if (mdcTrk->charge() > 0)													   //
-		{																			   //
-			iGood.push_back(i);														   //
-			ipip.push_back(i);														   //
-			eppip.push_back(epratio);												   //
-		}																			   //
-		else if (mdcTrk->charge() < 0)												   //
-		{																			   //
-			iGood.push_back(i);														   //
-			ipim.push_back(i);														   //
-			eppim.push_back(epratio);												   //
-		}																			   //
-		nCharge += mdcTrk->charge();												   //
-	}																				   //
-	nGood = iGood.size();															   //
-	npip = ipip.size();																   //
-	npim = ipim.size();																   //
-	log << MSG::DEBUG << "ngood, totcharge = " << nGood << " , " << nCharge << endreq; //
-	if (1 == 1)																		   //
-	{																				   //
-		charge_ngood = nGood;														   //
-		charge_ncharge = nCharge;													   //
-		m_tuple_charge->write();													   //
-	}																				   //
-	if ((npip != 1) || (npim != 1))													   //
-	{																				   //
-		return StatusCode::SUCCESS;													   //
-	}																				   //
+	Vint iCharge, ipip, ipim;										//
+	iCharge.clear();												// 变量：iCharge[]（参数为good-track序号，内容为track编号）
+	ipip.clear();													// 变量：ipip[]（参数为good-track+序号，内容为track编号）
+	ipim.clear();													// 变量：ipim[]（参数为good-track-序号，内容为track编号）
+	Vdouble eppip, eppim;											//
+	eppip.clear();													// 变量：eppip[]（参数为good-track+序号，内容为e/p ratio）
+	eppim.clear();													// 变量：eppim[]（参数为good-track-序号，内容为e/p ratio）
+	int nCharge = 0;												//
+	int npip = 0;													//
+	int npim = 0;													//
+	Hep3Vector xorigin(0, 0, 0);									//
+	IVertexDbSvc *vtxsvc;											//
+	Gaudi::svcLocator()->service("VertexDbSvc", vtxsvc);			//
+	if (vtxsvc->isVertexValid())									//
+	{																//
+		double *dbv = vtxsvc->PrimaryVertex();						//
+		double *vv = vtxsvc->SigmaPrimaryVertex();					//
+		xorigin.setX(dbv[0]);										//
+		xorigin.setY(dbv[1]);										//
+		xorigin.setZ(dbv[2]);										//
+	}																//
+	for (int i = 0; i < evtRecEvent->totalCharged(); i++)			//
+	{																//
+		EvtRecTrackIterator itTrk = evtRecTrkCol->begin() + i;		//
+		if (!(*itTrk)->isMdcTrackValid())							//
+			continue;												//
+		RecMdcTrack *mdcTrk = (*itTrk)->mdcTrack();					//
+		double pch = mdcTrk->p();									//
+		double x0 = mdcTrk->x();									//
+		double y0 = mdcTrk->y();									//
+		double z0 = mdcTrk->z();									//
+		double phi0 = mdcTrk->helix(1);								// 表示螺旋线参数
+		double xv = xorigin.x();									// 0: d0 -> 螺旋线到对撞顶点的最小距离
+		double yv = xorigin.y();									// 1: phi0 -> 最小距离的xy平面相角
+		double Rxy = (x0 - xv) * cos(phi0) + (y0 - yv) * sin(phi0); // 2: kappa
+		HepVector a = mdcTrk->helix();								// 3: d
+		HepSymMatrix Ea = mdcTrk->err();							// 4: tan(lamda)
+		HepPoint3D point0(0., 0., 0.);								//
+		HepPoint3D IP(xorigin[0], xorigin[1], xorigin[2]);			//
+		VFHelix helixip(point0, a, Ea);								//
+		helixip.pivot(IP);											//
+		HepVector vecipa = helixip.a();								//
+		double Rvxy0 = fabs(vecipa[0]);								//
+		double Rvz0 = vecipa[3];									//
+		double Rvphi0 = vecipa[1];									//
+		if (fabs(cos(mdcTrk->theta())) > 0.93)						// 选择：cos(theta)
+			continue;												//
+		if (fabs(Rvz0) >= 10)										// 选择：Rvz0
+			continue;												//
+		if (fabs(Rvxy0) >= 1)										// 选择：Rvxy0
+			continue;												//
+		double epratio = 9999;										//
+		if ((*itTrk)->isEmcShowerValid())							//
+		{															//
+			RecEmcShower *emcTrk = (*itTrk)->emcShower();			//
+			epratio = emcTrk->energy() / mdcTrk->p();				//
+		}															//
+		if (mdcTrk->charge() > 0)									//
+		{															//
+			iCharge.push_back(i);									//
+			ipip.push_back(i);										//
+			eppip.push_back(epratio);								//
+		}															//
+		else if (mdcTrk->charge() < 0)								//
+		{															//
+			iCharge.push_back(i);									//
+			ipim.push_back(i);										//
+			eppim.push_back(epratio);								//
+		}															//
+	}																//
+	nCharge = iCharge.size();										//
+	npip = ipip.size();												//
+	npim = ipim.size();												//
+	if (1 == 1)														//
+	{																//
+		charge_nCharge = nCharge;									//
+		m_tuple_charge->write();									//
+	}																//
+	if ((npip != 1) || (npim != 1))									//
+	{																//
+		return StatusCode::SUCCESS;									//
+	}																//
 #pragma endregion
 #pragma region section_charged track momentum
-	ParticleID *pid = ParticleID::instance();											   //
-	for (int i = 0; i < nGood; i++)														   //
-	{																					   //
-		int pid_check = 1;																   //
-		EvtRecTrackIterator itTrk = evtRecTrkCol->begin() + iGood[i];					   // ****************************************
-		pid->init();																	   // 对于Likelihood方法
-		pid->setMethod(pid->methodProbability());										   // pid->setMethod(pid->methodLikelihood());
-		pid->setChiMinCut(4);															   //
-		pid->setRecTrack(*itTrk);														   //
-		pid->usePidSys(pid->useDedx() | pid->useTof1() | pid->useTof2() | pid->useTofE()); // 选择pid的粒子
-		pid->identify(pid->onlyPion() | pid->onlyKaon() | pid->onlyProton());			   // pid->identify(pid->onlyPion());
-		pid->calculate();																   // pid->identify(pid->onlyKaon());
-		if (!(pid->IsPidInfoValid()))													   //
-			pid_check = 0;																   // 对于Likelihood方法(0=electron 1=muon 2=pion 3=kaon 4=proton)
-		RecMdcTrack *mdcTrk = (*itTrk)->mdcTrack();										   // if(pid->pdf(2) < pid->pdf(3))
-		if (pid->probPion() < pid->probKaon())											   // continue;
-			pid_check = 0;																   //
-		if (pid->probPion() < pid->probProton())										   //
-			pid_check = 0;																   //
-		RecMdcKalTrack *mdcKalTrk = (*itTrk)->mdcKalTrack();							   // 对于ParticleID, 用RecMdcKalTrack代替RecMdcTrack
-		RecMdcKalTrack::setPidType(RecMdcKalTrack::pion);								   // PID可以设定为electron, muon, pion, kaon and proton;The default setting is pion
-		HepLorentzVector ptrk;															   // ****************************************
-		ptrk.setPx(mdcKalTrk->px());													   // 变量：ppip[]（值为pi+动量）
-		ptrk.setPy(mdcKalTrk->py());													   // 变量：ppim[]（值为pi-动量）
-		ptrk.setPz(mdcKalTrk->pz());													   // 变量：ipip[]（值为pi+编号）
-		double p3 = ptrk.mag();															   // 变量：ipim[]（值为pi-编号）
-		ptrk.setE(sqrt(p3 * p3 + mpipm * mpipm));										   // ****************************************
-		if (mdcKalTrk->charge() > 0)													   //
-		{																				   //
-			ppip.push_back(ptrk);														   //
-		}																				   //
-		else																			   //
-		{																				   //
-			ppim.push_back(ptrk);														   //
-		}																				   //
-	}																					   //
-	Ncut2++;																			   //
-	my_seriescount(SeriesRun, SeriesNum2, runNo);										   //
+	Vp4 ppip, ppim;																									  //
+	ppip.clear();																									  // 变量：ppip[]（good-track+的四动量）
+	ppim.clear();																									  // 变量：ppim[]（good-track-的四动量）
+	Vdouble pip_pid_pi, pim_pid_pi;																					  //
+	Vdouble pip_pid_mu, pim_pid_mu;																					  //
+	Vdouble pip_pid_e, pim_pid_e;																					  //
+	pip_pid_pi.clear();																								  // 变量：pip_pid_?（track+的PID概率）
+	pim_pid_pi.clear();																								  // 变量：pim_pid_?（track-的PID概率）
+	pip_pid_mu.clear();																								  //
+	pim_pid_mu.clear();																								  //
+	pip_pid_e.clear();																								  //
+	pim_pid_e.clear();																								  //
+	ParticleID *pid = ParticleID::instance();																		  //
+	for (int i = 0; i < nCharge; i++)																				  //
+	{																												  //
+		int pid_check = 1;																							  //
+		EvtRecTrackIterator itTrk = evtRecTrkCol->begin() + iCharge[i];												  //
+		pid->init();																								  //
+		pid->setMethod(pid->methodProbability());																	  // 对于Likelihood方法：pid->setMethod(pid->methodLikelihood());
+		pid->setChiMinCut(4);																						  //
+		pid->setRecTrack(*itTrk);																					  //
+		pid->usePidSys(pid->useDedx() | pid->useTof1() | pid->useTof2() | pid->useTofE());							  //
+		pid->identify(pid->onlyPion() | pid->onlyKaon() | pid->onlyProton() | pid->onlyElectron() | pid->onlyMuon()); //
+		pid->calculate();																							  //
+		if (!(pid->IsPidInfoValid()))																				  //
+			pid_check = 0;																							  // 对于Likelihood方法(0=electron 1=muon 2=pion 3=kaon 4=proton)
+		RecMdcTrack *mdcTrk = (*itTrk)->mdcTrack();																	  // if(pid->pdf(2) < pid->pdf(3))
+		if (pid->probPion() < pid->probKaon())																		  //
+			pid_check = 0;																							  //
+		if (pid->probPion() < pid->probProton())																	  //
+			pid_check = 0;																							  //
+		if (pid->probPion() < pid->probElectron())																	  //
+			pid_check = 0;																							  //
+		RecMdcKalTrack *mdcKalTrk = (*itTrk)->mdcKalTrack();														  // 对于ParticleID, 用RecMdcKalTrack代替RecMdcTrack
+		RecMdcKalTrack::setPidType(RecMdcKalTrack::pion);															  // PID可以设定为electron, muon, pion, kaon and proton;The default setting is pion
+		HepLorentzVector ptrk;																						  //
+		ptrk.setPx(mdcKalTrk->px());																				  //
+		ptrk.setPy(mdcKalTrk->py());																				  //
+		ptrk.setPz(mdcKalTrk->pz());																				  //
+		double p3 = ptrk.mag();																						  //
+		ptrk.setE(sqrt(p3 * p3 + use_const.mpipm * use_const.mpipm));												  //
+		if (mdcKalTrk->charge() > 0)																				  //
+		{																											  //
+			ppip.push_back(ptrk);																					  //
+			pip_pid_pi.push_back(pid->probPion());																	  //
+			pip_pid_mu.push_back(pid->probMuon());																	  //
+			pip_pid_e.push_back(pid->probElectron());																  //
+		}																											  //
+		else																										  //
+		{																											  //
+			ppim.push_back(ptrk);																					  //
+			pim_pid_pi.push_back(pid->probPion());																	  //
+			pim_pid_mu.push_back(pid->probMuon());																	  //
+			pim_pid_e.push_back(pid->probElectron());																  //
+		}																											  //
+	}																												  //
+	use_run.COUNT(eventHeader->runNumber(), 2);																		  //
 #pragma endregion
 #pragma region section_neutral track
 	Vint iGam;																							  //
 	iGam.clear();																						  //
+	Vdouble aGam;																						  //
+	aGam.clear();																						  //
 	for (int i = evtRecEvent->totalCharged(); i < evtRecEvent->totalTracks(); i++)						  //
 	{																									  //
 		EvtRecTrackIterator itTrk = evtRecTrkCol->begin() + i;											  //
@@ -729,20 +709,21 @@ StatusCode Pppmpz::execute() //
 			continue;																					  //
 		if (emcTrk->time() < 0 || emcTrk->time() > 14)													  // 选择：TDC
 			continue;																					  //
-		//if (fabs(dang) < 10)
-		//	continue;
-		iGam.push_back(i);			// 变量：iGam[]（参数为good-track序号，内容为track编号）
-	}								//
-	int nGam = iGam.size();			// 变量：nGam（中性track数量）
-	if (nGam < 2 || nGam > 20)		// 选择：nGam
-	{								//
-		return StatusCode::SUCCESS; //
-	}								//
+		if (fabs(dang) < 10)																			  //
+			continue;																					  //
+		iGam.push_back(i);																				  // 变量：iGam[]（参数为good-track序号，内容为track编号）
+		aGam.push_back(fabs(dang));																		  // 变量：aGam[]（参数为good-track序号，内容为shower和charged最小夹角）
+	}																									  //
+	int nGam = iGam.size();																				  // 变量：nGam（中性track数量）
+	if (nGam < 2 || nGam > 20)																			  //
+	{																									  //
+		return StatusCode::SUCCESS;																		  //
+	}																									  //
 #pragma endregion
 #pragma region section_neutral track momentum
 	Vp4 pGam;														 // 变量：pGam[]（参数为good-track序号，内容为动量）
-	pGam.clear();													 // 变量：iGam[]（参数为good-track序号，内容为track编号）
-	for (int i = 0; i < nGam; i++)									 // 变量：nGam（中性track数量）
+	pGam.clear();													 //
+	for (int i = 0; i < nGam; i++)									 //
 	{																 //
 		EvtRecTrackIterator itTrk = evtRecTrkCol->begin() + iGam[i]; //
 		RecEmcShower *emcTrk = (*itTrk)->emcShower();				 //
@@ -756,15 +737,43 @@ StatusCode Pppmpz::execute() //
 		ptrk.setE(eraw);											 //
 		pGam.push_back(ptrk);										 //
 	}																 //
+	use_run.COUNT(eventHeader->runNumber(), 3);						 //
 #pragma endregion
 #pragma region section_vertex fit
-	RecMdcKalTrack *pipTrk = (*(evtRecTrkCol->begin() + ipip[0]))->mdcKalTrack(); // ****************************************
-	RecMdcKalTrack *pimTrk = (*(evtRecTrkCol->begin() + ipim[0]))->mdcKalTrack(); // Default is pion, for other particles:
-	WTrackParameter wpip, wpim;													  // wvppTrk = WTrackParameter(mp, pipTrk->getZHelixP(), pipTrk->getZErrorP()); proton
-	wpip = WTrackParameter(mpipm, pipTrk->getZHelix(), pipTrk->getZError());	  // wvepTrk = WTrackParameter(me, pipTrk->getZHelixE(), pipTrk->getZErrorE()); electron
-	wpim = WTrackParameter(mpipm, pimTrk->getZHelix(), pimTrk->getZError());	  // wvkpTrk = WTrackParameter(mk, pipTrk->getZHelixK(), pipTrk->getZErrorK()); kaon
-																				  // wvmupTrk = WTrackParameter(mmu, pipTrk->getZHelixMu(), pipTrk->getZErrorMu());	muon
-																				  //****************************************
+	RecMdcKalTrack *pipTrk = (*(evtRecTrkCol->begin() + ipip[0]))->mdcKalTrack();	   // ****************************************
+	RecMdcKalTrack *pimTrk = (*(evtRecTrkCol->begin() + ipim[0]))->mdcKalTrack();	   // Default is pion, for other particles:
+	WTrackParameter wpip, wpim;														   // wvppTrk = WTrackParameter(mp, pipTrk->getZHelixP(), pipTrk->getZErrorP()); proton
+	wpip = WTrackParameter(use_const.mpipm, pipTrk->getZHelix(), pipTrk->getZError()); // wvepTrk = WTrackParameter(me, pipTrk->getZHelixE(), pipTrk->getZErrorE()); electron
+	wpim = WTrackParameter(use_const.mpipm, pimTrk->getZHelix(), pimTrk->getZError()); // wvkpTrk = WTrackParameter(mk, pipTrk->getZHelixK(), pipTrk->getZErrorK()); kaon
+	HepPoint3D vx(0., 0., 0.);														   // wvmupTrk = WTrackParameter(mmu, pipTrk->getZHelixMu(), pipTrk->getZErrorMu());	muon
+	HepSymMatrix Evx(3, 0);															   //****************************************
+	double bx = 1E+6;																   //
+	double by = 1E+6;																   //
+	double bz = 1E+6;																   //
+	Evx[0][0] = bx * bx;															   //
+	Evx[1][1] = by * by;															   //
+	Evx[2][2] = bz * bz;															   //
+	VertexParameter vxpar;															   //
+	vxpar.setVx(vx);																   //
+	vxpar.setEvx(Evx);																   //
+	VertexFit *vtxfit = VertexFit::instance();										   //
+	vtxfit->init();																	   //
+	vtxfit->AddTrack(0, wpip);														   //
+	vtxfit->AddTrack(1, wpim);														   //
+	vtxfit->AddVertex(0, vxpar, 0, 1);												   //
+	if (!vtxfit->Fit(0))															   //
+		return SUCCESS;																   //
+	double chisq_vertex = vtxfit->chisq(0);											   //
+	if (chisq_vertex > 100)															   //
+		return SUCCESS;																   //
+	if (1 == 1)																		   //
+	{																				   //
+		vertex_chisq = chisq_vertex;												   //
+		m_tuple_vertex->write();													   //
+	}																				   //
+	fit4c_vertex = chisq_vertex;													   //
+	vtxfit->Swim(0);																   //
+	use_run.COUNT(eventHeader->runNumber(), 4);										   //
 #pragma endregion
 #pragma region fourc_初始参数定义
 	KalmanKinematicFit *kmfit = KalmanKinematicFit::instance();
@@ -938,6 +947,24 @@ StatusCode Pppmpz::execute() //
 #pragma region fourc_信息输出
 	if (g2 != 0)
 	{
+		// ?.带电track
+		fit4c_pip_ep = eppip[0];
+		fit4c_pim_ep = eppim[0];
+		fit4c_pip_pid_pi = pip_pid_pi[0];
+		fit4c_pim_pid_pi = pim_pid_pi[0];
+		fit4c_pip_pid_mu = pip_pid_mu[0] / pip_pid_pi[0];
+		fit4c_pim_pid_mu = pim_pid_mu[0] / pim_pid_pi[0];
+		fit4c_pip_pid_e = pip_pid_e[0] / pip_pid_pi[0];
+		fit4c_pim_pid_e = pim_pid_e[0] / pim_pid_pi[0];
+		// ?.中性track
+		fit4c_ngamma = nGam;
+		// ?.事例选择
+		fit4c_chisq = chisq_4c_2g;
+		fit4c_chisq_0g = chisq_4c_0g;
+		fit4c_chisq_1g = chisq_4c_1g;
+		fit4c_chisq_3g = chisq_4c_3g;
+		fit4c_chisq_4g = chisq_4c_4g;
+		// ?.重建track
 		HepLorentzVector fit4c_pip = ptrackp;
 		HepLorentzVector fit4c_pim = ptrackm;
 		HepLorentzVector fit4c_gamma1 = ptrack1;
@@ -946,20 +973,12 @@ StatusCode Pppmpz::execute() //
 		HepLorentzVector fit4c_pipm = fit4c_pip + fit4c_pim;
 		HepLorentzVector fit4c_pipz = fit4c_pip + fit4c_piz;
 		HepLorentzVector fit4c_pimz = fit4c_pim + fit4c_piz;
-
-		fit4c_chisq = chisq_4c_2g;
-		fit4c_chisq_0g = chisq_4c_0g;
-		fit4c_chisq_1g = chisq_4c_1g;
-		fit4c_chisq_3g = chisq_4c_3g;
-		fit4c_chisq_4g = chisq_4c_4g;
-
+		// ?.track计算
 		fit4c_gamma1_heli = my_helicityangle(fit4c_gamma1, fit4c_piz);
 		fit4c_gamma2_heli = my_helicityangle(fit4c_gamma2, fit4c_piz);
-		fit4c_a_pippim = my_angle_boost(fit4c_pip, fit4c_pim);
-
-		fit4c_pip_ep = eppip[0];
-		fit4c_pim_ep = eppim[0];
-
+		fit4c_a_pippim = my_angle_boost(fit4c_pip, fit4c_pim) * 180. / 3.1415926;
+		fit4c_b_pippim = my_angle(fit4c_pip, fit4c_pim) * 180. / 3.1415926;
+		// ?.track取值
 		my_tracktovalue(fit4c_pip, fit4c_pip_m, fit4c_pip_p, fit4c_pip_a, fit4c_pip_pe, fit4c_pip_px, fit4c_pip_py, fit4c_pip_pz);
 		my_tracktovalue(fit4c_pim, fit4c_pim_m, fit4c_pim_p, fit4c_pim_a, fit4c_pim_pe, fit4c_pim_px, fit4c_pim_py, fit4c_pim_pz);
 		my_tracktovalue(fit4c_gamma1, fit4c_gamma1_m, fit4c_gamma1_p, fit4c_gamma1_a, fit4c_gamma1_pe, fit4c_gamma1_px, fit4c_gamma1_py, fit4c_gamma1_pz);
@@ -968,12 +987,24 @@ StatusCode Pppmpz::execute() //
 		my_tracktovalue(fit4c_pipm, fit4c_pipm_m, fit4c_pipm_p, fit4c_pipm_a, fit4c_pipm_pe, fit4c_pipm_px, fit4c_pipm_py, fit4c_pipm_pz);
 		my_tracktovalue(fit4c_pipz, fit4c_pipz_m, fit4c_pipz_p, fit4c_pipz_a, fit4c_pipz_pe, fit4c_pipz_px, fit4c_pipz_py, fit4c_pipz_pz);
 		my_tracktovalue(fit4c_pimz, fit4c_pimz_m, fit4c_pimz_p, fit4c_pimz_a, fit4c_pimz_pe, fit4c_pimz_px, fit4c_pimz_py, fit4c_pimz_pz);
+		// 变量处理：动量归一化
+		fit4c_pip_p = fit4c_pip_p * 2 / job_energy;
+		fit4c_pim_p = fit4c_pim_p * 2 / job_energy;
+		fit4c_gamma1_p = fit4c_gamma1_p * 2 / job_energy;
+		fit4c_gamma2_p = fit4c_gamma2_p * 2 / job_energy;
+		fit4c_piz_p = fit4c_piz_p * 2 / job_energy;
+		fit4c_pipm_p = fit4c_pipm_p * 2 / job_energy;
+		fit4c_pipz_p = fit4c_pipz_p * 2 / job_energy;
+		fit4c_pimz_p = fit4c_pimz_p * 2 / job_energy;
+		// 变量处理：dalitz变量
+		fit4c_dalitz_pm = fit4c_pipm_m * fit4c_pipm_m;
+		fit4c_dalitz_pz = fit4c_pipz_m * fit4c_pipz_m;
+		fit4c_dalitz_mz = fit4c_pimz_m * fit4c_pimz_m;
 
 		if (fit4c_pim_ep < 1.2 && fit4c_pip_ep < 1.2)
 		{
 			m_tuple_fit4c->write();
-			Ncut3++;
-			my_seriescount(SeriesRun, SeriesNum3, runNo);
+			use_run.COUNT(eventHeader->runNumber(), 5);
 		}
 	}
 #pragma endregion
@@ -987,42 +1018,43 @@ StatusCode Pppmpz::execute() //
 StatusCode Pppmpz::finalize()
 {
 	cout << "energy point:         " << job_energy << endl;
-	cout << "total number:         " << Ncut0 << endl;
-	cout << "Pass truth:           " << Ncut1 << endl;
-	cout << "Pass Pid:             " << Ncut2 << endl;
-	cout << "Pass 4C:              " << Ncut3 << endl;
-	cout << "Pass 5C:              " << Ncut4 << endl;
+	cout << "total number:         " << use_run.countnum[0] << endl;
+	cout << "Pass truth:           " << use_run.countnum[1] << endl;
+	cout << "Pass Pid:             " << use_run.countnum[2] << endl;
+	cout << "Pass 4C:              " << use_run.countnum[3] << endl;
+	cout << "Count 4               " << use_run.countnum[4] << endl;
+	cout << "Count 5               " << use_run.countnum[5] << endl;
 	// Start my output
 	cout << "****************************************************" << endl;
 	cout << "**********Exporting Run numbers and events**********" << endl;
-	for (int i = 0; i < SeriesRun.size(); i++)
+	for (int i = 0; i < use_run.seriesrun.size(); i++)
 	{
-		cout << "Run:" << SeriesRun[i] << "for" << SeriesNum[i] << "times" << endl;
+		cout << "Run: " << use_run.seriesrun[i] << " for " << use_run.seriesnum[0][i] << " times" << endl;
 	}
 	cout << "****************************************************" << endl;
-	for (int i = 0; i < SeriesRun.size(); i++)
+	for (int i = 0; i < use_run.seriesrun.size(); i++)
 	{
-		cout << "Run:" << SeriesRun[i] << "get signal1" << SeriesNum1[i] << "times" << endl;
+		cout << "Run: " << use_run.seriesrun[i] << " signal1 " << use_run.seriesnum[1][i] << " times" << endl;
 	}
 	cout << "****************************************************" << endl;
-	for (int i = 0; i < SeriesRun.size(); i++)
+	for (int i = 0; i < use_run.seriesrun.size(); i++)
 	{
-		cout << "Run:" << SeriesRun[i] << "get signal2" << SeriesNum2[i] << "times" << endl;
+		cout << "Run: " << use_run.seriesrun[i] << " signal2 " << use_run.seriesnum[2][i] << " times" << endl;
 	}
 	cout << "****************************************************" << endl;
-	for (int i = 0; i < SeriesRun.size(); i++)
+	for (int i = 0; i < use_run.seriesrun.size(); i++)
 	{
-		cout << "Run:" << SeriesRun[i] << "get signal3" << SeriesNum3[i] << "times" << endl;
+		cout << "Run: " << use_run.seriesrun[i] << " signal3 " << use_run.seriesnum[3][i] << " times" << endl;
 	}
 	cout << "****************************************************" << endl;
-	for (int i = 0; i < SeriesRun.size(); i++)
+	for (int i = 0; i < use_run.seriesrun.size(); i++)
 	{
-		cout << "Run:" << SeriesRun[i] << "get signal4" << SeriesNum4[i] << "times" << endl;
+		cout << "Run: " << use_run.seriesrun[i] << " signal4 " << use_run.seriesnum[4][i] << " times" << endl;
 	}
 	cout << "****************************************************" << endl;
-	for (int i = 0; i < SeriesRun.size(); i++)
+	for (int i = 0; i < use_run.seriesrun.size(); i++)
 	{
-		cout << "Run:" << SeriesRun[i] << "get signal5" << SeriesNum5[i] << "times" << endl;
+		cout << "Run: " << use_run.seriesrun[i] << " signal5 " << use_run.seriesnum[5][i] << " times" << endl;
 	}
 	cout << "****************************************************" << endl;
 	cout << "Finish script" << endl;

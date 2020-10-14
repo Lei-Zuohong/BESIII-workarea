@@ -1,6 +1,9 @@
-//using CLHEP::HepLorentzVector;
+using CLHEP::HepLorentzVector;
+typedef std::vector<int> Vint;
+typedef std::vector<double> Vdouble;
+typedef std::vector<HepLorentzVector> Vp4;
 #pragma region 类定义
-class my_constant
+class MY_CONST
 {
 public:
     double pi;
@@ -9,7 +12,7 @@ public:
     double me;
     double mkaon;
     double mmiu;
-    my_constant()
+    MY_CONST()
     {
         pi = 3.1415926;
         mpiz = 0.13498;
@@ -17,6 +20,72 @@ public:
         me = 0.000511;
         mkaon = 0.493677;
         mmiu = 0.105658;
+    }
+};
+class MY_RUN
+{
+public:
+    Vint seriesrun;
+    Vint seriesnum[6];
+    int countnum[6];
+    MY_RUN()
+    {
+        seriesrun.clear();
+        seriesnum[0].clear();
+        seriesnum[1].clear();
+        seriesnum[2].clear();
+        seriesnum[3].clear();
+        seriesnum[4].clear();
+        seriesnum[5].clear();
+        countnum[0] = 0;
+        countnum[1] = 0;
+        countnum[2] = 0;
+        countnum[3] = 0;
+        countnum[4] = 0;
+        countnum[5] = 0;
+    }
+    void INIT(int runnumber)
+    {
+        int check_exist = 0;
+        int check_i = 0;
+        for (int i = 0; i < seriesrun.size(); i++)
+        {
+            if (seriesrun[i] == runnumber)
+            {
+                check_exist = 1;
+                check_i = i;
+            }
+        }
+        if (check_exist == 1)
+        {
+            seriesnum[0][check_i] += 1;
+        }
+        else
+        {
+            seriesrun.push_back(runnumber);
+            seriesnum[0].push_back(1);
+            seriesnum[1].push_back(0);
+            seriesnum[2].push_back(0);
+            seriesnum[3].push_back(0);
+            seriesnum[4].push_back(0);
+            seriesnum[5].push_back(0);
+        }
+        countnum[0] += 1;
+        return;
+    }
+    void COUNT(int runnumber, int countnumber)
+    {
+        int check_i = 1;
+        for (int i = 0; i < seriesrun.size(); i++)
+        {
+            if (seriesrun[i] == runnumber)
+            {
+                check_i = i;
+            }
+        }
+        seriesnum[countnumber][check_i] += 1;
+        countnum[countnumber] += 1;
+        return;
     }
 };
 #pragma endregion
@@ -69,126 +138,28 @@ void my_tracktovalue(HepLorentzVector track,
     value_py = track.py();
     value_pz = track.pz();
 }
-
 #pragma endregion
 #pragma region 函数计算
 double my_helicityangle(HepLorentzVector track_gamma,
                         HepLorentzVector track_pi)
 { //计算两个track的helicity angle
-    HepLorentzVector track_bgamma = track_gamma.boost(-track_pi.boostVector());
-    double px1 = track_bgamma.px();
-    double py1 = track_bgamma.py();
-    double pz1 = track_bgamma.pz();
-    double e1 = track_bgamma.e();
-    double px2 = track_pi.px();
-    double py2 = track_pi.py();
-    double pz2 = track_pi.pz();
-    double e2 = track_pi.e();
-    double angle = (px1 * px2 + py1 * py2 + pz1 * pz2) / (std::sqrt(px1 * px1 + py1 * py1 + pz1 * pz1)) / (std::sqrt(px2 * px2 + py2 * py2 + pz2 * pz2));
+    track_gamma = track_gamma.boost(-track_pi.boostVector());
+    double angle = cos(track_gamma.angle(track_pi));
     return angle;
 }
 double my_angle(HepLorentzVector track1,
                 HepLorentzVector track2)
 {
-    double px1 = track1.px();
-    double py1 = track1.py();
-    double pz1 = track1.pz();
-    double e1 = track1.e();
-    double px2 = track2.px();
-    double py2 = track2.py();
-    double pz2 = track2.pz();
-    double e2 = track2.e();
-    double angle = (px1 * px2 + py1 * py2 + pz1 * pz2) / (std::sqrt(px1 * px1 + py1 * py1 + pz1 * pz1)) / (std::sqrt(px2 * px2 + py2 * py2 + pz2 * pz2));
+    double angle = track1.angle(track2);
     return angle;
 }
 double my_angle_boost(HepLorentzVector track1,
                       HepLorentzVector track2)
 {
-    HepLorentzVector track1_new = track1.boost(-0.011, 0, 0);
-    HepLorentzVector track2_new = track2.boost(-0.011, 0, 0);
-    double px1 = track1_new.px();
-    double py1 = track1_new.py();
-    double pz1 = track1_new.pz();
-    double e1 = track1_new.e();
-    double px2 = track2_new.px();
-    double py2 = track2_new.py();
-    double pz2 = track2_new.pz();
-    double e2 = track2_new.e();
-    double angle = (px1 * px2 + py1 * py2 + pz1 * pz2) / (std::sqrt(px1 * px1 + py1 * py1 + pz1 * pz1)) / (std::sqrt(px2 * px2 + py2 * py2 + pz2 * pz2));
+    track1.boost(-0.011, 0, 0);
+    track2.boost(-0.011, 0, 0);
+    double angle = track1.angle(track2);
     return angle;
-}
-#pragma endregion
-#pragma region 事例号统计
-void my_seriesinit(vector<int> &seriesrun,
-                   vector<int> &seriesnum,
-                   vector<int> &seriesnum1,
-                   vector<int> &seriesnum2,
-                   vector<int> &seriesnum3,
-                   vector<int> &seriesnum4,
-                   vector<int> &seriesnum5,
-                   int runNo,
-                   int &firstrun)
-{
-    if (firstrun == 0)
-    {
-        // first run, need clear data
-        // 第一次运行，清除数组
-        seriesrun.clear();
-        seriesnum.clear();
-        seriesnum1.clear();
-        seriesnum2.clear();
-        seriesnum3.clear();
-        seriesnum4.clear();
-        seriesnum5.clear();
-        firstrun = 1;
-    }
-    int check_exist = 0;
-    int check_i = 0;
-    for (int i = 0; i < seriesrun.size(); i++)
-    {
-        // search in seriesrun
-        // 在seriesrun中查找
-        if (runNo == seriesrun[i])
-        {
-            check_exist = 1;
-            check_i = i;
-        }
-    }
-    if (check_exist == 1)
-    {
-        // exist, count
-        // 存在，进行一次计数
-        seriesnum[check_i] += 1;
-    }
-    else
-    {
-        // not exist, create
-        // 不存在，加入容器
-        seriesrun.push_back(runNo);
-        seriesnum.push_back(1);
-        seriesnum1.push_back(0);
-        seriesnum2.push_back(0);
-        seriesnum3.push_back(0);
-        seriesnum4.push_back(0);
-        seriesnum5.push_back(0);
-    }
-    return;
-}
-void my_seriescount(vector<int> &seriesrun,
-                    vector<int> &seriescount,
-                    int runNo)
-{
-    int check_i;
-    for (int i = 0; i < seriesrun.size(); i++)
-    {
-        // check if runnumber exist
-        if (runNo == seriesrun[i])
-        {
-            check_i = i;
-        }
-    }
-    seriescount[check_i] += 1;
-    return;
 }
 #pragma endregion
 #pragma region 事例选择

@@ -176,7 +176,7 @@ void my_seriescount(vector<int> &seriesrun,
 }
 #pragma endregion
 #pragma region 事例选择
-HepLorentzVector *my_recon_3pi(HepLorentzVector *tracklist,
+HepLorentzVector *my_omega_3pi(HepLorentzVector *tracklist,
                                double m1,
                                double m2,
                                double m3)
@@ -234,7 +234,7 @@ HepLorentzVector *my_recon_3pi(HepLorentzVector *tracklist,
     }
     return new_tracklist;
 }
-HepLorentzVector *my_recon_omega(HepLorentzVector *tracklist,
+HepLorentzVector *my_omega_omega(HepLorentzVector *tracklist,
                                  double mass)
 { //将八个track中的前四个重建为一个指定质量的粒子
     int combine[3][3] = {{1, 2, 3},
@@ -261,7 +261,48 @@ HepLorentzVector *my_recon_omega(HepLorentzVector *tracklist,
     }
     return new_tracklist;
 }
-HepLorentzVector *my_recon_lower(HepLorentzVector *tracklist)
+HepLorentzVector *my_omega_dalitz(HepLorentzVector *tracklist)
+{ //将八个track中的前四个重建为一个指定质量的粒子
+    int combine[3][3] = {{1, 2, 3},
+                         {2, 3, 1},
+                         {3, 1, 2}};
+    double chisq = 9999;
+    HepLorentzVector *new_tracklist;
+    new_tracklist = my_newheplorentzvector(8);
+    for (int i = 0; i < 3; i++)
+    {
+        HepLorentzVector track_pip = tracklist[0];
+        HepLorentzVector track_pim = tracklist[1];
+        HepLorentzVector track_piz = tracklist[2 * combine[i][0]] + tracklist[2 * combine[i][0] + 1];
+        double s = (track_pip + track_pim).m();
+        double t = (track_piz + track_pim).m();
+        double u = (track_pip + track_piz).m();
+        double s0 = (s + t + u) / 3;
+        double momega = (track_pip + track_pim + track_piz).m();
+        double mpip = track_pip.m();
+        double mpim = track_pim.m();
+        double mpiz = track_piz.m();
+        double r = (2.0 / 3.0) * momega * (momega - mpip - mpim - mpiz);
+        double x = (t - u) / (pow(3, 0.5) * r);
+        double y = ((s - s0) / r) + ((2 * (mpip - mpiz)) / (momega - 2 * mpip - mpiz));
+        double chisq_m = pow(pow(x, 2.0) + pow(y, 2.0), 0.5);
+
+        if (chisq_m < chisq)
+        {
+            chisq = chisq_m;
+            new_tracklist[0] = tracklist[0];
+            new_tracklist[1] = tracklist[1];
+            new_tracklist[2] = tracklist[2 * combine[i][0]];
+            new_tracklist[3] = tracklist[2 * combine[i][0] + 1];
+            new_tracklist[4] = tracklist[2 * combine[i][1]];
+            new_tracklist[5] = tracklist[2 * combine[i][1] + 1];
+            new_tracklist[6] = tracklist[2 * combine[i][2]];
+            new_tracklist[7] = tracklist[2 * combine[i][2] + 1];
+        }
+    }
+    return new_tracklist;
+}
+HepLorentzVector *my_omega_lower(HepLorentzVector *tracklist)
 { //将八个track中的后四个按照判据排列
     int combine[2][2] = {{1, 2},
                          {2, 1}};

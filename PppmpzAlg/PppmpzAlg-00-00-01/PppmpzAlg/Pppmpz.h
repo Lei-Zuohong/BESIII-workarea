@@ -17,6 +17,7 @@ private:
     // Parameter from joboption
     double job_energy;
     int job_flag3;
+
     int job_do_truth;
     int job_do_4c;
     int job_do_4c_0;
@@ -25,13 +26,14 @@ private:
     int job_do_4c_4;
     // Parameter for topology
     NTuple::Item<int> runNo;
-    NTuple::Item<int> event;
+    NTuple::Item<int> eventNo;
     NTuple::Item<int> m_idxmc;
     NTuple::Array<int> m_pdgid;
     NTuple::Array<int> m_motheridx;
     NTuple::Item<int> flag1;
     NTuple::Item<int> flag2;
     NTuple::Item<int> flag3;
+    // ****************************************
     // TREE - "truth"
     NTuple::Tuple *m_tuple_truth;
     NTuple::Item<double> truth_pip_m, truth_pip_p, truth_pip_a, truth_pip_pe, truth_pip_px, truth_pip_py, truth_pip_pz;
@@ -42,27 +44,42 @@ private:
     NTuple::Item<double> truth_pipm_m, truth_pipm_p, truth_pipm_a, truth_pipm_pe, truth_pipm_px, truth_pipm_py, truth_pipm_pz;
     NTuple::Item<double> truth_pipz_m, truth_pipz_p, truth_pipz_a, truth_pipz_pe, truth_pipz_px, truth_pipz_py, truth_pipz_pz;
     NTuple::Item<double> truth_pimz_m, truth_pimz_p, truth_pimz_a, truth_pimz_pe, truth_pimz_px, truth_pimz_py, truth_pimz_pz;
+    // ****************************************
     // TREE - "charge"
     NTuple::Tuple *m_tuple_charge;
-    NTuple::Item<double> charge_ngood;
-    NTuple::Item<double> charge_ncharge;
+    NTuple::Item<double> charge_nCharge;
+    // ****************************************
+    // TREE - "vertex"
+    NTuple::Tuple *m_tuple_vertex;
+    NTuple::Item<double> vertex_chisq;
     // ****************************************
     // TREE - "fit4c"
     NTuple::Tuple *m_tuple_fit4c;
     // For Cut
+    NTuple::Item<double> fit4c_pip_ep;
+    NTuple::Item<double> fit4c_pim_ep;
+    NTuple::Item<double> fit4c_pip_pid_pi;
+    NTuple::Item<double> fit4c_pim_pid_pi;
+    NTuple::Item<double> fit4c_pip_pid_e;
+    NTuple::Item<double> fit4c_pim_pid_e;
+    NTuple::Item<double> fit4c_pip_pid_mu;
+    NTuple::Item<double> fit4c_pim_pid_mu;
+
+    NTuple::Item<double> fit4c_ngamma;
+
+    NTuple::Item<double> fit4c_vertex;
+
     NTuple::Item<double> fit4c_chisq;
     NTuple::Item<double> fit4c_chisq_0g;
     NTuple::Item<double> fit4c_chisq_1g;
     NTuple::Item<double> fit4c_chisq_3g;
     NTuple::Item<double> fit4c_chisq_4g;
-    // For 00 track
+
     NTuple::Item<double> fit4c_gamma1_heli;
     NTuple::Item<double> fit4c_gamma2_heli;
     NTuple::Item<double> fit4c_a_pippim;
-    // For +- track
-    NTuple::Item<double> fit4c_pip_ep;
-    NTuple::Item<double> fit4c_pim_ep;
-    // For track
+    NTuple::Item<double> fit4c_b_pippim;
+
     NTuple::Item<double> fit4c_pip_m, fit4c_pip_p, fit4c_pip_a, fit4c_pip_pe, fit4c_pip_px, fit4c_pip_py, fit4c_pip_pz;
     NTuple::Item<double> fit4c_pim_m, fit4c_pim_p, fit4c_pim_a, fit4c_pim_pe, fit4c_pim_px, fit4c_pim_py, fit4c_pim_pz;
     NTuple::Item<double> fit4c_gamma1_m, fit4c_gamma1_p, fit4c_gamma1_a, fit4c_gamma1_pe, fit4c_gamma1_px, fit4c_gamma1_py, fit4c_gamma1_pz;
@@ -72,6 +89,10 @@ private:
     NTuple::Item<double> fit4c_pipz_m, fit4c_pipz_p, fit4c_pipz_a, fit4c_pipz_pe, fit4c_pipz_px, fit4c_pipz_py, fit4c_pipz_pz;
     NTuple::Item<double> fit4c_pimz_m, fit4c_pimz_p, fit4c_pimz_a, fit4c_pimz_pe, fit4c_pimz_px, fit4c_pimz_py, fit4c_pimz_pz;
 
+    NTuple::Item<double> fit4c_dalitz_pm;
+    NTuple::Item<double> fit4c_dalitz_pz;
+    NTuple::Item<double> fit4c_dalitz_mz;
+    // ****************************************
 };
 
 #endif

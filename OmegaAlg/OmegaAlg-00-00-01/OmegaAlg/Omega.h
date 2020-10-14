@@ -14,63 +14,50 @@ public:
     StatusCode finalize();
 
 private:
-    // ************************************************************************************************************************
-    double m_energy;
-    int Do_compare_6_57;
-    // ************************************************************************************************************************
+    // 容器信息
+    double job_energy;
+    int job_truth;
+    int job_do_567;
     // topo信息
     NTuple::Item<int> runID;
     NTuple::Item<int> eventID;
     NTuple::Item<int> m_idxmc;
     NTuple::Array<int> m_pdgid;
     NTuple::Array<int> m_motheridx;
-    // ************************************************************************************************************************
     // TREE - "truth"
-    NTuple::Tuple *m_tuple1;
-    // isr
-    NTuple::Item<double> truth_misr, truth_aisr, truth_pisr, truth_eisr, truth_pxisr, truth_pyisr, truth_pzisr;
-    // pip pim pi01~3 omega
-    NTuple::Item<double> truth_mpip, truth_apip, truth_ppip, truth_epip, truth_pxpip, truth_pypip, truth_pzpip;
-    NTuple::Item<double> truth_mpim, truth_apim, truth_ppim, truth_epim, truth_pxpim, truth_pypim, truth_pzpim;
-    NTuple::Item<double> truth_mpi01, truth_api01, truth_ppi01, truth_epi01, truth_pxpi01, truth_pypi01, truth_pzpi01;
-    NTuple::Item<double> truth_mpi02, truth_api02, truth_ppi02, truth_epi02, truth_pxpi02, truth_pypi02, truth_pzpi02;
-    NTuple::Item<double> truth_mpi03, truth_api03, truth_ppi03, truth_epi03, truth_pxpi03, truth_pypi03, truth_pzpi03;
-    NTuple::Item<double> truth_momega, truth_aomega, truth_pomega, truth_eomega, truth_pxomega, truth_pyomega, truth_pzomega;
-    // omegapi02 omegapi03 pi02pi03 3pi0
-    NTuple::Item<double> truth_momegapi02, truth_aomegapi02, truth_pomegapi02;
-    NTuple::Item<double> truth_momegapi03, truth_aomegapi03, truth_pomegapi03;
-    NTuple::Item<double> truth_mpi02pi03, truth_api02pi03, truth_ppi02pi03;
-    NTuple::Item<double> truth_m3pi0, truth_a3pi0, truth_p3pi0;
-    // ************************************************************************************************************************
+    NTuple::Tuple *m_tuple_truth;
+    NTuple::Item<double> truth_isr_m, truth_isr_p, truth_isr_a, truth_isr_pe, truth_isr_px, truth_isr_py, truth_isr_pz;
+    NTuple::Item<double> truth_pip_m, truth_pip_p, truth_pip_a, truth_pip_pe, truth_pip_px, truth_pip_py, truth_pip_pz;
+    NTuple::Item<double> truth_pim_m, truth_pim_p, truth_pim_a, truth_pim_pe, truth_pim_px, truth_pim_py, truth_pim_pz;
+    NTuple::Item<double> truth_pi01_m, truth_pi01_p, truth_pi01_a, truth_pi01_pe, truth_pi01_px, truth_pi01_py, truth_pi01_pz;
+    NTuple::Item<double> truth_pi02_m, truth_pi02_p, truth_pi02_a, truth_pi02_pe, truth_pi02_px, truth_pi02_py, truth_pi02_pz;
+    NTuple::Item<double> truth_pi03_m, truth_pi03_p, truth_pi03_a, truth_pi03_pe, truth_pi03_px, truth_pi03_py, truth_pi03_pz;
+    NTuple::Item<double> truth_omega_m, truth_omega_p, truth_omega_a, truth_omega_pe, truth_omega_px, truth_omega_py, truth_omega_pz;
+    NTuple::Item<double> truth_omegapi02_m, truth_omegapi02_p, truth_omegapi02_a, truth_omegapi02_pe, truth_omegapi02_px, truth_omegapi02_py, truth_omegapi02_pz;
+    NTuple::Item<double> truth_omegapi03_m, truth_omegapi03_p, truth_omegapi03_a, truth_omegapi03_pe, truth_omegapi03_px, truth_omegapi03_py, truth_omegapi03_pz;
+    NTuple::Item<double> truth_pi02pi03_m, truth_pi02pi03_p, truth_pi02pi03_a, truth_pi02pi03_pe, truth_pi02pi03_px, truth_pi02pi03_py, truth_pi02pi03_pz;
     // TREE - "charge"
-    NTuple::Tuple *m_tuple2;
+    NTuple::Tuple *m_tuple_charge;
     NTuple::Item<double> charge_ngood;
     NTuple::Item<double> charge_ncharge;
-    // ************************************************************************************************************************
     // TREE - "vertex"
-    NTuple::Tuple *m_tuple3;
+    NTuple::Tuple *m_tuple_vertex;
     NTuple::Item<double> vertex_chisq;
     // ************************************************************************************************************************
     // TREE - "fit4c"
-    NTuple::Tuple *m_tuple4;
-    // chisq
-    NTuple::Item<double> fit4c_chisq_6g;
-    // pip pim pi01~3 omega
-    NTuple::Item<double> fit4c_mpip, fit4c_apip, fit4c_ppip, fit4c_epip, fit4c_pxpip, fit4c_pypip, fit4c_pzpip;
-    NTuple::Item<double> fit4c_mpim, fit4c_apim, fit4c_ppim, fit4c_epim, fit4c_pxpim, fit4c_pypim, fit4c_pzpim;
-    NTuple::Item<double> fit4c_mpi01, fit4c_api01, fit4c_ppi01, fit4c_epi01, fit4c_pxpi01, fit4c_pypi01, fit4c_pzpi01;
-    NTuple::Item<double> fit4c_mpi02, fit4c_api02, fit4c_ppi02, fit4c_epi02, fit4c_pxpi02, fit4c_pypi02, fit4c_pzpi02;
-    NTuple::Item<double> fit4c_mpi03, fit4c_api03, fit4c_ppi03, fit4c_epi03, fit4c_pxpi03, fit4c_pypi03, fit4c_pzpi03;
-    NTuple::Item<double> fit4c_momega, fit4c_aomega, fit4c_pomega, fit4c_eomega, fit4c_pxomega, fit4c_pyomega, fit4c_pzomega;
-    // omegapi02 omegapi03 pi02pi03 3pi0
-    NTuple::Item<double> fit4c_momegapi02, fit4c_aomegapi02, fit4c_pomegapi02;
-    NTuple::Item<double> fit4c_momegapi03, fit4c_aomegapi03, fit4c_pomegapi03;
-    NTuple::Item<double> fit4c_mpi02pi03, fit4c_api02pi03, fit4c_ppi02pi03;
-    NTuple::Item<double> fit4c_m3pi0, fit4c_a3pi0, fit4c_p3pi0;
-    // combination
-    NTuple::Item<double> fit4c_acombination;
-    NTuple::Item<double> fit4c_nphoton;
-    NTuple::Item<double> fit4c_eloss;
+    NTuple::Tuple *m_tuple_fit4c;
+    NTuple::Item<double> fit4c_chisq;
+    NTuple::Item<double> fit4c_pip_m, fit4c_pip_p, fit4c_pip_a, fit4c_pip_pe, fit4c_pip_px, fit4c_pip_py, fit4c_pip_pz;
+    NTuple::Item<double> fit4c_pim_m, fit4c_pim_p, fit4c_pim_a, fit4c_pim_pe, fit4c_pim_px, fit4c_pim_py, fit4c_pim_pz;
+    NTuple::Item<double> fit4c_pi01_m, fit4c_pi01_p, fit4c_pi01_a, fit4c_pi01_pe, fit4c_pi01_px, fit4c_pi01_py, fit4c_pi01_pz;
+    NTuple::Item<double> fit4c_pi02_m, fit4c_pi02_p, fit4c_pi02_a, fit4c_pi02_pe, fit4c_pi02_px, fit4c_pi02_py, fit4c_pi02_pz;
+    NTuple::Item<double> fit4c_pi03_m, fit4c_pi03_p, fit4c_pi03_a, fit4c_pi03_pe, fit4c_pi03_px, fit4c_pi03_py, fit4c_pi03_pz;
+    NTuple::Item<double> fit4c_omega_m, fit4c_omega_p, fit4c_omega_a, fit4c_omega_pe, fit4c_omega_px, fit4c_omega_py, fit4c_omega_pz;
+    NTuple::Item<double> fit4c_omegapi02_m, fit4c_omegapi02_p, fit4c_omegapi02_a, fit4c_omegapi02_pe, fit4c_omegapi02_px, fit4c_omegapi02_py, fit4c_omegapi02_pz;
+    NTuple::Item<double> fit4c_omegapi03_m, fit4c_omegapi03_p, fit4c_omegapi03_a, fit4c_omegapi03_pe, fit4c_omegapi03_px, fit4c_omegapi03_py, fit4c_omegapi03_pz;
+    NTuple::Item<double> fit4c_pi02pi03_m, fit4c_pi02pi03_p, fit4c_pi02pi03_a, fit4c_pi02pi03_pe, fit4c_pi02pi03_px, fit4c_pi02pi03_py, fit4c_pi02pi03_pz;
+
+    NTuple::Item<double> fit4c_pif1_m, fit4c_pif2_m, fit4c_pif3_m, fit4c_pif4_m;
     // ************************************************************************************************************************
 };
 #endif
