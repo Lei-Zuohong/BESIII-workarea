@@ -659,7 +659,9 @@
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/IMonitorSvc.h \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/IExceptionSvc.h \
  /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/IAlgContextSvc.h \
- /besfs/users/leizh/besiii/workarea665/InstallArea/include/PppmpzAlg/PppmpzAlg/Myfunc.h
+ /besfs/users/leizh/besiii/workarea665/InstallArea/include/PppmpzAlg/PppmpzAlg/headc/bes.h \
+ /besfs/users/leizh/besiii/workarea665/InstallArea/include/PppmpzAlg/PppmpzAlg/headc/common.h \
+ /besfs/users/leizh/besiii/workarea665/InstallArea/include/PppmpzAlg/PppmpzAlg/headc/common.h
 
 /cvmfs/bes3.ihep.ac.cn/bes3sw/Boss/6.6.5.p01/InstallArea/include/McTruth/McTruth/McParticle.h:
 
@@ -1981,4 +1983,8 @@
 
 /cvmfs/bes3.ihep.ac.cn/bes3sw/ExternalLib/SLC6/ExternalLib/gaudi/GAUDI_v23r9/InstallArea/x86_64-slc6-gcc46-opt/include/GaudiKernel/IAlgContextSvc.h:
 
-/besfs/users/leizh/besiii/workarea665/InstallArea/include/PppmpzAlg/PppmpzAlg/Myfunc.h:
+/besfs/users/leizh/besiii/workarea665/InstallArea/include/PppmpzAlg/PppmpzAlg/headc/bes.h:
+
+/besfs/users/leizh/besiii/workarea665/InstallArea/include/PppmpzAlg/PppmpzAlg/headc/common.h:
+
+/besfs/users/leizh/besiii/workarea665/InstallArea/include/PppmpzAlg/PppmpzAlg/headc/common.h:

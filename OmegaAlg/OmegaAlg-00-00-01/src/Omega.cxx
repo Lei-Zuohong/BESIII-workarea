@@ -1,4 +1,4 @@
-#pragma region 准备：调用头文件
+#pragma region 1.1.引用函数库
 #include "McTruth/McParticle.h"
 #include "GaudiKernel/MsgStream.h"
 #include "GaudiKernel/AlgFactory.h"
@@ -28,8 +28,6 @@
 #include "VertexFit/VertexFit.h"
 #include "VertexFit/Helix.h"
 #include "ParticleID/ParticleID.h"
-#pragma endregion
-#pragma region 1.2.调用类型
 #ifndef ENABLE_BACKWARDS_COMPATIBILITY
 typedef HepGeom::Point3D<double> HepPoint3D;
 #endif
@@ -38,26 +36,17 @@ using CLHEP::Hep3Vector;
 using CLHEP::HepLorentzVector;
 #include <vector>
 #include "OmegaAlg/Omega.h"
-#include "OmegaAlg/Myfunc.h"
+#include "OmegaAlg/headc/bes.h"
+#include "OmegaAlg/headc/common.h"
 #pragma endregion
-#pragma region 1.3.定义全局变量
-typedef std::vector<int> Vint;				  // 定义类型
-typedef std::vector<double> Vdouble;		  //
-typedef std::vector<HepLorentzVector> Vp4;	  //
-my_constant use_constant;					  // 定义常数
-const double mpiz = use_constant.mpiz;		  //
-const double mpipm = use_constant.mpipm;	  //
-int Ncut0, Ncut1, Ncut2, Ncut3, Ncut4, Ncut5; // 定义统计总数的参数
-Vint SeriesRun;								  //
-Vint SeriesNum;								  //
-Vint SeriesNum1;							  //
-Vint SeriesNum2;							  //
-Vint SeriesNum3;							  //
-Vint SeriesNum4;							  //
-Vint SeriesNum5;							  //
-int firstrun = 0;							  //
-#pragma endregion
-#pragma region 1.4.定义输入变量
+#pragma region 1.2.初始化变量
+// 定义类型
+typedef std::vector<int> Vint;
+typedef std::vector<double> Vdouble;
+typedef std::vector<HepLorentzVector> Vp4;
+// 定义常数
+bes::CONST use_const;
+bes::RUN use_run;
 Omega::Omega(const std::string &name, ISvcLocator *pSvcLocator) : Algorithm(name, pSvcLocator)
 {
 	declareProperty("Energy", job_energy = 0);
@@ -65,7 +54,7 @@ Omega::Omega(const std::string &name, ISvcLocator *pSvcLocator) : Algorithm(name
 	declareProperty("do_567", job_do_567 = 1);
 }
 #pragma endregion
-#pragma region 1.5.定义输出
+#pragma region 1.3.初始化输出
 StatusCode Omega::initialize()
 {
 	MsgStream log(msgSvc(), name());
@@ -303,7 +292,7 @@ StatusCode Omega::initialize()
 	return StatusCode::SUCCESS;
 }
 #pragma endregion
-#pragma region 循环执行事例
+#pragma region 2.0.循环执行事例
 StatusCode Omega::execute() //
 {
 #pragma region section_初始化
@@ -311,13 +300,13 @@ StatusCode Omega::execute() //
 	log << MSG::INFO << "in execute()" << endreq;
 	SmartDataPtr<Event::EventHeader> eventHeader(eventSvc(), "/Event/EventHeader");
 	int runNo = eventHeader->runNumber();
-	int event = eventHeader->eventNumber();
+	int eventNo = eventHeader->eventNumber();
+	use_run.INIT(eventHeader->runNumber());
 	runID = runNo;
-	eventID = event;
-	Ncut0++;
+	eventID = eventNo;
 	log << MSG::DEBUG << "run, evtnum = "
-		<< runNo << " , "
-		<< event << endreq;
+		<< eventHeader->runNumber() << " , "
+		<< eventHeader->eventNumber() << endreq;
 	SmartDataPtr<EvtRecEvent> evtRecEvent(eventSvc(), EventModel::EvtRec::EvtRecEvent);
 	log << MSG::DEBUG << "ncharg, nneu, tottks = "
 		<< evtRecEvent->totalCharged() << " , "
@@ -326,47 +315,12 @@ StatusCode Omega::execute() //
 	SmartDataPtr<EvtRecTrackCol> evtRecTrkCol(eventSvc(), EventModel::EvtRec::EvtRecTrackCol);
 #pragma endregion
 #pragma region section_runnunber_筛选
-	if (runNo > 0)
+	if (eventHeader->runNumber() > 0)
 	{
 		int m_status = 0;
-		if (runNo == 34326 || runNo == 34334 || runNo == 34478 || runNo == 34818 || runNo == 34982 ||
-			runNo == 35101 || runNo == 40459 || runNo == 40460 || runNo == 40461 || runNo == 40462 ||
-			runNo == 41408 || runNo == 41416 || runNo == 41902)
-		{
-			m_status = -1;
-		}
-		if (runNo == 34018 || runNo == 34020 || runNo == 34021 ||
-			runNo == 34023 || runNo == 34027 || runNo == 34040 || runNo == 34042 || runNo == 34046 ||
-			runNo == 34048 || runNo == 34058 || runNo == 34061 || runNo == 34065 || runNo == 34099 ||
-			runNo == 34100 || runNo == 34110 || runNo == 34117 || runNo == 34123 || runNo == 34124 ||
-			runNo == 34145 || runNo == 34152 || runNo == 34153 || runNo == 34168 || runNo == 34169 ||
-			runNo == 34170 || runNo == 34171 || runNo == 34172 || runNo == 34173 || runNo == 34174 ||
-			runNo == 34177 || runNo == 34178 || runNo == 34211 || runNo == 34212 || runNo == 34217 ||
-			runNo == 34227 || runNo == 34228 || runNo == 34237 || runNo == 34238 || runNo == 34261 ||
-			runNo == 34262 || runNo == 34282 || runNo == 34283 || runNo == 34301 || runNo == 34308 ||
-			runNo == 34309 || runNo == 34336 || runNo == 34337 || runNo == 34338 || runNo == 34352 ||
-			runNo == 34353 || runNo == 34377 || runNo == 34378 || runNo == 34383 || runNo == 34392 ||
-			runNo == 34401 || runNo == 34404 || runNo == 34406 || runNo == 34429 || runNo == 34432 ||
-			runNo == 34434 || runNo == 34440 || runNo == 34441 || runNo == 34464 || runNo == 34465 ||
-			runNo == 34467 || runNo == 34490 || runNo == 34492 || runNo == 34516 || runNo == 34517 ||
-			runNo == 34518 || runNo == 34519 || runNo == 34520 || runNo == 34521 || runNo == 34522 ||
-			runNo == 34523 || runNo == 34525 || runNo == 34527 || runNo == 34528 || runNo == 34529 ||
-			runNo == 34537 || runNo == 34544 || runNo == 34546 || runNo == 34547 || runNo == 34548 ||
-			runNo == 34549 || runNo == 34576 || runNo == 34577 || runNo == 34578 || runNo == 34600 ||
-			runNo == 34602 || runNo == 34625 || runNo == 34626 || runNo == 34628 || runNo == 34650 ||
-			runNo == 34653 || runNo == 34676 || runNo == 34678 || runNo == 34700 || runNo == 34711 ||
-			runNo == 34720 || runNo == 34722 || runNo == 34744 || runNo == 34745 || runNo == 34746 ||
-			runNo == 34748 || runNo == 34770 || runNo == 34771 || runNo == 34772 || runNo == 34795 ||
-			runNo == 34798 || runNo == 34815 || runNo == 34817 || runNo == 34848 || runNo == 34849 ||
-			runNo == 34853 || runNo == 34854 || runNo == 34870 || runNo == 34872 || runNo == 34875 ||
-			runNo == 34880 || runNo == 34882 || runNo == 34900 || runNo == 34904 || runNo == 34907 ||
-			runNo == 34916 || runNo == 34917 || runNo == 34936 || runNo == 34951 || runNo == 34954 ||
-			runNo == 34975 || runNo == 34977 || runNo == 34979 || runNo == 34985 || runNo == 34986 ||
-			runNo == 34988 || runNo == 34989 || runNo == 34990 || runNo == 35006 || runNo == 35014 ||
-			runNo == 35021 || runNo == 35023 || runNo == 35043 || runNo == 35044 || runNo == 35045 ||
-			runNo == 35046 || runNo == 35052 || runNo == 35066 || runNo == 35071 || runNo == 35074 ||
-			runNo == 35080 || runNo == 35091 || runNo == 35092 || runNo == 35096 || runNo == 35103 ||
-			runNo == 35117 || runNo == 35118)
+		if (eventHeader->runNumber() == 34326 || eventHeader->runNumber() == 34334 || eventHeader->runNumber() == 34478 || eventHeader->runNumber() == 34818 || eventHeader->runNumber() == 34982 ||
+			eventHeader->runNumber() == 35101 || eventHeader->runNumber() == 40459 || eventHeader->runNumber() == 40460 || eventHeader->runNumber() == 40461 || eventHeader->runNumber() == 40462 ||
+			eventHeader->runNumber() == 41408 || eventHeader->runNumber() == 41416 || eventHeader->runNumber() == 41902)
 		{
 			m_status = -1;
 		}
@@ -375,17 +329,6 @@ StatusCode Omega::execute() //
 			return StatusCode::SUCCESS;
 		}
 	}
-#pragma endregion
-#pragma region section_checkrun_初始化
-	my_seriesinit(SeriesRun,
-				  SeriesNum,
-				  SeriesNum1,
-				  SeriesNum2,
-				  SeriesNum3,
-				  SeriesNum4,
-				  SeriesNum5,
-				  runNo,
-				  firstrun);
 #pragma endregion
 #pragma region section_topoloty
 	if (eventHeader->runNumber() < 0)
@@ -632,19 +575,18 @@ StatusCode Omega::execute() //
 			// 输出gamma信息
 			if (1 == 1)
 			{
-				my_tracktovalue(truth_isr, truth_isr_m, truth_isr_p, truth_isr_a, truth_isr_pe, truth_isr_px, truth_isr_py, truth_isr_pz);
-				my_tracktovalue(truth_pip, truth_pip_m, truth_pip_p, truth_pip_a, truth_pip_pe, truth_pip_px, truth_pip_py, truth_pip_pz);
-				my_tracktovalue(truth_pim, truth_pim_m, truth_pim_p, truth_pim_a, truth_pim_pe, truth_pim_px, truth_pim_py, truth_pim_pz);
-				my_tracktovalue(truth_pi01, truth_pi01_m, truth_pi01_p, truth_pi01_a, truth_pi01_pe, truth_pi01_px, truth_pi01_py, truth_pi01_pz);
-				my_tracktovalue(truth_pi02, truth_pi02_m, truth_pi02_p, truth_pi02_a, truth_pi02_pe, truth_pi02_px, truth_pi02_py, truth_pi02_pz);
-				my_tracktovalue(truth_pi03, truth_pi03_m, truth_pi03_p, truth_pi03_a, truth_pi03_pe, truth_pi03_px, truth_pi03_py, truth_pi03_pz);
-				my_tracktovalue(truth_omega, truth_omega_m, truth_omega_p, truth_omega_a, truth_omega_pe, truth_omega_px, truth_omega_py, truth_omega_pz);
-				my_tracktovalue(truth_omegapi02, truth_omegapi02_m, truth_omegapi02_p, truth_omegapi02_a, truth_omegapi02_pe, truth_omegapi02_px, truth_omegapi02_py, truth_omegapi02_pz);
-				my_tracktovalue(truth_omegapi03, truth_omegapi03_m, truth_omegapi03_p, truth_omegapi03_a, truth_omegapi03_pe, truth_omegapi03_px, truth_omegapi03_py, truth_omegapi03_pz);
-				my_tracktovalue(truth_pi02pi03, truth_pi02pi03_m, truth_pi02pi03_p, truth_pi02pi03_a, truth_pi02pi03_pe, truth_pi02pi03_px, truth_pi02pi03_py, truth_pi02pi03_pz);
+				bes::tracktovalue(truth_isr, truth_isr_m, truth_isr_p, truth_isr_a, truth_isr_pe, truth_isr_px, truth_isr_py, truth_isr_pz);
+				bes::tracktovalue(truth_pip, truth_pip_m, truth_pip_p, truth_pip_a, truth_pip_pe, truth_pip_px, truth_pip_py, truth_pip_pz);
+				bes::tracktovalue(truth_pim, truth_pim_m, truth_pim_p, truth_pim_a, truth_pim_pe, truth_pim_px, truth_pim_py, truth_pim_pz);
+				bes::tracktovalue(truth_pi01, truth_pi01_m, truth_pi01_p, truth_pi01_a, truth_pi01_pe, truth_pi01_px, truth_pi01_py, truth_pi01_pz);
+				bes::tracktovalue(truth_pi02, truth_pi02_m, truth_pi02_p, truth_pi02_a, truth_pi02_pe, truth_pi02_px, truth_pi02_py, truth_pi02_pz);
+				bes::tracktovalue(truth_pi03, truth_pi03_m, truth_pi03_p, truth_pi03_a, truth_pi03_pe, truth_pi03_px, truth_pi03_py, truth_pi03_pz);
+				bes::tracktovalue(truth_omega, truth_omega_m, truth_omega_p, truth_omega_a, truth_omega_pe, truth_omega_px, truth_omega_py, truth_omega_pz);
+				bes::tracktovalue(truth_omegapi02, truth_omegapi02_m, truth_omegapi02_p, truth_omegapi02_a, truth_omegapi02_pe, truth_omegapi02_px, truth_omegapi02_py, truth_omegapi02_pz);
+				bes::tracktovalue(truth_omegapi03, truth_omegapi03_m, truth_omegapi03_p, truth_omegapi03_a, truth_omegapi03_pe, truth_omegapi03_px, truth_omegapi03_py, truth_omegapi03_pz);
+				bes::tracktovalue(truth_pi02pi03, truth_pi02pi03_m, truth_pi02pi03_p, truth_pi02pi03_a, truth_pi02pi03_pe, truth_pi02pi03_px, truth_pi02pi03_py, truth_pi02pi03_pz);
 				m_tuple_truth->write();
-				Ncut1 += 1;
-				my_seriescount(SeriesRun, SeriesNum1, runNo);
+				use_run.COUNT(eventHeader->runNumber(), 1);
 			}
 		}
 	}
@@ -827,7 +769,7 @@ StatusCode Omega::execute() //
 			ptrk.setPy(mdcKalTrk->py());												   // 变量：ipip[]（值为pi+编号）
 			ptrk.setPz(mdcKalTrk->pz());												   // 变量：ipim[]（值为pi-编号）
 			double p3 = ptrk.mag();														   // ****************************************
-			ptrk.setE(sqrt(p3 * p3 + mpipm * mpipm));									   //
+			ptrk.setE(sqrt(p3 * p3 + use_const.mpipm * use_const.mpipm));									   //
 			ppip.push_back(ptrk);														   //
 		}																				   //
 		else																			   //
@@ -838,7 +780,7 @@ StatusCode Omega::execute() //
 			ptrk.setPy(mdcKalTrk->py());												   //
 			ptrk.setPz(mdcKalTrk->pz());												   //
 			double p3 = ptrk.mag();														   //
-			ptrk.setE(sqrt(p3 * p3 + mpipm * mpipm));									   //
+			ptrk.setE(sqrt(p3 * p3 + use_const.mpipm * use_const.mpipm));									   //
 			ppim.push_back(ptrk);														   //
 		}																				   //
 	}																					   // ****************************************
@@ -846,15 +788,15 @@ StatusCode Omega::execute() //
 	int npim = ipim.size();																   // 变量：npim（pi-数目）
 	if (npip * npim != 1)																   // ****************************************
 		return SUCCESS;																	   //
-	Ncut2++;																			   // Ncut2
-	my_seriescount(SeriesRun, SeriesNum2, runNo);										   // Series2
+	use_run.COUNT(eventHeader->runNumber(), 2);											   //
+	use_run.COUNT(eventHeader->runNumber(), 3);											   //
 #pragma endregion
 #pragma region section_vertex fit
 	RecMdcKalTrack *pipTrk = (*(evtRecTrkCol->begin() + ipip[0]))->mdcKalTrack(); //
 	RecMdcKalTrack *pimTrk = (*(evtRecTrkCol->begin() + ipim[0]))->mdcKalTrack(); // Default is pion, for other particles:
 	WTrackParameter wvpipTrk, wvpimTrk;											  // wvppTrk = WTrackParameter(mp, pipTrk->getZHelixP(), pipTrk->getZErrorP()); proton
-	wvpipTrk = WTrackParameter(mpipm, pipTrk->getZHelix(), pipTrk->getZError());  // wvepTrk = WTrackParameter(me, pipTrk->getZHelixE(), pipTrk->getZErrorE()); electron
-	wvpimTrk = WTrackParameter(mpipm, pimTrk->getZHelix(), pimTrk->getZError());  // wvkpTrk = WTrackParameter(mk, pipTrk->getZHelixK(), pipTrk->getZErrorK()); kaon
+	wvpipTrk = WTrackParameter(use_const.mpipm, pipTrk->getZHelix(), pipTrk->getZError());  // wvepTrk = WTrackParameter(me, pipTrk->getZHelixE(), pipTrk->getZErrorE()); electron
+	wvpimTrk = WTrackParameter(use_const.mpipm, pimTrk->getZHelix(), pimTrk->getZError());  // wvkpTrk = WTrackParameter(mk, pipTrk->getZHelixK(), pipTrk->getZErrorK()); kaon
 	HepPoint3D vx(0., 0., 0.);													  // wvmupTrk = WTrackParameter(mmu, pipTrk->getZHelixMu(), pipTrk->getZErrorMu()); muon
 	HepSymMatrix Evx(3, 0);														  //
 	double bx = 1E+6;															  //
@@ -882,6 +824,7 @@ StatusCode Omega::execute() //
 		m_tuple_vertex->write();												  //
 	}																			  //
 	vtxfit->Swim(0);															  //
+	use_run.COUNT(eventHeader->runNumber(), 4);									  //
 #pragma endregion
 #pragma region fourc_初始参数定义
 	WTrackParameter wpip = vtxfit->wtrk(0);
@@ -1111,8 +1054,6 @@ StatusCode Omega::execute() //
 	if (chisq_4c_6g < 200)
 	{
 		check_6g = 1;
-		Ncut3++;
-		my_seriescount(SeriesRun, SeriesNum3, runNo);
 	}
 	if (check_6g && job_do_567)
 	{
@@ -1124,7 +1065,7 @@ StatusCode Omega::execute() //
 #pragma endregion
 #pragma region fourc_粒子重建
 	HepLorentzVector *tracklist;
-	tracklist = my_newheplorentzvector(8);
+	tracklist = bes::newheplorentzvector(8);
 	tracklist[0] = ptrackp;
 	tracklist[1] = ptrackm;
 	tracklist[2] = ptrack1;
@@ -1137,19 +1078,19 @@ StatusCode Omega::execute() //
 	{
 		if (1 == 1)
 		{
-			tracklist = my_omega_3pi(tracklist, mpiz, mpiz, mpiz);
+			tracklist = besomega::recon_3pi(tracklist, use_const.mpiz, use_const.mpiz, use_const.mpiz);
 		}
 		if (1 == 1)
 		{
-			tracklist = my_omega_omega(tracklist, 0.782);
+			tracklist = besomega::recon_omega(tracklist, 0.782);
 		}
 		if (1 == 0)
 		{
-			tracklist = my_omega_dalitz(tracklist);
+			tracklist = besomega::recon_omega_dalitz(tracklist);
 		}
 		if (1 == 1)
 		{
-			tracklist = my_omega_lower(tracklist);
+			tracklist = besomega::recon_lower(tracklist);
 		}
 #pragma endregion
 #pragma region fourc_信息输出
@@ -1172,15 +1113,15 @@ StatusCode Omega::execute() //
 		HepLorentzVector fit4c_pi02pi03 = fit4c_pi02 + fit4c_pi03;
 		// 填入信息
 		fit4c_chisq = chisq_4c_6g;
-		my_tracktovalue(fit4c_pip, fit4c_pip_m, fit4c_pip_p, fit4c_pip_a, fit4c_pip_pe, fit4c_pip_px, fit4c_pip_py, fit4c_pip_pz);
-		my_tracktovalue(fit4c_pim, fit4c_pim_m, fit4c_pim_p, fit4c_pim_a, fit4c_pim_pe, fit4c_pim_px, fit4c_pim_py, fit4c_pim_pz);
-		my_tracktovalue(fit4c_pi01, fit4c_pi01_m, fit4c_pi01_p, fit4c_pi01_a, fit4c_pi01_pe, fit4c_pi01_px, fit4c_pi01_py, fit4c_pi01_pz);
-		my_tracktovalue(fit4c_pi02, fit4c_pi02_m, fit4c_pi02_p, fit4c_pi02_a, fit4c_pi02_pe, fit4c_pi02_px, fit4c_pi02_py, fit4c_pi02_pz);
-		my_tracktovalue(fit4c_pi03, fit4c_pi03_m, fit4c_pi03_p, fit4c_pi03_a, fit4c_pi03_pe, fit4c_pi03_px, fit4c_pi03_py, fit4c_pi03_pz);
-		my_tracktovalue(fit4c_omega, fit4c_omega_m, fit4c_omega_p, fit4c_omega_a, fit4c_omega_pe, fit4c_omega_px, fit4c_omega_py, fit4c_omega_pz);
-		my_tracktovalue(fit4c_omegapi02, fit4c_omegapi02_m, fit4c_omegapi02_p, fit4c_omegapi02_a, fit4c_omegapi02_pe, fit4c_omegapi02_px, fit4c_omegapi02_py, fit4c_omegapi02_pz);
-		my_tracktovalue(fit4c_omegapi03, fit4c_omegapi03_m, fit4c_omegapi03_p, fit4c_omegapi03_a, fit4c_omegapi03_pe, fit4c_omegapi03_px, fit4c_omegapi03_py, fit4c_omegapi03_pz);
-		my_tracktovalue(fit4c_pi02pi03, fit4c_pi02pi03_m, fit4c_pi02pi03_p, fit4c_pi02pi03_a, fit4c_pi02pi03_pe, fit4c_pi02pi03_px, fit4c_pi02pi03_py, fit4c_pi02pi03_pz);
+		bes::tracktovalue(fit4c_pip, fit4c_pip_m, fit4c_pip_p, fit4c_pip_a, fit4c_pip_pe, fit4c_pip_px, fit4c_pip_py, fit4c_pip_pz);
+		bes::tracktovalue(fit4c_pim, fit4c_pim_m, fit4c_pim_p, fit4c_pim_a, fit4c_pim_pe, fit4c_pim_px, fit4c_pim_py, fit4c_pim_pz);
+		bes::tracktovalue(fit4c_pi01, fit4c_pi01_m, fit4c_pi01_p, fit4c_pi01_a, fit4c_pi01_pe, fit4c_pi01_px, fit4c_pi01_py, fit4c_pi01_pz);
+		bes::tracktovalue(fit4c_pi02, fit4c_pi02_m, fit4c_pi02_p, fit4c_pi02_a, fit4c_pi02_pe, fit4c_pi02_px, fit4c_pi02_py, fit4c_pi02_pz);
+		bes::tracktovalue(fit4c_pi03, fit4c_pi03_m, fit4c_pi03_p, fit4c_pi03_a, fit4c_pi03_pe, fit4c_pi03_px, fit4c_pi03_py, fit4c_pi03_pz);
+		bes::tracktovalue(fit4c_omega, fit4c_omega_m, fit4c_omega_p, fit4c_omega_a, fit4c_omega_pe, fit4c_omega_px, fit4c_omega_py, fit4c_omega_pz);
+		bes::tracktovalue(fit4c_omegapi02, fit4c_omegapi02_m, fit4c_omegapi02_p, fit4c_omegapi02_a, fit4c_omegapi02_pe, fit4c_omegapi02_px, fit4c_omegapi02_py, fit4c_omegapi02_pz);
+		bes::tracktovalue(fit4c_omegapi03, fit4c_omegapi03_m, fit4c_omegapi03_p, fit4c_omegapi03_a, fit4c_omegapi03_pe, fit4c_omegapi03_px, fit4c_omegapi03_py, fit4c_omegapi03_pz);
+		bes::tracktovalue(fit4c_pi02pi03, fit4c_pi02pi03_m, fit4c_pi02pi03_p, fit4c_pi02pi03_a, fit4c_pi02pi03_pe, fit4c_pi02pi03_px, fit4c_pi02pi03_py, fit4c_pi02pi03_pz);
 		//
 		fit4c_pif1_m = (fit4c_gamma1 + fit4c_gamma3).m();
 		fit4c_pif2_m = (fit4c_gamma1 + fit4c_gamma4).m();
@@ -1188,10 +1129,7 @@ StatusCode Omega::execute() //
 		fit4c_pif4_m = (fit4c_gamma1 + fit4c_gamma6).m();
 		//
 		m_tuple_fit4c->write();
-		Ncut4++;
-		my_seriescount(SeriesRun, SeriesNum4, runNo);
-		Ncut5++;
-		my_seriescount(SeriesRun, SeriesNum5, runNo);
+		use_run.COUNT(eventHeader->runNumber(), 5);
 #pragma endregion
 	}
 	return StatusCode::SUCCESS;
@@ -1203,44 +1141,44 @@ StatusCode Omega::execute() //
 //*********************************************************************************************************
 StatusCode Omega::finalize()
 {
-	cout << "energy point:         " << job_energy << endl;
-	cout << "total number:         " << Ncut0 << endl;
-	cout << "Pass truth:           " << Ncut1 << endl;
-	cout << "Pass Pid:             " << Ncut2 << endl;
-	cout << "Pass 4c-6gamma:       " << Ncut3 << endl;
-	cout << "Pass 4C:              " << Ncut4 << endl;
-	cout << "Pass 4C:              " << Ncut5 << endl;
+	cout << "Energy point:         " << job_energy << endl;
+	cout << "Total number:         " << use_run.countnum[0] << endl;
+	cout << "Pass truth:           " << use_run.countnum[1] << endl;
+	cout << "Pass charged track:   " << use_run.countnum[2] << endl;
+	cout << "Pass pid:             " << use_run.countnum[3] << endl;
+	cout << "Pass vertex fit:      " << use_run.countnum[4] << endl;
+	cout << "Pass 4C               " << use_run.countnum[5] << endl;
 	// Start my output
 	cout << "****************************************************" << endl;
 	cout << "**********Exporting Run numbers and events**********" << endl;
-	for (int i = 0; i < SeriesRun.size(); i++)
+	for (int i = 0; i < use_run.seriesrun.size(); i++)
 	{
-		cout << "Run:" << SeriesRun[i] << "for" << SeriesNum[i] << "times" << endl;
+		cout << "Run: " << use_run.seriesrun[i] << " for " << use_run.seriesnum[0][i] << " times" << endl;
 	}
 	cout << "****************************************************" << endl;
-	for (int i = 0; i < SeriesRun.size(); i++)
+	for (int i = 0; i < use_run.seriesrun.size(); i++)
 	{
-		cout << "Run:" << SeriesRun[i] << "get signal1" << SeriesNum1[i] << "times" << endl;
+		cout << "Run: " << use_run.seriesrun[i] << " signal1 " << use_run.seriesnum[1][i] << " times" << endl;
 	}
 	cout << "****************************************************" << endl;
-	for (int i = 0; i < SeriesRun.size(); i++)
+	for (int i = 0; i < use_run.seriesrun.size(); i++)
 	{
-		cout << "Run:" << SeriesRun[i] << "get signal2" << SeriesNum2[i] << "times" << endl;
+		cout << "Run: " << use_run.seriesrun[i] << " signal2 " << use_run.seriesnum[2][i] << " times" << endl;
 	}
 	cout << "****************************************************" << endl;
-	for (int i = 0; i < SeriesRun.size(); i++)
+	for (int i = 0; i < use_run.seriesrun.size(); i++)
 	{
-		cout << "Run:" << SeriesRun[i] << "get signal3" << SeriesNum3[i] << "times" << endl;
+		cout << "Run: " << use_run.seriesrun[i] << " signal3 " << use_run.seriesnum[3][i] << " times" << endl;
 	}
 	cout << "****************************************************" << endl;
-	for (int i = 0; i < SeriesRun.size(); i++)
+	for (int i = 0; i < use_run.seriesrun.size(); i++)
 	{
-		cout << "Run:" << SeriesRun[i] << "get signal4" << SeriesNum4[i] << "times" << endl;
+		cout << "Run: " << use_run.seriesrun[i] << " signal4 " << use_run.seriesnum[4][i] << " times" << endl;
 	}
 	cout << "****************************************************" << endl;
-	for (int i = 0; i < SeriesRun.size(); i++)
+	for (int i = 0; i < use_run.seriesrun.size(); i++)
 	{
-		cout << "Run:" << SeriesRun[i] << "get signal5" << SeriesNum5[i] << "times" << endl;
+		cout << "Run: " << use_run.seriesrun[i] << " signal5 " << use_run.seriesnum[5][i] << " times" << endl;
 	}
 	cout << "****************************************************" << endl;
 	cout << "Finish script" << endl;

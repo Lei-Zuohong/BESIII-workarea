@@ -36,7 +36,8 @@ using CLHEP::Hep3Vector;
 using CLHEP::HepLorentzVector;
 #include <vector>
 #include "PppmpzAlg/Pppmpz.h"
-#include "PppmpzAlg/Myfunc.h"
+#include "PppmpzAlg/headc/bes.h"
+#include "PppmpzAlg/headc/common.h"
 #pragma endregion
 #pragma region 1.2.初始化变量
 // 定义类型
@@ -44,8 +45,8 @@ typedef std::vector<int> Vint;
 typedef std::vector<double> Vdouble;
 typedef std::vector<HepLorentzVector> Vp4;
 // 定义常数
-MY_CONST use_const;
-MY_RUN use_run;
+bes::CONST use_const;
+bes::RUN use_run;
 Pppmpz::Pppmpz(const std::string &name, ISvcLocator *pSvcLocator) : Algorithm(name, pSvcLocator)
 {
 	declareProperty("Energy", job_energy = 0);
@@ -65,7 +66,7 @@ StatusCode Pppmpz::initialize()
 	MsgStream log(msgSvc(), name());
 	log << MSG::INFO << "in initialize()" << endmsg;
 	StatusCode status;
-#pragma region init_truth
+#pragma region 新建树：truth
 	if (job_do_truth)
 	{
 		NTuplePtr nt_truth(ntupleSvc(), "FILE1/truth");
@@ -143,7 +144,7 @@ StatusCode Pppmpz::initialize()
 		}
 	}
 #pragma endregion
-#pragma region init_charge
+#pragma region 新建树：charge
 	NTuplePtr nt_charge(ntupleSvc(), "FILE1/charge");
 	if (nt_charge)
 	{
@@ -163,7 +164,7 @@ StatusCode Pppmpz::initialize()
 		}
 	}
 #pragma endregion
-#pragma region init_vertex
+#pragma region 新建树：vertex
 	NTuplePtr nt_vertex(ntupleSvc(), "FILE1/vertex");
 	if (nt_vertex)
 	{
@@ -183,7 +184,7 @@ StatusCode Pppmpz::initialize()
 		}
 	}
 #pragma endregion
-#pragma region init_fit4c
+#pragma region 新建树：fit4c
 	if (job_do_4c)
 	{
 		NTuplePtr nt_fit4c(ntupleSvc(), "FILE1/fit4c");
@@ -205,7 +206,7 @@ StatusCode Pppmpz::initialize()
 				status = m_tuple_fit4c->addItem("flag1", flag1);
 				status = m_tuple_fit4c->addItem("flag2", flag2);
 				status = m_tuple_fit4c->addItem("flag3", flag3);
-
+				// Charged track
 				status = m_tuple_fit4c->addItem("pip_ep", fit4c_pip_ep);
 				status = m_tuple_fit4c->addItem("pim_ep", fit4c_pim_ep);
 				status = m_tuple_fit4c->addItem("pip_pid_pi", fit4c_pip_pid_pi);
@@ -214,22 +215,25 @@ StatusCode Pppmpz::initialize()
 				status = m_tuple_fit4c->addItem("pim_pid_mu", fit4c_pim_pid_mu);
 				status = m_tuple_fit4c->addItem("pip_pid_e", fit4c_pip_pid_e);
 				status = m_tuple_fit4c->addItem("pim_pid_e", fit4c_pim_pid_e);
-
+				// Neutral track
 				status = m_tuple_fit4c->addItem("ngamma", fit4c_ngamma);
-
+				// Vertex fit
 				status = m_tuple_fit4c->addItem("vertex", fit4c_vertex);
-
+				// 4C fit
 				status = m_tuple_fit4c->addItem("chisq", fit4c_chisq);
 				status = m_tuple_fit4c->addItem("chisq_0g", fit4c_chisq_0g);
 				status = m_tuple_fit4c->addItem("chisq_1g", fit4c_chisq_1g);
 				status = m_tuple_fit4c->addItem("chisq_3g", fit4c_chisq_3g);
 				status = m_tuple_fit4c->addItem("chisq_4g", fit4c_chisq_4g);
-
+				// Momentum transform
 				status = m_tuple_fit4c->addItem("gamma1_heli", fit4c_gamma1_heli);
 				status = m_tuple_fit4c->addItem("gamma2_heli", fit4c_gamma2_heli);
 				status = m_tuple_fit4c->addItem("a_pippim", fit4c_a_pippim);
 				status = m_tuple_fit4c->addItem("b_pippim", fit4c_b_pippim);
-
+				status = m_tuple_fit4c->addItem("dalitz_pm", fit4c_dalitz_pm);
+				status = m_tuple_fit4c->addItem("dalitz_pz", fit4c_dalitz_pz);
+				status = m_tuple_fit4c->addItem("dalitz_mz", fit4c_dalitz_mz);
+				// Momentum
 				status = m_tuple_fit4c->addItem("pip_m", fit4c_pip_m);
 				status = m_tuple_fit4c->addItem("pip_p", fit4c_pip_p);
 				status = m_tuple_fit4c->addItem("pip_a", fit4c_pip_a);
@@ -286,10 +290,6 @@ StatusCode Pppmpz::initialize()
 				status = m_tuple_fit4c->addItem("pimz_px", fit4c_pimz_px);
 				status = m_tuple_fit4c->addItem("pimz_py", fit4c_pimz_py);
 				status = m_tuple_fit4c->addItem("pimz_pz", fit4c_pimz_pz);
-
-				status = m_tuple_fit4c->addItem("dalitz_pm", fit4c_dalitz_pm);
-				status = m_tuple_fit4c->addItem("dalitz_pz", fit4c_dalitz_pz);
-				status = m_tuple_fit4c->addItem("dalitz_mz", fit4c_dalitz_mz);
 			}
 			else
 			{
@@ -500,14 +500,14 @@ StatusCode Pppmpz::execute() //
 			truth_pipm = truth_pip + truth_pim;
 			truth_pipz = truth_pip + truth_piz;
 			truth_pimz = truth_pim + truth_piz;
-			my_tracktovalue(truth_pip, truth_pip_m, truth_pip_p, truth_pip_a, truth_pip_pe, truth_pip_px, truth_pip_py, truth_pip_pz);
-			my_tracktovalue(truth_pim, truth_pim_m, truth_pim_p, truth_pim_a, truth_pim_pe, truth_pim_px, truth_pim_py, truth_pim_pz);
-			my_tracktovalue(truth_gamma1, truth_gamma1_m, truth_gamma1_p, truth_gamma1_a, truth_gamma1_pe, truth_gamma1_px, truth_gamma1_py, truth_gamma1_pz);
-			my_tracktovalue(truth_gamma2, truth_gamma2_m, truth_gamma2_p, truth_gamma2_a, truth_gamma2_pe, truth_gamma2_px, truth_gamma2_py, truth_gamma2_pz);
-			my_tracktovalue(truth_piz, truth_piz_m, truth_piz_p, truth_piz_a, truth_piz_pe, truth_piz_px, truth_piz_py, truth_piz_pz);
-			my_tracktovalue(truth_pipm, truth_pipm_m, truth_pipm_p, truth_pipm_a, truth_pipm_pe, truth_pipm_px, truth_pipm_py, truth_pipm_pz);
-			my_tracktovalue(truth_pipz, truth_pipz_m, truth_pipz_p, truth_pipz_a, truth_pipz_pe, truth_pipz_px, truth_pipz_py, truth_pipz_pz);
-			my_tracktovalue(truth_pimz, truth_pimz_m, truth_pimz_p, truth_pimz_a, truth_pimz_pe, truth_pimz_px, truth_pimz_py, truth_pimz_pz);
+			bes::tracktovalue(truth_pip, truth_pip_m, truth_pip_p, truth_pip_a, truth_pip_pe, truth_pip_px, truth_pip_py, truth_pip_pz);
+			bes::tracktovalue(truth_pim, truth_pim_m, truth_pim_p, truth_pim_a, truth_pim_pe, truth_pim_px, truth_pim_py, truth_pim_pz);
+			bes::tracktovalue(truth_gamma1, truth_gamma1_m, truth_gamma1_p, truth_gamma1_a, truth_gamma1_pe, truth_gamma1_px, truth_gamma1_py, truth_gamma1_pz);
+			bes::tracktovalue(truth_gamma2, truth_gamma2_m, truth_gamma2_p, truth_gamma2_a, truth_gamma2_pe, truth_gamma2_px, truth_gamma2_py, truth_gamma2_pz);
+			bes::tracktovalue(truth_piz, truth_piz_m, truth_piz_p, truth_piz_a, truth_piz_pe, truth_piz_px, truth_piz_py, truth_piz_pz);
+			bes::tracktovalue(truth_pipm, truth_pipm_m, truth_pipm_p, truth_pipm_a, truth_pipm_pe, truth_pipm_px, truth_pipm_py, truth_pipm_pz);
+			bes::tracktovalue(truth_pipz, truth_pipz_m, truth_pipz_p, truth_pipz_a, truth_pipz_pe, truth_pipz_px, truth_pipz_py, truth_pipz_pz);
+			bes::tracktovalue(truth_pimz, truth_pimz_m, truth_pimz_p, truth_pimz_a, truth_pimz_pe, truth_pimz_px, truth_pimz_py, truth_pimz_pz);
 			m_tuple_truth->write();
 			use_run.COUNT(eventHeader->runNumber(), 1);
 		}
@@ -761,11 +761,9 @@ StatusCode Pppmpz::execute() //
 	vtxfit->AddTrack(0, wpip);														   //
 	vtxfit->AddTrack(1, wpim);														   //
 	vtxfit->AddVertex(0, vxpar, 0, 1);												   //
-	if (!vtxfit->Fit(0))															   //
-		return SUCCESS;																   //
-	double chisq_vertex = vtxfit->chisq(0);											   //
-	if (chisq_vertex > 100)															   //
-		return SUCCESS;																   //
+	double chisq_vertex = 9999;														   //
+	if (vtxfit->Fit(0))																   //
+		chisq_vertex = vtxfit->chisq(0);											   //
 	if (1 == 1)																		   //
 	{																				   //
 		vertex_chisq = chisq_vertex;												   //
@@ -974,19 +972,19 @@ StatusCode Pppmpz::execute() //
 		HepLorentzVector fit4c_pipz = fit4c_pip + fit4c_piz;
 		HepLorentzVector fit4c_pimz = fit4c_pim + fit4c_piz;
 		// ?.track计算
-		fit4c_gamma1_heli = my_helicityangle(fit4c_gamma1, fit4c_piz);
-		fit4c_gamma2_heli = my_helicityangle(fit4c_gamma2, fit4c_piz);
-		fit4c_a_pippim = my_angle_boost(fit4c_pip, fit4c_pim) * 180. / 3.1415926;
-		fit4c_b_pippim = my_angle(fit4c_pip, fit4c_pim) * 180. / 3.1415926;
+		fit4c_gamma1_heli = bes::helicityangle(fit4c_gamma1, fit4c_piz);
+		fit4c_gamma2_heli = bes::helicityangle(fit4c_gamma2, fit4c_piz);
+		fit4c_a_pippim = bes::angle_boost(fit4c_pip, fit4c_pim) * 180. / 3.1415926;
+		fit4c_b_pippim = bes::angle(fit4c_pip, fit4c_pim) * 180. / 3.1415926;
 		// ?.track取值
-		my_tracktovalue(fit4c_pip, fit4c_pip_m, fit4c_pip_p, fit4c_pip_a, fit4c_pip_pe, fit4c_pip_px, fit4c_pip_py, fit4c_pip_pz);
-		my_tracktovalue(fit4c_pim, fit4c_pim_m, fit4c_pim_p, fit4c_pim_a, fit4c_pim_pe, fit4c_pim_px, fit4c_pim_py, fit4c_pim_pz);
-		my_tracktovalue(fit4c_gamma1, fit4c_gamma1_m, fit4c_gamma1_p, fit4c_gamma1_a, fit4c_gamma1_pe, fit4c_gamma1_px, fit4c_gamma1_py, fit4c_gamma1_pz);
-		my_tracktovalue(fit4c_gamma2, fit4c_gamma2_m, fit4c_gamma2_p, fit4c_gamma2_a, fit4c_gamma2_pe, fit4c_gamma2_px, fit4c_gamma2_py, fit4c_gamma2_pz);
-		my_tracktovalue(fit4c_piz, fit4c_piz_m, fit4c_piz_p, fit4c_piz_a, fit4c_piz_pe, fit4c_piz_px, fit4c_piz_py, fit4c_piz_pz);
-		my_tracktovalue(fit4c_pipm, fit4c_pipm_m, fit4c_pipm_p, fit4c_pipm_a, fit4c_pipm_pe, fit4c_pipm_px, fit4c_pipm_py, fit4c_pipm_pz);
-		my_tracktovalue(fit4c_pipz, fit4c_pipz_m, fit4c_pipz_p, fit4c_pipz_a, fit4c_pipz_pe, fit4c_pipz_px, fit4c_pipz_py, fit4c_pipz_pz);
-		my_tracktovalue(fit4c_pimz, fit4c_pimz_m, fit4c_pimz_p, fit4c_pimz_a, fit4c_pimz_pe, fit4c_pimz_px, fit4c_pimz_py, fit4c_pimz_pz);
+		bes::tracktovalue(fit4c_pip, fit4c_pip_m, fit4c_pip_p, fit4c_pip_a, fit4c_pip_pe, fit4c_pip_px, fit4c_pip_py, fit4c_pip_pz);
+		bes::tracktovalue(fit4c_pim, fit4c_pim_m, fit4c_pim_p, fit4c_pim_a, fit4c_pim_pe, fit4c_pim_px, fit4c_pim_py, fit4c_pim_pz);
+		bes::tracktovalue(fit4c_gamma1, fit4c_gamma1_m, fit4c_gamma1_p, fit4c_gamma1_a, fit4c_gamma1_pe, fit4c_gamma1_px, fit4c_gamma1_py, fit4c_gamma1_pz);
+		bes::tracktovalue(fit4c_gamma2, fit4c_gamma2_m, fit4c_gamma2_p, fit4c_gamma2_a, fit4c_gamma2_pe, fit4c_gamma2_px, fit4c_gamma2_py, fit4c_gamma2_pz);
+		bes::tracktovalue(fit4c_piz, fit4c_piz_m, fit4c_piz_p, fit4c_piz_a, fit4c_piz_pe, fit4c_piz_px, fit4c_piz_py, fit4c_piz_pz);
+		bes::tracktovalue(fit4c_pipm, fit4c_pipm_m, fit4c_pipm_p, fit4c_pipm_a, fit4c_pipm_pe, fit4c_pipm_px, fit4c_pipm_py, fit4c_pipm_pz);
+		bes::tracktovalue(fit4c_pipz, fit4c_pipz_m, fit4c_pipz_p, fit4c_pipz_a, fit4c_pipz_pe, fit4c_pipz_px, fit4c_pipz_py, fit4c_pipz_pz);
+		bes::tracktovalue(fit4c_pimz, fit4c_pimz_m, fit4c_pimz_p, fit4c_pimz_a, fit4c_pimz_pe, fit4c_pimz_px, fit4c_pimz_py, fit4c_pimz_pz);
 		// 变量处理：动量归一化
 		fit4c_pip_p = fit4c_pip_p * 2 / job_energy;
 		fit4c_pim_p = fit4c_pim_p * 2 / job_energy;
@@ -1017,13 +1015,13 @@ StatusCode Pppmpz::execute() //
 //*********************************************************************************************************
 StatusCode Pppmpz::finalize()
 {
-	cout << "energy point:         " << job_energy << endl;
-	cout << "total number:         " << use_run.countnum[0] << endl;
+	cout << "Energy point:         " << job_energy << endl;
+	cout << "Total number:         " << use_run.countnum[0] << endl;
 	cout << "Pass truth:           " << use_run.countnum[1] << endl;
-	cout << "Pass Pid:             " << use_run.countnum[2] << endl;
-	cout << "Pass 4C:              " << use_run.countnum[3] << endl;
-	cout << "Count 4               " << use_run.countnum[4] << endl;
-	cout << "Count 5               " << use_run.countnum[5] << endl;
+	cout << "Pass charged track:   " << use_run.countnum[2] << endl;
+	cout << "Pass pid:             " << use_run.countnum[3] << endl;
+	cout << "Pass vertex fit:      " << use_run.countnum[4] << endl;
+	cout << "Pass 4C               " << use_run.countnum[5] << endl;
 	// Start my output
 	cout << "****************************************************" << endl;
 	cout << "**********Exporting Run numbers and events**********" << endl;

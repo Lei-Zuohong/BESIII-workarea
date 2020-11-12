@@ -14,16 +14,18 @@ public:
     StatusCode finalize();
 
 private:
+    // ****************************************
     // Parameter from joboption
     double job_energy;
     int job_flag3;
-
+    //
     int job_do_truth;
     int job_do_4c;
     int job_do_4c_0;
     int job_do_4c_1;
     int job_do_4c_3;
     int job_do_4c_4;
+    // ****************************************
     // Parameter for topology
     NTuple::Item<int> runNo;
     NTuple::Item<int> eventNo;
@@ -55,7 +57,7 @@ private:
     // ****************************************
     // TREE - "fit4c"
     NTuple::Tuple *m_tuple_fit4c;
-    // For Cut
+    // Charged track
     NTuple::Item<double> fit4c_pip_ep;
     NTuple::Item<double> fit4c_pim_ep;
     NTuple::Item<double> fit4c_pip_pid_pi;
@@ -64,22 +66,25 @@ private:
     NTuple::Item<double> fit4c_pim_pid_e;
     NTuple::Item<double> fit4c_pip_pid_mu;
     NTuple::Item<double> fit4c_pim_pid_mu;
-
+    // Neutral track
     NTuple::Item<double> fit4c_ngamma;
-
+    // Vertex fit
     NTuple::Item<double> fit4c_vertex;
-
+    // 4C fit
     NTuple::Item<double> fit4c_chisq;
     NTuple::Item<double> fit4c_chisq_0g;
     NTuple::Item<double> fit4c_chisq_1g;
     NTuple::Item<double> fit4c_chisq_3g;
     NTuple::Item<double> fit4c_chisq_4g;
-
+    // Momentum transform
     NTuple::Item<double> fit4c_gamma1_heli;
     NTuple::Item<double> fit4c_gamma2_heli;
     NTuple::Item<double> fit4c_a_pippim;
     NTuple::Item<double> fit4c_b_pippim;
-
+    NTuple::Item<double> fit4c_dalitz_pm;
+    NTuple::Item<double> fit4c_dalitz_pz;
+    NTuple::Item<double> fit4c_dalitz_mz;
+    // Momentum
     NTuple::Item<double> fit4c_pip_m, fit4c_pip_p, fit4c_pip_a, fit4c_pip_pe, fit4c_pip_px, fit4c_pip_py, fit4c_pip_pz;
     NTuple::Item<double> fit4c_pim_m, fit4c_pim_p, fit4c_pim_a, fit4c_pim_pe, fit4c_pim_px, fit4c_pim_py, fit4c_pim_pz;
     NTuple::Item<double> fit4c_gamma1_m, fit4c_gamma1_p, fit4c_gamma1_a, fit4c_gamma1_pe, fit4c_gamma1_px, fit4c_gamma1_py, fit4c_gamma1_pz;
@@ -88,10 +93,6 @@ private:
     NTuple::Item<double> fit4c_pipm_m, fit4c_pipm_p, fit4c_pipm_a, fit4c_pipm_pe, fit4c_pipm_px, fit4c_pipm_py, fit4c_pipm_pz;
     NTuple::Item<double> fit4c_pipz_m, fit4c_pipz_p, fit4c_pipz_a, fit4c_pipz_pe, fit4c_pipz_px, fit4c_pipz_py, fit4c_pipz_pz;
     NTuple::Item<double> fit4c_pimz_m, fit4c_pimz_p, fit4c_pimz_a, fit4c_pimz_pe, fit4c_pimz_px, fit4c_pimz_py, fit4c_pimz_pz;
-
-    NTuple::Item<double> fit4c_dalitz_pm;
-    NTuple::Item<double> fit4c_dalitz_pz;
-    NTuple::Item<double> fit4c_dalitz_mz;
     // ****************************************
 };
 
